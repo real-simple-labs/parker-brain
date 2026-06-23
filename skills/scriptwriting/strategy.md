@@ -148,7 +148,7 @@ Cut every sentence that does not escalate pain, deepen desire, or move toward re
 - Does it pass the read-aloud test? Read it out loud at performance speed — any line you stumble on, or any line that sounds like an ad, gets cut to plain speech.
 - Does it pass the AI-tells check in `spoken-script-voice.md`? No em-dash cadence, no smooth triplets, no "it's not just X it's Y," no signposted transitions ("but here's the thing"), no over-clean grammar, no abstractions where a body part or named thing belongs.
 - Are the brand's banned-by-absence words absent?
-- Is the mess kept — the natural "so," "okay," repeated words, small false starts?
+- Is the mess kept by default: the natural "so," "okay," "honestly," "I mean," repeated words, small false starts, placed where the thought turns and in the brand's register? A too-clean script a person could deliver perfectly on the first take fails this gate, unless the brand voice profile or the brand explicitly calls for a polished read.
 - For reference-adapted scripts: is the structural fidelity to the reference preserved?
 - Does the hook earn the first 3 seconds with a specific ICP and emotion?
 - Does the script work for cold audiences?
