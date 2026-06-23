@@ -6,7 +6,7 @@ It contains the production-facing prompts, skills, system instructions, methodol
 
 > **New to Parker?** New customers get 1 month free with code **`PARKERBRAIN`** — limited spots → **[heyparker.ai](https://heyparker.ai)**
 >
-> 📺 **Setting up your brand's brain?** Watch the [setup walkthrough](https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view) for full onboarding instructions.
+> 📖 **Setting up your brand's brain?** Follow the [setup guide](https://docs.google.com/document/d/1zsNCydlMu8u6sBlaqiL5TEIAE-aAYUOFj-mlbRjf9VE/edit?usp=sharing) — or [watch the video walkthrough](https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view) — for full onboarding instructions.
 
 This repo is not the private OS/lab. Raw prompt experiments, test brand outputs, MCP snapshots, planning notes, raw expert inboxes, and private reasoning traces stay in the OS/lab repo unless they are sanitized and promoted.
 
