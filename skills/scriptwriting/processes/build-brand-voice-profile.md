@@ -50,7 +50,7 @@ Check the brand's winners against the AI-tells list in `spoken-script-voice.md` 
 
 ## Output content
 
-- The voice fingerprint: pacing read, diction list with exact recurring phrases, signature moves, direct-address habit, CTA shape.
+- The voice fingerprint: pacing read, diction list with exact recurring phrases, signature moves, direct-address habit, CTA shape, and the brand's natural disfluencies (the exact fillers and stumbles it actually uses, like its "okay," "honestly," "I mean," repeated words), so scripts source the kept-mess from the brand rather than generic "um, like."
 - The banned-by-absence list.
 - The register the brand sits in — comedy, confession/testimony, authority, organic-creator, or a named blend.
 - The source tier used — own account, vault competitor, or niche organic — and why.

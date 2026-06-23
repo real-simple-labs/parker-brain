@@ -193,6 +193,8 @@ Read the full script out loud, at performance speed, before output. Three specif
 ### Keep the mess
 Do not polish out the "so," the "okay," the "um," the repeated word, the small false start. They are the realness. The instinct to clean them is the instinct that produces AI-sounding scripts. This does not mean inventing fake stumbles. It means not deleting the natural ones, and writing openers that start mid-thought the way speech does.
 
+**This is the default for every script, not an optional flavor.** A draft with no disfluencies is not done. Place each one where the thought genuinely turns, in the brand's register, sourced from the brand's real transcripts, never generic "um, like." The single exception is a brand whose voice profile or explicit instruction calls for a clean, polished read; when you take that exception, note it in one line.
+
 ### Vary the speed on purpose
 Mix two-word fragments with long run-ons in the same beat. The jumping is the rhythm. A script where every sentence is the same length is written, not spoken.
 
