@@ -1,86 +1,105 @@
 # Parker Brain
 
-`parker-brain` is the clean product intelligence layer for Parker.
+**A living, self-improving creative strategist for your brand that runs inside Claude Code.**
 
-It contains the production-facing prompts, skills, system instructions, methodology, templates, generalized knowledge, fixtures, and evals that can power Parker for users.
+The Parker Brain is a structured repository of your brand's identity, your customer's actual language, your competitors, your ad account, your creative strategy, and the open questions you haven't answered yet — wired into Claude Code and connected to your live data through the **Parker MCP**. Instead of knowledge scattered across a dozen tools, you get one place that holds everything, connects the dots, and keeps getting better the more your team uses it.
 
-This repo is not the private OS/lab. Raw prompt experiments, test brand outputs, MCP snapshots, planning notes, raw expert inboxes, and private reasoning traces stay in the OS/lab repo unless they are sanitized and promoted.
+It also keeps itself from going stale on its own schedule:
 
-## Open Source Availability
+- **It dreams** — every day it reads your team's conversations against the brand and surfaces what it's noticing.
+- **It harvests ideas** — every week it hunts inspiration across TikTok, competitor ads, Reddit, and your own reviews, and grades each find against your strategy.
+- **It refreshes itself** — when a doc gets old, it flags it and re-runs the work to bring it current.
+- **It self-improves** — it gets sharper the more your team uses it.
 
-This repository is public source-available under the [PolyForm Noncommercial License 1.0.0](./LICENSE). You may use, study, modify, and share it for noncommercial purposes.
+> The Parker Brain is not finished (and never will be) — we ship new knowledge, skills, and processes every week. It works today, and we'd love your feedback.
 
-Commercial use is not permitted under this license. If you need commercial rights, you need a separate written license from the copyright holder.
+---
 
-This is intentionally not an Apache, MIT, or BSD-style open-source release. Those licenses allow commercial use; this repo is shared publicly so teams can inspect and build on the Parker brain for noncommercial purposes while keeping commercial rights reserved.
+## You need a Parker account for this to work
 
-## Make Parker your own
+This repo is the **brain's knowledge and methodology** — the prompts, skills, and craft layer. It comes alive only when it can reach **your brand's live data** (your ad account, customer reviews, competitor ads, surveys, organic social). That live reach is the **Parker MCP**, and the Parker MCP requires a Parker account.
 
-The goal of this repo is to hand you a strong foundation and then get out of your way. What's here is the starting point — the full creative-strategy knowledge, the prompts and skills, the system architecture, and the initial structure for a brand brain — assembled so you don't have to build any of it from scratch. **It is meant to be built on, not just run.** Take it, wire it into your brand and your tools, and make it the best version of Parker for your team.
+**👉 Sign up at [heyparker.ai](https://heyparker.ai) — use code `PARKERBRAIN` for 1 month free.**
 
-That means:
+Without a connected Parker MCP (or equivalent data exports), the brain has the methodology but no live evidence to reason over — it can't audit an account it can't see.
+
+---
+
+## The two-repo model (read this first)
+
+There are **two** repositories, and keeping them straight is the whole mental model:
+
+1. **This repo (`parker-brain`)** — the read-only **factory**. It holds the prompts, skills, methodology, and craft layer. You clone it; you don't build inside it.
+2. **Your brand brain** — a **separate, private repo** that Parker scaffolds *for your brand* during setup. This is the product you talk to every day; it learns your brand and grows over time.
+
+When you run setup, Parker reads this factory and writes your brand's brain into its own new private repo. You can always pull improvements from the factory later. **Never commit brand data back into this repo.**
+
+---
+
+## Quickstart
+
+The full, walk-you-through-it guide (with screenshots and a setup video) lives at **[heyparker.ai](https://heyparker.ai)**. The short version, in order:
+
+**On the Parker web app first** ([heyparker.ai](https://heyparker.ai), code `PARKERBRAIN`):
+
+1. Sign up and **connect your Meta ad account**. Parker spends the first few hours watching your creatives shot by shot, pulling performance data, and scraping ad comments.
+2. **Upload customer reviews and post-purchase data** (CSV or direct integration — template in the dashboard).
+3. **Fill out the Context Hub** — brand voice, products, personas, compliance notes. The more Parker knows, the better the outputs.
+4. **Set up the Parker MCP** so Claude Code can reach your data.
+
+**Then in Claude Code:**
+
+5. Verify the connection:
+   ```
+   Verify that Parker MCP is properly set up for my brand [your brand]
+   ```
+6. Build your brain:
+   ```
+   Set up my brain for my brand [your brand] in a new private repo,
+   follow the instructions here: https://github.com/real-simple-labs/parker-brain.git
+   ```
+
+Parker scaffolds your brand brain, then runs the foundation work in the background. A full build typically takes **2–4 hours** depending on how much data your brand has. What you get is a complete, worked example tailored to your brand — not an empty template.
+
+📺 **Setup video:** https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view
+
+Want a hand? [Book a setup call or join our Slack](https://heyparker.ai).
+
+---
+
+## Make it your own
+
+The goal of this repo is to hand you a strong foundation and then get out of your way. What's here is the starting point — the full creative-strategy knowledge, the prompts and skills, the system architecture, and the structure for a brand brain — assembled so you don't have to build any of it from scratch. **It's meant to be built on, not just run.**
 
 - **Extend and customize freely.** Tune the prompts, add skills, adapt the methodology, reshape the structure to fit how your team actually works. The foundation is opinionated so it's useful on day one, not so it's fixed forever.
-- **Build on top in your own repo, not in this one.** "Make it your own" happens in your brand's repository (see below), where the brain learns your brand and your team grow it over time. This clone stays the clean factory you can always pull improvements from.
-- **The brain is built to improve itself with you.** Connected tools, the refresh and self-improvement routines, and human feedback all feed back into the brain — the more you use it and the more you teach it, the better it gets. We give you the engine and the starting context; how good it becomes is up to you.
+- **Build on top in your own brand repo, not in this one.** "Make it your own" happens in your brand's private repository, where the brain learns your brand and your team grows it over time. This clone stays the clean factory you can always pull improvements from.
+- **The brain improves itself with you.** Connected tools, the refresh and self-improvement routines, and human feedback all feed back in — the more you use it and teach it, the better it gets.
 
-## Using this for a brand
+---
 
-`parker-brain` is meant to be cloned as the read-only factory. **A brand brain you build from it lives in its own separate repository — you do not build on top of this repo.** When you onboard a brand, create a new git repo for that brand and write every output there; this clone supplies the prompts, skills, methodology, and craft layer, and the brand repo is the product. `prompts/onboarding-runner.md` is the executable cold-start sequence and `prompts/README.md` is the why behind it.
+## A note on the skills
 
-The data tools the prompts call run through the **Parker MCP**. If it is not connected, Parker has no live reach into the ad account, organic socials, reviews, surveys, or the competitor ad library — the Parker MCP is the one connection that brings all of it online at once, though independent platform exports can feed the same evidence more manually. `system/parker-tools.md` is the canonical tool inventory.
+**The skills are still under testing.** They ship as foundations — the full context and methodology so your team can stand these capabilities up and build on them — not as guaranteed-final products. **Scriptwriting in particular is actively being trained.** Treat skill output as a strong starting point a human should review.
 
-**The skills are still under testing.** They ship as foundations — the full context and methodology so a team can stand these capabilities up and build on them — not as guaranteed-final products. Scriptwriting in particular is actively being trained. Treat skill output as a strong starting point a human should review.
+---
 
-## What Belongs Here
+## Repository layout
 
-- `CLAUDE.md` - production-ready Parker operating contract and repo guidance.
-- `prompts/` - production prompts for context docs, audits, personas, VoC, market reads, and databases.
-- `skills/` - runtime skill instructions.
-- `system/` - product-level methodology, retrieval, attribution, open-loop, and review standards.
-- `templates/` - reusable document templates.
-- `global/knowledge/` - approved generalized knowledge.
-- `self-improvement/` - product methodology for feedback, dreaming, and promotion behavior, not raw traces.
-- `open-loops-training/` - training and rubric material used by the open-loops system.
-- `fixtures/` - sanitized examples only.
-- `evals/` - quality gates and regression checks.
-- `release-notes/` - versioned summary of brain changes.
+| Path | What's in it |
+|---|---|
+| `CLAUDE.md` | Parker's operating contract — how the brain reasons, retrieves, and attributes. |
+| `prompts/` | Production prompts for context docs, audits, personas, voice-of-customer, market reads, and databases. `prompts/onboarding-runner.md` is the cold-start build sequence. |
+| `skills/` | Runtime skill instructions (hooks, headlines, scriptwriting, ad-account analysis, and more). |
+| `system/` | Methodology, retrieval, attribution, and the canonical tool inventory (`system/parker-tools.md`). |
+| `global/knowledge/` | Generalized creative-strategy and performance knowledge. |
+| `templates/` | Reusable document and brand-routine templates. |
+| `self-improvement/` | The dreaming, refresh, and self-improvement methodology. |
+| `release-notes/` | Versioned summary of brain changes. |
 
-## What Does Not Belong Here
+---
 
-- Raw customer or brand outputs.
-- Private test brands.
-- Planning docs and build trackers.
-- Raw transcripts and reasoning-layer notes.
-- Raw expert-signal inboxes.
-- Prompt-review scratch audits.
-- Personal working preferences that are not product rules.
-- Unsanitized MCP snapshots or source packets.
+## License
 
-## Promotion Rule
+This repository is source-available under the **[PolyForm Noncommercial License 1.0.0](./LICENSE.md)**. You may use, study, modify, and share it for **noncommercial** purposes. Commercial use requires a separate written license from the copyright holder — reach out via [heyparker.ai](https://heyparker.ai).
 
-Most learning starts in the private OS/lab. It enters this repo only after it is generalized, attributed, reviewed, and safe to ship.
-
-Promotion flow:
-
-1. Develop and test in the OS/lab.
-2. Validate against real or fixture data.
-3. Extract the durable product lesson.
-4. Remove private or brand-specific details unless approved as a fixture.
-5. Update the relevant prompt, skill, system doc, knowledge doc, fixture, or eval here.
-6. Record the reason in a commit message, release note, or provenance comment.
-
-## Current Status
-
-Initial seed created from the Parker v2 transition workspace on 2026-06-04.
-
-Before public or external distribution, confirm that methodology examples, fixtures, and knowledge docs are sanitized and do not include private brand, customer, prompt-run, MCP snapshot, or reasoning-layer material.
-
-## Public Release Checklist
-
-- Confirm `LICENSE` matches the intended rights model.
-- Keep `.env`, `.env.*`, local settings, build artifacts, logs, and dependency folders ignored.
-- Run a tracked-file secret scan before publishing.
-- Replace any private or named-brand training examples with sanitized fixtures.
-- Rewrite git history into a single curated initial commit before pushing to the public remote.
-
+This is intentionally not an Apache/MIT/BSD release: the repo is shared publicly so teams can inspect and build on the Parker brain for noncommercial purposes while commercial rights stay reserved.
