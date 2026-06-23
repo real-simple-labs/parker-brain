@@ -1,0 +1,16 @@
+{
+  "$comment": "Committed project config for the brand brain. Travels with the repo: clone it into a Claude Code cloud instance and the craft-loading hook + routine skills are live immediately. Personal/instance-specific overrides (MCP server connections, model, theme) belong in .claude/settings.local.json, which is gitignored. See .claude/README.md for the full routines model.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The base Claude harness knows nothing about creative strategy. Treat all creative-strategy reasoning as ungrounded until you load the relevant creative-strategy-context docs per the routing table in CLAUDE.md. Load them before answering and ground every insight in them, so the output reads like a senior creative strategist rather than a model summarizing files. Use the vault hard and honor the brand hard rules.\\\"}}\"",
+            "statusMessage": "Checking creative-strategy context"
+          }
+        ]
+      }
+    ]
+  }
+}

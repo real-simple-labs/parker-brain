@@ -1,0 +1,25 @@
+# [brand] Schedules
+
+Repo-native cron routines that run **inside this brain** to keep its docs current without anyone asking — the nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs. Clone this repo into a Claude Code instance and the schedules are what run against it on the back end.
+
+**Schedules are not workflows.** Workflows (`../workflows/`) are the Parker-MCP product surface and call out to the hosted product. A schedule needs nothing but this repo and a Claude Code runner. Full concept: the Parker brain's `system/schedules.md`.
+
+Schedules act on the **refresh cadence**, not instead of it: each doc stamps a `refresh_by` (the clock); a refresh schedule is the worker that wakes up, reads what's overdue, and re-runs the generating prompt.
+
+## Structure
+
+- `[schedule-slug].md` — an active, confirmed routine: task, cron cadence, what it runs, what it reads/updates, what it delivers, status, origin.
+- `proposed/[schedule-slug].md` — dreaming-suggested routines awaiting user confirmation. A proposed schedule does not run until you confirm it and it moves out of `proposed/`.
+
+## The standing routines
+
+Four routines ship with this brain (jobs committed and live; cron not yet armed — run `/setup-routines` once per instance to register them):
+
+- **`dream.md`** — daily, 05:00. Runs `/dream` over the day's comms → five-bucket proposals.
+- **`self-improve.md`** — weekly, Fri 16:00. Runs `/self-improve`: disposes dreaming proposals, advances open loops, runs due re-validations.
+- **`ideas-weekly.md`** — weekly, Mon 07:00. Runs `/harvest-ideas` then `/evaluate-ideas`.
+- **`refresh-context.md`** — weekly, Mon 06:00. Runs `/refresh-context` over docs past their `refresh_by`.
+
+## The runner
+
+Routines run as Claude Code scheduled agents (the `/schedule` skill / cron). This repo carries the *definition* of each schedule; the Claude Code instance carries the *execution*. The file here is the source of truth for what the routine is supposed to do — `/setup-routines` is the guided installer that arms the cron.
