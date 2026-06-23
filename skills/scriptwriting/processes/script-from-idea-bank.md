@@ -1,0 +1,55 @@
+# Process — Script From Idea Bank
+
+Promote a logged idea through concepting into a script. A half-baked entry from the brand idea bank — a hook, a format, a storyline, a visual — gets built out. The idea's justification field becomes the script's reason to exist.
+
+The idea was logged because something about it resonated. Concepting turns that resonance into a script and the brief-creation flow into a deliverable.
+
+## Required inputs
+
+- A logged idea from the brand idea bank with its justification field. Source: `prompts/ideas-and-briefs/brand-idea-bank.md`.
+- The brief-creation flow this ties into. Source: `prompts/ideas-and-briefs/brief-creation.md`.
+- Brand baseline — the brand's existing scripts.
+- Brand profile, ICP, voice of customer, compliance constraints.
+
+## Philosophy
+
+Ideation and concepting are different jobs. The idea bank is the playground — half-baked entries logged the moment they resonated, each carrying a note on why. This process is the concepting move: sit down, pick one logged idea, and build it into a script. The justification field is the seed. It records why the idea earned a place, and that why becomes the script's reason to exist — the thing the script is built to prove out.
+
+The form of the idea tells you how close it is to a script. A storyline is nearly there. A hook is the opening. A format on its own carries no message and needs one attached before it can become a script. The build varies with the form.
+
+## When to pick
+
+- A logged idea exists in the brand idea bank with a justification field.
+- The brand is concepting — choosing from the bank, not ideating fresh.
+- The user points at a logged idea and asks to build it.
+
+## Execution
+
+### Step 1 — Pull the idea and its justification
+From the idea bank, pull the logged entry and its justification field. The justification is why it was kept; it anchors what the script must deliver.
+
+### Step 2 — Read the idea's form
+Storyline, hook, format, or visual. A storyline implies messaging and is nearly a concept. A hook is the opener. A format needs a message attached. The form sets how much building the script needs.
+
+### Step 3 — Concept it out
+Build the idea into a full script. Where the idea is a format with no message, attach the message first — from VoC or a validated insight — then build. The justification field governs: the script must serve the reason the idea was logged.
+
+### Step 4 — Source language from VoC
+Pull the script's language from real reviews and comments so the built-out idea speaks in the customer's voice.
+
+### Step 5 — Brief, baseline, and compliance pass
+Hand the script into the brief-creation flow for the deliverable. Match the brand baseline's pacing and CTA. Confirm every claim is defensible.
+
+## What good looks like
+
+- The script visibly serves the idea's justification field.
+- The build matches the idea's form — storyline, hook, format, or visual.
+- A format-only idea gets a real message attached before becoming a script.
+- The script feeds cleanly into the brief-creation flow.
+
+## Common failures
+
+- Ignoring the justification field and building something the logged idea never implied.
+- Treating a format-only idea as a finished concept with no message attached.
+- Building from the brand's own known assets reflected back instead of a fresh logged direction.
+- A claim the brand cannot defend.
