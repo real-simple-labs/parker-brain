@@ -10,4 +10,4 @@ build/
 coverage/
 .cache/
 *.log
-
+*.cursor/
