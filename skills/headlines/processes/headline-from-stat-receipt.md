@@ -1,6 +1,6 @@
 # Process — Headline From a Stat Receipt (Verified Numbers as the Engine)
 
-Make a verified number the headline's engine. Review counts, study counts, time-to-result, the receipts the brand has earned and tends to under-claim. A specific number stops a scroller and de-risks the purchase in one move. The no-fabrication wall governs this entire process: real numbers only, no exceptions.
+Make a verified number the headline's engine. Review counts, study counts, time-to-result, the receipts the brand has earned and tends to under-claim. A specific number stops a scroller and de-risks the purchase in one move. Some brands ride "30k+ 5-Star Reviews" across nearly every top spender — the social-proof receipt is the account's most-funded title. The no-fabrication wall governs this entire process: real numbers only, no exceptions.
 
 ## When to pick
 

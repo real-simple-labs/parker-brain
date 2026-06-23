@@ -1,7 +1,7 @@
 ---
 summary: "The doctrine of human-sounding ad scripts and the brand voice-profile method, plus the AI-tells audit run on every draft."
 status: pending Jimmy's review [~]
-purpose: The doctrine of human-sounding ad scripts. Every claim here is drawn from real winning scripts studied across paid video, competitor examples, and top organic creators in multiple niches. No invented patterns. Customer-identifying examples are intentionally generalized in this public version.
+purpose: The doctrine of human-sounding ad scripts. Every claim here is drawn from real winning scripts studied across paid video, competitor examples, and top organic creators in multiple niches. No invented patterns. Examples here are intentionally generalized.
 corpus_studied: 30+ real scripts across paid video, competitor examples, expert-led units, and top organic TikTok in multiple niches
 ---
 

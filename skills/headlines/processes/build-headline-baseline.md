@@ -22,7 +22,7 @@ Note which families carry the spend and which carry the ROAS. A family the team 
 
 Write down internally, from the corpus, not from a generic notion of good copy:
 
-- **Length.** How long are the winners? Some accounts run short and blunt; others need a longer proof phrase.
+- **Length.** How long are the winners? Some run short and blunt; few exceed seven words.
 - **Casing and punctuation.** All-caps callouts, sentence-case questions, the "#%K" self-censor, the period used as a full stop for emphasis. Match the account's habit.
 - **Numbers and specifics.** "35k+", "Waists from 26 to 52 inches", "3-6 months", "BUY 3 GET 1 FREE." The winners name a number; vague headlines do not.
 - **Register.** Comedy, hope, FOMO, authority. One account's register is wrong for another.

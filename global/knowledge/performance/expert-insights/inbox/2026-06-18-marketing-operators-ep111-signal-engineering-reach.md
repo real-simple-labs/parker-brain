@@ -7,8 +7,8 @@ capture_method: pasted transcript
 source_platform: podcast (audio/video)
 source_type: podcast transcript (two DTC operators reasoning out loud)
 source_title: "Marketing Operators ep. 111 — reach testing, signal engineering, and a 360 creator activation"
-expert_name: Two DTC growth operators — inferred
-expert_credential: Two credible DTC growth operators. Speaker labels are NOT in the transcript; attribution is inferred from self-described brand context. Treat per-line attribution as inferred, not stated. The underlying methods (incrementality, conversion-lift / geo testing, signal engineering, the attribution-mismatch read) are externally grounded media-buying practice; the specific account numbers are self-reported and unverified.
+expert_name: Cody Plofker (Jones Road Beauty) and Connor MacDonald (Ridge) — inferred
+expert_credential: Two credible DTC growth operators. Speaker labels are NOT in the transcript; attribution is inferred from self-described brand context (Jones Road Beauty / beauty + the Emily DiDonato blush partnership = Cody; Ridge wallets, carry-on/luggage line, wedding-band business = Connor/Ridge). Treat per-line attribution as inferred, not stated. The underlying methods (incrementality, conversion-lift / geo testing, signal engineering, the attribution-mismatch read) are externally grounded media-buying practice; the specific account numbers are self-reported and unverified.
 team_scope: performance
 brand_scope: global
 signal_type: account-structure / signal-engineering method; platform-mechanics read (Meta IA, 7-day click); testing-rollout discipline; upper-funnel measurement framework; channel-attribution principle
@@ -32,7 +32,7 @@ swipe_file_routes:
 
 ## Source read
 
-A pasted transcript of a Marketing Operators episode. Two operators trade notes on (1) reach and non-purchase-optimization testing, (2) "signal engineering" — structuring pixels, events, and ad accounts so Meta optimizes toward the revenue the brand actually wants, and (3) a 360 creator activation viewed through both a brand and a performance lens. The register is two practitioners thinking aloud — high on lived practice, low on shown evidence. Tellingly, the two operators' metric signatures for the *same* Meta setting (Incremental Attribution) point in opposite directions, which is itself the lesson: these reads are account-specific.
+A pasted transcript of a Marketing Operators episode. Two operators trade notes on (1) reach and non-purchase-optimization testing, (2) "signal engineering" — structuring pixels, events, and ad accounts so Meta optimizes toward the revenue the brand actually wants, and (3) a 360 creator activation (Jones Road × Emily DiDonato) viewed through both a brand and a performance lens. The register is two practitioners thinking aloud — high on lived practice, low on shown evidence. Tellingly, the two operators' metric signatures for the *same* Meta setting (Incremental Attribution) point in opposite directions, which is itself the lesson: these reads are account-specific.
 
 Four sponsor reads (Motion, Richpanel, AfterSell, Haus) and the opening wedding banter were ignored for Parker memory. **Conflict flag:** the Haus / CMMM enthusiasm is from a paid Haus design partner and sits next to a Haus sponsor read — treat the vendor endorsement as marketing; the underlying point (daily/cumulative lift readouts help cut losers early on long-conversion-cycle brands) is legitimate but conflicted. Tool names (Haus, North Beam, Intelligems) are reference-level, not recommendations.
 
@@ -42,7 +42,7 @@ This is the **second independent performance source** after the Disruptor School
 
 ## Expert claims — durable method (high confidence, externally grounded)
 
-- **Signal engineering — conditional vs. non-conditional pixel.** A standard purchase pixel fires on *all* purchases, which tells Meta "find a rich customer who also likes travel." A separate/conditional event tells it "find a *travel* customer." In the operator's example, moving a category's ads to a non-conditional pixel and consolidating them into a shared ad account caused non-category revenue attributed to those ads to jump from negligible to material. Meta had been handed permission to optimize toward, and take credit for, orders the brand didn't want those dollars generating.
+- **Signal engineering — conditional vs. non-conditional pixel.** A standard purchase pixel fires on *all* purchases, which tells Meta "find a rich customer who also likes travel." A separate/conditional event tells it "find a *travel* customer." When Jones Road moved travel ads to a non-conditional pixel and consolidated them into a shared ad account, non-travel revenue attributed to travel ads jumped from ~6% (last year — negligible, always happens) to over 40%. Meta had been handed permission to optimize toward, and take credit for, orders the brand didn't want those dollars generating.
 - **AOV drift is the diagnostic.** The tell wasn't a ROAS cliff — it was average order value sliding from ~$360 (where carry-on-led revenue should sit) to ~$140, meaning the majority of purchases were cheap $100 wallets. When you suspect signal contamination, watch the *post-click* revenue mix and AOV, not just ROAS.
 - **The overlap rule (attrib. Darrell Bloodworth).** Separating events/pixels makes sense only when the two audiences are genuinely different. ~6% overlap = a different signal worth feeding Meta separately; ~40% overlap = consolidate, the separation isn't earning its complexity.
 - **Creative can mask structure.** Even a vanilla setup drives the right results "if everything is clicking" (good ads, good offer). Signal structure matters most when things drift — weak creative or Meta struggling to acquire the target customer. Pair optimization strategy with creative strategy (they turned creative *testing* into incremental-attribution first, because creative testing showed low percent-new — you can't reach new audiences if weak creative isn't winning auctions).
@@ -65,7 +65,7 @@ This is the **second independent performance source** after the Disruptor School
 
 ## 360 creator activation — performance-relevant residue only
 
-The 360 creator partnership narrative is already triaged in the sibling episode (creative-strategy tree). The only net-new *performance* bits: (1) two purpose-built landers — a **story page** (hero video embed, mini buy-box → PDP, more content modules; reach traffic runs here) vs. a **performance page** (full buy-box, review widget, more DR); (2) the de-risk pattern restated — the creator had already been a top white-listing creator, so the 360 was a hedged bet, not a cold one; start a ~3-month paid-media-oriented deal, expand to 360 only if it works; (3) IRL/OOH/trucks exist largely to feed the content flywheel.
+The Jones Road × Emily DiDonato partnership narrative is already triaged in the sibling episode (creative-strategy tree). The only net-new *performance* bits: (1) two purpose-built landers — a **story page** (hero video embed, mini buy-box → PDP, more content modules; reach traffic runs here) vs. a **performance page** (full buy-box, review widget, more DR); (2) the de-risk pattern restated — she was their top white-listing creator all last year, so the 360 was a hedged bet, not a cold one; start a ~3-month paid-media-oriented deal, expand to 360 only if it works; (3) IRL/OOH/trucks exist largely to feed the content flywheel (cites Comfrt's trucks as content engines; street interviews → ad account).
 
 ## Evidence basis
 
