@@ -147,7 +147,7 @@ This is a crucial point: if our ads do not make sales, we will cease to exist. W
 
 ## Ugly Ads
 
-You'll often hear me talk about them, and the term comes from performance creative circles.
+You'll often hear me talk about them, and the man Barry Hott coined the term.
 
 Ugly ads aren't about making content that looks shit. It's about creating content that resonates deeply with your audience and makes them want to purchase.
 

@@ -20,7 +20,7 @@ It should not rewrite canonical iteration or scriptwriting method from one self-
 ### 1. Iterations — the 12-combination grid as a named iteration axis
 **Target path:** `global/knowledge/creative-strategy/iterations.md`
 **Proposed change:** Add an iteration axis: hold the angle/message/hypothesis fixed and remix only the *communication* — valence/intensity (Zone 1 low-positive, Zone 2 high-positive, Zone 3 low-negative, Zone 4 high-negative) and self (actual / ideal / ought) — yielding up to 12 named combinations. Frame it as a structured complement to the doc's existing iteration moves: when an ad is winning, one high-confidence path is to keep the angle and move it through adjacent psychological cells.
-**Evidence:** Source: "I could only really test 12 combinations of how I'm communicating this message"; live teardown of a long-running public skincare ad read as Zone 3/4 → Zone 1, actual-self hero's journey.
+**Evidence:** Source: "I could only really test 12 combinations of how I'm communicating this message"; live teardown of a long-running Norse Organics winner read as Zone 3/4 → Zone 1, actual-self hero's journey.
 **Confidence:** mixed
 **Promotion condition:** Apply after a second source or Parker account data corroborates, or Jimmy approves. Keep the "labels are subjective / performance unverified" caveat attached.
 

@@ -12,7 +12,7 @@ source_type: video transcript (live group training / coaching call)
 source_title: "Full Winning Ad Breakdown: How to Iterate Winning Ads Using the 12-Combination System"
 podcast:
 expert_name: Sarah (creative-strategy educator; runs a marketing school/community that teaches a psychology-led creative method)
-expert_credential: Operator-educator who teaches creative strategists a named communication framework (valence/intensity zones, self-discrepancy selves, a TEE funnel model, and ~15 story frameworks) inside her own classroom. The session is a live ad-teardown of two public skincare ads pulled from the Meta ad library, plus a walkthrough of how she prompts Claude to iterate. Performance is asserted from ad-library run dates, not account data. Her framework and her read of which combinations "win" are expert opinion, not verified results.
+expert_credential: Operator-educator who teaches creative strategists a named communication framework (valence/intensity zones, self-discrepancy selves, a TEE funnel model, and ~15 story frameworks) inside her own classroom. The session is a live ad-teardown of two Norse Organics skincare ads pulled from the Meta ad library, plus a walkthrough of how she prompts Claude to iterate. Performance is asserted from ad-library run dates, not account data. Her framework and her read of which combinations "win" are expert opinion, not verified results.
 team_scope: creative-strategy
 brand_scope: global
 signal_type: creative method; ad-iteration framework; psychological-diversity taxonomy; LLM context-engineering practice
@@ -29,7 +29,7 @@ context_targets:
 proposed_context_updates: global/knowledge/creative-strategy/expert-insights/context-update-candidates/2026-06-18-12-combination-ad-iteration-system.md
 propagation_status: candidate created
 swipe_file_routes:
-  - none — this is a method, not a reusable creative; the two public ads are teardown examples, not swipe entries
+  - none — this is a method, not a reusable creative; the two Norse Organics ads are teardown examples, not swipe entries
 swipe_file_status: not routed (method signal, not a creative artifact)
 related_signals:
   - 2026-06-03-youtube-claude-creative-strategy-os-reasoning-traces
@@ -41,7 +41,7 @@ related_signals:
 
 ## Source read
 
-The source is a pasted transcript of a live group coaching call inside a creative-strategy school run by "Sarah." It does two things: it teaches a finite, named taxonomy for *how a message is communicated*, and it walks through iterating a winning ad with that taxonomy plus Claude. The spine of the session is a teardown of a public skincare ad that had run for a long time per the ad library, followed by a teardown of a newer ad from the same account that Sarah reads as broken — and the contrast between them is the lesson.
+The source is a pasted transcript of a live group coaching call inside a creative-strategy school run by "Sarah." It does two things: it teaches a finite, named taxonomy for *how a message is communicated*, and it walks through iterating a winning ad with that taxonomy plus Claude. The spine of the session is a teardown of a Norse Organics (skincare) ad that has run since December 5, 2025 (a long-running winner per the ad library), followed by a teardown of a newer Norse ad the team launched February 5 that Sarah reads as broken — and the contrast between them is the lesson.
 
 The whole method rests on the claim that the *angle/message/hypothesis is fixed*, and the only things you vary when iterating are three "Lego blocks" that sit underneath the angle: **valence**, **intensity**, and **self**. Because valence × intensity collapses into four zones and there are three selves, there are only ever **12 combinations** of how to say any one message. That finiteness is the selling point — it turns "infinite variations" into a 12-cell grid you can name, launch against, and attribute wins to.
 
@@ -54,7 +54,7 @@ The framework, in the educator's own framing:
 - **Two psychological models underneath every message.** (1) *Valence + intensity*, mapped to four zones: Zone 1 = low-intensity positive (cozy, calm, supportive, reassuring); Zone 2 = high-intensity positive (joy, pride, thrill, hype, confidence); Zone 3 = low-intensity negative (annoyed, frustrated, fatigued, irritated); Zone 4 = high-intensity negative (panic, sadness, loss, anxiety — "where marketers love to live," and the most expensive place to live). (2) *Self-discrepancy theory* — three selves that switch on/off by situation: **actual self** (who I am right now, today-focused), **ideal self** (who I want to become, future-focused, goal-driven), **ought self** (who I should have been, past-focused, guilt-driven, the "should/should/should" voice).
 - **The 12-combination grid.** 4 zones × 3 selves = 12 combinations max for *how* any message is communicated. The angle never changes; you remix valence, intensity, and self. "I could only really test 12 combinations of how I'm communicating this message."
 - **Attribute wins to communication, not format/creator/offer.** Bake the zone+self into the naming convention ("zone 1 ideal") so you can see that *the way it's communicated* is what's winning, not the format, the creator, or the offer. This is the core diagnostic discipline of the method.
-- **Sequence zones; don't collide them.** The winning public ad rides Zone 3/4 (problem) and resolves to Zone 1 (calm, supportive "gentler") — it *stays in a zone long enough for the brain to cross it*. The broken ad fails because the visual, the audio/music, and the copy each communicate a *different* zone at the same time (Zone 2 hype voice over a Zone 4 panic message), so the ad "pulls itself apart" and the viewer reacts with "I don't believe you."
+- **Sequence zones; don't collide them.** The winning Norse ad rides Zone 3/4 (problem) and resolves to Zone 1 (calm, supportive "gentler") — it *stays in a zone long enough for the brain to cross it*. The broken Norse ad fails because the visual, the audio/music, and the copy each communicate a *different* zone at the same time (Zone 2 hype voice over a Zone 4 panic message), so the ad "pulls itself apart" and the viewer reacts with "I don't believe you."
 - **Match music to the self (then the zone).** Ought → somber/sad; ideal → hype/exciting ("Eye of the Tiger"); Zone 1 → calm jazz/piano. Match the track to the emotion of the scene the way film scores a scene; don't score every beat the same.
 - **Play to outliers, not just the majority.** When a room splits on whether an ad is Zone 3 or Zone 4, the read is *both* depending on the viewer's lived experience — and the outlier who feels it intensely (Zone 4) is worth leaning toward because intense feeling spreads and grows brands, while the majority's low-grade Zone 3 irritation doesn't move them to share.
 - **Funnel via TEE.** Trigger / Exploration / Evaluation. The winning ad triggers by walking the viewer through their own routine ("this is wrong, this is wrong, this is wrong"), then lightly educates (exploration), and only sells for ~3 seconds at the end. The broken ad front-loads ~15+ seconds of selling — mid/bottom-funnel mechanics aimed at top-funnel people.
@@ -66,7 +66,7 @@ The framework, in the educator's own framing:
 
 ## Evidence basis
 
-The evidence is one educator's framework plus a live teardown of two public skincare ads. What is *verifiable* from the source: the ads exist in the Meta ad library and their run dates are checkable, and the long run of the first is real-world evidence it converts. What is *asserted*: that the winning ad wins *because of* its zone sequencing, that the newer ad is failing, that "outliers grow brands," that her Twitter zone-stack lifted views/conversion. No account data, CTR, ROAS, spend, or hold-rate is shown — the performance reads are expert interpretation of run dates plus gut. The zone/self labels are themselves subjective (the room disagreed live on Zone 3 vs 4, which the educator names as a feature, not a bug). This is a credible, internally-coherent framework from an experienced operator, not a validated measurement system.
+The evidence is one educator's framework plus a live teardown of two public Norse Organics ads. What is *verifiable* from the source: the ads exist in the Meta ad library and their run dates (Dec 5, 2025 long-running; Feb 5 newer) are checkable, and the long run of the first is real-world evidence it converts. What is *asserted*: that the winning ad wins *because of* its zone sequencing, that the newer ad is failing, that "outliers grow brands," that her Twitter zone-stack lifted views/conversion. No account data, CTR, ROAS, spend, or hold-rate is shown — the performance reads are expert interpretation of run dates plus gut. The zone/self labels are themselves subjective (the room disagreed live on Zone 3 vs 4, which the educator names as a feature, not a bug). This is a credible, internally-coherent framework from an experienced operator, not a validated measurement system.
 
 ## Parker inference
 
@@ -96,7 +96,7 @@ Encode "zone 1 ideal" etc. in ad names so wins attribute to *how it's said*, not
 
 ### 3. Zone coherence — visual, audio, and copy must carry the same zone
 **Signal type:** script/edit rule **Confidence:** mixed **Actionability:** route to scriptwriting candidate
-The broken public ad fails because music (Zone 2 hype) fights copy (Zone 4 panic). Hold a zone long enough to land; sequence, don't collide. "I don't believe you" is the symptom.
+The broken Norse ad fails because music (Zone 2 hype) fights copy (Zone 4 panic). Hold a zone long enough to land; sequence, don't collide. "I don't believe you" is the symptom.
 
 ### 4. Play to the intense outlier, not just the majority read
 **Signal type:** strategic prior **Confidence:** mixed **Actionability:** watch
@@ -122,12 +122,12 @@ Give Claude dedicated, unburied files: valence/intensity, the three selves, ~15 
 
 - **Creative strategy expert insights:** saved here as a current operator-educator method signal.
 - **Context update candidate:** created at `context-update-candidates/2026-06-18-12-combination-ad-iteration-system.md`, proposing the 12-combination grid + naming-convention diagnostic as candidate additions to `iterations.md`, zone-coherence as a candidate rule for `scriptwriting.md`, the psychological-diversity taxonomy as a fundamentals note, and the "communication brain" practice as a corroborating note near the brand-brain CLAUDE template.
-- **Swipe file:** not routed. This is a method, not a reusable creative; the two public ads are teardown examples, not swipe entries.
+- **Swipe file:** not routed. This is a method, not a reusable creative; the two Norse Organics ads are teardown examples, not swipe entries.
 - **Promotion condition:** corroborate the framework against a second source or against Parker's own account data before any of this rewrites canonical `iterations.md` or `scriptwriting.md`. The zone/self labels are subjective and the performance reads are unverified — treat as a structured lens to offer, not a measured law.
 
 ## Source limits
 
-- Pasted transcript, not a Gemini video read — no on-screen footage of the ads beyond the narrated teardown, no engagement/spend/ROAS, and the auto-captions garble names and terms (valence ↔ "veilance/balance," ought ↔ "aught/odd/a," TEE ↔ "te/teeth").
+- Pasted transcript, not a Gemini video read — no on-screen footage of the ads beyond the narrated teardown, no engagement/spend/ROAS, and the auto-captions garble names and terms (valence ↔ "veilance/balance," ought ↔ "aught/odd/a," TEE ↔ "te/teeth," Norse ↔ "Norris/Nars," marigold ↔ "merry gold").
 - Performance is inferred from ad-library run dates plus the educator's read; no account data confirms which combination actually won.
 - The zone/self labels are explicitly subjective — the room disagreed live; the educator frames the disagreement as the point.
 - The framework is one school's taxonomy (valence/intensity, self-discrepancy, TEE, ~15 story frameworks). Don't import its funnel/story vocabulary wholesale over Parker's existing language; take the transferable mechanic.

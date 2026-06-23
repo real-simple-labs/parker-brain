@@ -12,7 +12,7 @@ source_type: video transcript (recorded live community coaching call)
 source_title: "Building Strong 2-Second Hooks: How to Hijack Visual Tension from Organic Content to Use in Your Ads"
 podcast:
 expert_name: "Sarah" (last name not stated), creative strategist running a paid School community
-expert_credential: Speaker is named "Sarah" by participants and runs a paid community on School (resources, prompts, and weekly trainings live there; she also posts attention/psychology studies on her Twitter). She claims long creative-strategy tenure and walks a small group through building two-second hooks. She demos on a hair-supplement example. She cites — second-hand, without links — studies on pointing/arrows raising CTR, hands-holding-product conveying size, and color-sequencing raising conversion. The call closes by pointing people to her School community and a prompt she provides, so the framing is community/sales-adjacent.
+expert_credential: Speaker is named "Sarah" by participants and runs a paid community on School (resources, prompts, and weekly trainings live there; she also posts attention/psychology studies on her Twitter). She claims long creative-strategy tenure and walks a small group (one named participant, Gavin, plus others) through building two-second hooks. She demos on a hair-supplement brand she calls "Neutrifol/Neutriful" (the on-screen capsule/absorption framing points to a Nutrafol-type brand). She cites — second-hand, without links — studies on pointing/arrows raising CTR, hands-holding-product conveying size, and color-sequencing raising conversion. The call closes by pointing people to her School community and a prompt she provides, so the framing is community/sales-adjacent.
 team_scope: creative-strategy
 brand_scope: global
 signal_type: hook mechanic; creative craft; discovery process
@@ -136,7 +136,7 @@ Reinforces posture; not a new edit.
 - Pasted transcript of a community/sales-adjacent call, not a Gemini video read — no on-screen footage, no engagement data beyond one stated like-count.
 - The named studies (pointing/arrows→CTR, hands→size, color-sequence→conversion) are recounted from memory, unlinked.
 - The six organic clips and the one ad are narrated, not preserved; the AI hook concepts are illustrative, not tested.
-- Speaker's last name and the exact demo brand are not fully confirmed in the transcript.
+- Speaker's last name and the exact demo brand are not fully confirmed in the transcript ("Neutrifol/Neutriful").
 - The mechanics are the transferable part; the specific executions are examples, not templates to copy.
 
 ## Notes
