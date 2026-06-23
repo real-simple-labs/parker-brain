@@ -550,7 +550,7 @@ For lifestyle brands, defining what you're NOT is as important as what you ARE. 
 - **"Forget [what everyone else does]"** — Forget everything you know about popcorn
 - **"F*ck [the old way]"** — F*ck office dress codes
 - **"Stop [inferior behavior]"** — Stop wasting money on cheap readers / Stop wasting hours editing
-- **"Replace [bad thing] with [our thing]"** — Replace boring popcorn with better popcorn
+- **"Replace [bad thing] with [our thing]"** — Replace boring popcorn with <our brand>
 - **"Ditch [inferior option]"** — Ditch your cheap readers for CLIC
 
 ### Contrast And Comparison
@@ -798,7 +798,7 @@ These are all examples of headlines that have PERFORMED inside of ad accounts fo
 
 - "Forget everything you know about popcorn" — Rejection of mainstream alternative. Creates curiosity and intrigue. Positions brand as category-redefining.
 - "Popcorn will NEVER be the same" — Bold declarative about transformation. Creates anticipation and excitement. Signals innovation.
-- "Replace boring popcorn with better popcorn" — Direct comparison and rejection. Clear positioning against inferior option. Action-oriented.
+- "Replace boring popcorn with <our brand>" — Direct comparison and rejection. Clear positioning against inferior option. Action-oriented.
 
 **2. Men's Apparel Brand**
 

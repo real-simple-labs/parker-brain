@@ -569,7 +569,7 @@ For the full "how to create killer ads" principles, see [killer-performance-ads.
 
 **Examples:**
 
-- Over-the-top skit humor can make a commodity product memorable.
+- Dollar Shave Club: over-the-top skit humor made razors memorable
 - Native deodorant parody spots (awkward everyday scenarios turned funny)
 - Pet niche: dogs "reviewing" products or funny owner-pet skits
 - TikTok meme humor: creator deadpans absurd reasons why they "need" the product
@@ -715,7 +715,7 @@ For the full "how to create killer ads" principles, see [killer-performance-ads.
 
 ### FORMAT 22: NON-NARRATED
 
-**Description:** Ads that rely entirely on visuals, text overlays, music, and sound design — with no spoken narration or talking head. They can be structured as quick b-roll storylines with dynamic edits or as text-driven narratives (20–40 seconds) that feel native to the platform. This format is useful for brands that want versatility across languages, audiences, and placements.
+**Description:** Ads that rely entirely on visuals, text overlays, music, and sound design — with no spoken narration or talking head. They can be structured as quick b-roll storylines with dynamic edits or as text-driven narratives (20–40 seconds) that feel native to the platform. Underutilized but proven to scale, this format is perfect for brands that want versatility across languages, audiences, and placements.
 
 **Best For:**
 
@@ -820,7 +820,7 @@ For the full "how to create killer ads" principles, see [killer-performance-ads.
 **Specific Considerations:**
 
 - Requires strong trendspotting, quick turnaround, and talent who can execute with organic fluency. Hard for creators without deep TikTok/Meta intuition; difficult for talent to execute.
-- When done correctly, these ads can explode at scale.
+- When done correctly, these ads can explode at scale. Many brands have had their biggest hits from this format.
 
 **Difficulty Score:** 4
 **Confidence Score:** 3
@@ -829,7 +829,7 @@ For the full "how to create killer ads" principles, see [killer-performance-ads.
 
 - Capitalize on a viral cultural moment and translate it into the product's world
 - Spoof "random things in my roommate's room" by making the product feel found, not sold
-- Stage a candid "spotted in the wild" product-use moment
+- Stage a candid "spotted in the wild" product-use moment: "spying someone in Walmart parking lot eating [product] in their car"
 - TikTok Shop angle: replicate top-performing TikTok Shop viral videos but adapt to your product/niche
 - Clothing inspo → boots: borrowing trending formats directionally and weaving product in
 - GRWM/Day in the Life: "Come with me while I try ___ for the first time"
@@ -1424,7 +1424,7 @@ For the full "how to create killer ads" principles, see [killer-performance-ads.
 
 **Examples:**
 
-- Intentionally ugly founder ads
+- Barry Hott ugly ads
 - Blunt comedy-register product ads
 - Creator ranting in car: "Y'all won't believe what this blanket does."
 - Chaotic kitchen demo with messy spills but clear product payoff.

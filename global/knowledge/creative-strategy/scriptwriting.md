@@ -167,11 +167,11 @@ CTAs are important parts of all ads. When writing scripts for creators, you want
 
 Here's an example of a generic, ad-like CTA:
 
-> Go to their website today to check it out for yourself!
+> Go to their website [link] today to check it out for yourself!
 
 Here's an example of a more natural CTA:
 
-> What I need you to do is go grab the starter kit. Then come back and tell me how good it is, because I think you're going to feel exactly the way I do.
+> Now, what I need you to do, is go on over to [link] and get a Discovery Kit. And in the comments, I want you to tell me how good it is. Because I just know you gonna feel exactly the way I do.
 
 Note: It doesn't have to be as long as that example. The key thing is you want to write it how someone would recommend something NATURALLY.
 
@@ -207,11 +207,11 @@ Over half of American adults read below a 6th grade level. We should be aiming f
 
 Here's an example of a grade 7 readability level script:
 
-> Okay, let me explain something my husband recently told me about. It is this daily email he has been using for a while now to stay updated on everything happening in the world. Apparently, it is not just him. Millions of other Americans are also using it.
+> Okay, let me explain something that my husband recently told me about — it's this thing he's been using for a while now to stay updated on everything happening in the world. Apparently, it's not just him — like 2.5 million other Americans are also using it. It's called [brand].
 >
 > Basically, it's this email you get every day that gives you a summary of the news, and it's supposed to be completely unbiased. My husband kept telling me how great it was and convinced me to try it out, and honestly, it's kind of a game-changer. I didn't think I'd care much about it, but now I'm hooked.
 >
-> For me, the thing that really stands out is how I don't even watch regular news channels anymore. You know how it always feels like there's some kind of agenda or they're pushing their opinion on you? I hated that, and now I just get the facts. No spin, no drama, just the news.
+> For me, the thing that really stands out is how I don't even watch regular news channels anymore. You know how it always feels like there's some kind of agenda or they're pushing their opinion on you? I hated that, and with [brand], it's just the facts. No spin, no drama — just the news.
 >
 > (Insert husband chiming in) "See? I told you it's the best way to stay informed."
 >
@@ -219,11 +219,11 @@ Here's an example of a grade 7 readability level script:
 >
 > Oh, and the best part? It's completely free to sign up. You can unsubscribe anytime if it's not for you, but I doubt you'll want to. Seriously, you should give it a try.
 >
-> So yeah, go check it out. You'll love it.
+> So yeah, go check it out. Just look up [brand]. You'll love it.
 
 Now here's an example of the same script adapted for a grade 3 readability level:
 
-> Okay so let me tell you all about this secret my husband revealed to me. It's his little hack for getting the news every morning.
+> Okay so let me tell you all about this secret my husband revealed to me. This is his secret hack that 2 and a half million other Americans are also using to get their news. It's called [brand].
 >
 > It's this daily digest that covers the news in an unbiased way. He got me to sign-up to it also, IT'S AMAZING.
 >

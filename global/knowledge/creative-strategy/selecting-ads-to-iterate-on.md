@@ -178,7 +178,7 @@ We will use an anonymized account example here.
 
 ### Slow-burners
 
-Situation: Creative A was launched in January 2025. This ad showed strong performance in the testing phase, with the team allocating it more and more spend over time as the performance held. The creative was hitting the account's target KPIs, including efficient acquisition, meaningful new-customer purchase volume, and healthy hook and hold rates. In March 2025, the media buying team moved the creative to scaling campaigns, where it showed immediate success.
+Situation: Creative A was launched in Feb 2025. This ad showed strong performance in the testing phase, with the team allocating it more and more spend over time as the performance was strong. Creative was hitting all KPIs: $30 CPA, significant number of NC Purchases (triple digit), Hook rate over 30%, Hold rate over 10%. In Apr 2025, the brand's media buying team moved the creative to scaling campaigns, where it showed immediate success.
 
 Conclusion: Creative showed consistent performance in the testing phase, but didn't explode immediately. Media buyers continued to pressure test it with more and more spend, after which they decided to move it to scaling campaigns, where successful trends continued.
 
@@ -186,7 +186,7 @@ Upon seeing these results in scaling, we created ad iterations.
 
 ### High-risers
 
-Situation: Creative B was launched in April 2025, and it immediately showed exponential growth in new-customer purchases while maintaining target CPA. Media buyers quickly allocated a larger daily budget to it, and the creative stood this test as well, continuing to scale. Immediately after, it was scaled further in other campaigns, where it continued to show strong performance and emerged as the highest spender in the account.
+Situation: Creative B was launched in May 2025, and it immediately showed exponential growth in terms of new customer purchases while maintaining on target CPA. Media buyers immediately allocated large amount of money to it (daily budget for it went from $200 daily to $1000 daily in a week), and the creative stood this test as well, continuing to scale. Immediately after it was scaled further in other campaigns, where it continues to show great performance, emerging as the highest spender in the account.
 
 Conclusion: Creatives like this are more rare in accounts, they scale fast and high and often remain at the top of the account for months and beyond. When you notice this pattern in the account, which will be visible even after 3 days of being live, you should immediately be looking for ways to iterate on it.
 

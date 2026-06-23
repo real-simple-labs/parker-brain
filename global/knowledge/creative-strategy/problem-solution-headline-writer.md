@@ -698,7 +698,7 @@ These are all examples of headlines that have PERFORMED inside of ad accounts fo
 **Gourmet popcorn:**
 - Forget everything you know about popcorn
 - Popcorn will NEVER be the same.
-- Replace boring popcorn with better popcorn
+- Replace boring popcorn with [our brand]
 
 **Men's apparel:**
 - Jeans built for real men, not just models
