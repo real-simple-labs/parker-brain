@@ -7,11 +7,11 @@ created: 2026-06-18
 owner_team: creative-strategy
 ---
 
-# Context update candidates — Organic content playbook 2026
+# Context update candidates — Organic content playbook 2026 (Tonic Health / Sunny)
 
 ## Candidate summary
 
-This source is a founder's inside account of building a large organic audience for a supplement brand by filming native-setting, value-first content at volume. It mostly *corroborates and sharpens* method Parker already holds in `organic-social-analysis.md` (organic is a paid signal not an answer; the vibe is evidence; customer-as-hero; realness matters; idea capture is separate from concepting) rather than introducing a new framework.
+This source is a founder's inside account of building ~1.7M organic followers on a UK supplement brand by filming native-setting, value-first content at volume. It mostly *corroborates and sharpens* method Parker already holds in `organic-social-analysis.md` (organic is a paid signal not an answer; the vibe is evidence; customer-as-hero; realness matters; idea capture is separate from concepting) rather than introducing a new framework.
 
 It should not rewrite canonical organic method from one self-reported, self-interested source. It should land as named candidate additions to the organic read, the ideation surface, and the organic-to-paid adaptation surface, plus one swipe-file proposal. The reach figures and the multi-brand paid-translation result are stated, not verified.
 
@@ -41,14 +41,14 @@ It should not rewrite canonical organic method from one self-reported, self-inte
 ### 4. Ideation and brainstorming — comment wave as a VoC / NPD research loop
 **Target path:** `global/knowledge/creative-strategy/ideation-and-brainstorming.md`
 **Proposed change:** Add a candidate input source: a high-comment organic video read as voice-of-customer at volume (a ~500k-view, ~1k-comment video ≈ ~1k real signals) that can seed both creative angles and product ideas. Connect to idea-bank provenance discipline (save the source URL + the winning element, don't generalize).
-**Evidence:** A product idea came directly from the comment wave under a viral category-education video.
+**Evidence:** The no-sugar kids gummy — the brand's #1 product — came directly from the comment wave under a viral baby-vitamin video.
 **Confidence:** mixed
 **Promotion condition:** Apply when ideation doc next updates, or Jimmy approves.
 
 ### 5. Adapting scripts — organic-to-paid translation as an explicit, expiring move
 **Target path:** `global/knowledge/creative-strategy/adapting-scripts.md`
 **Proposed change:** Add a candidate step: an organic format can be tested as a paid framework, but treat the translation as expiring — expect fatigue and watch for it. Front-load the caveat: the source's own flagship example (supermarket us-vs-them comparison → multi-brand paid best-performer) is named as already stopped working.
-**Evidence:** Media-buyer's claim of translating the source brand's organic format into a multi-brand paid best-performer, plus his own "it's not working anymore."
+**Evidence:** Media-buyer's claim of translating Tonic's organic format into a multi-brand paid best-performer, plus his own "it's not working anymore."
 **Confidence:** mixed; self-interested source, no account data
 **Promotion condition:** Needs account evidence, not the source's self-report, before it changes canonical adaptation method.
 
