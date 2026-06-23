@@ -4,11 +4,17 @@
 
 It contains the production-facing prompts, skills, system instructions, methodology, templates, generalized knowledge, fixtures, and evals that can power Parker for users.
 
+> **New to Parker?** New customers get 1 month free with code **`PARKERBRAIN`** — limited spots → **[heyparker.ai](https://heyparker.ai)**
+>
+> **Full instructions doc:** [here](https://docs.google.com/document/d/1zsNCydlMu8u6sBlaqiL5TEIAE-aAYUOFj-mlbRjf9VE/edit?usp=sharing)
+> 
+> 📺 **Setting up your brand's brain?** Watch the [setup walkthrough](https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view) for full onboarding instructions.
+
 This repo is not the private OS/lab. Raw prompt experiments, test brand outputs, MCP snapshots, planning notes, raw expert inboxes, and private reasoning traces stay in the OS/lab repo unless they are sanitized and promoted.
 
 ## Open Source Availability
 
-This repository is public source-available under the [PolyForm Noncommercial License 1.0.0](./LICENSE). You may use, study, modify, and share it for noncommercial purposes.
+This repository is public source-available under the [PolyForm Noncommercial License 1.0.0](./LICENSE.md). You may use, study, modify, and share it for noncommercial purposes.
 
 Commercial use is not permitted under this license. If you need commercial rights, you need a separate written license from the copyright holder.
 
@@ -29,6 +35,12 @@ That means:
 `parker-brain` is meant to be cloned as the read-only factory. **A brand brain you build from it lives in its own separate repository — you do not build on top of this repo.** When you onboard a brand, create a new git repo for that brand and write every output there; this clone supplies the prompts, skills, methodology, and craft layer, and the brand repo is the product. `prompts/onboarding-runner.md` is the executable cold-start sequence and `prompts/README.md` is the why behind it.
 
 The data tools the prompts call run through the **Parker MCP**. If it is not connected, Parker has no live reach into the ad account, organic socials, reviews, surveys, or the competitor ad library — the Parker MCP is the one connection that brings all of it online at once, though independent platform exports can feed the same evidence more manually. `system/parker-tools.md` is the canonical tool inventory.
+
+To stand one up, sign up and connect the Parker MCP at **[heyparker.ai](https://heyparker.ai)** (new customers get 1 month free with code `PARKERBRAIN`, limited spots), then run this in Claude Code:
+
+```
+Set up my brain for my brand [brand] in a new private repo, follow instructions in here: https://github.com/real-simple-labs/parker-brain
+```
 
 **The skills are still under testing.** They ship as foundations — the full context and methodology so a team can stand these capabilities up and build on them — not as guaranteed-final products. Scriptwriting in particular is actively being trained. Treat skill output as a strong starting point a human should review.
 
