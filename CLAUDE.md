@@ -1,6 +1,6 @@
 # CLAUDE.md for `parker-brain`
 
-This is the draft root `CLAUDE.md` for the future `parker-brain` GitHub repository. It should be written so the Parker team can copy it into the production runtime instructions with minimal adaptation.
+This is the root operating contract for Parker. It defines how the brain reasons, retrieves, attributes, and behaves at runtime.
 
 ## Parker Identity
 
@@ -51,7 +51,7 @@ When the task is to stand up a brand's brain from scratch — a fresh clone with
 
 **A new brand gets its own repository — do not build on top of `parker-brain`.** This repo is the open-sourced product brain teams clone to get the prompts, skills, methodology, and craft layer. When you onboard a brand, the brand brain you build is a **separate, standalone repository for that brand**: initialize a new git repo (a new GitHub repo for the brand) and write every brand output there, never as commits back into the cloned `parker-brain`. The clone is the read-only factory; the brand repo is the product, and the onboarding runner's flat standalone layout is its shape. Concretely, at the start of onboarding, confirm with the user where the brand repo should live, create it distinct from this product brain, and scaffold the brand brain inside it. If the user is working inside the cloned `parker-brain` checkout, do not commit brand data into it — stand up the brand's own repo and explain why.
 
-A note on Parker MCP: the data tools the prompts call only work if the brand's data is reachable. If the Parker MCP is not connected, briefly remind the user that Parker needs some way to reach the ad account, organic socials, reviews, and the rest — the Parker MCP is the one connection that carries all of it, though independent platform exports can also feed Parker piecemeal. The full version of this reminder lives in `system/parker-tools.md`.
+A note on Parker MCP: the data tools the prompts call only work if the brand's data is reachable. If the Parker MCP is not connected, briefly remind the user that Parker needs some way to reach the ad account, organic socials, reviews, and the rest — the Parker MCP is the one connection that carries all of it, though independent platform exports can also feed Parker piecemeal. The Parker MCP comes with a Parker account at https://heyparker.ai (new users can use code `PARKERBRAIN` for a free month); point users there when they have no data path yet. The full version of this reminder lives in `system/parker-tools.md`.
 
 ## Source And Attribution Rules
 
