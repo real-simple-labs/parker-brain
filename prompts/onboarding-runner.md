@@ -12,6 +12,7 @@ A brand brain is a self-contained repo a marketing team opens and talks to, not 
 
 The target top-level tree, brand repo root:
 
+- `parker_config.json` — the cross-session resume anchor for setup tracking; written at the end of Phase 0 step 2.
 - `CLAUDE.md` — the operating contract, stamped from the template at the end.
 - `README.md` — the brand-facing map, stamped at the end.
 - `sub-context-docs/` — the foundation reads, including `brand-profile-narrative.md`, the always-loaded one-pager read first.
@@ -131,6 +132,75 @@ So here's the deal, plainly and with love: we **strongly recommend running this 
 And honestly? It's worth it. It costs what it costs because Parker is doing a real strategist's homework — reading everything, writing it all down, connecting the dots — and that depth is the whole point. It's what takes the AI from "helpful chatbot" to "the strategist who actually knows your brand."
 
 Make this a gate, not a footnote: say the above in your own warm words, then **ask the user to confirm they want to kick off the full build now.** If they'd rather wait, switch plans first, or start smaller, that's a perfectly fine answer — offer to pick it back up whenever. Do not start Phase 0 until they've said go.
+
+## Setup Status Tracking
+
+Use the `parker_brain_setup` tool (Parker MCP) at every phase boundary.
+
+### Start
+
+On resume, call as soon as the brand repo is open. On a fresh run, call only after Phase 0 creates the repo and locks `brand_id` (steps 1–2 below).
+
+Check for `parker_config.json` in the brand repo root.
+
+- **File exists** → pass its `run_id`. This is the only resume signal.
+- **No file** → omit `run_id`. A new run is always created.
+
+```
+parker_brain_setup(mode: "start", brand_id, run_id?)
+```
+
+- `resumed: false` → fresh run, proceed.
+- `resumed: true` → skip phases ≤ `last_completed_phase_index`. Any phase stuck mid-run has been auto-reset to `failed` — re-run it.
+
+Then write and commit `parker_config.json` to the repo root with the returned `run_id`. This is the cross-session resume anchor — if it is not written before the session ends, the next session cannot resume and will start a new run.
+
+```json
+{
+  "run_id": "",
+  "brand_id": "",
+  "brand_name": "",
+  "github_repo_url": "",
+  "parker_brain_version": "",
+  "created_at": ""
+}
+```
+
+### Each Phase — call twice
+
+```
+parker_brain_setup(mode: "update_phase", brand_id, run_id,
+  phase_name, phase_index, phase_status: "in_progress" | "completed" | "failed",
+  metadata?, errors?)
+```
+
+- `phase_index` starts at 1, increments by 1. **Never reuse an index — upsert will silently overwrite the previous phase record.**
+- Use phase names that match the runner's own section and branch names so tracking is consistent with the build log. Examples: `"Phase 0 — Repo & Scaffold"`, `"Phase 1A — Brand Foundation"`, `"Phase 1B — Competitor Profiles"`, `"Phase 1C — Persona Source Pulls"`, `"Phase 1D — Voice of Customer"`, `"Phase 1E — Audit Baseline"`, `"Phase 1 — Synthesis"`, `"Phase 2 — Strategy Inputs"`, `"Phase 2 — Strategic Roadmap"`, `"Phase 3 — Idea Bank"`, `"Phase 3 — Idea Evaluation"`, `"Phase 3 — Brief Creation"`, `"Stamp Operating Contract"`, `"Verify Build"`, `"Save to GitHub"`, `"Onboarding"`. Add or split as the actual work requires.
+- To retry a failed phase, call again with the same index and `phase_status: "in_progress"`.
+- **Include all errors even if the phase ultimately completed** — non-fatal errors matter for auditing.
+
+**Error shape:**
+
+```json
+{
+  "timestamp": "",
+  "type": "tool_call_failed | mcp_error | github_error | network_error | unknown",
+  "tool": "",
+  "message": "",
+  "raw": {},
+  "attempt": 1,
+  "fatal": false
+}
+```
+
+### Done
+
+```
+parker_brain_setup(mode: "complete", brand_id, run_id,
+  run_status: "completed" | "failed", github_repo_url?, errors?)
+```
+
+**Always call this at the end, success or failure.** If skipped, the run stays `in_progress` forever and the admin sees it as incomplete.
 
 ## Phase 0 — new repo, connect, scaffold, ship the craft, read in
 
