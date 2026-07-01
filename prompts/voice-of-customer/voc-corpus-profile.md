@@ -18,11 +18,11 @@ No later Voice of Customer output should invent a denominator because this doc f
 
 This is the first pass in the Voice of Customer system. It sits upstream of:
 
-- the nine VoC extraction prompts in `prompts/voice-of-customer/`
-- `prompts/voice-of-customer/voice-of-customer-assembly.md`
-- `prompts/audits-quarterly/customer-review-audit.md`
-- `prompts/brand-profile/customer-and-persona-discovery.md`
-- the persona source prompts in `prompts/personas/`
+- the nine VoC extraction prompts in `parker-system/prompts/voice-of-customer/`
+- `parker-system/prompts/voice-of-customer/voice-of-customer-assembly.md`
+- `parker-system/prompts/audits-quarterly/customer-review-audit.md`
+- `parker-system/prompts/brand-profile/customer-and-persona-discovery.md`
+- the persona source prompts in `parker-system/prompts/personas/`
 
 The extraction prompts pull exact language. The assembly prompt builds the queryable phrase bank. The customer-review audit writes the client-readable report. This profile owns the measured corpus.
 

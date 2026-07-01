@@ -116,7 +116,7 @@ parker/
 │       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
 │       │   ├── settings.json                        ← the craft-loading UserPromptSubmit hook
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,harvest-ideas,evaluate-ideas,refresh-context,setup-routines}/SKILL.md  ← the routine bundle (self-contained, no factory paths at runtime)
+│       │   └── skills/{dream,self-improve,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained, no factory paths at runtime)
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
@@ -322,7 +322,7 @@ parker/
 │           ├── scheduled/
 │           └── results/[YYYY-MM]/
 │
-├── skills/                                         ← Global (apply to all brands), namespaced by team
+├── .claude/skills/                                 ← Global skills. ACTUAL location: flat under .claude/skills/ (the only dir Claude Code loads skills from). The team-namespaced tree below is the [planned] target shape, not the current layout.
 │   ├── creative-strategy/
 │   │   ├── scriptwriting/
 │   │   ├── hooks/

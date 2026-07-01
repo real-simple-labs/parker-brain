@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The base Claude harness knows nothing about creative strategy. Treat all creative-strategy reasoning as ungrounded until you load the relevant creative-strategy-context docs per the routing table in CLAUDE.md. Load them before answering and ground every insight in them, so the output reads like a senior creative strategist rather than a model summarizing files. Use the vault hard and honor the brand hard rules.\\\"}}\"",
+            "command": "echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The base Claude harness knows nothing about creative strategy, so assume your own creative-strategy knowledge is thin and ungrounded until you load the craft docs. For anything touching creative strategy, before you answer: open the catalog at parker-system/creative-strategy-context/expertise-routing.md, reason over it for every method doc that would genuinely help, and load them, plus the brand lens overlay if one exists. Ground every insight in those methods and speak their vocabulary, so the output reads like a senior creative strategist rather than a model summarizing files. Use the vault hard and honor the brand hard rules.\\\"}}\"",
             "statusMessage": "Checking creative-strategy context"
           }
         ]

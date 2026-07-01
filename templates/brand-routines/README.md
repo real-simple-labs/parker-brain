@@ -9,12 +9,13 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
 - **`claude/`** → stamped to the brand brain's **`.claude/`**. (Named `claude/` without the dot on purpose, so Claude Code does not treat the factory's own template as active config. The runner renames it to `.claude/` on stamp.)
   - `settings.json` — the `UserPromptSubmit` craft-loading hook (brand-agnostic; points at the brain's own `CLAUDE.md` routing table).
   - `README.md` — explains the two layers of a routine (job travels in the repo; schedule armed per-account).
-  - `skills/` — the six routine skills, self-contained (no `parker-brain/...` paths at runtime):
+  - `skills/` — the bundled skills, self-contained (no `parker-brain/...` paths at runtime). The first four are the scheduled routines; the last two are on-demand helpers:
     - `dream` — daily planning run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
     - `self-improve` — weekly executing pass: disposes dreaming proposals, runs the open-loop roll-up → hypotheses, runs due re-validations.
     - `harvest-ideas` → `evaluate-ideas` — the weekly idea cycle (capture verbatim, then grade against the roadmap).
     - `refresh-context` — re-runs docs past their `refresh_by`.
     - `setup-routines` — one-time installer that arms the cron schedules in a fresh instance.
+    - `get-started` — the first-run walkthrough: teaches a new user (or a teammate who just cloned the brain) what it knows, how to use it, and the single best first move, grounded in the brand's own data. On-demand and re-runnable; the runner invokes it live at hand-off.
 - **`schedules/`** → stamped to the brand brain's **`schedules/`**. One recipe per routine (task, cron cadence, what it runs/reads/updates, deliverable, status, origin) plus the folder README. These are repo-native cron routines — **not** the Parker-MCP `workflows/` product surface (see `system/schedules.md`).
 
 ## How it's stamped

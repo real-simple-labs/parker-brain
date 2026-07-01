@@ -155,11 +155,11 @@ The team's read of the outside world. For creative strategy, includes the expert
 
 ---
 
-## Skill library — `skills/`
+## Skill library — `.claude/skills/`
 
-Skills do the work at runtime. Each skill folder carries the same four-part anatomy: `SKILL.md` is the entry point and trigger surface, `strategy.md` is the reasoning layer that decides which process applies to a given query, `processes/` holds the specific playbooks the strategy picks from, and `references/` holds the supporting docs and examples the processes draw on. Skills are namespaced by team in the post-launch architecture; the v1 build keeps them at the top level under `skills/` and tags each with its team.
+Skills do the work at runtime. They live under `.claude/skills/` because that is the only directory Claude Code loads skills from — a folder anywhere else is inert markdown a clone never registers — so this is what lets a cloned repo (factory or brand brain) pick the skills up and invoke them. Each skill folder carries the same four-part anatomy: `SKILL.md` is the entry point and trigger surface, `strategy.md` is the reasoning layer that decides which process applies to a given query, `processes/` holds the specific playbooks the strategy picks from, and `references/` holds the supporting docs and examples the processes draw on. The post-launch architecture still intends to namespace skills by team; the v1 build keeps them flat under `.claude/skills/` and tags each with its team.
 
-Every skill listed below is `[built]` and present under `skills/`.
+Every skill listed below is `[built]` and present under `.claude/skills/`.
 
 ### `scriptwriting/`
 Writes scripts for video ads. Loads brand context, runs against the script-adaptation playbook, picks a process based on whether the script is being adapted from a reference or built net-new.
@@ -306,7 +306,7 @@ This document evolves with the system. When a new surface enters the brand libra
 
 Triggers for updating this map:
 
-- A new skill is added under `skills/`. Add an entry to the skill library naming what the skill does and what it loads.
+- A new skill is added under `.claude/skills/`. Add an entry to the skill library naming what the skill does and what it loads.
 - A new audit prompt or audit cadence is added. Update the audits subsection in the brand surface library to name the new cadence and what its output is for.
 - A new sub-context doc is added or an existing one is split. Update the sub-context-docs entry to reflect the new shape.
 - A new memory document is added or an existing one is split. Update the memory tier section.

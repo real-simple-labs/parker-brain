@@ -38,7 +38,7 @@ Five buckets of proposal:
 - **Preserve the reasoning** behind every proposal, accepted or dismissed.
 - **Never quote a person where the pattern would do.** Brand dreaming stays inside the brand; still, surface the pattern, not the raw private message.
 - **Honor the brand hard rules** on any drafted idea or copy (see `CLAUDE.md` and `running-notes/brand-notes-from-org.md`).
-- **Ground in the vault.** A dream that could have been written without this repo is a failed dream. Load the `creative-strategy-context/` docs per the `CLAUDE.md` routing table before proposing anything creative.
+- **Ground in the vault.** A dream that could have been written without this repo is a failed dream. Load the `parker-system/creative-strategy-context/` docs per the `CLAUDE.md` routing table before proposing anything creative.
 - Self-contained: read only in-repo surfaces and live data. No factory (`parker-brain`) paths at runtime.
 
 ## Note on global product dreaming

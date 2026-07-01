@@ -2,9 +2,9 @@
 
 This file is the single source for the open-loops rubric block embedded verbatim in every context-doc prompt. The block exists because a file-path reference is passive: nothing guarantees the model running a prompt ever loads a separate rubric file, and a rubric the model never sees produces loops that ignore it. The block puts the essential core inside the prompt itself, so the rubric is in context every time, everywhere the prompt runs.
 
-Edit the block here, never in an individual prompt. After editing, run `scripts/sync-open-loops-core.py` to push the new text into every prompt between the `open-loops-core` markers. This block is the complete open-loops generation rubric; the deeper senior-strategist reasoning loads as creative-strategy expertise via `creative-strategy-context/expertise-routing.md` (`creative-strategy-fundamentals.md`), and the grading stage lives at `prompts/open-loops/open-loops-roll-up.md`.
+Edit the block here, never in an individual prompt. After editing, run `scripts/sync-open-loops-core.py` to push the new text into every prompt between the `open-loops-core` markers. This block is the complete open-loops generation rubric; the deeper senior-strategist reasoning loads as creative-strategy expertise via `creative-strategy-context/expertise-routing.md` (`creative-strategy-fundamentals.md`), and the grading stage lives at `parker-system/prompts/open-loops/open-loops-roll-up.md`.
 
-The block teaches generation only. The kill list, the four-weight scoring, tier routing, and promotion live in the grading stage at `prompts/open-loops/open-loops-roll-up.md`. Context docs capture; the grading pass decides what moves on.
+The block teaches generation only. The kill list, the four-weight scoring, tier routing, and promotion live in the grading stage at `parker-system/prompts/open-loops/open-loops-roll-up.md`. Context docs capture; the grading pass decides what moves on.
 
 Everything between the BLOCK markers below is the block, exactly as it appears in every prompt.
 

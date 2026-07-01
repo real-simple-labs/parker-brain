@@ -3,23 +3,25 @@
 # propagate-to-brand-brains.sh — re-ship the factory methodology bundle into
 # standing brand brains, so factory improvements reach brains that were stood
 # up earlier. This is the *update-time* counterpart to the onboarding-runner's
-# build-time "ship the craft" step (Phase 0). See skills/propagate-craft/SKILL.md.
+# build-time "ship the craft" step (Phase 0). See .claude/skills/propagate-craft/SKILL.md.
 #
 # It auto-detects the brain's layout and mirrors accordingly.
 #
-# NESTED brains (older layout, bundle under parker-system/):
-#   prompts/  -> parker-system/prompts/
-#   skills/   -> parker-system/skills/
+# NESTED brains (current onboarding-runner layout, method bundled under parker-system/,
+# all skills in .claude/skills/ where Claude Code loads them):
+#   prompts/  -> parker-system/prompts/   (the generating prompts; the brain refreshes itself with these)
 #   system/   -> parker-system/system/
 #   templates/-> parker-system/templates/
 #   global/knowledge/creative-strategy/ -> parker-system/creative-strategy-context/
+#   .claude/skills/ (factory craft skills, minus dream) -> .claude/skills/
+#   templates/brand-routines/claude/skills/ (routine skills) -> .claude/skills/
 #
-# FLAT standalone brains (current onboarding-runner layout, layers at root):
+# FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
 #   global/knowledge/creative-strategy/ -> creative-strategy-context/
 #   system/                             -> system/  (runtime subset only; --existing
 #                                          never adds the factory-internal docs)
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
-#   (flat brains do not carry factory prompts/ or templates/, so those are skipped;
+#   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
 #
@@ -83,13 +85,19 @@ for repo in "${REPOS[@]}"; do
     echo "  Layout: nested (parker-system/)"
     # update-only: refresh files the brain already has; add nothing, delete nothing
     rsync -a --existing "$FACTORY/prompts/"   "$ps/prompts/"
-    rsync -a --existing "$FACTORY/skills/"    "$ps/skills/"
     rsync -a --existing "$FACTORY/system/"    "$ps/system/"
     rsync -a --existing "$FACTORY/templates/" "$ps/templates/"
     rsync -a --existing \
       --exclude '_*-lens.md' \
       --exclude 'expert-insights' \
       "$FACTORY/global/knowledge/creative-strategy/" "$ps/creative-strategy-context/"
+    # All skills live in .claude/skills/ — the only place Claude Code loads them on clone.
+    # Refresh both the craft skills (from the factory's own .claude/skills/) and the
+    # routine bundle (from templates/), update-only so nothing brand-specific is added/lost.
+    # Exclude the factory craft `dream` so it never clobbers the brand's canonical routine
+    # `dream` (the scheduled dreaming run); the routine bundle below owns that one.
+    rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/"        "$dir/.claude/skills/"
+    rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -127,10 +135,11 @@ for repo in "${REPOS[@]}"; do
     LC_ALL=C find "$dir/system" -name '*.md' -type f \
       -exec sed -i '' 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' {} + 2>/dev/null || true
     if [ -f "$dir/CLAUDE.md" ]; then
+      # Skills live in .claude/skills/ in the current template (the only dir Claude Code
+      # loads from), so the template's .claude/skills/<skill>/ path needs no rewrite here.
       LC_ALL=C sed -i '' \
         -e 's#parker-system/creative-strategy-context/#creative-strategy-context/#g' \
         -e 's#parker-system/system/#system/#g' \
-        -e 's#parker-system/skills/#.claude/skills/#g' \
         "$dir/CLAUDE.md"
     fi
   fi

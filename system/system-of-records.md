@@ -19,6 +19,7 @@ These are kept in step by `scripts/sync-open-loops-core.py`. Each has a source f
 - **Open-loops core** — source `prompts/_open-loops-core-block.md`, markers `open-loops-core:start`/`end`, embedded in every context-doc-generating prompt across all four prompt trees.
 - **Expertise core** — source `prompts/_expertise-core-block.md`, markers `expertise-core:start`/`end`, embedded in the same prompts.
 - **Parker voice** — source `prompts/_parker-voice-block.md`, markers `parker-voice:start`/`end`, embedded in the four brand-brain `CLAUDE.md` files (the template plus the three brands). A brand brain's root `CLAUDE.md` sits outside `parker-system/` and is never rsynced, so `scripts/propagate-to-brand-brains.sh` runs `sync-open-loops-core.py --scan <brain>` after it mirrors the bundle, refreshing this block in each brain from factory canon.
+- **Brand intake** — source `prompts/_brand-intake-context-block.md`, markers `brand-intake:start`/`end`, embedded in a **targeted subset** of generating prompts (not the universal set): the 17 audit cuts, `brand-profile/ad-account-evaluation` and `performance-targets-and-metrics`, the five `strategic-roadmap/*`, `ideas-and-briefs/brief-creation`, `personas/personas-profile`, and the `competitor-profile/competitor-snapshot` and `working-thesis-synthesis` syntheses. Unlike open-loops-core and expertise-core, it is deliberately not in every context-doc prompt — only the ones whose output the brand's stated intent, definitions, or targets actually change. It tells those prompts to load the optional brand intake from `running-notes/`, honor intent as authoritative and descriptive claims as stated-until-verified, and run as normal when the intake is absent.
 
 ## Hand-propagated canon (one source, copied, no marker)
 
@@ -28,7 +29,7 @@ These live in `parker-v2/` and are copied into the three vault `parker-system/` 
 - **The system layer** — `system/` (`open-loops-system.md`, `parker-system-map.md`, `master-file-structure.md`, `master-prompt-review.md`, `attribution-principle.md`, `three-phase-operating-model.md`, and this doc).
 - **The open-loops generation rubric** — `prompts/_open-loops-core-block.md`, synced into every context-doc prompt; the deeper reasoning is `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`, loaded via expertise-routing.
 - **The generator prompts** — everything under `prompts/`.
-- **The skills** — `skills/`.
+- **The skills** — `.claude/skills/` (the directory Claude Code loads skills from, so they register on clone).
 - **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context template, the persona and VoC templates).
 
 ## Reference sources (one source, pointed at, never copied inline)
@@ -49,5 +50,5 @@ Each of these is the single place a concept is defined. A prompt may reference i
 2. **Tree parity.** Each shared file in the three vault `parker-system/` trees and in `parker-brain/` matches the `parker-v2/` source (accounting for parker-brain's path remap). Flag any file that diverged or is missing.
 3. **Reference integrity.** Every file path a prompt or doc references resolves to a real file in that tree. Renamed or moved targets leave dead references; those are drift.
 4. **Concept consistency.** The reference-source concepts above are described the same way everywhere and never re-defined divergently inline. No prompt contradicts the operating model, the territory definitions, or the marks.
-5. **Hard-rule conformance.** No em dashes and no parenthetical example lists in prompts, per Jimmy's standing rules. Generating prompts carry both required synced blocks.
+5. **Hard-rule conformance.** No em dashes and no parenthetical example lists in prompts, per Jimmy's standing rules. Generating prompts carry both required synced blocks (open-loops-core and expertise-core). The brand-intake block is a targeted third block present only in its named subset above, so its absence from other prompts is by design, not drift.
 6. **Registry currency.** Every source of truth and propagation target described here still exists, and nothing new has appeared that this registry does not list.

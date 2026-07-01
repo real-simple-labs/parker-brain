@@ -1,7 +1,7 @@
 # Prompt — monthly hook audit
 
 <!-- expertise-core:start — synced from prompts/_expertise-core-block.md; edit there, then run scripts/sync-open-loops-core.py -->
-**The expertise layer — load it before you analyze.** This prompt's process tells you what to produce. The creative-strategy-context docs tell you how a strategist thinks while producing it, and they are mandatory reads, not references. Before starting the analysis, open `creative-strategy-context/expertise-routing.md` in this prompt tree, load every doc it names for this doc type, and load the brand lens overlay (`creative-strategy-context/_<brand>-lens.md`) afterward if one exists. Perform the analysis *through* those methods: their named concepts, their taxonomies, their bar for what good looks like, their vocabulary. The test is unforgiving — an analysis that never speaks the loaded methods' language proves they were not read, and the run failed regardless of how complete the output looks.
+**The expertise layer — load it before you analyze.** This prompt's process tells you what to produce. The creative-strategy-context docs tell you how a strategist thinks while producing it, and they are mandatory reads, not references. Before starting the analysis, open `parker-system/creative-strategy-context/expertise-routing.md` in this prompt tree, load every doc it names for this doc type, and load the brand lens overlay (`parker-system/creative-strategy-context/_<brand>-lens.md`) afterward if one exists. The brand lens is where this brand's own tribal knowledge lives — what the team has told us, what has worked and failed for them, the do's and don'ts and overrides that a general method can't know. When the lens and a general method disagree, the lens wins, because it is this brand speaking. Treat anything the brand has stated or hand-corrected as authoritative over the generic rule. Perform the analysis *through* those methods: their named concepts, their taxonomies, their bar for what good looks like, their vocabulary. The test is unforgiving — an analysis that never speaks the loaded methods' language proves they were not read, and the run failed regardless of how complete the output looks.
 
 **Show the reasoning, not just the mark.** Every consequential claim carries its evidence walk in prose: what you examined, what you found there, and why the claim earns its mark — verified, inferred, or stated. A bare "verified" is not enough; the reader is a creative strategist who must retell this finding to other people and defend it, so give them the story that makes it believable and usable. Ground findings in concrete examples — the specific ad described richly enough to replay, the exact verbatim with its source and date, the number with its denominator and window. Specificity is the difference between an insight and an assertion.
 
@@ -11,8 +11,16 @@
 
 **Be the exact picture of your slice — verbatim, not generalized.** This doc has to stand on its own. Someone who needs to know exactly what is happening in this slice should get the full answer from it, with no ambiguity left and the only open questions being the open loops. Specifics carry that; summaries do not. The exact phrase a customer or competitor used, not a paraphrase of the theme. The count with its denominator and window — how many times a phrase appears, the share a sentiment holds, how that splits — never "many," "several," or "tends to." The named example described richly enough to replay, not a category label standing in for it. A generalization is a claim the reader cannot check; the verbatim and the number are the evidence itself. A synthesis whose job is to point rather than hold the depth still owes an exact figure and an exact pointer on every claim it does make.
 
-**Stamp the doc's freshness.** A context doc is a photograph of a moving thing, so record when it was taken and when it goes stale. In the output frontmatter set `generated_on` to today, read from `get_current_time`, and `refresh_by` to today plus this doc type's cadence in `system/refresh-cadence.md`. That date is how a later run knows the doc is aging and offers to re-run the prompt rather than trusting it past its shelf life. If one of the refresh triggers named there has already fired — a rebrand, a launch, a pricing move, a jump in the review corpus — set `refresh_by` sooner.
+**Stamp the doc's freshness.** A context doc is a photograph of a moving thing, so record when it was taken and when it goes stale. In the output frontmatter set `generated_on` to today, read from `get_current_time`, and `refresh_by` to today plus this doc type's cadence in `parker-system/system/refresh-cadence.md`. That date is how a later run knows the doc is aging and offers to re-run the prompt rather than trusting it past its shelf life. If one of the refresh triggers named there has already fired — a rebrand, a launch, a pricing move, a jump in the review corpus — set `refresh_by` sooner.
 <!-- expertise-core:end -->
+
+<!-- brand-intake:start — synced from prompts/_brand-intake-context-block.md; edit there, then run scripts/sync-open-loops-core.py -->
+**The brand intake, if it exists, is provided context. Load it before you generate.** At kickoff the team may have answered a short intake covering what Parker cannot observe on its own: their primary campaign objective, north-star metric and how they define a winner, ad naming convention, whether they read performance from in-platform numbers or a third-party tool, their main business objective, their competitor list, their brief format, and optionally their unit economics. When present this lives in `running-notes/brand-rules.md` and `running-notes/success-definition.md`, with the competitor list in `competitors/_competitive-set.md` and the brief format saved as its own artifact. Read whatever is there before you start, and let it shape the work.
+
+Treat it by kind. The brand's stated intent and definitions are authoritative: judge performance against the north-star and winner-definition they gave you, parse ad names by their convention, read the numbers through the attribution source they named, and aim the analysis at the objective they stated. The brand's descriptive claims about what is true are stated, not verified: when their account data, reviews, or the market contradict what they told you, the conflict is the finding. Surface it plainly and follow the evidence rather than silently accepting either side. Never launder a stated claim into a verified fact in the retelling.
+
+**If the intake is missing or partial, run as normal.** The intake makes the work sharper, it is never a gate. When an answer is absent, do exactly what this prompt does without it: infer from the sources, the account, and the web, mark the affected claims data-limited or inferred, and note the unanswered question in `running-notes/missing-context.md` so it can be filled later. Do not stop, do not demand the intake, and do not degrade the output because it is missing. A brain with no intake at all still produces the full doc.
+<!-- brand-intake:end -->
 
 This produces `YYYY-MM-hook-audit.md`, the brand's monthly read on what hooks are working — for the brand, for competitors, for affinity and inspo brands, and on recent organic social in the brand's niche. Its single job is to brief a senior creative strategist on every hook worth knowing about this month, with enough examples and detail that the strategist can decide what to test next.
 
@@ -50,10 +58,10 @@ Do not compress the external sections into a pattern read when source examples e
 
 Before drafting, load:
 
-- `global/knowledge/creative-strategy/public-ad-library-analysis.md`
-- `prompts/_notion-ai-tagging-and-foundational-context.md`
+- `parker-system/creative-strategy-context/public-ad-library-analysis.md`
+- `parker-system/prompts/_notion-ai-tagging-and-foundational-context.md`
 
-Use `global/knowledge/creative-strategy/public-ad-library-analysis.md` as the paid-creative reasoning layer for this audit.
+Use `parker-system/creative-strategy-context/public-ad-library-analysis.md` as the paid-creative reasoning layer for this audit.
 
 Use `_notion-ai-tagging-and-foundational-context.md` as a supporting analysis-discipline layer. Its main purpose in this audit is to remind you what information Parker gets from videos and account reads: exact script, on-screen text, first frame, pacing, movement, viewer state, emotional pressure, audience, and promo or launch context. This is not a creative-diversity audit. Do not over-index on ad-format classification, format gaps, or format tallies.
 
@@ -165,7 +173,7 @@ Pull from every source. The job is breadth.
 
 **The hook-performance standard.** This audit judges hooks by spend plus hook rate. Spend shows the account gave the hook a real chance or is still trusting it. Hook rate shows whether the first three seconds are stopping people. ROAS, CPA, and conversion can explain why the full ad is not working, but they do not make a high-hook-rate opener a bad hook.
 
-Use `global/knowledge/creative-strategy/public-ad-library-analysis.md` to keep this read grounded. The lenses differ by where the ad lives. For the brand's own account, spend is visible through logged-in access — a top-spend hook says the account is trusting it. For external libraries there is no spend; top-by-impressions, days-active, and most-recent are the available lenses, and impressions is a proxy for spend, not a substitute. A high-hook-rate hook says the first three seconds are doing their job. A recent cluster of near-duplicates can mean a test in progress or a winner being milked. Do not collapse those into one generic "winner" or "loser" label, and do not infer spend for an external library.
+Use `parker-system/creative-strategy-context/public-ad-library-analysis.md` to keep this read grounded. The lenses differ by where the ad lives. For the brand's own account, spend is visible through logged-in access — a top-spend hook says the account is trusting it. For external libraries there is no spend; top-by-impressions, days-active, and most-recent are the available lenses, and impressions is a proxy for spend, not a substitute. A high-hook-rate hook says the first three seconds are doing their job. A recent cluster of near-duplicates can mean a test in progress or a winner being milked. Do not collapse those into one generic "winner" or "loser" label, and do not infer spend for an external library.
 
 Before a hook enters the weak-hook section, separate four possibilities:
 - **True weak hook.** The opening line or frame had enough spend and delivery to read, and the hook rate itself was weak against the brand's baseline or against a close control.
@@ -226,7 +234,7 @@ This is the proven set of psychological frameworks for opening an ad. Use it as 
 
 ## Execution
 
-**Step one — pull the source inputs.** Brand-profile, user-profile, ideas doc, brand hook history, prior month's hook audit, and `global/knowledge/creative-strategy/public-ad-library-analysis.md`. Confirm the competitor set, affinity-brand set, and inspo-brand set.
+**Step one — pull the source inputs.** Brand-profile, user-profile, ideas doc, brand hook history, prior month's hook audit, and `parker-system/creative-strategy-context/public-ad-library-analysis.md`. Confirm the competitor set, affinity-brand set, and inspo-brand set.
 
 **Step two — capture brand hooks in use.** Every active paid ad and every recent organic first frame. Exact opening line, vivid first-three-seconds scene description, awareness stage where known, exact-hook usage count to date, trajectory.
 
@@ -257,7 +265,7 @@ doc: monthly-hook-audit
 month: YYYY-MM
 generated_on: YYYY-MM-DD
 sources_read: [brand ad account, brand organic first frames, brand hook history, competitor ad libraries, affinity-brand sources, inspo-brand sources, recent niche organic — as applicable]
-knowledge_docs_read: [global/knowledge/creative-strategy/public-ad-library-analysis.md]
+knowledge_docs_read: [parker-system/creative-strategy-context/public-ad-library-analysis.md]
 ai_tagging_docs_read: [prompts/_notion-ai-tagging-and-foundational-context.md]
 taxonomy_version: 20-hook-formats-plus-additions
 competitors_pulled_this_cycle: []
