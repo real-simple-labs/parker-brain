@@ -25,7 +25,7 @@ The brand profile is a narrative one-pager, `brand-profile.md`, built on top of 
 
 ### Handled elsewhere
 
-- **Reviews and customer language** is its own full context doc, produced by the customer-review and voice-of-customer audit in `prompts/personas/` and `prompts/voice-of-customer/`. The brand profile references its output rather than generating it here.
+- **Reviews and customer language** is its own full context doc, produced by the customer-review and voice-of-customer audit in `parker-system/prompts/personas/` and `parker-system/prompts/voice-of-customer/`. The brand profile references its output rather than generating it here.
 - **brand-notes-from-org** — the running-notes memory doc accumulated from org conversations over time. Part of the memory bundle, adjacent to the brand profile, not a sub-context doc.
 
 ## Conventions baked into every prompt

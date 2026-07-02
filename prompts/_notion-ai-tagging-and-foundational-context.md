@@ -49,7 +49,7 @@ Audit implication: do not accept vague labels like "stretch demo," "UGC testimon
 
 Format tags answer what formats are working. Tag every format with a genuinely strong argument, but wrong tags are worse than missing tags.
 
-The detailed ad-format taxonomy now lives in `global/knowledge/creative-strategy/ad-formats/`. The Parker MCP already carries ad-format tags for the ads where that data is available, so this taxonomy is primarily context for Parker v2 to interpret, compare, audit, and reason from those tags. Read that folder when a prompt needs to classify, interpret, compare, or reason from ad formats. This section remains the short-form tagging principle layer; the folder is the deeper context source.
+The detailed ad-format taxonomy now lives in `parker-system/creative-strategy-context/ad-formats/`. The Parker MCP already carries ad-format tags for the ads where that data is available, so this taxonomy is primarily context for Parker v2 to interpret, compare, audit, and reason from those tags. Read that folder when a prompt needs to classify, interpret, compare, or reason from ad formats. This section remains the short-form tagging principle layer; the folder is the deeper context source.
 
 Separate two kinds of format:
 
@@ -139,7 +139,7 @@ Audit implication: promo-led hooks should generally be treated as account contex
 
 ## How this should change audits
 
-The audit prompt itself remains the source of truth for what information to look for in a given audit. Before running or rerunning an audit, read the specific prompt in `prompts/audits-*` and use its required inputs, sections, evidence standards, and output shape as the checklist. This Notion-derived context is a supporting layer that sharpens how to read ads and how to interpret AI tags; it does not override the audit prompt.
+The audit prompt itself remains the source of truth for what information to look for in a given audit. Before running or rerunning an audit, read the specific prompt in `parker-system/prompts/audits-*` and use its required inputs, sections, evidence standards, and output shape as the checklist. This Notion-derived context is a supporting layer that sharpens how to read ads and how to interpret AI tags; it does not override the audit prompt.
 
 Monthly audits should look for more than the literal hook line. For every meaningful ad or post, describe the opening as a mini-scene first, then interpret it. The description should let the reader replay the opening in their head and understand how it earns attention. After that, name the mechanics, awareness posture, emotional pressure, and likely persona only where they clarify the read.
 - Occasion context: evergreen, seasonal, promo, product launch.

@@ -32,7 +32,7 @@ That means:
 
 ## Using this for a brand
 
-`parker-brain` is meant to be cloned as the read-only factory. **A brand brain you build from it lives in its own separate repository — you do not build on top of this repo.** When you onboard a brand, first clone this repo with prompts and instructions, then create a new empty git repo for that brand using user's personal git credentials, if they have any. Commit and push often, as soon as you make any changes. Do a `git pull` before doing updates and do `git pull` on the parker-brain repo as well. This clone supplies the prompts, skills, methodology, and craft layer, and the brand repo is the product. `prompts/onboarding-runner.md` is the executable cold-start sequence and `prompts/README.md` is the why behind it.
+`parker-brain` is meant to be cloned as the read-only factory. **A brand brain you build from it lives in its own separate repository — you do not build on top of this repo.** When you onboard a brand, first clone this repo with prompts and instructions, then create a new empty git repo for that brand using user's personal git credentials, if they have any. Commit and push often, as soon as you make any changes. Do a `git pull` before doing updates and do `git pull` on the parker-brain repo as well. This clone supplies the prompts, skills, methodology, and craft layer, and the brand repo is the product. Onboarding copies that whole method into the brand repo — the skills (craft + routine) into `.claude/skills/`, the one directory Claude Code loads skills from so they register the moment the brain is cloned, and the rest under `parker-system/` (`prompts/`, `creative-strategy-context/`, `system/`) — so the brand brain is self-contained: it can refresh and rebuild its own docs by re-running the exact prompts that generated them, and execute craft through its own skills, with no link back to this factory. `prompts/onboarding-runner.md` is the executable cold-start sequence and `prompts/README.md` is the why behind it.
 
 The data tools the prompts call run through the **Parker MCP**. If it is not connected, Parker has no live reach into the ad account, organic socials, reviews, surveys, or the competitor ad library — the Parker MCP is the one connection that brings all of it online at once, though independent platform exports can feed the same evidence more manually. `system/parker-tools.md` is the canonical tool inventory.
 
@@ -48,7 +48,7 @@ Set up my brain for my brand [brand] in a new private repo, follow instructions 
 
 - `CLAUDE.md` - production-ready Parker operating contract and repo guidance.
 - `prompts/` - production prompts for context docs, audits, personas, VoC, market reads, and databases.
-- `skills/` - runtime skill instructions.
+- `.claude/skills/` - runtime skill instructions (scriptwriting, hooks, headlines, iterations, ad-account analysis, AI ad generation, the open-loops pipeline, and more). They live under `.claude/skills/` because that is the only directory Claude Code loads skills from, so they register and work the moment this repo is cloned.
 - `system/` - product-level methodology, retrieval, attribution, open-loop, and review standards.
 - `templates/` - reusable document templates.
 - `global/knowledge/` - approved generalized knowledge.

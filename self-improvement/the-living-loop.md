@@ -33,7 +33,7 @@ Dreaming plans across five buckets (see `dreaming-system.md`). Self-improvement 
 | Bucket (dreaming plans) | Self-improvement executes (CRUD) | Executing skill | Lands in |
 |---|---|---|---|
 | **Context updates** | edit / add / correct / retire a context doc | `improve-system` | brand context docs |
-| **Skill improvements** | add / refine / retire a skill | `update-parker-skill` | `skills/` (global) |
+| **Skill improvements** | add / refine / retire a skill | `update-parker-skill` | `.claude/skills/` (global) |
 | **Schedules** | stand up / edit / pause / remove a cron routine | schedules CRUD (see `system/schedules.md`) | `z-brands/[brand]/schedules/` + Claude Code cron |
 | **New ideas** | log / refine / promote / cut an idea | `brand-idea-bank-maintenance` | `idea-bank/` |
 | **New open loops** | capture, then run the lifecycle below | `open-loops-advance` → `open-loops-validate` | `open-loops/` → `hypotheses/` → `validations/` |

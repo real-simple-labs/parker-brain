@@ -57,7 +57,7 @@ parker/
 │                   ├── [YYYY-MM]-monthly.md
 │                   └── [YYYY]-yearly.md
 │
-├── z-brands/                                         ← Per-brand context (the heavy half)
+├── z-brands/                                         ← Per-brand context (the heavy half). This per-brand tree is the buildable CORE, not a closed set: a standing brain grows new first-class surfaces (email, SEO, PR, support, whatever the org connects) per system/growing-the-brain.md
 │   └── [brand-id]/
 │       │
 │       ├── brand-profile.md                        ← MAIN — narrative synthesis of foundation
@@ -79,6 +79,8 @@ parker/
 │       │   ├── brand-notes-from-org.md             ← Narrative summary of the 5 below
 │       │   ├── current-work.md
 │       │   ├── org-and-usage.md
+│       │   ├── missing-context.md                  ← the running list of what the brand has not yet told us
+│       │   ├── refresh-schedule.md                 ← aggregated freshness view (see loading sequence above)
 │       │   ├── success-definition.md
 │       │   ├── brand-rules.md
 │       │   └── recent-validations.md
@@ -114,9 +116,10 @@ parker/
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
 │       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
-│       │   ├── settings.json                        ← the craft-loading UserPromptSubmit hook
+│       │   ├── settings.json                        ← the craft UserPromptSubmit hook (wires hooks/craft-context.py)
+│       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,harvest-ideas,evaluate-ideas,refresh-context,setup-routines}/SKILL.md  ← the routine bundle (self-contained, no factory paths at runtime)
+│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained, no factory paths at runtime)
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
@@ -322,7 +325,7 @@ parker/
 │           ├── scheduled/
 │           └── results/[YYYY-MM]/
 │
-├── skills/                                         ← Global (apply to all brands), namespaced by team
+├── .claude/skills/                                 ← Global skills. ACTUAL location: flat under .claude/skills/ (the only dir Claude Code loads skills from). The team-namespaced tree below is the [planned] target shape, not the current layout.
 │   ├── creative-strategy/
 │   │   ├── scriptwriting/
 │   │   ├── hooks/

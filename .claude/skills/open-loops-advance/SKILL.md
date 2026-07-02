@@ -22,7 +22,7 @@ This is the middle stage of the loop-to-validation chain: **roll-up promotes →
 
 ## What you are working from
 
-The full lifecycle, the four territories, the six pulls, and the four validation states are defined in `system/open-loops-system.md` — read it before you plan. The senior-strategist frame that shapes a good hypothesis lives in `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`. When the plan will lean on a research method — an ad-library read, a review mine, an organic read — load the method doc `global/knowledge/creative-strategy/expertise-routing.md` names for it, so the plan is built the way a strategist would actually run it.
+The full lifecycle, the four territories, the six pulls, and the four validation states are defined in `parker-system/system/open-loops-system.md` — read it before you plan. The senior-strategist frame that shapes a good hypothesis lives in `parker-system/creative-strategy-context/creative-strategy-fundamentals.md`. When the plan will lean on a research method — an ad-library read, a review mine, an organic read — load the method doc `parker-system/creative-strategy-context/expertise-routing.md` names for it, so the plan is built the way a strategist would actually run it.
 
 ## How this skill runs
 

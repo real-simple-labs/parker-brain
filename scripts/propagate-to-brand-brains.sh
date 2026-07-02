@@ -3,23 +3,34 @@
 # propagate-to-brand-brains.sh — re-ship the factory methodology bundle into
 # standing brand brains, so factory improvements reach brains that were stood
 # up earlier. This is the *update-time* counterpart to the onboarding-runner's
-# build-time "ship the craft" step (Phase 0). See skills/propagate-craft/SKILL.md.
+# build-time "ship the craft" step (Phase 0). See .claude/skills/propagate-craft/SKILL.md.
 #
 # It auto-detects the brain's layout and mirrors accordingly.
 #
-# NESTED brains (older layout, bundle under parker-system/):
-#   prompts/  -> parker-system/prompts/
-#   skills/   -> parker-system/skills/
+# NESTED brains (current onboarding-runner layout, method bundled under parker-system/,
+# all skills in .claude/skills/ where Claude Code loads them):
+#   prompts/  -> parker-system/prompts/   (the generating prompts; the brain refreshes itself with these)
 #   system/   -> parker-system/system/
 #   templates/-> parker-system/templates/
 #   global/knowledge/creative-strategy/ -> parker-system/creative-strategy-context/
+#   .claude/skills/ (factory craft skills, minus dream) -> .claude/skills/
+#   templates/brand-routines/claude/skills/ (routine skills) -> .claude/skills/
+#   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (added if missing,
+#                                          not update-only: the context hook is factory-owned
+#                                          machinery and settings.json requires the script)
 #
-# FLAT standalone brains (current onboarding-runner layout, layers at root):
+# FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
 #   global/knowledge/creative-strategy/ -> creative-strategy-context/
 #   system/                             -> system/  (runtime subset only; --existing
 #                                          never adds the factory-internal docs)
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
-#   (flat brains do not carry factory prompts/ or templates/, so those are skipped;
+#   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (same as nested)
+#
+# DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs,
+# routine skills, and schedule recipes a standing brain should gain are named explicitly
+# in each branch (currently: system/growing-the-brain.md, the research-loops and
+# update-brain skills and their schedule recipes). Add new ones there when the runtime ship list grows.
+#   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
 #
@@ -83,13 +94,33 @@ for repo in "${REPOS[@]}"; do
     echo "  Layout: nested (parker-system/)"
     # update-only: refresh files the brain already has; add nothing, delete nothing
     rsync -a --existing "$FACTORY/prompts/"   "$ps/prompts/"
-    rsync -a --existing "$FACTORY/skills/"    "$ps/skills/"
     rsync -a --existing "$FACTORY/system/"    "$ps/system/"
     rsync -a --existing "$FACTORY/templates/" "$ps/templates/"
     rsync -a --existing \
       --exclude '_*-lens.md' \
       --exclude 'expert-insights' \
       "$FACTORY/global/knowledge/creative-strategy/" "$ps/creative-strategy-context/"
+    # All skills live in .claude/skills/ — the only place Claude Code loads them on clone.
+    # Refresh both the craft skills (from the factory's own .claude/skills/) and the
+    # routine bundle (from templates/), update-only so nothing brand-specific is added/lost.
+    # Exclude the factory craft `dream` so it never clobbers the brand's canonical routine
+    # `dream` (the scheduled dreaming run); the routine bundle below owns that one.
+    rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/"        "$dir/.claude/skills/"
+    rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
+    # The context hook (settings.json + hooks/) is factory-owned runtime machinery with
+    # no brand-specific content, and settings.json requires hooks/craft-context.py to
+    # exist — so these two ship together, added if missing, NOT update-only.
+    # Per-instance overrides live in settings.local.json (gitignored), never here.
+    mkdir -p "$dir/.claude/hooks"
+    rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
+    rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
+    # SHOULD gain. --existing above never adds files, so each is named here once.
+    cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -106,6 +137,18 @@ for repo in "${REPOS[@]}"; do
       "$FACTORY/global/knowledge/creative-strategy/" "$dir/creative-strategy-context/"
     rsync -a --existing "$FACTORY/system/"                                  "$dir/system/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
+    # Context hook + settings ship together, added if missing (see the nested branch's
+    # note). The hook script finds the flat craft path on its own, so no rewrite needed.
+    mkdir -p "$dir/.claude/hooks"
+    rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
+    rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # Deliberate adds (same list as the nested branch). Flat path normalization below
+    # rewrites the system docs' nested-layout references.
+    cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
@@ -125,12 +168,17 @@ for repo in "${REPOS[@]}"; do
   # reference resolves. (Nested brains keep parker-system/ as-is, so this is flat-only.)
   if [ "$layout" = flat ]; then
     LC_ALL=C find "$dir/system" -name '*.md' -type f \
-      -exec sed -i '' 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' {} + 2>/dev/null || true
+      -exec sed -i '' \
+        -e 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' \
+        -e 's#parker-system/creative-strategy-context/#creative-strategy-context/#g' \
+        -e 's#parker-system/system/#system/#g' \
+        {} + 2>/dev/null || true
     if [ -f "$dir/CLAUDE.md" ]; then
+      # Skills live in .claude/skills/ in the current template (the only dir Claude Code
+      # loads from), so the template's .claude/skills/<skill>/ path needs no rewrite here.
       LC_ALL=C sed -i '' \
         -e 's#parker-system/creative-strategy-context/#creative-strategy-context/#g' \
         -e 's#parker-system/system/#system/#g' \
-        -e 's#parker-system/skills/#.claude/skills/#g' \
         "$dir/CLAUDE.md"
     fi
   fi

@@ -1,7 +1,7 @@
 # Prompt — idea evaluation
 
 <!-- expertise-core:start — synced from prompts/_expertise-core-block.md; edit there, then run scripts/sync-open-loops-core.py -->
-**The expertise layer — load it before you analyze.** This prompt's process tells you what to produce. The creative-strategy-context docs tell you how a strategist thinks while producing it, and they are mandatory reads, not references. Before starting the analysis, open `creative-strategy-context/expertise-routing.md` in this prompt tree, load every doc it names for this doc type, and load the brand lens overlay (`creative-strategy-context/_<brand>-lens.md`) afterward if one exists. Perform the analysis *through* those methods: their named concepts, their taxonomies, their bar for what good looks like, their vocabulary. The test is unforgiving — an analysis that never speaks the loaded methods' language proves they were not read, and the run failed regardless of how complete the output looks.
+**The expertise layer — load it before you analyze.** This prompt's process tells you what to produce. The creative-strategy-context docs tell you how a strategist thinks while producing it, and they are mandatory reads, not references. Before starting the analysis, open `parker-system/creative-strategy-context/expertise-routing.md` in this prompt tree, load every doc it names for this doc type, and load the brand lens overlay (`parker-system/creative-strategy-context/_<brand>-lens.md`) afterward if one exists. The brand lens is where this brand's own tribal knowledge lives — what the team has told us, what has worked and failed for them, the do's and don'ts and overrides that a general method can't know. When the lens and a general method disagree, the lens wins, because it is this brand speaking. Treat anything the brand has stated or hand-corrected as authoritative over the generic rule. Perform the analysis *through* those methods: their named concepts, their taxonomies, their bar for what good looks like, their vocabulary. The test is unforgiving — an analysis that never speaks the loaded methods' language proves they were not read, and the run failed regardless of how complete the output looks.
 
 **Show the reasoning, not just the mark.** Every consequential claim carries its evidence walk in prose: what you examined, what you found there, and why the claim earns its mark — verified, inferred, or stated. A bare "verified" is not enough; the reader is a creative strategist who must retell this finding to other people and defend it, so give them the story that makes it believable and usable. Ground findings in concrete examples — the specific ad described richly enough to replay, the exact verbatim with its source and date, the number with its denominator and window. Specificity is the difference between an insight and an assertion.
 
@@ -11,14 +11,14 @@
 
 **Be the exact picture of your slice — verbatim, not generalized.** This doc has to stand on its own. Someone who needs to know exactly what is happening in this slice should get the full answer from it, with no ambiguity left and the only open questions being the open loops. Specifics carry that; summaries do not. The exact phrase a customer or competitor used, not a paraphrase of the theme. The count with its denominator and window — how many times a phrase appears, the share a sentiment holds, how that splits — never "many," "several," or "tends to." The named example described richly enough to replay, not a category label standing in for it. A generalization is a claim the reader cannot check; the verbatim and the number are the evidence itself. A synthesis whose job is to point rather than hold the depth still owes an exact figure and an exact pointer on every claim it does make.
 
-**Stamp the doc's freshness.** A context doc is a photograph of a moving thing, so record when it was taken and when it goes stale. In the output frontmatter set `generated_on` to today, read from `get_current_time`, and `refresh_by` to today plus this doc type's cadence in `system/refresh-cadence.md`. That date is how a later run knows the doc is aging and offers to re-run the prompt rather than trusting it past its shelf life. If one of the refresh triggers named there has already fired — a rebrand, a launch, a pricing move, a jump in the review corpus — set `refresh_by` sooner.
+**Stamp the doc's freshness.** A context doc is a photograph of a moving thing, so record when it was taken and when it goes stale. In the output frontmatter set `generated_on` to today, read from `get_current_time`, and `refresh_by` to today plus this doc type's cadence in `parker-system/system/refresh-cadence.md`. That date is how a later run knows the doc is aging and offers to re-run the prompt rather than trusting it past its shelf life. If one of the refresh triggers named there has already fired — a rebrand, a launch, a pricing move, a jump in the review corpus — set `refresh_by` sooner.
 <!-- expertise-core:end -->
 
 This produces `evaluation-[YYYY-MM-DD].md`, the ranked verdict on a brand's idea bank. Its single job is to take the whole captured pile of ideas and grade it against the approved Phase-2 strategic roadmap: which priority each idea serves, the lever it pulls, how strong the evidence under it is, and whether it pulls toward a road the strategy deliberately killed. The output is a ranked shortlist, organized by priority, that ends in a plain call — brief these first, in this order — and a read of what the bank is missing.
 
 You are a senior creative strategist sitting down to grade, not to browse and not yet to build. Write plainly and directly. Lead with the call, then show the evidence that earns it.
 
-This is the middle step of Phase 3, and it does not run until the user has approved the Phase-2 strategic roadmap. The gate is real: ideas can only be ranked against a direction once the direction is set, because the rank is the direction applied to the pile. The full model is in `system/three-phase-operating-model.md`.
+This is the middle step of Phase 3, and it does not run until the user has approved the Phase-2 strategic roadmap. The gate is real: ideas can only be ranked against a direction once the direction is set, because the rank is the direction applied to the pile. The full model is in `parker-system/system/three-phase-operating-model.md`.
 
 ---
 
@@ -30,7 +30,7 @@ The reason grading is split off from capture into its own prompt is to protect c
 
 ## Where this doc sits
 
-This is the evaluate step in the Phase-3 three-prompt split: capture, then evaluate, then build. The split divides on one move. Capture is a transfer that carries every idea across verbatim and ungraded. Evaluation is the judgment that ranks them. Brief-creation builds the top of the rank into production. The reasoning behind the split lives in `global/knowledge/creative-strategy/ideation-and-brainstorming.md` under the capture-is-a-transfer principle; read it before you grade.
+This is the evaluate step in the Phase-3 three-prompt split: capture, then evaluate, then build. The split divides on one move. Capture is a transfer that carries every idea across verbatim and ungraded. Evaluation is the judgment that ranks them. Brief-creation builds the top of the rank into production. The reasoning behind the split lives in `parker-system/creative-strategy-context/ideation-and-brainstorming.md` under the capture-is-a-transfer principle; read it before you grade.
 
 - Upstream: `brand-idea-bank.md` captured the pile. Every entry arrived with its provenance and its verbatim source intact, because this is the pass that needs the real source, not a compression of it.
 - This step: rank the pile against the roadmap and hand the top of the rank forward.
@@ -85,7 +85,7 @@ The evaluation's forward-looking output is a coverage read, and it is as valuabl
 - `personas-profile.md` and the voice-of-customer library — the persona each idea serves and the customer language behind the evidence band.
 - `performance-targets-and-metrics.md` and the latest audits — the own-account numbers that separate a HIGH band from a MEDIUM one.
 - The brand's **validated hypotheses and open-loop history** — what lets an evidence band cite a validated finding rather than assert confidence.
-- `global/knowledge/creative-strategy/ideation-and-brainstorming.md` — the capture-versus-grade spine this prompt runs.
+- `parker-system/creative-strategy-context/ideation-and-brainstorming.md` — the capture-versus-grade spine this prompt runs.
 
 ## Critical rules
 

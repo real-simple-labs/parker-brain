@@ -25,7 +25,7 @@ Write each as a file in `dreaming/proposals/pending/[YYYY-MM-DD]-[id].md`, and l
 
 Five buckets of proposal:
 
-1. **Context updates.** When a conversation or fresh read reveals something the brand context docs don't yet capture or get wrong, propose the edit (point at the doc and the change; do not make it).
+1. **Context updates.** When a conversation or fresh read reveals something the brand context docs don't yet capture or get wrong, propose the edit (point at the doc and the change; do not make it). This bucket also carries **new surfaces**: when a connected tool keeps surfacing a kind of truth the brain has no home for, or the team keeps asking about a domain with no standing doc, propose growing the brain — the new folder or doc, what feeds it, and what it would be watched for — per `parker-system/system/growing-the-brain.md`. The scaffold is a floor, not a ceiling; dreaming is where growth is supposed to start.
 2. **Skill improvements.** When the way the user works with Parker exposes a gap or a better way to run a kind of task, propose the skill change. These are brand-observed but often promote *upward*, since skills are global — flag that.
 3. **Schedules to create.** When the user keeps asking for the same kind of job, propose standing it up as a repo-native schedule ("you've asked me this a few times — want me to run it weekly?"). A schedule is **not** an MCP workflow (see `schedules/README.md`). Name the task, cadence, what it reads, what it updates, and the deliverable; the proposal lands in `schedules/proposed/` and does not run until confirmed.
 4. **New ideas to research.** When an open loop, a validation, a conversation, or a freshly scraped signal could be run with, route the good ones to the idea bank under its own rules, as `[~]` proposed (see `harvest-ideas`).
@@ -38,7 +38,7 @@ Five buckets of proposal:
 - **Preserve the reasoning** behind every proposal, accepted or dismissed.
 - **Never quote a person where the pattern would do.** Brand dreaming stays inside the brand; still, surface the pattern, not the raw private message.
 - **Honor the brand hard rules** on any drafted idea or copy (see `CLAUDE.md` and `running-notes/brand-notes-from-org.md`).
-- **Ground in the vault.** A dream that could have been written without this repo is a failed dream. Load the `creative-strategy-context/` docs per the `CLAUDE.md` routing table before proposing anything creative.
+- **Ground in the vault.** A dream that could have been written without this repo is a failed dream. Load the `parker-system/creative-strategy-context/` docs per the `CLAUDE.md` routing table before proposing anything creative.
 - Self-contained: read only in-repo surfaces and live data. No factory (`parker-brain`) paths at runtime.
 
 ## Note on global product dreaming
