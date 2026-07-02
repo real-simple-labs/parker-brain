@@ -7,7 +7,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
 ## What's in the bundle
 
 - **`claude/`** → stamped to the brand brain's **`.claude/`**. (Named `claude/` without the dot on purpose, so Claude Code does not treat the factory's own template as active config. The runner renames it to `.claude/` on stamp.)
-  - `settings.json` + `hooks/craft-context.py` — the `UserPromptSubmit` craft hook (brand-agnostic). The script injects the live craft catalog from `parker-system/creative-strategy-context/expertise-routing.md` into every turn, with the sources-receipt rule; settings.json wires it up with a static fallback.
+  - `settings.json` + `hooks/craft-context.py` — the `UserPromptSubmit` context hook (brand-agnostic; a Claude Code hook, no relation to ad hooks). The script injects the live craft catalog from `parker-system/creative-strategy-context/expertise-routing.md` into every turn, with the sources-receipt rule; settings.json wires it up with a static fallback.
   - `README.md` — explains the two layers of a routine (job travels in the repo; schedule armed per-account).
   - `skills/` — the bundled skills, self-contained (no `parker-brain/...` paths at runtime). The first four are the scheduled routines; the last two are on-demand helpers:
     - `dream` — daily planning run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).

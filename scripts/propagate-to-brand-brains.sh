@@ -16,7 +16,7 @@
 #   .claude/skills/ (factory craft skills, minus dream) -> .claude/skills/
 #   templates/brand-routines/claude/skills/ (routine skills) -> .claude/skills/
 #   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (added if missing,
-#                                          not update-only: the craft hook is factory-owned
+#                                          not update-only: the context hook is factory-owned
 #                                          machinery and settings.json requires the script)
 #
 # FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
@@ -106,7 +106,7 @@ for repo in "${REPOS[@]}"; do
     # `dream` (the scheduled dreaming run); the routine bundle below owns that one.
     rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/"        "$dir/.claude/skills/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
-    # The craft hook (settings.json + hooks/) is factory-owned runtime machinery with
+    # The context hook (settings.json + hooks/) is factory-owned runtime machinery with
     # no brand-specific content, and settings.json requires hooks/craft-context.py to
     # exist — so these two ship together, added if missing, NOT update-only.
     # Per-instance overrides live in settings.local.json (gitignored), never here.
@@ -132,7 +132,7 @@ for repo in "${REPOS[@]}"; do
       "$FACTORY/global/knowledge/creative-strategy/" "$dir/creative-strategy-context/"
     rsync -a --existing "$FACTORY/system/"                                  "$dir/system/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
-    # Craft hook + settings ship together, added if missing (see the nested branch's
+    # Context hook + settings ship together, added if missing (see the nested branch's
     # note). The hook script finds the flat craft path on its own, so no rewrite needed.
     mkdir -p "$dir/.claude/hooks"
     rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"

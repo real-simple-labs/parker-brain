@@ -1,6 +1,6 @@
 # `.claude/` — the brand brain's routines and config
 
-This directory makes the brand brain **self-running**. Clone this repo into a Claude Code cloud instance and everything here is live immediately — the craft-loading hook, and the standing **routines** (the recurring jobs that keep the brain fresh without being asked each time).
+This directory makes the brand brain **self-running**. Clone this repo into a Claude Code cloud instance and everything here is live immediately — the context hook (which loads the craft catalog every turn), and the standing **routines** (the recurring jobs that keep the brain fresh without being asked each time).
 
 ## The two layers of a routine
 

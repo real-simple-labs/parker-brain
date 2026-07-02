@@ -30,7 +30,7 @@ These live in `parker-v2/` and are copied into the three vault `parker-system/` 
 - **The open-loops generation rubric** — `prompts/_open-loops-core-block.md`, synced into every context-doc prompt; the deeper reasoning is `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`, loaded via expertise-routing.
 - **The generator prompts** — everything under `prompts/`.
 - **The skills** — `.claude/skills/` (the directory Claude Code loads skills from, so they register on clone).
-- **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context, refresh-schedule, brand-rules, and success-definition templates, the brand-notes-from-org and brand-lens templates, the persona and VoC templates, and the brand-routines bundle with its `claude/hooks/craft-context.py` craft hook and `claude/settings.json`).
+- **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context, refresh-schedule, brand-rules, and success-definition templates, the brand-notes-from-org and brand-lens templates, the persona and VoC templates, and the brand-routines bundle with its `claude/hooks/craft-context.py` context hook (the UserPromptSubmit hook that injects the craft catalog every turn; no relation to ad hooks) and `claude/settings.json`).
 
 ## Reference sources (one source, pointed at, never copied inline)
 

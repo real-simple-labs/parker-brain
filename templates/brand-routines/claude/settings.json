@@ -1,5 +1,5 @@
 {
-  "$comment": "Committed project config for the brand brain. Travels with the repo: clone it into a Claude Code cloud instance and the craft-loading hook + routine skills are live immediately. Personal/instance-specific overrides (MCP server connections, model, theme) belong in .claude/settings.local.json, which is gitignored. See .claude/README.md for the full routines model.",
+  "$comment": "Committed project config for the brand brain. Travels with the repo: clone it into a Claude Code cloud instance and the context hook + routine skills are live immediately. Personal/instance-specific overrides (MCP server connections, model, theme) belong in .claude/settings.local.json, which is gitignored. See .claude/README.md for the full routines model.",
   "hooks": {
     "UserPromptSubmit": [
       {
