@@ -143,7 +143,7 @@ Make this a gate, not a footnote: say the above in your own warm words, then **a
 
 ## Setup Status Tracking
 
-Use the `parker_brain_setup` tool (Parker MCP) at every phase boundary. This is the **product-side telemetry** — it powers the team's monitoring page, so the user can see build progress without watching the terminal. It complements, never replaces, the `BUILD-STATUS.md` file below: the status file is the in-repo user-facing ledger and the resume checkpoint; this tool is the hosted view of the same journey. On a resume, the two anchors work together — `parker_config.json` carries the `run_id` for the start call, and the status file's ledger says exactly which prompts are done.
+Use the `update_parker_brain_setup_status` tool (Parker MCP) at every phase boundary. This is the **product-side telemetry** — it powers the team's monitoring page, so the user can see build progress without watching the terminal. It complements, never replaces, the `BUILD-STATUS.md` file below: the status file is the in-repo user-facing ledger and the resume checkpoint; this tool is the hosted view of the same journey. On a resume, the two anchors work together — `parker_config.json` carries the `run_id` for the start call, and the status file's ledger says exactly which prompts are done.
 
 ### Start
 
@@ -155,7 +155,7 @@ Check for `parker_config.json` in the brand repo root.
 - **No file** → omit `run_id`. A new run is always created.
 
 ```
-parker_brain_setup(mode: "start", brand_id, run_id?)
+update_parker_brain_setup_status(mode: "start", brand_id, run_id?)
 ```
 
 - `resumed: false` → fresh run, proceed.
@@ -177,7 +177,7 @@ Then write and commit `parker_config.json` to the repo root with the returned `r
 ### Each Phase — call twice
 
 ```
-parker_brain_setup(mode: "update_phase", brand_id, run_id,
+update_parker_brain_setup_status(mode: "update_phase", brand_id, run_id,
   phase_name, phase_index, phase_status: "in_progress" | "completed" | "failed",
   metadata?, errors?)
 ```
@@ -204,7 +204,7 @@ parker_brain_setup(mode: "update_phase", brand_id, run_id,
 ### Done
 
 ```
-parker_brain_setup(mode: "complete", brand_id, run_id,
+update_parker_brain_setup_status(mode: "complete", brand_id, run_id,
   run_status: "completed" | "failed", github_repo_url?, errors?)
 ```
 
@@ -230,7 +230,7 @@ Update it at every state change: a prompt starts, finishes, fails, or gets block
 
 **The failure policy.** A build that halts silently on one bad call is how a one-hour setup becomes a four-day one. When a tool call or prompt run fails on something transient — a timeout, an empty pull, an API error — retry it once before anything else. A review fail already re-runs once per the review pass above. If something still fails after its retry, mark it `blocked` in the status file with a plain reason, keep building everything that does not depend on it, and collect the blocked items to raise with the user at the next natural pause (a phase boundary or the finish) — never sit waiting mid-build on something the user has not been told about, and never let one blocked doc stop the sixty that do not need it.
 
-**Resuming an interrupted build.** Sessions die, timeouts happen, people close laptops. The prompt ledger makes recovery cheap: on any fresh session where the brand repo has a `BUILD-STATUS.md` that is not marked complete, offer to resume before anything else. To resume, call `parker_brain_setup(mode: "start")` with the `run_id` from `parker_config.json` (see Setup Status Tracking above), then reconcile the ledger against the repo — confirm each `done` prompt's output actually exists on disk (and passed review per the run log), demote anything missing back to `pending` — then continue from the first pending item, in dependency order, updating the ledger as you go. The user should never rebuild finished work, and never have to reconstruct where a dead session left off.
+**Resuming an interrupted build.** Sessions die, timeouts happen, people close laptops. The prompt ledger makes recovery cheap: on any fresh session where the brand repo has a `BUILD-STATUS.md` that is not marked complete, offer to resume before anything else. To resume, call `update_parker_brain_setup_status(mode: "start")` with the `run_id` from `parker_config.json` (see Setup Status Tracking above), then reconcile the ledger against the repo — confirm each `done` prompt's output actually exists on disk (and passed review per the run log), demote anything missing back to `pending` — then continue from the first pending item, in dependency order, updating the ledger as you go. The user should never rebuild finished work, and never have to reconstruct where a dead session left off.
 
 ## Phase 0 — new repo, connect, scaffold, intake, ship the craft, read in
 
