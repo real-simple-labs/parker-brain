@@ -6,7 +6,7 @@ The user-facing front door to all of this is the **`/set-up-brain`** skill — i
 
 Run this inside an interactive Claude session with Parker MCP reachable. Headless is walled off today, so the runner assumes a live session. It assumes no brand-provided inputs are required: every foundation prompt reads from the source itself through Parker MCP, over time, not from a brief the brand hands over. An optional brand intake — the short list of things Parker genuinely cannot observe on its own — sharpens the build when the user provides it, but it is never required and never a gate.
 
-**You are teaching, not only building — but teach at the moments, not in a stream.** Assume the person running this has little sense of what Parker is or how a brand brain works; for many it is the first time they have ever seen anything like it. Teach in plain language at the moments a person is actually listening: the welcome, the intake, each phase opening and closing, and the finish — what you are about to do, why it matters, and what they will have when it is done, in their words and not the system's. Between those moments, the build runs quiet: progress lives in `BUILD-STATUS.md` (the status file section below), not in a stream of step narration nobody reads. Explain the what and the why; keep the machinery (agents, embedded blocks, loops, tiers) out of sight.
+**You are teaching, not only building — but teach at the moments, not in a stream.** Assume the person running this has little sense of what Parker is or how a brand brain works; for many it is the first time they have ever seen anything like it. Teach in plain language at the moments a person is actually listening: the welcome, the intake, each phase opening and closing, and the finish — what you are about to do, why it matters, and what they will have when it is done, in their words and not the system's. Between those moments, the build runs quiet: progress lives in `BUILD-STATUS.md` (the status file section below), not in a stream of step narration nobody reads. Explain the what and the why; keep the machinery (agents, embedded blocks, loops, tiers) out of sight. And signpost the whole way: at every phase boundary and every decision gate, say plainly where they are, what just happened, what's next, and what — if anything — you need from them, so a choice never feels like a surprise or a trap and it always feels safe to ask a question or pause.
 
 ## What this runner produces — the flat standalone layout
 
@@ -33,6 +33,7 @@ The target top-level tree, brand repo root:
   - `parker-system/system/` — the runtime system docs the brain runs on: the tool inventory, the operating model, and the open-loops / refresh / schedules mechanisms. This is the subset of the factory's `system/` the brain actually reads at runtime; the factory-internal docs and the product-architecture map stay behind (a standalone brain's situational awareness is `CLAUDE.md`'s "## The map" plus the vault index in `brand-profile-narrative.md`, not the factory system map).
 - `prompts-run-log/` — the build log.
 - `BUILD-STATUS.md` — the live build ledger, at root only while the build runs; archived into `prompts-run-log/` at completion (see the status file section below).
+- `parker_config.json` — the cross-session resume anchor for setup tracking; written at the end of Phase 0 step 2 (see Setup Status Tracking below).
 
 ### The path map — factory path to flat path
 
@@ -116,6 +117,99 @@ It returns a verdict: **pass**, or **fail** with each gap quoted against the par
 
 This pass is also the standing detector for the shortening problem: if outputs keep failing on "whole sections missing," the orchestrator is still paraphrasing prompts somewhere — tighten the fidelity contract before continuing.
 
+## Open by orienting them — what this is and what's about to happen
+
+The moment the user kicks this off — they paste in a "clone this repo" instruction, or just say "set up my brand" — stop and orient them before you touch anything. Assume they have little idea what this is. A person who doesn't know what's about to happen to their account, their data, or their time does not feel safe, and making this feel easy and safe is half the job. So open warm and plain, in your own words, covering four things and no more:
+
+- **What this is.** They're about to build a *brand brain* — a private, living workspace that reads their actual marketing data (their ad account, their reviews, their customers' own words, their competitors) and turns it into a senior strategist's worth of context that Parker can then think with. Not a chatbot and not a template: their own brand's intelligence, in their own repo, that they own and keep.
+
+- **What's about to happen, in three phases.** Give the trip a shape so nothing feels like a black box. First Parker **learns the brand cold** — the audit, reading the account, reviews, personas, and competitors. Then Parker **decides a point of view** — the strategy: who to target, what to say, what to make. Then Parker **makes the work** — ideas and briefs built off that strategy. Each phase builds on the one before, and they'll watch it happen.
+
+- **Where they're in control.** Name the moments they'll be asked to choose or confirm, so it's obvious nothing big happens without them: the go-ahead to start at all, what to do if the data connection isn't ready, which competitors to use, and the big one — **the strategy roadmap review, at the moment they chose in the intake.** Tell them they can pause, ask questions, or change direction at any point.
+
+- **When it becomes theirs to use.** They get a real, usable brain at the end, saved to their own GitHub, that they open and talk to in plain language — and you'll walk them through exactly how when you get there.
+
+Keep it short and human — a friendly map of the trip, not a wall of text or a contract. The point is that before a single thing runs, they understand what they're setting up, that it's safe, and that they're the one driving. Then move to the heads-up below.
+
+## Before you run it — the heads-up and the go-ahead
+
+Quick, honest heads-up before we dive in, then a real go/no-go. Building a brand brain is a *big* job — Parker reads the whole account, the reviews, the comments, the organic, and the competitors, and writes the entire vault from scratch. All that reading and writing burns a fair amount of usage. No way around it: good context isn't free.
+
+So here's the deal, plainly and with love: we **strongly recommend running this on a Max or 20x Max plan.** On a lighter plan it can absolutely still run — it just might chew through your whole five-hour usage window, and on a heavy build maybe make a dent in the week. We'd rather you know that going in than hit a wall halfway through a persona.
+
+And honestly? It's worth it. It costs what it costs because Parker is doing a real strategist's homework — reading everything, writing it all down, connecting the dots — and that depth is the whole point. It's what takes the AI from "helpful chatbot" to "the strategist who actually knows your brand."
+
+Make this a gate, not a footnote: say the above in your own warm words, then **ask the user to confirm they want to kick off the full build now — through the popup question form, per the standing rule.** If they'd rather wait, switch plans first, or start smaller, that's a perfectly fine answer — offer to pick it back up whenever. Do not start Phase 0 until they've said go.
+
+## Setup Status Tracking
+
+Use the `parker_brain_setup` tool (Parker MCP) at every phase boundary. This is the **product-side telemetry** — it powers the team's monitoring page, so the user can see build progress without watching the terminal. It complements, never replaces, the `BUILD-STATUS.md` file below: the status file is the in-repo user-facing ledger and the resume checkpoint; this tool is the hosted view of the same journey. On a resume, the two anchors work together — `parker_config.json` carries the `run_id` for the start call, and the status file's ledger says exactly which prompts are done.
+
+### Start
+
+On resume, call as soon as the brand repo is open. On a fresh run, call only after Phase 0 creates the repo and locks `brand_id` (steps 1–2 below).
+
+Check for `parker_config.json` in the brand repo root.
+
+- **File exists** → pass its `run_id`. This is the only resume signal.
+- **No file** → omit `run_id`. A new run is always created.
+
+```
+parker_brain_setup(mode: "start", brand_id, run_id?)
+```
+
+- `resumed: false` → fresh run, proceed.
+- `resumed: true` → skip phases ≤ `last_completed_phase_index`. Any phase stuck mid-run has been auto-reset to `failed` — re-run it.
+
+Then write and commit `parker_config.json` to the repo root with the returned `run_id`. This is the cross-session resume anchor — if it is not written before the session ends, the next session cannot resume and will start a new run.
+
+```json
+{
+  "run_id": "",
+  "brand_id": "",
+  "brand_name": "",
+  "github_repo_url": "",
+  "parker_brain_version": "",
+  "created_at": ""
+}
+```
+
+### Each Phase — call twice
+
+```
+parker_brain_setup(mode: "update_phase", brand_id, run_id,
+  phase_name, phase_index, phase_status: "in_progress" | "completed" | "failed",
+  metadata?, errors?)
+```
+
+- `phase_index` starts at 1, increments by 1. **Never reuse an index — upsert will silently overwrite the previous phase record.**
+- Use phase names that match the runner's own section and branch names so tracking is consistent with the build log. Examples: `"Phase 0 — Repo & Scaffold"`, `"Phase 1A — Brand Foundation"`, `"Phase 1B — Competitor Profiles"`, `"Phase 1C — Persona Source Pulls"`, `"Phase 1D — Voice of Customer"`, `"Phase 1E — Audit Baseline"`, `"Phase 1 — Synthesis"`, `"Phase 2 — Strategy Inputs"`, `"Phase 2 — Strategic Roadmap"`, `"Phase 3 — Idea Bank"`, `"Phase 3 — Idea Evaluation"`, `"Phase 3 — Brief Creation"`, `"Stamp Operating Contract"`, `"Verify Build"`, `"Save to GitHub"`, `"Onboarding"`. Add or split as the actual work requires.
+- To retry a failed phase, call again with the same index and `phase_status: "in_progress"`.
+- **Include all errors even if the phase ultimately completed** — non-fatal errors matter for auditing.
+
+**Error shape:**
+
+```json
+{
+  "timestamp": "",
+  "type": "tool_call_failed | mcp_error | github_error | network_error | unknown",
+  "tool": "",
+  "message": "",
+  "raw": {},
+  "attempt": 1,
+  "fatal": false
+}
+```
+
+### Done
+
+```
+parker_brain_setup(mode: "complete", brand_id, run_id,
+  run_status: "completed" | "failed", github_repo_url?, errors?)
+```
+
+**Always call this at the end, success or failure.** If skipped, the run stays `in_progress` forever and the admin sees it as incomplete.
+
 ## The build status file — one page the user watches, one record the build resumes from
 
 A full build is dozens of prompt runs over hours. The person who kicked it off cannot follow that in a terminal transcript, and they should not have to: the honest answer to "where are we and how much is left" must live in one file, always current, written for them. Create **`BUILD-STATUS.md`** at the brand repo root during the Phase 0 scaffold and treat keeping it true as part of every step, as binding as writing the outputs themselves.
@@ -136,7 +230,7 @@ Update it at every state change: a prompt starts, finishes, fails, or gets block
 
 **The failure policy.** A build that halts silently on one bad call is how a one-hour setup becomes a four-day one. When a tool call or prompt run fails on something transient — a timeout, an empty pull, an API error — retry it once before anything else. A review fail already re-runs once per the review pass above. If something still fails after its retry, mark it `blocked` in the status file with a plain reason, keep building everything that does not depend on it, and collect the blocked items to raise with the user at the next natural pause (a phase boundary or the finish) — never sit waiting mid-build on something the user has not been told about, and never let one blocked doc stop the sixty that do not need it.
 
-**Resuming an interrupted build.** Sessions die, timeouts happen, people close laptops. The prompt ledger makes recovery cheap: on any fresh session where the brand repo has a `BUILD-STATUS.md` that is not marked complete, offer to resume before anything else. To resume, reconcile the ledger against the repo — confirm each `done` prompt's output actually exists on disk (and passed review per the run log), demote anything missing back to `pending` — then continue from the first pending item, in dependency order, updating the ledger as you go. The user should never rebuild finished work, and never have to reconstruct where a dead session left off.
+**Resuming an interrupted build.** Sessions die, timeouts happen, people close laptops. The prompt ledger makes recovery cheap: on any fresh session where the brand repo has a `BUILD-STATUS.md` that is not marked complete, offer to resume before anything else. To resume, call `parker_brain_setup(mode: "start")` with the `run_id` from `parker_config.json` (see Setup Status Tracking above), then reconcile the ledger against the repo — confirm each `done` prompt's output actually exists on disk (and passed review per the run log), demote anything missing back to `pending` — then continue from the first pending item, in dependency order, updating the ledger as you go. The user should never rebuild finished work, and never have to reconstruct where a dead session left off.
 
 ## Phase 0 — new repo, connect, scaffold, intake, ship the craft, read in
 
@@ -144,9 +238,9 @@ Do all of this before running a single content prompt.
 
 1. **Stand up the brand's own repository — do not build inside this `parker-brain` clone.** This product brain is the read-only factory teams clone; the brand brain is a **separate, standalone repo for that brand.** Before any of the git mechanics, gauge their GitHub comfort and meet them there: ask how familiar they are with GitHub and git. If they are new to it, slow down and explain in plain terms what a repository is, what cloning means, and why the brand gets its own repo separate from this one, and offer to walk them through each step rather than assuming they can follow a command; if they are fluent, move briskly and skip the explanation. Then confirm with the user where it should live, initialize a new git repo (a new GitHub repo for the brand) distinct from `parker-brain`, and build everything below inside it. Every brand output is committed there, never back into the cloned product brain. The flat standalone layout above is the shape of this new repo.
    - **If they're starting from zero on GitHub**, walk these in order and explain each as you go, rather than assuming any of it is obvious: (1) if they don't have a GitHub account, have them create a free one at github.com; (2) make sure the GitHub CLI is available and signed in — run `gh auth login` and have them follow the browser prompt, since that sign-in is what lets you create and push repos on their behalf; (3) once signed in, *you* create the brand repo for them with `gh repo create <brand>-brain --private`, rather than making them click through the web UI. Default the repo to **private** unless they say otherwise — it holds their brand's data. If they already use GitHub day to day, skip the explanation and go straight to creating the repo.
-2. **Connect and confirm the brand.** Parker MCP must be reachable. Call `get_available_brands`, confirm the right brand with the user, and lock its brand_id. Several brands share a name across orgs, so the id is the anchor for every pull that follows. **If the MCP is not connected** — no brand list, pulls error or return empty — stop and tell the user plainly: the brain cannot be built from the source without a data path. Parker needs some way to reach the ad account, organic socials, reviews, surveys, and the competitor library; the **Parker MCP is the one connection that carries all of it** and is the recommended path, though independent platform exports can feed the same evidence more manually. Do not fabricate a build from general knowledge. The full reminder is in `system/parker-tools.md`.
+2. **Connect and confirm the brand.** Parker MCP must be reachable. Call `get_available_brands`, confirm the right brand with the user, and lock its brand_id. Several brands share a name across orgs, so the id is the anchor for every pull that follows. **If the MCP is not connected or a test fails** — no brand list, pulls error or return empty — don't silently push on, and don't hard-stop either: make it the user's call, as a required choice you wait on, asked through the popup question form. Explain plainly that without the Parker MCP, Parker can't reach the live source — the ad account, organic socials, reviews, surveys, the competitor library — so the build would lean on general knowledge instead of their real data, and **it will not be nearly as good.** Then give them three options and wait for their pick: **(a) pause** here while they set up or connect the MCP, and come back to it; **(b) connect it now**, and you re-run the test and continue; or **(c) continue without it**, understanding the brain will be thin and every claim data-limited until the real data is wired in later. This is a gate — do not proceed past it on your own judgment. The **Parker MCP is the one connection that carries all of it** and is the recommended path, though independent platform exports can feed the same evidence more manually; the full reminder is in `system/parker-tools.md`. Whichever they pick, never fabricate data to fill the gap.
    - **Test the tools, don't just ping them.** Reachable is not the same as operable. Run a quick operability check — a light pull from each major surface (ads, customer reviews, ad comments, organic social, post-purchase surveys, and the competitor library) — to confirm each actually returns data, not merely that the connection is up. A surface that errors or comes back empty now is one that would silently hole the build later, so name it to the user plainly and log it in `running-notes/missing-context.md`. As you run each test, explain in plain language what that tool reaches and why it matters, since the person watching likely has no idea what Parker can see — this is the first place they learn what their brain is made of.
-   - **Check the competitive set is configured.** While you are in the tools, query the Parker competitor library for this brand. If nothing is set up, the competitor branch (B below) has nothing to analyze — tell the user to add their competitors inside the Parker app before that work can run, and explain what a competitor analysis will give them so they see why it is worth doing. They can keep going with the rest of the build; flag the competitor branch as blocked until they have added the set, and pick it up once they have.
+   - **Decide the competitive set with the user — a real choice, not an assumption.** While you are in the tools, query the available database of brands Parker can reach. Parker *can* pick a competitive set from that database on its own, but that's our selection from what happens to be available, not necessarily who the user would name themselves. So preface it honestly and let them choose (through the popup question form): tell them that, left alone, Parker will choose competitors from the brands in our database, and ask whether they would rather **(a) go into the Parker app and add the specific competitors they care about** — the sharper option, since they know their real rivals — or **(b) let Parker pick the set from what's in our database** and move on. Wait for their pick. If they choose to add their own, pause the competitor branch (B below) until they've done it; if they're fine with Parker's selection, note which brands were chosen and why so the choice is visible in the build. Explain what a competitor analysis gives them either way, so the decision feels worth making. The intake in step 4 also captures who they consider real competitors versus inspiration; together these seed `competitors/_competitive-set.md`.
 3. **Scaffold the flat repo.** Create the top-level tree above inside the brand's repo, including `running-notes/`, so the intake in the next step has a home for its answers. Seed `open-loops/`, `hypotheses/`, `validations/`, `re-validations/`, `dreaming/`, `schedules/`, and `workflows/` with their README scaffolds so the living layers have a home before they fill; `personas/sources/` needs no README. Create `BUILD-STATUS.md` now too, per the status file section above, with the full prompt ledger laid out as `pending` — and show the user where it lives: this is the one page that always says where the build is, what is done, and what is left, so they never have to scroll the chat to find out.
 4. **Run the brand intake — capture what only they can tell you (optional, never a gate).** Now that the brand is connected and the repo is scaffolded with somewhere to store the answers, and before the slow craft copy in the next step, capture the short list of things Parker genuinely cannot figure out on its own. Everything Parker *can* observe — what's running, what converts, who actually buys, what customers say — it discovers from the data and should never ask for. This intake is only the un-observable: the brand's own intent, definitions, and rules. It is **optional and skippable.** If the user would rather just build, capture nothing, log the unanswered items to `running-notes/missing-context.md`, and let every prompt run as normal. The intake makes the build sharper; it is never a prerequisite.
 
