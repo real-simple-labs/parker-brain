@@ -57,7 +57,7 @@ parker/
 │                   ├── [YYYY-MM]-monthly.md
 │                   └── [YYYY]-yearly.md
 │
-├── z-brands/                                         ← Per-brand context (the heavy half)
+├── z-brands/                                         ← Per-brand context (the heavy half). This per-brand tree is the buildable CORE, not a closed set: a standing brain grows new first-class surfaces (email, SEO, PR, support, whatever the org connects) per system/growing-the-brain.md
 │   └── [brand-id]/
 │       │
 │       ├── brand-profile.md                        ← MAIN — narrative synthesis of foundation
@@ -114,7 +114,8 @@ parker/
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
 │       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
-│       │   ├── settings.json                        ← the craft-loading UserPromptSubmit hook
+│       │   ├── settings.json                        ← the craft UserPromptSubmit hook (wires hooks/craft-context.py)
+│       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained, no factory paths at runtime)
 │       │

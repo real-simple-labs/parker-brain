@@ -15,7 +15,8 @@ So the work is fully pre-built and version-controlled; the clock gets armed **on
 
 ## What's here
 
-- **`settings.json`** — committed project config. The `UserPromptSubmit` hook injects the standing reminder to load `parker-system/creative-strategy-context/` before answering any creative-strategy question. Travels with the repo.
+- **`settings.json`** — committed project config. The `UserPromptSubmit` hook runs `hooks/craft-context.py`, which injects the actual craft catalog (the DOC-MAP table from `parker-system/creative-strategy-context/expertise-routing.md`) into every turn, plus the standing rules: load the method docs the question touches, close substantive answers with a Sources list, and treat a creative answer whose sources name no method doc as under-retrieved. A menu in front of the planner beats a reminder to go find one. Travels with the repo; falls back to a plain pointer if the catalog file is missing.
+- **`hooks/craft-context.py`** — the small script behind that hook. Reads the generated DOC-MAP section live, so the injected catalog stays current as method docs are added.
 - **`skills/`** — `.claude/skills/` is where Claude Code loads skills from, so **all** of the brain's skills live here. Alongside the routines listed below sit the **craft skills** (scriptwriting, hooks, headlines, iterations, ad-account-analysis, ai-ad-generation, the open-loops pipeline, and the rest), copied in during onboarding so the brand `CLAUDE.md` can route execution through `.claude/skills/<skill>/` and they register the moment the brain is cloned. The routines, each a self-contained skill (invoke as `/refresh-context`, `/dream`, etc.):
   - `refresh-context` — re-runs stale context docs on cadence.
   - `dream` — daily dreaming run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
