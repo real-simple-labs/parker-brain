@@ -153,7 +153,7 @@ Do all of this before running a single content prompt.
 
    **Move through it as one flowing conversation with a thread, not a random grab-bag.** Go in the order below, which builds from the big picture down to the details: first what success even means for this brand, then how they measure it, then how the account and the work are organized, then the market, then the close. Group each cluster into a single batch, name the thread as you move between clusters so it reads as a logical progression. If they defer an item ("I'll share it later"), note it as pending in `missing-context.md` and move on — do not re-ask the same item later in the session.
 
-   **On format: use the pick-card whenever there's a set to choose from; only otherwise go one at a time.** A multiple-choice card with a few related questions in it is the cleanest way to answer, so use it for every question that has natural options — the whole "what success means" cluster is a card, and so is confirming the real competitors from the set already tracked in the account (present the tracked brands as a multi-select). Do not abandon the card format partway through and switch to an open prose list of questions; that reads as a wall and loses the clean feel. For the genuinely open-ended items that have nothing to pick from — pasting a naming-convention doc, pasting a brief template, the unit-economics figures, and the closing gap question — ask them **one at a time, a single question per message**, so each gets its own focus, rather than bundling several into one block.
+   **On format: use the multiple-choice card whenever there's a set to choose from; only otherwise go one at a time.** A card with a few related questions in it is the easiest way to answer, so use it for every question that has natural options — the whole "what success means" cluster is a card, and so is confirming the real competitors from the set already tracked in the account (present the tracked brands as a multi-select). Do not abandon the card format partway through and switch to an open prose list of questions; that reads as a wall. For the genuinely open-ended items that have nothing to pick from — pasting a naming-convention doc, pasting a brief template, the unit-economics figures, and the closing gap question — ask them **one at a time, a single question per message**, so each gets its own focus, rather than bundling several into one block.
 
    **First, what success means for this brand** — the lens every later read runs through:
    - **Their main business objective right now** — scale acquisition, improve efficiency, launch a product, hit a revenue target, or improve retention. → `running-notes/success-definition.md`
@@ -220,7 +220,7 @@ Run the four strategy inputs first, each resolving its territory's Phase-1 evide
 Only once the roadmap is the agreed direction. The judgment runs as three prompts on one spine:
 
 1. `brand-idea-bank` — capture the pile, transferred verbatim, ungraded.
-2. `idea-evaluation` — grade the whole pile against the approved roadmap into a ranked shortlist plus a brief-first handoff.
+2. `idea-evaluation` — grade the whole pile against the approved roadmap into a ranked shortlist, naming which ideas go to briefs first.
 3. `brief-creation` — build the shortlist's top picks into concepts with variations, creator direction, and the three validations.
 
 ## Stamp the operating contract

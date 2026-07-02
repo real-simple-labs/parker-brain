@@ -174,6 +174,11 @@ AI closes with "Don't wait. Order yours today and experience the difference!" Re
 - WRONG (AI): "Don't wait — transform your wardrobe today!"
 - RIGHT: "with free shipping, exchanges and returns, there's really nothing to lose. I promise you once you try it, you won't want to go back." A promise and a risk reversal, in a friend's voice.
 
+### Tell 11: The invented hyphenated compound
+AI coins modifiers by jamming two words together with a hyphen: compounds nobody has ever said out loud, minted on the spot to sound precise. The craft's real compounds are fine because they are shared vocabulary a strategist actually says: thumb-stop, problem-solution, direct-to-consumer. The tell is the coinage. If you have never heard a person say it, do not write it.
+- WRONG (AI): "A conversion-ready close with a premium-feel finish and a trust-first tone."
+- RIGHT: "It ends by asking for the sale, it looks expensive, and it earns the trust before it asks." Plain words in plain sentences, no minted compounds.
+
 ---
 
 ## Part 3: The spoken-register rules
