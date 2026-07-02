@@ -79,6 +79,8 @@ parker/
 │       │   ├── brand-notes-from-org.md             ← Narrative summary of the 5 below
 │       │   ├── current-work.md
 │       │   ├── org-and-usage.md
+│       │   ├── missing-context.md                  ← the running list of what the brand has not yet told us
+│       │   ├── refresh-schedule.md                 ← aggregated freshness view (see loading sequence above)
 │       │   ├── success-definition.md
 │       │   ├── brand-rules.md
 │       │   └── recent-validations.md

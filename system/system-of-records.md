@@ -26,11 +26,11 @@ These are kept in step by `scripts/sync-open-loops-core.py`. Each has a source f
 These live in `parker-v2/` and are copied into the three vault `parker-system/` trees and into `parker-brain/` when they change. They have no marker enforcement, so they are the highest-drift surface and the audit checks them by content comparison.
 
 - **The reasoning and method layer** — `global/knowledge/creative-strategy/` (the method docs, `expertise-routing.md`, `spoken-script-voice.md`, `visual-vocabulary-method.md`, and the brand lens overlays). In `parker-brain` these live under `global/knowledge/creative-strategy/`.
-- **The system layer** — `system/` (`open-loops-system.md`, `parker-system-map.md`, `master-file-structure.md`, `master-prompt-review.md`, `attribution-principle.md`, `three-phase-operating-model.md`, and this doc).
+- **The system layer** — `system/` (`open-loops-system.md`, `parker-system-map.md`, `master-file-structure.md`, `master-prompt-review.md`, `attribution-principle.md`, `three-phase-operating-model.md`, `parker-tools.md`, `refresh-cadence.md`, `schedules.md`, `growing-the-brain.md`, and this doc). The last four also ship into every brand brain as runtime docs per the onboarding runner's system ship list.
 - **The open-loops generation rubric** — `prompts/_open-loops-core-block.md`, synced into every context-doc prompt; the deeper reasoning is `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`, loaded via expertise-routing.
 - **The generator prompts** — everything under `prompts/`.
 - **The skills** — `.claude/skills/` (the directory Claude Code loads skills from, so they register on clone).
-- **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context template, the persona and VoC templates).
+- **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context, refresh-schedule, brand-rules, and success-definition templates, the brand-notes-from-org and brand-lens templates, the persona and VoC templates, and the brand-routines bundle with its `claude/hooks/craft-context.py` craft hook and `claude/settings.json`).
 
 ## Reference sources (one source, pointed at, never copied inline)
 

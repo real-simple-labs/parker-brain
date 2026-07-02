@@ -13,7 +13,13 @@ import json
 import re
 from pathlib import Path
 
-ROUTING = Path("parker-system/creative-strategy-context/expertise-routing.md")
+# Nested layout keeps the craft layer under parker-system/; legacy flat brains
+# keep it at the repo root. Check both so the same script works in either.
+_CANDIDATES = [
+    Path("parker-system/creative-strategy-context/expertise-routing.md"),
+    Path("creative-strategy-context/expertise-routing.md"),
+]
+ROUTING = next((p for p in _CANDIDATES if p.exists()), _CANDIDATES[0])
 
 INSTRUCTION = (
     "The base Claude harness knows nothing about creative strategy, so assume your own "
@@ -40,7 +46,7 @@ def catalog() -> str:
         if m:
             return (
                 "\n\nThe craft catalog (generated from expertise-routing.md; "
-                "paths are relative to parker-system/creative-strategy-context/):\n"
+                f"paths are relative to {ROUTING.parent}/):\n"
                 + m.group(1).strip()
             )
     except OSError:

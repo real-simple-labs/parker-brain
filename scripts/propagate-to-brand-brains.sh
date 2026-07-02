@@ -15,12 +15,20 @@
 #   global/knowledge/creative-strategy/ -> parker-system/creative-strategy-context/
 #   .claude/skills/ (factory craft skills, minus dream) -> .claude/skills/
 #   templates/brand-routines/claude/skills/ (routine skills) -> .claude/skills/
+#   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (added if missing,
+#                                          not update-only: the craft hook is factory-owned
+#                                          machinery and settings.json requires the script)
 #
 # FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
 #   global/knowledge/creative-strategy/ -> creative-strategy-context/
 #   system/                             -> system/  (runtime subset only; --existing
 #                                          never adds the factory-internal docs)
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
+#   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (same as nested)
+#
+# DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs a
+# standing brain should gain are named explicitly in each branch (currently:
+# system/growing-the-brain.md). Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
@@ -98,6 +106,16 @@ for repo in "${REPOS[@]}"; do
     # `dream` (the scheduled dreaming run); the routine bundle below owns that one.
     rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/"        "$dir/.claude/skills/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
+    # The craft hook (settings.json + hooks/) is factory-owned runtime machinery with
+    # no brand-specific content, and settings.json requires hooks/craft-context.py to
+    # exist — so these two ship together, added if missing, NOT update-only.
+    # Per-instance overrides live in settings.local.json (gitignored), never here.
+    mkdir -p "$dir/.claude/hooks"
+    rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
+    rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # Deliberate adds: genuinely-new runtime system docs a standing brain SHOULD gain.
+    # --existing above never adds files, so each new doc is named here once.
+    cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -114,6 +132,14 @@ for repo in "${REPOS[@]}"; do
       "$FACTORY/global/knowledge/creative-strategy/" "$dir/creative-strategy-context/"
     rsync -a --existing "$FACTORY/system/"                                  "$dir/system/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
+    # Craft hook + settings ship together, added if missing (see the nested branch's
+    # note). The hook script finds the flat craft path on its own, so no rewrite needed.
+    mkdir -p "$dir/.claude/hooks"
+    rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
+    rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # Deliberate adds (same list as the nested branch). Flat path normalization below
+    # rewrites their nested-layout references.
+    cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
@@ -133,7 +159,11 @@ for repo in "${REPOS[@]}"; do
   # reference resolves. (Nested brains keep parker-system/ as-is, so this is flat-only.)
   if [ "$layout" = flat ]; then
     LC_ALL=C find "$dir/system" -name '*.md' -type f \
-      -exec sed -i '' 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' {} + 2>/dev/null || true
+      -exec sed -i '' \
+        -e 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' \
+        -e 's#parker-system/creative-strategy-context/#creative-strategy-context/#g' \
+        -e 's#parker-system/system/#system/#g' \
+        {} + 2>/dev/null || true
     if [ -f "$dir/CLAUDE.md" ]; then
       # Skills live in .claude/skills/ in the current template (the only dir Claude Code
       # loads from), so the template's .claude/skills/<skill>/ path needs no rewrite here.
