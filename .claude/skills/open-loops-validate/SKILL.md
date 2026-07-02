@@ -22,7 +22,7 @@ This is the final stage of the loop-to-validation chain: **roll-up promotes → 
 
 ## What you are working from
 
-The four states, re-validation, and the file system are defined in `system/open-loops-system.md` — read it before resolving anything. The hypothesis doc carries the prediction, the plan, and the evidence bar that was set before any research ran; that bar is the standard you resolve against. When the plan works a source through a method — a review mine, an ad-library read, an organic read — load the method doc `global/knowledge/creative-strategy/expertise-routing.md` names for it, and run the source the way that method says to. Every tool the plan calls must be one Parker can actually pull, per `system/parker-tools.md`.
+The four states, re-validation, and the file system are defined in `parker-system/system/open-loops-system.md` — read it before resolving anything. The hypothesis doc carries the prediction, the plan, and the evidence bar that was set before any research ran; that bar is the standard you resolve against. When the plan works a source through a method — a review mine, an ad-library read, an organic read — load the method doc `parker-system/creative-strategy-context/expertise-routing.md` names for it, and run the source the way that method says to. Every tool the plan calls must be one Parker can actually pull, per `parker-system/system/parker-tools.md`.
 
 ## How this skill runs
 

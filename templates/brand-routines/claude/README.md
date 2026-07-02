@@ -22,7 +22,8 @@ So the work is fully pre-built and version-controlled; the clock gets armed **on
   - `dream` — daily dreaming run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
   - `harvest-ideas` — weekly agentic idea capture into the idea bank.
   - `evaluate-ideas` — ranks the idea bank against the strategic roadmap.
-  - `self-improve` — weekly curation, governs dreaming proposals, advances open loops, runs due re-validations.
+  - `research-loops` — the weekly research cycle: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with what was found.
+  - `self-improve` — weekly curation; governs dreaming and research proposals with the human in the loop.
   - `setup-routines` — one-time helper to register the cron schedules in a fresh instance.
   - `get-started` — the first-run walkthrough: teaches a new user what the brain knows, how to use it (you just talk to it), and the one best first move, grounded in the brand's own data. On-demand, re-runnable, and offered proactively on a fresh brain. Not a scheduled routine.
 - **`settings.local.json`** (gitignored, you create it) — instance-specific overrides: MCP server connections, model, theme. **Do not commit secrets or MCP connections** — those are per-instance.

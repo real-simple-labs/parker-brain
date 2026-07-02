@@ -11,7 +11,8 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
   - `README.md` — explains the two layers of a routine (job travels in the repo; schedule armed per-account).
   - `skills/` — the bundled skills, self-contained (no `parker-brain/...` paths at runtime). The first four are the scheduled routines; the last two are on-demand helpers:
     - `dream` — daily planning run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
-    - `self-improve` — weekly executing pass: disposes dreaming proposals, runs the open-loop roll-up → hypotheses, runs due re-validations.
+    - `self-improve` — weekly governing pass: curates traces, disposes dreaming and research proposals with the human in the loop.
+    - `research-loops` — the weekly research cycle: rolls up the open loops, advances promoted ones into hypotheses, runs the validations and due re-validations, and aligns the standing docs with the confirmed findings.
     - `harvest-ideas` → `evaluate-ideas` — the weekly idea cycle (capture verbatim, then grade against the roadmap).
     - `refresh-context` — re-runs docs past their `refresh_by`.
     - `setup-routines` — one-time installer that arms the cron schedules in a fresh instance.
