@@ -51,7 +51,7 @@ Only once the roadmap is the agreed direction.
 Phase 3's judgment runs as three prompts on one spine — capture, then evaluate, then build — and the split is deliberate: capture stays generous because grading happens later, separately, so the bar never quietly suppresses what gets logged.
 
 13. **brand-idea-bank** (`prompts/ideas-and-briefs/brand-idea-bank.md`) — the brand's always-on idea memory. Capture runs continuously through everything Parker does, not only here, and it transfers each idea across verbatim rather than summarizing it.
-14. **idea-evaluation** (`prompts/ideas-and-briefs/idea-evaluation.md`) — grade the whole captured pile against the approved roadmap: the priority each idea serves, the lever it pulls, its evidence band confidence-first, and the roads-not-taken kill list. Output is a ranked shortlist plus a brief-first handoff, written to `z-brands/[brand]/idea-bank/evaluation-[YYYY-MM-DD].md`.
+14. **idea-evaluation** (`prompts/ideas-and-briefs/idea-evaluation.md`) — grade the whole captured pile against the approved roadmap: the priority each idea serves, the lever it pulls, its evidence band confidence-first, and the roads-not-taken kill list. Output is a ranked shortlist naming which ideas go to briefs first, written to `z-brands/[brand]/idea-bank/evaluation-[YYYY-MM-DD].md`.
 15. **brief-creation** (`prompts/ideas-and-briefs/brief-creation.md`) — take the shortlist's top picks and promote each into a concept, its two or three variations, and the creator direction, each carrying its three validations: account data, in-the-wild inspo, and the strategy tie to the roadmap. Output to `z-brands/[brand]/briefs/`.
 
 ## Baseline at cold start, then ongoing
