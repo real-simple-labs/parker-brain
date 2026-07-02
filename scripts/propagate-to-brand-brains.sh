@@ -26,9 +26,10 @@
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
 #   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (same as nested)
 #
-# DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs a
-# standing brain should gain are named explicitly in each branch (currently:
-# system/growing-the-brain.md). Add new ones there when the runtime ship list grows.
+# DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs,
+# routine skills, and schedule recipes a standing brain should gain are named explicitly
+# in each branch (currently: system/growing-the-brain.md, the research-loops skill and
+# its schedule recipe). Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
@@ -113,9 +114,11 @@ for repo in "${REPOS[@]}"; do
     mkdir -p "$dir/.claude/hooks"
     rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
     rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
-    # Deliberate adds: genuinely-new runtime system docs a standing brain SHOULD gain.
-    # --existing above never adds files, so each new doc is named here once.
+    # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
+    # SHOULD gain. --existing above never adds files, so each is named here once.
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -138,8 +141,10 @@ for repo in "${REPOS[@]}"; do
     rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
     rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
     # Deliberate adds (same list as the nested branch). Flat path normalization below
-    # rewrites their nested-layout references.
+    # rewrites the system docs' nested-layout references.
     cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
