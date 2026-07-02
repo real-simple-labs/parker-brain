@@ -119,7 +119,7 @@ parker/
 │       │   ├── settings.json                        ← the craft UserPromptSubmit hook (wires hooks/craft-context.py)
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,research-loops,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained, no factory paths at runtime)
+│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained, no factory paths at runtime)
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis

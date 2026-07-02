@@ -1,0 +1,52 @@
+---
+name: update-brain
+description: The weekly check that keeps this brain current with the parker-brain standard — without overriding anything the team chose. Compares the brain against the latest factory (new method docs, new skills, new prompts, updated system docs) and against its own canonical build (standing docs that were never generated), then offers each gap as a choice, never a silent change. What the team declines stays declined; what they modified stays theirs. Use weekly as a scheduled routine, or when asked to update the brain, check for updates, sync with the standard, or "what's new in Parker".
+---
+
+# Update brain — offer the current standard, never impose it
+
+The factory keeps improving after a brain ships: new method docs, sharper skills, new prompts, new system machinery. And a brain's own build can have holes — a source pull that never ran, a doc a dead session skipped. Left alone, both kinds of gap are invisible: the freshness system re-runs what is stale but cannot see what is missing, and a brain never learns the factory grew. This routine is the eyes for both — it finds every gap between this brain and the current standard, and turns each one into an offer.
+
+**The one rule that governs everything here: offer, never override.** This brain belongs to the team. A doc they deleted was deleted for a reason. A skill they modified is theirs now. A gap they declined to fill last month is a decision, not an oversight. This routine's job is to make sure they always have the *opportunity* to take what's new and fill what's missing — and to remember their answers so it never nags. Nothing is ever applied, overwritten, or regenerated without their yes.
+
+## When it runs
+
+**Weekly** as a scheduled routine, early Monday, so the week starts with the offer list ready. Also runnable on demand whenever someone asks what's new or wants to bring the brain up to the standard.
+
+## The two comparisons
+
+### 1. The brain vs the current factory — what's new in the standard
+
+Fetch the latest `parker-brain` factory (shallow clone of the repo this brain was built from; the remote is recorded in `running-notes/standard-sync.md`, and if it isn't reachable, say so plainly and stop — never guess at what the standard contains). Compare the methodology layers only — the generating prompts, the craft knowledge in `creative-strategy-context/`, the runtime system docs, the skills, and the synced blocks in `CLAUDE.md` — and sort every difference into three honest piles:
+
+- **New in the factory, absent here** — a method doc, skill, prompt, or system doc the factory added since this brain shipped. These are the main offers: name each, say in one plain line what it does and why the factory added it, and offer to bring it in.
+- **Changed in the factory, unmodified here** — the brain's copy matches an older factory version. Offer the refresh; this is the safe pile, since the team never touched theirs.
+- **Changed here, by the team** — the brain's copy differs from every factory version because the team edited it. **Theirs wins, full stop.** Surface it once as a note ("your scriptwriting skill has local changes; the factory version also moved — want to see what changed there?") and never offer it again unless the factory ships something newer still. The brand lens, `expert-insights/`, and everything outside the methodology layers are never even compared — they are brand property, invisible to this routine.
+
+### 2. The brain vs its own canonical build — what was never generated
+
+Walk the generating prompts the brain ships in `parker-system/prompts/` against the standing docs actually on disk, using the build's own path map (shipped inert in `parker-system/prompts/onboarding-runner.md`). Every prompt whose standing output does not exist at its flat path is a hole the freshness system cannot see — a persona source pull that never ran, a sub-context slice a dead session skipped, a VoC category that came back empty and was never retried. For each, offer to generate it now, running the prompt in full through the brain's own methodology, exactly as a build would have. A doc the team deliberately deleted lands here too — which is why this is an offer with a memory, not an auto-repair.
+
+## The memory — decline once, not weekly
+
+`running-notes/standard-sync.md` is this routine's ledger: the factory remote, the factory version last compared against, and every offer with its answer — taken (and when), declined (and why, when they gave a reason), or deferred. A declined offer is not raised again unless the factory version of that item has changed since the decline. This is what makes the routine a colleague and not a nag: it remembers what the team already said.
+
+## How the offers land
+
+- **In an interactive run**, present the offer list through the popup question form — grouped sensibly (new craft, changed docs, missing outputs), each with take / decline / show-me-more choices — and apply what they take on the spot: copy the factory items in, run the generating prompts for the missing docs, stamp everything with its source and date, update `refresh-schedule.md` and any affected INDEX in the same pass.
+- **In a scheduled run with nobody there**, apply nothing. Write the offer list to the ledger, note it in the digest, and let the next conversation (or the user's tap) carry the decisions. The Monday morning message is "here's what's new in the standard and what your brain is missing — want any of it?", never "here's what I changed."
+- **Either way, the digest is plain:** what's new and why it matters, what's missing and what it would add, what was declined before and stayed declined. In Parker's voice, sized to what's actually there — a week with nothing new is one line, not a report.
+
+## Hard rules
+
+- **Offer, never override.** Nothing is copied, regenerated, or edited without the user's explicit yes, in any mode. No exceptions, including "obviously safe" ones.
+- **The team's changes always win.** A locally modified file is surfaced once and left alone. Deleted is a decision. The brand lens and expert-insights are never compared, never offered against.
+- **Remember the answers.** The ledger is read before any offer is made; a declined item stays quiet until the factory moves again.
+- **Generate, don't fabricate.** A missing standing doc is filled by running its own generating prompt in full — never by writing a summary that looks like one.
+- **Methodology comes from the factory; brand truth comes from the brand.** This routine copies method and generates outputs from data. It never invents brand content to fill a hole.
+- Ask through the popup question form whenever a run needs the user; a question in plain chat strands the routine.
+- Honor the brand hard rules on anything regenerated.
+
+## Deliverable
+
+A brain whose owner always knows exactly how it differs from the current standard — every gap offered with a plain reason, every taken item applied cleanly with provenance and fresh stamps, every declined item remembered — and a `running-notes/standard-sync.md` ledger that carries the whole history of what was offered and what the team chose.

@@ -13,13 +13,14 @@ Schedules act on the **refresh cadence**, not instead of it: each doc stamps a `
 
 ## The standing routines
 
-Five routines ship with this brain (jobs committed and live; cron not yet armed — run `/setup-routines` once per instance to register them):
+Six routines ship with this brain (jobs committed and live; cron not yet armed — run `/setup-routines` once per instance to register them):
 
 - **`dream.md`** — daily, 05:00. Runs `/dream` over the day's comms → five-bucket proposals.
 - **`research-loops.md`** — weekly, Wed 06:00. Runs `/research-loops`: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with the findings.
 - **`self-improve.md`** — weekly, Fri 16:00. Runs `/self-improve`: curates traces, disposes dreaming and research proposals.
 - **`ideas-weekly.md`** — weekly, Mon 07:00. Runs `/harvest-ideas` then `/evaluate-ideas`.
 - **`refresh-context.md`** — weekly, Mon 06:00. Runs `/refresh-context` over docs past their `refresh_by`.
+- **`update-brain.md`** — weekly, Mon 05:30. Runs `/update-brain`: compares the brain against the current factory standard and its own canonical build, and writes the offer list — never applies without the user.
 
 ## The runner
 

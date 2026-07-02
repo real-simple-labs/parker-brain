@@ -19,6 +19,7 @@ So the work is fully pre-built and version-controlled; the clock gets armed **on
 - **`hooks/craft-context.py`** — the small script behind that hook. Reads the generated DOC-MAP section live, so the injected catalog stays current as method docs are added.
 - **`skills/`** — `.claude/skills/` is where Claude Code loads skills from, so **all** of the brain's skills live here. Alongside the routines listed below sit the **craft skills** (scriptwriting, hooks, headlines, iterations, ad-account-analysis, ai-ad-generation, the open-loops pipeline, and the rest), copied in during onboarding so the brand `CLAUDE.md` can route execution through `.claude/skills/<skill>/` and they register the moment the brain is cloned. The routines, each a self-contained skill (invoke as `/refresh-context`, `/dream`, etc.):
   - `refresh-context` — re-runs stale context docs on cadence.
+  - `update-brain` — weekly standard check against the factory and the brain's own canonical build; offers gaps, never overrides, remembers declines.
   - `dream` — daily dreaming run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
   - `harvest-ideas` — weekly agentic idea capture into the idea bank.
   - `evaluate-ideas` — ranks the idea bank against the strategic roadmap.

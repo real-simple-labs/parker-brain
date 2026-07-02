@@ -1,11 +1,11 @@
 ---
 name: setup-routines
-description: One-time setup for a fresh brand brain instance. Registers the standing routines (refresh-context, dream, harvest+evaluate ideas, research-loops, self-improve) as scheduled cloud agents so they run on cadence without being asked. The job definitions already travel with this repo; this skill arms the schedules, which are per-account and can't be committed. Run once after cloning the brain into a new Claude Code cloud instance, or when asked to set up / register / schedule the routines.
+description: One-time setup for a fresh brand brain instance. Registers the standing routines (refresh-context, dream, harvest+evaluate ideas, research-loops, update-brain, self-improve) as scheduled cloud agents so they run on cadence without being asked. The job definitions already travel with this repo; this skill arms the schedules, which are per-account and can't be committed. Run once after cloning the brain into a new Claude Code cloud instance, or when asked to set up / register / schedule the routines.
 ---
 
 # Setup routines — arm the schedules (run once per instance)
 
-The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them once for this instance.
+The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them once for this instance.
 
 ## How it works
 
@@ -21,6 +21,7 @@ Before registering, confirm with the user: their timezone, and that the instance
 | Dreaming | `/dream` | Daily | 05:00 daily |
 | Idea cycle | `/harvest-ideas` then `/evaluate-ideas` | Weekly | Mon 07:00 |
 | Research cycle | `/research-loops` | Weekly | Wed 06:00 |
+| Standard updates | `/update-brain` | Weekly | Mon 05:30 |
 | Self-improvement | `/self-improve` | Weekly | Fri 16:00 |
 
 Times are suggestions — confirm against the user's timezone and working rhythm. Dreaming runs earliest so its proposals are ready for a morning suggestion; the research cycle runs mid-week so Monday's refresh feeds it and its findings are fresh for Friday; self-improve runs end-of-week so it can dispose of the week's dreaming and research proposals and freshly captured traces.
@@ -28,7 +29,7 @@ Times are suggestions — confirm against the user's timezone and working rhythm
 ## Steps
 
 1. **Confirm prerequisites** — timezone, connected MCP/web tools, and that the user wants all four (or a subset).
-2. **Register each routine** via `/schedule`, one per row above (all five). The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
+2. **Register each routine** via `/schedule`, one per row above (all six). The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
 3. **Verify** — list the scheduled routines back to the user with their next-run times, and confirm each points at the right skill.
 4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active), so the schedule doc reflects reality.
 

@@ -28,8 +28,8 @@
 #
 # DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs,
 # routine skills, and schedule recipes a standing brain should gain are named explicitly
-# in each branch (currently: system/growing-the-brain.md, the research-loops skill and
-# its schedule recipe). Add new ones there when the runtime ship list grows.
+# in each branch (currently: system/growing-the-brain.md, the research-loops and
+# update-brain skills and their schedule recipes). Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
@@ -119,6 +119,8 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -145,6 +147,8 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
+    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
+    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
