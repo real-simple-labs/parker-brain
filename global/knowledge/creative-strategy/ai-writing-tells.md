@@ -82,7 +82,7 @@ The question form deserves its own name because it is one of the biggest tells: 
 
 ### 9. Sycophancy and throat-clearing
 
-Openers that praise the premise or restate the brief before saying anything: "Great question," "In today's fast-paced world," "When it comes to comfort." The first line of any creative deliverable is the most expensive real estate it has; a throat-clear spends it on nothing. Related: the "whether you're a busy mom or a weekend athlete" audience-enumeration, which names everyone and lands with no one.
+Openers that praise the premise or restate the brief before saying anything: "Great question," "In today's fast-paced world," "When it comes to comfort." The first line of any creative deliverable is the most expensive real estate it has; a throat-clear spends it on nothing. Related: the "whether you're a busy mom or a weekend athlete" audience-enumeration, which names everyone and lands with no one. And the **manufactured-intimacy opener** — "Okay, can I be real for a second?" "Can I be honest with you?" "Let me be real." "Real talk." — performed vulnerability that asks permission to be authentic instead of just being it. It shows up on AI-written hooks constantly; a real person opens on the confession, not the request to make one. (Spoken treatment: Tell 13 in `spoken-script-voice.md`.)
 
 ### 10. Elegant variation
 
