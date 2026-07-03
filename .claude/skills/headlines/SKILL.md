@@ -26,13 +26,13 @@ This skill writes headlines for static ads, video text overlays, landing page he
 
 ## What you are working from
 
-Headlines run on the canonical methods. Before writing, load what `global/knowledge/creative-strategy/expertise-routing.md` names for headline generation: `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by the brand's positioning; `spoken-script-voice.md`, whose AI-tells list applies to headlines too; and `visual-vocabulary-method.md` where the headline sits on a static. The running corpus and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
+Headlines run on the canonical methods. Before writing, load what `global/knowledge/creative-strategy/expertise-routing.md` names for headline generation: `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by the brand's positioning; `spoken-script-voice.md`, whose AI-tells list applies to headlines too; `ai-writing-tells.md`, the written-slop signs that are the primary check for headline copy; and `visual-vocabulary-method.md` where the headline sits on a static. The running corpus and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
 
 `lifestyle-headline-generator.md` and `problem-solution-headline-writer.md` are the source of truth for the structural patterns, their named structures, and the proven-example library. The structural-pattern process files under `processes/` carry the execution playbook for each pattern — when to pick it, how to run it, what never to do — and point back to the canonical doc for the structures and examples rather than re-listing them. When the canonical library changes, the patterns inherit it. The AI-tells the candidates are read against are the canonical list in `spoken-script-voice.md`, not a copy held here.
 
 ## How this skill runs
 
-1. **Load brand context.** Brand voice, ICP, voice of customer, compliance, customer language pulled from reviews.
+1. **Load brand context — strategy first.** The brand's committed strategy (`strategy/` — the working thesis, the roadmap's messaging and persona calls) is the frame the headlines execute inside; read it before writing, and check the idea bank (`idea-bank/`, including evaluated ideas) for an entry this request should execute from. Then brand voice, ICP, voice of customer, compliance, customer language pulled from reviews. A request that cuts against the committed strategy is surfaced with the conflict named, not silently executed; a brain without `strategy/` or an idea bank yet gets one line saying so.
 
 2. **Build the headline baseline first.** Before writing anything, pull the brand's RUNNING headline corpus — the ad_title, headline, and text_hook fields from the account's top spenders and top performers. What already wins in this account is the baseline. Adaptation of a proven structure beats invention. Run `processes/build-headline-baseline.md` to group the running headlines into families and read performance against them. Then pull the rival headlines captured in the vault — the claim a competitor cannot make is an angle. This study step is mandatory. Generated headlines that were never measured against what actually runs sound AI-written.
 
@@ -50,7 +50,11 @@ Headlines run on the canonical methods. Before writing, load what `global/knowle
 
 9. **Run the headline quality checklist** before output.
 
-10. **Format output per the structure below.**
+10. **Run the grounding review gate.** Spawn the `context-grounding-review` agent (defined at `.claude/agents/context-grounding-review.md`) with the user's task, the candidate set, the brain root, and the list of tool pulls made this session. It runs `scripts/grounding-check.py` and independently derives what should have been loaded and pulled — the running-corpus pull behind the baseline is the one it will always check — then diffs that against the evidence. A `bounced` verdict means re-pull and regenerate the affected candidates. This gate runs before the voice gate because its verdict changes content, not lines. And every bounce gets captured through `self-improvement-intake` as a one-line reasoning trace — the task shape plus the loads or pulls that were missed — so the routing layer learns from the catch instead of re-making the same mistake for the gate to re-catch.
+
+11. **Run the voice review gate.** Spawn the `creative-voice-review` agent (defined at `.claude/agents/creative-voice-review.md`) on the finished candidate set, handing it the headlines, the headline fingerprint from the baseline, and the deliverable type. The agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass per `ai-writing-tells.md` — independently, in a context that did not write the candidates. Apply its rewrites and re-run until the verdict is `ships`. A flag that conflicts with a review verbatim or the running corpus keeps the source, with the reason carried into the Voice Review block.
+
+12. **Format output per the structure below.**
 
 ## Output structure
 
@@ -76,11 +80,21 @@ Two-to-four sentences naming the winning headlines this set was built against �
 - **What I avoided:** compliance walls, forbidden terms, marketing voice, testimonial-trap phrasing.
 - **Why this fits:** two-to-four sentences on the brand's current creative moment.
 
+### Grounding Review
+
+The grounding gate's receipt, required on every set: the `context-grounding-review` verdict, one or two plain sentences on what it checked (the corpus pull behind the baseline, verbatims traced, sources resolved), and — if it bounced — what was re-pulled and regenerated before re-shipping. A set missing this block did not pass the gate.
+
+### Voice Review
+
+The gate's receipt, required on every set: the `creative-voice-review` verdict, the lint density before and after, one or two plain sentences on what was flagged and fixed, and any flag kept with its reason — a review verbatim, or a pattern the running corpus genuinely uses. A set missing this block did not pass the gate.
+
 ## Hard rules
 
 - **Study the running corpus first.** Never write a headline before pulling what the account already runs. The winning headlines are the baseline. Adapting a proven structure to a new angle beats inventing a structure that has never been measured here.
 - **Read every candidate against the corpus, out loud.** If the corpus sounds like a person talking and the candidate sounds like a brand talking, the candidate loses. The corpus is the bar, not a generic notion of good copy.
 - **No AI-tells.** Read every candidate against the canonical AI-tells list in `spoken-script-voice.md` — it applies to headlines, not just scripts. The winning corpus is blunt, short, and specific; whatever the corpus never does is forbidden too. The tells that surface most in generated headlines are the colon-summary cadence where an abstract noun is restated, the "Discover/Unlock/Elevate/Transform" verb openers when the brand never uses them, balanced rule-of-three triads invented for rhythm, hedge phrases like "say goodbye to" or "the secret to," dictionary words where the brand uses slang, and the marketing abstraction standing in for the named thing. Match the brand's actual register, not a polished version of it.
+- **No headline set ships bounced.** The independent `context-grounding-review` agent verifies the set was built from the right method docs, the real running corpus, and traced customer language — a headline whose source traces to nothing is fabrication, not a candidate. A bounce means re-pull and regenerate; its verdict appears in the Grounding Review block.
+- **No headline set ships without a clean `creative-voice-review` pass.** The independent agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass against `ai-writing-tells.md`; its verdict and the before/after lint density appear in the Voice Review block. Self-review does not substitute — the reviewer must not be the writer.
 - **Under 10 words.** Always. If it can be shorter, make it shorter.
 - **Specific ICP + specific emotion.** Every headline targets a specific person feeling a specific emotion. Generic headlines fail.
 - **Customer language only.** No marketing voice, no dictionary words. Read it out loud — would the actual customer say this to a friend?

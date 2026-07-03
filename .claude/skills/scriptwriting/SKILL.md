@@ -52,6 +52,8 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
 2. **Build or load the brand script-voice profile, load brand context, and load hook context.** Always. Run build-brand-voice-profile for the voice fingerprint; load the brand profile, ICP, personas, voice of customer, compliance, hook strategy, shared hook doctrine, and the brand's latest hook audit or hook history. These are foundational.
 
+   **And load the strategy first, above all of it.** The brand's committed strategy — `strategy/`, the working thesis, the strategic roadmap, the who/what/say/show calls — is the high-level frame every tactical choice sits inside; read it before deciding what to write. Then the idea bank (`idea-bank/`, including its evaluated ideas) as the baseline of what's worth executing: a script request that matches an idea-bank entry executes from that entry, carrying its source examples and reasoning, instead of re-inventing the concept cold. A request that cuts against the committed strategy is surfaced to the user with the conflict named, not silently executed. If the brain has no `strategy/` or idea bank yet, say so in one line and proceed from brand context.
+
 3. **For reference-driven adaptation:** find-reference-ads → adapt-existing-script. find-reference-ads pulls in source order — brand's own account, then captured vault competitor/inspo, then niche organic, then global DB.
 
 4. **For net-new:** pick the right framework process — problem/solution, story-arc, VSL, awareness-staged, style-based, sophistication-matched, emotional-depth.
@@ -60,7 +62,11 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
 6. **Run the script quality audit** before output, including the spoken-script-voice check — every script passes the AI-tells check in `creative-strategy-context/spoken-script-voice.md` and the read-aloud test.
 
-7. **Format output per the structure below.**
+7. **Run the grounding review gate.** Spawn the `context-grounding-review` agent (defined at `.claude/agents/context-grounding-review.md`) with the user's task, the draft, the brain root, and the list of tool pulls made this session. It runs `scripts/grounding-check.py` and independently derives what should have been loaded and pulled for this task, then diffs that against the evidence in the draft. A `bounced` verdict means re-pull and regenerate the affected parts — never annotate around a bounce. This gate runs before the voice gate because its verdict changes content, not lines. And every bounce gets captured through `self-improvement-intake` as a one-line reasoning trace — the task shape plus the loads or pulls that were missed — so the routing layer learns from the catch instead of re-making the same mistake for the gate to re-catch.
+
+8. **Run the voice review gate.** Spawn the `creative-voice-review` agent (defined at `.claude/agents/creative-voice-review.md`) on the finished draft, handing it the script, the brand voice profile, and the deliverable type. The agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass per `ai-writing-tells.md` and `spoken-script-voice.md` — independently, in a context that did not write the draft. Apply its rewrites and re-run until the verdict is `ships`. If a flag conflicts with sourced customer language or the reference's structure, keep the source and carry the reason into the Voice Review block.
+
+9. **Format output per the structure below.**
 
 ## Output structure
 
@@ -98,13 +104,21 @@ Every beat's visual direction sources from the brand's visual vocabulary doc at 
 - **What I avoided:** compliance walls, forbidden terms, marketing voice.
 - **Why this fits:** two-to-four sentences on the brand's current creative moment.
 
+### Grounding Review
+
+The grounding gate's receipt, required on every script: the `context-grounding-review` verdict, one or two plain sentences on what it checked (verbatims traced, sources resolved, loads and pulls evidenced), and — if it bounced — what was re-pulled and regenerated before re-shipping. A script missing this block did not pass the gate.
+
+### Voice Review
+
+The gate's receipt, required on every script: the `creative-voice-review` verdict, the lint density before and after, one or two plain sentences on what was flagged and fixed, and any flag kept with its reason — a customer verbatim, or a pattern the brand's own winners genuinely use. A script missing this block did not pass the gate.
+
 ## Output contract precedence
 
 The output structure above governs every path in this skill. `creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
 
 ## Two gates before any script gets written
 
-**The idea gate.** Nobody just writes a script. A script request starts with the read: what is working in the account right now, what competitors are running, what the customer keeps saying. The idea comes out of that read, and the first thing the output says, in plain language, is why this script and why now. If the reasoning cannot be stated in two sentences a brand founder would follow, the idea is not ready.
+**The idea gate.** Nobody just writes a script. A script request starts with the read: the brand's committed strategy and idea bank first, then what is working in the account right now, what competitors are running, what the customer keeps saying. The idea comes out of that read, and the first thing the output says, in plain language, is why this script and why now — naming the idea-bank entry it executes when there is one. If the reasoning cannot be stated in two sentences a brand founder would follow, the idea is not ready.
 
 **The format gate.** The format is a decision, not a default. Before choosing, pull the account's current format performance: which formats carry spend, which are winning right now, which the brand has proven it can produce. The chosen format carries its reasoning from that evidence. Choosing a format because it is the easiest one to write is banned. Choosing it because the account's current winners prove the lane, and the script's talent and tone fit it, is a decision, and the output states that reasoning in plain terms.
 
@@ -112,9 +126,11 @@ The output structure above governs every path in this skill. `creative-strategy-
 
 - **Adaptation by default.** Scripts are adaptations by default because AI cannot write good net-new — left to invent cold, it produces clean, written-sounding, AI-tell-ridden copy that dies when read aloud. Reference-driven adaptation is the path; net-new is the rare fallback.
 - **Voice audit before output.** Every script passes the spoken-script-voice.md AI-tells check and the read-aloud test before it ships. No em-dash cadence, no smooth triplets, no "it's not just X it's Y," no signposted transitions, no over-clean grammar, no abstractions where a body part or named thing belongs. Read it out loud — if it sounds like an ad, it has a tell; cut it to plain speech.
+- **No script ships bounced.** The independent `context-grounding-review` agent verifies the script was built from the right method docs, brand context, and data pulls — verbatims trace, cited sources exist, the loaded docs' vocabulary shows in the work. A bounce means re-pull and regenerate; its verdict appears in the Grounding Review block. Claimed sources are not proof — evidence is.
+- **No script ships without a clean `creative-voice-review` pass.** The independent agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass against `ai-writing-tells.md`; its verdict and the before/after lint density appear in the Voice Review block. Self-review does not substitute — the reviewer must not be the writer.
 - **Brand voice profile loaded.** Always. Build or load the brand script-voice profile. The brand's own winning scripts are the voice fingerprint Parker matches to — pacing, diction, signature moves, CTA shape, and the banned-by-absence list.
 - **Cold-audience first.** Assume no one knows or cares about the brand. Cold-focused scripts work for both cold and warm; warm-focused never scale.
-- **Customer language only.** Source from real reviews, comments, surveys. No dictionary words. Read it out loud — would the audience actually say this?
+- **Customer language only — voiced, not pasted.** Source from real reviews, comments, surveys. No dictionary words. Written sources arrive in written register: keep the customer's exact vocabulary but re-cadence the line for the mouth with in-register disfluencies, per the written-vs-spoken rule in `spoken-script-voice.md` — nobody says their own review. The exact written verbatim lands in the Script Brief's VoC phrases so provenance holds; the script line is its voiced adaptation. Read it out loud — would the audience actually say this?
 - **Clarity over cleverness.** Fifth-grade reading level. Short sentences. Remove filler.
 - **Emotion first, logic second.** Persuasion is emotional. Logic justifies.
 - **Hook is the gate.** 80% of energy on the first 3 seconds.

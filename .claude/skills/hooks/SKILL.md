@@ -30,7 +30,7 @@ Division of labor: `hooks.md` is the reference taxonomy and examples (what the f
 
 ## How this skill runs
 
-1. **Load brand context.** Brand voice, ICP, personas, voice of customer, compliance, current creative challenges, what has been tested. No output without this loaded.
+1. **Load brand context — strategy first.** The brand's committed strategy (`strategy/` — the working thesis, the roadmap's persona and messaging calls) frames which hooks are even in play; read it before writing, and check the idea bank (`idea-bank/`, including evaluated ideas) for an entry this request should execute from, carrying its reasoning. Then brand voice, ICP, personas, voice of customer, compliance, current creative challenges, what has been tested. No output without this loaded. A request that cuts against the committed strategy is surfaced with the conflict named, not silently executed; a brain without `strategy/` or an idea bank yet gets one line saying so.
 
 2. **Identify ICP and emotion first.** Before picking any format, name the specific person and the specific emotion the hook will activate. If those cannot be named, the hook will be generic. This is a gate — if ICP and emotion are not clear from brand context, ask before proceeding.
 
@@ -42,7 +42,11 @@ Division of labor: `hooks.md` is the reference taxonomy and examples (what the f
 
 6. **Run the must-haves check.** Every hook must pass relevance, clear promise, zero confusion, emotional targeting, and native format.
 
-7. **Format output per the structure below.**
+7. **Run the grounding review gate.** Spawn the `context-grounding-review` agent (defined at `.claude/agents/context-grounding-review.md`) with the user's task, the hook set, the brain root, and the list of tool pulls made this session. It runs `scripts/grounding-check.py` and independently derives what should have been loaded and pulled — the taxonomy vocabulary, the ICP and VoC behind each hook's language — then diffs that against the evidence. A `bounced` verdict means re-pull and regenerate the affected hooks. This gate runs before the voice gate because its verdict changes content, not lines. And every bounce gets captured through `self-improvement-intake` as a one-line reasoning trace — the task shape plus the loads or pulls that were missed — so the routing layer learns from the catch instead of re-making the same mistake for the gate to re-catch.
+
+8. **Run the voice review gate.** Spawn the `creative-voice-review` agent (defined at `.claude/agents/creative-voice-review.md`) on the finished hook set, handing it the exact text overlays and spoken lines, the brand voice profile if one exists, and the deliverable type. The agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass per `ai-writing-tells.md` — and `spoken-script-voice.md` for the spoken lines — independently, in a context that did not write them. Apply its rewrites and re-run until the verdict is `ships`. A flag that conflicts with sourced customer language keeps the source, with the reason carried into the Voice Review block.
+
+9. **Format output per the structure below.**
 
 ## Output structure
 
@@ -63,6 +67,14 @@ Division of labor: `hooks.md` is the reference taxonomy and examples (what the f
 - **What I avoided:** compliance walls, forbidden terms, off-brand voice.
 - **Why this fits:** two-to-four sentences on why these hooks match the brand's current moment.
 
+### Grounding Review
+
+The grounding gate's receipt, required on every set: the `context-grounding-review` verdict, one or two plain sentences on what it checked (taxonomy vocabulary evidenced, verbatims traced, ICP and VoC behind each hook), and — if it bounced — what was re-pulled and regenerated before re-shipping. A set missing this block did not pass the gate.
+
+### Voice Review
+
+The gate's receipt, required on every set: the `creative-voice-review` verdict, the lint density before and after, one or two plain sentences on what was flagged and fixed, and any flag kept with its reason — a customer verbatim, or a pattern the brand's own winners genuinely use. A set missing this block did not pass the gate.
+
 ## Hard rules
 
 - **ICP + emotion first, always.** Every hook is targeted to a specific person feeling a specific emotion. Generic hooks fail.
@@ -73,8 +85,10 @@ Division of labor: `hooks.md` is the reference taxonomy and examples (what the f
 - **Hook is not product intro.** Hooks set up the conflict, the curiosity, or the qualification. The product introduction comes later.
 - **Relevance over raw attention.** Wrong-audience attention is wasted spend. Qualifying the right person in frame one is more valuable than stopping every scroll.
 - **Native format.** Every hook must pass the "would this live on the organic feed" test. 2022-era ad styling is dead.
-- **Source the customer language from real reviews and comments.** Never write hooks in marketing voice.
+- **Source the customer language from real reviews and comments.** Never write hooks in marketing voice. And match the register to the surface: a written verbatim ships as-is in a text overlay, but a *spoken* hook line voiced from a review keeps the customer's words and gets re-cadenced for the mouth, per the written-vs-spoken rule in `spoken-script-voice.md`.
 - **Compliance walls apply.** Forbidden terms remain forbidden in hooks. Push back, explain, offer compliant alternatives.
 - **No predicted metric improvements.** Never claim "this hook will improve hook rate by X%."
 - **Match pacing to audience age.** Under 30 → cut every 2-3 seconds. 30-50 → 3-4 seconds. Over 50 → 3-5 seconds. Total ad length roughly matches age range.
 - **No fabricated stats or claims** in hook copy. Every claim traces to verified data.
+- **No hook set ships bounced.** The independent `context-grounding-review` agent verifies the hooks were built from the real taxonomy, the brand's actual ICP and customer language, and traced sources — a hook set that never speaks the taxonomy's language proves the method was never opened. A bounce means re-pull and regenerate; its verdict appears in the Grounding Review block.
+- **No hook set ships without a clean `creative-voice-review` pass.** The independent agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass against `ai-writing-tells.md`; its verdict and the before/after lint density appear in the Voice Review block. Self-review does not substitute — the reviewer must not be the writer.
