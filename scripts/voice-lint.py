@@ -109,6 +109,18 @@ PATTERNS = [
         r"array)|provides?\s+an?\s+(range|variety|seamless|unmatched)|"
         r"delivers?\s+(unmatched|unparalleled|exceptional))", re.I),
      "'features/offers/delivers a' where 'is/has' belongs"),
+    ("manufactured-intimacy opener", re.compile(
+        r"\b(can\s+i\s+be\s+(real|honest|straight|100)"
+        r"(\s+with\s+you)?(\s+for\s+a\s+(sec|second|minute))?"
+        r"|let\s+me\s+be\s+(real|honest|straight)"
+        r"|can\s+we\s+be\s+(real|honest)"
+        r"|let\s+me\s+keep\s+it\s+(real|100|a\s+hundred)"
+        r"|keeping\s+it\s+(real|100)"
+        r"|i'?m(a|\s+gonna)?\s+be\s+(real|honest)\s+with\s+you"
+        r"|real\s+talk)\b", re.I),
+     "manufactured-intimacy opener — performed vulnerability that asks "
+     "permission to be real instead of just being it; open on the actual "
+     "confession, not the request to make one"),
     ("rhetorical self-question", re.compile(
         r"(\b(sound\s+familiar|crazy,?\s+right|guess\s+what|"
         r"you\s+know\s+what('?s)?\s+(crazy|wild|funny)|"

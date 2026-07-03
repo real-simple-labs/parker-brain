@@ -186,6 +186,11 @@ AI coins modifiers by jamming two words together with a hyphen: compounds nobody
 - WRONG (AI): "A conversion-ready close with a premium-feel finish and a trust-first tone."
 - RIGHT: "It ends by asking for the sale, it looks expensive, and it earns the trust before it asks." Plain words in plain sentences, no minted compounds.
 
+### Tell 13: The manufactured-intimacy opener
+AI loves to open a hook by asking permission to be honest — "Okay, can I be real for a second?" "Can I be honest with you?" "Let me be real." "Real talk." It is performed vulnerability: a formula that announces authenticity instead of just being authentic, and it shows up on AI-written hooks constantly. A real person doesn't ask to be real, they just say the thing. It is a cousin of the rhetorical self-question (Tell 11) — a question the speaker asks and never waits on — with a fake-confession coat. Cut the wind-up and open on the actual confession or the actual stakes.
+- WRONG (AI): "Okay, can I be real for a second? These are the only jeans I've worn in a month."
+- RIGHT: "I've worn these same jeans every day for a month. My wife's starting to worry." The realness is in the specific admission, not the request to make one.
+
 ---
 
 ## Part 3: The spoken-register rules
