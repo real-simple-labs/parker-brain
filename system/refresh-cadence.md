@@ -23,6 +23,8 @@ This is the file Parker actually watches. On load, Parker reads the schedule, co
 
 On-load checking covers the weeks someone uses the brain. For the weeks nobody opens it, a **refresh-sweep schedule** runs the same check unattended: it reads this schedule on a clock, finds what is overdue, and re-runs the generating prompt. Schedules are the repo-native cron layer that keeps the brain alive when no one is typing — the refresh sweep is one of them. See `system/schedules.md`.
 
+The schedule is a live view of *what is due*; it does not record *what was done*. That history lives in `running-notes/routine-log.md`, the append-only ledger every standing routine writes one entry to on each run. Two different files: the schedule is overwritten as dates move, the log is only ever appended to, so it is the durable record of whether the weekly sweep actually fired and what it touched.
+
 ## The cadence by doc type
 
 These are the dials. Tune them here; the prompts read the cadence from this doc.

@@ -43,6 +43,7 @@ A doc can be stale while its own date is fine, because what it was built *from* 
 6. **Update the schedule line** for every doc re-run, so `refresh-schedule.md` stays a true aggregate. When a re-run materially changed the read, note that on the line — it is the signal the phase-spine walk reads next cycle to decide whether downstream docs cascade.
 7. **Refresh the folder indexes.** If a refresh added, removed, or materially changed a competitor profile or an audit, regenerate that folder's `INDEX.md` (`competitors/INDEX.md`, `audits/INDEX.md`) — one line per doc, filename plus what it is, newest audit noted as the present tense. These are the generated maps the always-loaded `brand-profile.md` points to so the planner can see everything in the growing folders without the one-pager enumerating it. Keep them in sync with the folder; they are pointers, never restated findings.
 8. **Close the loop.** If a refresh surfaced something new — a shift the old read missed — capture it as an open loop in `open-loops/` for the next roll-up, and note any idea worth keeping for `harvest-ideas`.
+9. **Log the run.** Prepend one entry to `running-notes/routine-log.md` (create it from `parker-system/templates/routine-log-template.md` if it does not exist yet): the date and time, `refresh-context`, whether the run was scheduled or manual, what was checked (docs against `refresh_by` plus the phase spine), what was re-run and re-stamped, what was left fresh, and anything surfaced. This is the append-only history — never overwrite it, and never overwrite the due-date view in `refresh-schedule.md` with it; they are two different files. It is what proves the weekly routine actually fired and what it did each week.
 
 ## Hard rules
 
@@ -56,4 +57,4 @@ A doc can be stale while its own date is fine, because what it was built *from* 
 
 ## Deliverable
 
-The due docs re-run and re-stamped, `running-notes/refresh-schedule.md` updated, and a short report of what was refreshed, what was left (and why) — separating date-overdue from stale-by-dependency — and any open loops or ideas the refresh surfaced.
+The due docs re-run and re-stamped, `running-notes/refresh-schedule.md` updated, one entry appended to `running-notes/routine-log.md`, and a short report of what was refreshed, what was left (and why) — separating date-overdue from stale-by-dependency — and any open loops or ideas the refresh surfaced.
