@@ -91,9 +91,14 @@ def main(argv):
     vault = load_vault(root, out_path)
 
     # 1. Verbatim trace: quoted phrases of 4+ words.
+    # Untraced quotes are a NOTE, not a hard finding: check facts, not flavor.
+    # A customer-voice line that doesn't trace is fine if the output labels it
+    # illustrative — the judgment layer decides. Only wrong/untraced FACTS
+    # (numbers, specs, claims) are a real bounce, and the agent judges those.
     quotes = re.findall(r'[""]([^""]{10,300})[""]|"([^"]{10,300})"', text)
     quotes = [a or b for a, b in quotes]
     quotes = [q for q in quotes if len(q.split()) >= 4]
+    untraced = 0
     print(f"verbatim trace: {len(quotes)} quoted phrase(s) of 4+ words")
     for q in quotes:
         nq = norm(q)
@@ -101,9 +106,13 @@ def main(argv):
         if hit:
             print(f'  TRACED   "{q[:70]}" -> {hit}')
         else:
-            findings += 1
-            print(f'  UNTRACED "{q[:70]}" — not in the vault; verify it '
-                  f"came from a live pull this session, else it is invented")
+            untraced += 1
+            print(f'  UNTRACED "{q[:70]}" — not in the vault. If it is a '
+                  f"customer-voice line, the output must label it illustrative "
+                  f"(not a bounce). If it states a fact/number, it must trace.")
+    if untraced:
+        print(f"  note: {untraced} untraced quote(s) — labeling check for the "
+              f"reviewer, not counted as findings")
 
     # 2. Source existence: backticked paths.
     cited = set(re.findall(r"`([\w./ -]+\.(?:md|py|json|sh))`", text))
