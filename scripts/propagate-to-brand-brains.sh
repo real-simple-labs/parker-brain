@@ -120,6 +120,7 @@ for repo in "${REPOS[@]}"; do
     # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
     # SHOULD gain. --existing above never adds files, so each is named here once.
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
+    cp -n "$FACTORY/templates/routine-log-template.md" "$ps/templates/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
