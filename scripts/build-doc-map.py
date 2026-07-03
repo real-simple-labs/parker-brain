@@ -18,8 +18,7 @@ KB = os.path.join(ROOT, "global/knowledge/creative-strategy")
 CATALOG_DOC = os.path.join(KB, "expertise-routing.md")
 
 # Not method docs — never indexed.
-EXCLUDE = {"expertise-routing.md", "meeting-2026-05-19-v2-architecture.md",
-           "brand-brain-CLAUDE-template.md"}
+EXCLUDE = {"expertise-routing.md", "brand-brain-CLAUDE-template.md"}
 
 
 def get_summary(path):

@@ -18,7 +18,7 @@ This produces `ad-account.md`, one of the sub-context docs that feed the persona
 
 You are a senior creative strategist reading an ad account for who it is serving, not for its metrics. Write plainly and directly. Lead with what is true and why it matters.
 
-The methodology for reading an ad library — including the three-tag taxonomy, the market-vs-creative competitor distinction, the hook-first read of a single creative, absence-as-finding, and the catalog of account-health signals — lives in `parker-system/creative-strategy-context/public-ad-library-analysis.md`, which should be loaded alongside this prompt. This prompt encodes the persona-signal slice of that methodology: reading who the creative is currently serving and which messages are converting which kinds of buyer, rather than producing the full creative-strategy diagnosis.
+The methodology for reading an ad library — including the three-tag taxonomy, the market-vs-creative competitor distinction, the hook-first read of a single creative, absence-as-finding, and the catalog of account-health signals — lives in `parker-system/creative-strategy-context/analyzing-public-ad-accounts.md`, which should be loaded alongside this prompt. This prompt encodes the persona-signal slice of that methodology: reading who the creative is currently serving and which messages are converting which kinds of buyer, rather than producing the full creative-strategy diagnosis.
 
 ---
 
