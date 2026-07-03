@@ -13,7 +13,7 @@ Schedules act on the **refresh cadence**, not instead of it: each doc stamps a `
 
 ## The standing routines
 
-Six routines ship with this brain (jobs committed and live; cron not yet armed — run `/setup-routines` once per instance to register them):
+Six routines ship with this brain (jobs committed and live; the build arms the cron automatically at its stamp step — a brain cloned onto a *new* instance arrives un-armed, since schedules are per-account, so run `/setup-routines` there to register them):
 
 - **`dream.md`** — daily, 05:00. Runs `/dream` over the day's comms → five-bucket proposals.
 - **`research-loops.md`** — weekly, Wed 06:00. Runs `/research-loops`: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with the findings.

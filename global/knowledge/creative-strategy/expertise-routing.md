@@ -16,16 +16,16 @@ How to use it:
 
 Many of these docs end with a required sign-off line ("This is everything I know about X"). That stamp is a proof-of-read: if you used a doc, its sign-off must appear. A missing sign-off on a doc the question clearly needed is a tell that you skipped the read.
 
-**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog), `meeting-2026-05-19-v2-architecture.md` (a historical meeting note), `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
+**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog), `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
 
 <!-- DOC-MAP:START -->
 | Doc | What it is |
 |---|---|
-| `ad-account-analysis-method.md` | The step-by-step method for working through an own-account performance read or audit. |
 | `ad-account-analysis.md` | How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. |
 | `adapting-scripts.md` | The method for adapting an existing video or script (such as a breakout organic) into a new ad. |
 | `ai-static-ad-generation.md` | How to generate AI static image ads — prompt construction for static creative. |
 | `ai-writing-tells.md` | The written AI-slop signs — vocabulary, rhetoric, and formatting tells that mark generated copy — and the lint-then-judge review every creative deliverable passes before it ships. |
+| `analyzing-public-ad-accounts.md` | How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
 | `customer-review-mining-method.md` | How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates. |
@@ -41,7 +41,6 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
 | `problem-solution-video-ad-formats.md` | The library of video ad formats for problem-solution-positioned brands. |
-| `public-ad-library-analysis.md` | How to read a competitor's public ad library — impression-rank as a proxy, volume/recency/variant reading, the library-vs-live-spend distinction. |
 | `scriptwriting.md` | The scriptwriting craft for ads — cold-audience acquisition principles and how to build a script. |
 | `selecting-ads-to-iterate-on.md` | The method for choosing which ads are worth iterating on — spend-in-context, run time, the breakdown effect, slow-burners vs high-risers, 60-day trends. |
 | `spoken-script-voice.md` | The doctrine of human-sounding ad scripts and the brand voice-profile method, plus the AI-tells audit run on every draft. |
@@ -83,13 +82,13 @@ Visual-vocabulary generation — building the brand's `sub-context-docs/visual-v
 - `visual-vocabulary-method.md` — the canonical method: in-play/adjacent/out-of-play classification, the script-congruence and format-dependence rules
 - `ad-formats/` — the format taxonomy the visual grammar is read against
 - `hooks.md` — the opener taxonomy, so visual hooks are named
-- `public-ad-library-analysis.md` — for the rival visual reads that source adjacent and out-of-play candidates
+- `analyzing-public-ad-accounts.md` — for the rival visual reads that source adjacent and out-of-play candidates
 - `organic-social-analysis.md` — for the brand's own organic, where in-play and adjacent shots are seen
 
 ## Competitor and external reads
 
 Competitor ad-account evaluations, creative landscape, top-impressions reports, single-competitor ad analysis, external 90-day audits:
-- `public-ad-library-analysis.md` — the canonical rival-library method: impression-rank as proxy, volume/recency/variant reading, library-vs-live-spend distinction
+- `analyzing-public-ad-accounts.md` — the canonical rival-library method: impression-rank as proxy, volume/recency/variant reading, library-vs-live-spend distinction
 - `hooks.md`, `ad-formats/`
 - `killer-performance-ads.md` — the bar for judging what a rival's winner actually is
 
@@ -170,7 +169,7 @@ Creator and talent strategy input — who should be on screen:
 - `ad-account-analysis.md` — so spend, delivery, frequency, and performance are read as Meta account behavior
 - `andromeda-v2.md` — so creator and talent choices are read as creative-diversity signals, not only representation or credibility
 - `visual-vocabulary-method.md` — so on-screen people, settings, proof moves, and first-frame visuals are reconstructed rather than labeled
-- `public-ad-library-analysis.md` — so competitor talent reads use rival library evidence correctly
+- `analyzing-public-ad-accounts.md` — so competitor talent reads use rival library evidence correctly
 
 ## The test
 

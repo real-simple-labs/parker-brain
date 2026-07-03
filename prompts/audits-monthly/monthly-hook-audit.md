@@ -58,10 +58,10 @@ Do not compress the external sections into a pattern read when source examples e
 
 Before drafting, load:
 
-- `parker-system/creative-strategy-context/public-ad-library-analysis.md`
+- `parker-system/creative-strategy-context/analyzing-public-ad-accounts.md`
 - `parker-system/prompts/_notion-ai-tagging-and-foundational-context.md`
 
-Use `parker-system/creative-strategy-context/public-ad-library-analysis.md` as the paid-creative reasoning layer for this audit.
+Use `parker-system/creative-strategy-context/analyzing-public-ad-accounts.md` as the paid-creative reasoning layer for this audit.
 
 Use `_notion-ai-tagging-and-foundational-context.md` as a supporting analysis-discipline layer. Its main purpose in this audit is to remind you what information Parker gets from videos and account reads: exact script, on-screen text, first frame, pacing, movement, viewer state, emotional pressure, audience, and promo or launch context. This is not a creative-diversity audit. Do not over-index on ad-format classification, format gaps, or format tallies.
 
@@ -173,7 +173,7 @@ Pull from every source. The job is breadth.
 
 **The hook-performance standard.** This audit judges hooks by spend plus hook rate. Spend shows the account gave the hook a real chance or is still trusting it. Hook rate shows whether the first three seconds are stopping people. ROAS, CPA, and conversion can explain why the full ad is not working, but they do not make a high-hook-rate opener a bad hook.
 
-Use `parker-system/creative-strategy-context/public-ad-library-analysis.md` to keep this read grounded. The lenses differ by where the ad lives. For the brand's own account, spend is visible through logged-in access — a top-spend hook says the account is trusting it. For external libraries there is no spend; top-by-impressions, days-active, and most-recent are the available lenses, and impressions is a proxy for spend, not a substitute. A high-hook-rate hook says the first three seconds are doing their job. A recent cluster of near-duplicates can mean a test in progress or a winner being milked. Do not collapse those into one generic "winner" or "loser" label, and do not infer spend for an external library.
+Use `parker-system/creative-strategy-context/analyzing-public-ad-accounts.md` to keep this read grounded. The lenses differ by where the ad lives. For the brand's own account, spend is visible through logged-in access — a top-spend hook says the account is trusting it. For external libraries there is no spend; top-by-impressions, days-active, and most-recent are the available lenses, and impressions is a proxy for spend, not a substitute. A high-hook-rate hook says the first three seconds are doing their job. A recent cluster of near-duplicates can mean a test in progress or a winner being milked. Do not collapse those into one generic "winner" or "loser" label, and do not infer spend for an external library.
 
 Before a hook enters the weak-hook section, separate four possibilities:
 - **True weak hook.** The opening line or frame had enough spend and delivery to read, and the hook rate itself was weak against the brand's baseline or against a close control.
@@ -234,7 +234,7 @@ This is the proven set of psychological frameworks for opening an ad. Use it as 
 
 ## Execution
 
-**Step one — pull the source inputs.** Brand-profile, user-profile, ideas doc, brand hook history, prior month's hook audit, and `parker-system/creative-strategy-context/public-ad-library-analysis.md`. Confirm the competitor set, affinity-brand set, and inspo-brand set.
+**Step one — pull the source inputs.** Brand-profile, user-profile, ideas doc, brand hook history, prior month's hook audit, and `parker-system/creative-strategy-context/analyzing-public-ad-accounts.md`. Confirm the competitor set, affinity-brand set, and inspo-brand set.
 
 **Step two — capture brand hooks in use.** Every active paid ad and every recent organic first frame. Exact opening line, vivid first-three-seconds scene description, awareness stage where known, exact-hook usage count to date, trajectory.
 
@@ -265,7 +265,7 @@ doc: monthly-hook-audit
 month: YYYY-MM
 generated_on: YYYY-MM-DD
 sources_read: [brand ad account, brand organic first frames, brand hook history, competitor ad libraries, affinity-brand sources, inspo-brand sources, recent niche organic — as applicable]
-knowledge_docs_read: [parker-system/creative-strategy-context/public-ad-library-analysis.md]
+knowledge_docs_read: [parker-system/creative-strategy-context/analyzing-public-ad-accounts.md]
 ai_tagging_docs_read: [prompts/_notion-ai-tagging-and-foundational-context.md]
 taxonomy_version: 20-hook-formats-plus-additions
 competitors_pulled_this_cycle: []

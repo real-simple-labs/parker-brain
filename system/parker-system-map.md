@@ -261,7 +261,7 @@ The prompts that generate the brand surfaces above. Prompts produce context. The
 
 Methodology documents that govern how Parker reads the brand surfaces.
 
-- `global/knowledge/creative-strategy/public-ad-library-analysis.md` — the canonical read on how to analyze a Meta ad account
+- `global/knowledge/creative-strategy/analyzing-public-ad-accounts.md` — the canonical read on how to analyze public ad accounts
 - `global/knowledge/creative-strategy/customer-review-mining-method.md` — the canonical read on how to mine customer reviews
 - `global/knowledge/creative-strategy/persona-research-and-creative-strategy-process.md` — the process bridge from persona research to diagnosis, roadmap, and sprint execution
 - `system/attribution-principle.md` — the attribution metadata schema every doc carries (locked 2026-06-08: inline in the markdown)

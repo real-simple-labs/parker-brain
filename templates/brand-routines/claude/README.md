@@ -11,7 +11,7 @@ A "routine" is really two things, and only one of them lives in this repo:
 | **The job** (the *what*) | The prompt, sources, method, and deliverable for refreshing context, dreaming, harvesting ideas, self-improving. | **Here**, as skills in `.claude/skills/`. Travels with the repo — clone → ready. |
 | **The schedule** (the *when*) | The cron trigger that fires the job on Anthropic's cloud infra. | **Per-account**, registered once via `/schedule`. Cannot be committed. |
 
-So the work is fully pre-built and version-controlled; the clock gets armed **once per cloud instance**. The `/setup-routines` skill walks you through that one-time registration, and `../schedules/*.md` records the exact cadence + the prompt to schedule for each. (These are **schedules** — repo-native cron routines — not the Parker-MCP `workflows/` product surface; see `../schedules/README.md`.)
+So the work is fully pre-built and version-controlled; the clock gets armed **per cloud instance**. A brain built by onboarding arrives with the clock already running — the build arms the schedules at its stamp step and says so plainly at the finish. A brain cloned onto a new instance arrives un-armed (schedules are per-account), and `/setup-routines` registers them there; it's also how you change a cadence or turn a routine off. `../schedules/*.md` records the exact cadence + the prompt to schedule for each. (These are **schedules** — repo-native cron routines — not the Parker-MCP `workflows/` product surface; see `../schedules/README.md`.)
 
 ## What's here
 
@@ -25,7 +25,7 @@ So the work is fully pre-built and version-controlled; the clock gets armed **on
   - `evaluate-ideas` — ranks the idea bank against the strategic roadmap.
   - `research-loops` — the weekly research cycle: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with what was found.
   - `self-improve` — weekly curation; governs dreaming and research proposals with the human in the loop.
-  - `setup-routines` — one-time helper to register the cron schedules in a fresh instance.
+  - `setup-routines` — registers the cron schedules; run automatically by the build, by hand on a fresh clone, or any time to change a cadence.
   - `get-started` — the first-run walkthrough: teaches a new user what the brain knows, how to use it (you just talk to it), and the one best first move, grounded in the brand's own data. On-demand, re-runnable, and offered proactively on a fresh brain. Not a scheduled routine.
 - **`settings.local.json`** (gitignored, you create it) — instance-specific overrides: MCP server connections, model, theme. **Do not commit secrets or MCP connections** — those are per-instance.
 
