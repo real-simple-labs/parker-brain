@@ -29,7 +29,10 @@
 # DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs,
 # routine skills, and schedule recipes a standing brain should gain are named explicitly
 # in each branch (currently: system/growing-the-brain.md, the research-loops and
-# update-brain skills and their schedule recipes). Add new ones there when the runtime ship list grows.
+# update-brain skills and their schedule recipes, and the creative review gates —
+# creative-strategy-context/ai-writing-tells.md, .claude/agents/creative-voice-review.md
+# + context-grounding-review.md, and scripts/voice-lint.py + grounding-check.py).
+# Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
 #    to creative-strategy-context/)
@@ -121,6 +124,15 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # The creative review gates ship as a bundle: the written-tells doctrine, the two
+    # reviewer agents (voice + grounding), and the two deterministic checkers they run.
+    # The creative skills' SKILL.md gates reference all of them by name, so they land together.
+    cp -n "$FACTORY/global/knowledge/creative-strategy/ai-writing-tells.md" "$ps/creative-strategy-context/" 2>/dev/null || true
+    mkdir -p "$dir/.claude/agents" "$dir/scripts"
+    cp -n "$FACTORY/.claude/agents/creative-voice-review.md" "$dir/.claude/agents/" 2>/dev/null || true
+    cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
+    cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
+    cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -149,6 +161,17 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # Craft skills refresh (update-only): flat brains built with the craft set in
+    # .claude/skills/ get the same SKILL.md updates nested brains get from the factory
+    # sweep; brains without a given skill gain nothing (--existing adds no files).
+    rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/" "$dir/.claude/skills/"
+    # The creative review-gate bundle (see the nested branch's note).
+    cp -n "$FACTORY/global/knowledge/creative-strategy/ai-writing-tells.md" "$dir/creative-strategy-context/" 2>/dev/null || true
+    mkdir -p "$dir/.claude/agents" "$dir/scripts"
+    cp -n "$FACTORY/.claude/agents/creative-voice-review.md" "$dir/.claude/agents/" 2>/dev/null || true
+    cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
+    cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
+    cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
