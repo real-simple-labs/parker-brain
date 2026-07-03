@@ -49,6 +49,7 @@ Set up my brain for my brand [brand] in a new private repo, follow instructions 
 - `CLAUDE.md` - production-ready Parker operating contract and repo guidance.
 - `prompts/` - production prompts for context docs, audits, personas, VoC, market reads, and databases.
 - `.claude/skills/` - runtime skill instructions (scriptwriting, hooks, headlines, iterations, ad-account analysis, AI ad generation, the open-loops pipeline, and more). They live under `.claude/skills/` because that is the only directory Claude Code loads skills from, so they register and work the moment this repo is cloned.
+- `.claude/agents/` - subagent definitions, loaded the same way. The creative skills spawn two independent ship gates on every draft, in order: `context-grounding-review` verifies the work was actually built from the right method docs, brand context, and data pulls (`scripts/grounding-check.py` traces quoted verbatims to the vault and resolves cited sources; the agent diffs the output's vocabulary against what a strategist would have loaded — a bounce means re-pull and regenerate), then `creative-voice-review` verifies it reads human (`scripts/voice-lint.py` plus the judgment pass against `global/knowledge/creative-strategy/ai-writing-tells.md` and the brand's voice profile). Grounded first, human-sounding second.
 - `system/` - product-level methodology, retrieval, attribution, open-loop, and review standards.
 - `templates/` - reusable document templates.
 - `global/knowledge/` - approved generalized knowledge.
