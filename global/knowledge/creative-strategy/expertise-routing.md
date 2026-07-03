@@ -25,6 +25,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `ad-account-analysis.md` | How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. |
 | `adapting-scripts.md` | The method for adapting an existing video or script (such as a breakout organic) into a new ad. |
 | `ai-static-ad-generation.md` | How to generate AI static image ads — prompt construction for static creative. |
+| `ai-writing-tells.md` | The written AI-slop signs — vocabulary, rhetoric, and formatting tells that mark generated copy — and the lint-then-judge review every creative deliverable passes before it ships. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
 | `customer-review-mining-method.md` | How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates. |
@@ -63,6 +64,7 @@ Hook audits, any read of openers, and any feedback or critique on a video ad or 
 - `emotional-delivery-and-timing.md` — the layer beneath hooks: the emotional state the viewer lands in, valence/intensity, and the TEEP phase she's in. Load it when the hook has to match a mood or a decision phase, not just create an emotion
 - `ad-account-analysis.md`
 - `ad-formats/` — the format taxonomy (video, static, both); name real formats from it
+- `ai-writing-tells.md` — when the task *generates* hooks rather than reading them, the generated lines pass the lint-then-judge review before output
 
 Selecting which ads to iterate on (account-level "what should we iterate on," before any specific ad is named):
 - `selecting-ads-to-iterate-on.md` — the selection method: spend-in-account-context, run time, the breakdown effect, the promo caveat, slow-burner vs high-riser, 60-day trends. This is Phase A of the `iterations` skill, which then flows into Phase B (making the iterations) using `iterations.md`
@@ -71,6 +73,7 @@ Selecting which ads to iterate on (account-level "what should we iterate on," be
 Iteration reads (biweekly iterations report, iteration recommendations anywhere):
 - `iterations.md` — the iteration doctrine
 - `ad-account-analysis.md`
+- `ai-writing-tells.md` — when the iteration produces new copy (hooks, headlines, script lines), that copy passes the lint-then-judge review like any other creative deliverable
 
 90-day creative-strategy audit and diversity audit:
 - `killer-performance-ads.md`, `ad-account-analysis.md`, `hooks.md`, `ad-formats/`, `iterations.md`
@@ -127,11 +130,13 @@ Idea evaluation specifically also loads, because it grades the captured pile aga
 
 Scriptwriting — any task that produces spoken words for an ad:
 - `spoken-script-voice.md` — the human-voice doctrine and the brand voice-profile method; mandatory before writing any script's words, and the AI-tells audit runs on every draft
+- `ai-writing-tells.md` — the written-slop sign families and the lint-then-judge review; every creative deliverable passes it before shipping, via the `creative-voice-review` agent and `scripts/voice-lint.py`
 - `visual-vocabulary-method.md` — the visual twin of the voice profile; per-beat visual direction sources from the brand's `sub-context-docs/visual-vocabulary.md`, each beat marked in-play, adjacent, or out-of-play, with the script-congruence and format-dependence rules
 - `scriptwriting.md`, `adapting-scripts.md`
 
 Headline and static generation:
 - `spoken-script-voice.md` — the AI-tells list applies to headlines too
+- `ai-writing-tells.md` — the written-slop signs are the primary check for headlines and statics; the lint-then-judge review runs before output
 - `visual-vocabulary-method.md` — generated visuals source from the brand's `sub-context-docs/visual-vocabulary.md`; in-play shots ground the generation prompt, out-of-play visual inventions get flagged
 - `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by brand positioning
 - `ai-static-ad-generation.md`, `static-ad-recreation.md` where statics are produced
@@ -170,3 +175,5 @@ Creator and talent strategy input — who should be on screen:
 ## The test
 
 Before emitting, re-read your analysis against the loaded docs: does it use their named concepts, taxonomies, and vocabulary where they apply? A doc that routes to a method but does not speak its language proves the method was never opened, and the run failed regardless of how complete the output looks.
+
+For creative deliverables, this test is no longer self-graded. The `context-grounding-review` agent (`.claude/agents/context-grounding-review.md`) runs it independently as a ship gate: it derives what should have been loaded and pulled for the task from this catalog, the brand vault, and the tool inventory, runs the deterministic checks in `scripts/grounding-check.py` (verbatims trace to the vault, cited sources exist on disk, receipts present), and diffs the output's *evidence* — its vocabulary, not its claims — against that read. A `bounced` verdict sends the work back for re-pulls and regeneration. Sign-off stamps remain the proof-of-read convention, but they are corroboration the gate verifies, not proof on their own.
