@@ -1,8 +1,8 @@
 ---
-summary: "How to read a competitor's public ad library — impression-rank as a proxy, volume/recency/variant reading, the library-vs-live-spend distinction."
+summary: "How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction."
 ---
 
-# Public ad library analysis — method
+# Analyzing public ad accounts
 
 Updated 2026-06-08.
 
