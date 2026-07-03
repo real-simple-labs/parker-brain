@@ -30,7 +30,12 @@ INSTRUCTION = (
     "in those methods and speak their vocabulary. Close every substantive answer with its "
     "Sources list and check the receipt before sending: a creative or strategic answer "
     "whose sources name no method doc is presumed under-retrieved. Rebuild it, don't ship it. "
-    "Use the vault hard and honor the brand hard rules."
+    "Use the vault hard and honor the brand hard rules. "
+    "And creative deliverables have no casual path: any words a customer will read or hear "
+    "— a script, a headline, a hook, ad copy, even a quick one — route through their skill "
+    "in .claude/skills/ and ship with both gate receipts (Grounding Review, Voice Review). "
+    "An inline answer carrying customer-facing copy without those receipts skipped the "
+    "gates; route it through the skill instead."
 )
 
 FALLBACK_POINTER = (

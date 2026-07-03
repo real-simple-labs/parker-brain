@@ -49,7 +49,7 @@ Two pieces of context every AI-generation prompt depends on:
 
 1. **Identify the prompt type.** Run strategy.md to pick which process. Video or static, and within that, which variant — single-shot, multi-shot, image-driven, dialogue-driven, format-generation, or recreation.
 
-2. **Load brand context.** Brand voice, compliance, ICP, visual identity, current creative challenges. The prompt must be grounded in this. AI-generated assets that ignore brand voice produce technically-correct output that is functionally useless because it does not look or sound like the brand. When `sub-context-docs/visual-vocabulary.md` exists, load it too — the brand's in-play filmed settings, talent situations, and product moves are the visual language the generation prompt grounds in, per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`.
+2. **Load brand context — strategy first.** The brand's committed strategy (`strategy/` — the working thesis, the roadmap's calls on what to say and show) frames what's worth generating; read it before writing the prompt, and check the idea bank (`idea-bank/`, including evaluated ideas) for an entry this asset should execute from. Then brand voice, compliance, ICP, visual identity, current creative challenges. The prompt must be grounded in this. A request that cuts against the committed strategy is surfaced with the conflict named, not silently executed; a brain without `strategy/` or an idea bank yet gets one line saying so. AI-generated assets that ignore brand voice produce technically-correct output that is functionally useless because it does not look or sound like the brand. When `sub-context-docs/visual-vocabulary.md` exists, load it too — the brand's in-play filmed settings, talent situations, and product moves are the visual language the generation prompt grounds in, per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`.
 
 3. **Apply the format library or the five-part formula.** Video uses the five-part formula — cinematography + subject + action + context + style. Static uses the format library — proven prompt structures with bracketed fields for brand-specific content.
 
@@ -59,7 +59,11 @@ Two pieces of context every AI-generation prompt depends on:
 
 6. **Run the final checklist.**
 
-7. **Format output per the structure below.**
+7. **Run the two review gates automatically, before you present anything.** They are not optional, not a "second opinion," and never offered to the user as a choice — asking "want me to review this" is itself the failure. Running `scripts/voice-lint.py` yourself is not the gate; the gate is the independent agent, and its returned verdict fills the receipt block below, which you cannot write yourself. Grounding gate first (it changes content), voice gate second (it changes lines). Spawn the `context-grounding-review` agent (defined at `.claude/agents/context-grounding-review.md`) with the user's task, the prompt output, the brain root, and the list of tool pulls made this session. It runs `scripts/grounding-check.py` and independently derives what should have been loaded and pulled — the visual vocabulary behind the frame, the verified sources behind every stat and quote, the brand reference behind the visual identity — then diffs that against the evidence. A `bounced` verdict means re-pull and regenerate the affected parts. This gate runs before the voice gate because its verdict changes content, not lines. And every bounce gets captured through `self-improvement-intake` as a one-line reasoning trace — the task shape plus the loads or pulls that were missed — so the routing layer learns from the catch instead of re-making the same mistake for the gate to re-catch.
+
+8. **Run the voice review gate on the customer-facing copy.** The words a viewer will read or hear — dialogue lines in quotes, headlines, on-screen text, supporting copy, recreated copy — pass the gate; camera and technical direction do not. Spawn the `creative-voice-review` agent (defined at `.claude/agents/creative-voice-review.md`) with those lines extracted, the brand voice profile if one exists, and the deliverable type. The agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass per `ai-writing-tells.md` — and `spoken-script-voice.md` for spoken dialogue — independently, in a context that did not write them. Apply its rewrites into the prompt and re-run until the verdict is `ships`. A flag that conflicts with a sourced customer quote keeps the quote, with the reason carried into the Voice Review block.
+
+9. **Format output per the structure below.**
 
 ## Output structure
 
@@ -87,6 +91,14 @@ Append to every output:
 - **What I used:** which parts of brand context shaped the prompt.
 - **What I avoided:** compliance walls, forbidden terms, off-brand language that shaped the language. If the user request would have violated compliance, state what was flagged and what was offered instead.
 - **Why this fits:** two-to-four sentences connecting the output to the brand's current creative challenges, what is working, what they want to test, or an upcoming calendar moment.
+
+### Grounding Review
+
+The grounding gate's receipt, required on every prompt: the `context-grounding-review` verdict, one or two plain sentences on what it checked (visual vocabulary evidenced, stats and quotes traced, cited sources resolved), and — if it bounced — what was re-pulled and regenerated before re-shipping. A prompt missing this block did not pass the gate.
+
+### Voice Review
+
+The gate's receipt, required whenever the prompt carries customer-facing copy — dialogue, headlines, on-screen text: the `creative-voice-review` verdict, the lint density before and after, one or two plain sentences on what was flagged and fixed, and any flag kept with its reason. A prompt whose copy skipped this block did not pass the gate. Prompts with no customer-facing copy at all state that in one line instead.
 
 ## Hard rules
 
@@ -120,3 +132,7 @@ Append to every output:
 - **Compliance is a wall, not a guideline.** Forbidden terms are forbidden, even if the user asks. Push back, explain, offer a compliant alternative with the same strategic intent.
 - **No fabricated stats, percentages, or claims.** Every factual element traces to brand context, reviews, ad comments, or user-provided data. If no verified source exists, mark `[STAT NEEDED — verify before publishing]` and leave the gap.
 - **Match brand voice.** The brand's actual tone governs how the dialogue sounds, how the headlines read, how the copy is structured. If the brand would never say something a certain way, neither does the prompt.
+- **No prompt ships bounced.** The independent `context-grounding-review` agent verifies the prompt was built from the brand's visual vocabulary, verified data, and traced customer language — an invented quote or an unresolved cited source is an automatic bounce. Its verdict appears in the Grounding Review block.
+- **Check facts, not flavor.** The grounding gate verifies facts — numbers, sizes, specs, prices, claims must be real and trace. It does not hunt the exact source of every customer-voice line; a review-, comment-, or thread-sounding line that reads authentic and fits the brand register is fine unpulled, labeled illustrative in one line so no made-up quote runs as a real testimonial. Bounce for a wrong fact, never for an untraceable voice line.
+- **The gates run automatically, before you present — never offered.** Both review agents run every time, on their own, before the prompt reaches the user. Never ask "want me to review this," never call it a "second opinion," never present and hold the review for later. Running the linter yourself is not the gate — the gate is the independent agent, whose returned verdict fills the receipt blocks you cannot write yourself.
+- **No customer-facing copy ships without a clean `creative-voice-review` pass.** The independent agent runs the mechanical lint (`scripts/voice-lint.py`) and the judgment pass against `ai-writing-tells.md` on every line a viewer will read or hear; its verdict and the before/after lint density appear in the Voice Review block. Self-review does not substitute — the reviewer must not be the writer.
