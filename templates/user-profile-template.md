@@ -50,7 +50,7 @@ Every rule carries the full moment that caused it, verbatim, right beside it: th
 
 ## What they're working on
 
-Their current focus and what's coming next, looking out across the near, mid, and far horizon. So Parker tees up what they'll need instead of only answering what's in front of it. Date-stamp each entry — this section moves constantly, and the dates are how Parker tells the live focus from where they were three months ago. Let stale entries age out or roll into "what's landed" once they're done.
+Their current focus and what's coming next, looking out across the near, mid, and far horizon. So Parker tees up what they'll need instead of only answering what's in front of it. This is a live reflection of their actual task list — what they're really doing, pulled from their real work across the ecosystem (their task manager, calendar, the threads and projects in flight), and kept current as tasks start, move, and finish. The nightly dream reads their active work and updates this section to match: a finished task rolls into "what's landed," a new one shows up here, a shifting priority re-sorts the horizon. The 30/60/90 mirrors their real to-do list and roadmap, not a snapshot someone took once. Date-stamp each entry — this section moves constantly, and the dates are how Parker tells the live focus from where they were three months ago.
 
 ## What's landed
 
