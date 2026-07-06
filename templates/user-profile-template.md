@@ -54,6 +54,10 @@ Their current focus and what's coming next, looking out across the near, mid, an
 
 What has genuinely worked for this person, kept specific and dated, so Parker repeats what hits and doesn't relearn it every time.
 
+## What they'd want Parker to do for them
+
+Parker's own read, drawn from everything above, of the work this person would want taken off their plate — the tasks to just do, or offer to do, before being asked. Not their stated jobs but the inference from the whole picture: given their role, their process, what they keep coming back for, what they hand off, and what they're working on, what would genuinely help if Parker simply started doing it. This is the section that makes Parker proactive instead of only responsive, and it is what the nightly tee-up acts on. Mark it as the assumption it is and sharpen it as they react — an offer taken is a confirmed read, an offer declined teaches the boundary. Offer, don't silently act, until a pattern is confirmed.
+
 ## Open questions about them
 
 The honest still-figuring-this-out: what Parker doesn't yet know about how they work, what they want, or what they'll value. The working list the nightly user-dreaming pass mines for what to watch and what to gently ask, so the profile keeps getting truer.
