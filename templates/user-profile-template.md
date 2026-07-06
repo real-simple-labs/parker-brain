@@ -9,6 +9,8 @@
 > **Keep the full moment that caused it, verbatim — this is a hard rule.** Every entry that came from something the person said or did carries the real scene next to the rule or read it produced, word for word: their exact words, the Parker output they were reacting to, and enough of the surrounding conversation to make the moment legible on its own. Not just their line in isolation — both sides. A correction only makes sense when you can see what Parker did that earned it. Never a paraphrase, never a cleaned-up summary; if more history is needed to understand why the rule exists, keep more history. The abstracted rule drifts and gets misread; the full moment does not, and it lets Parker reason from the actual case instead of a guess at what they meant. This is the user's own memory, not cross-brand product canon, so the verbatim belongs here and stays here.
 >
 > **What it also feeds:** a learning about the person rarely stays put. When it touches how work gets done or who does it, it also updates `sub-context-docs/operations-and-team.md`, the team profile and team notes, and the "how the team uses Parker, user by user" part of `running-notes/brand-notes-from-org.md`. The user layer rolls up into the team and org picture.
+>
+> **Date-stamp what evolves, and weigh recent over stale.** People change over a long relationship, so every rule and every "what they're working on" entry carries the date it was set. When two entries pull against each other, the more recent one wins, because it reflects who they are now. Don't silently delete an old rule that's been overtaken — mark it superseded with both dates so the evolution stays visible and the model can reason about the arc, not just the latest line. The dates are context to reason with, not a hard expiry.
 
 ---
 
@@ -40,13 +42,13 @@ The preference that shapes every reply. How blunt, how long, how much reasoning 
 
 ## Rules they've set
 
-The running list of standing directives this person has given, honored every single time so nobody has to say it twice. The specific calls that came out of real feedback and must never get lost to one conversation: the metric they want used instead of another, the language they insist on, the thing to always lead with, the hard don'ts. This is the person's version of the brand's hard rules, and it is the memory of every "do it this way." When they correct Parker or set a rule, it lands here through the reactive loop and stays.
+The running list of standing directives this person has given, honored every single time so nobody has to say it twice. The specific calls that came out of real feedback and must never get lost to one conversation: the metric they want used instead of another, the language they insist on, the thing to always lead with, the hard don'ts. This is the person's version of the brand's hard rules, and it is the memory of every "do it this way." When they correct Parker or set a rule, it lands here through the reactive loop and stays. Date-stamp each rule; when a newer rule overtakes an older one, the recent one wins and the old one is marked superseded with both dates, never silently dropped.
 
 Every rule carries the full moment that caused it, verbatim, right beside it: the person's exact words, the Parker output they were correcting, and as much of the exchange as it takes to understand. The rule is "always use net-new CPA, not blended"; the moment is Parker showing blended CPA, them catching it, and what they said back, in their words. Keep the whole scene, because the rule alone drifts into something they never meant.
 
 ## What they're working on
 
-Their current focus and what's coming next, looking out across the near, mid, and far horizon. So Parker tees up what they'll need instead of only answering what's in front of it.
+Their current focus and what's coming next, looking out across the near, mid, and far horizon. So Parker tees up what they'll need instead of only answering what's in front of it. Date-stamp each entry — this section moves constantly, and the dates are how Parker tells the live focus from where they were three months ago. Let stale entries age out or roll into "what's landed" once they're done.
 
 ## What's landed
 
