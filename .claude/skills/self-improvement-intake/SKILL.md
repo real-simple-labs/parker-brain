@@ -34,11 +34,11 @@ This skill can also run after expert-signal intake when the expert source change
 
 1. **Identify the learning moment.** Decide whether the user's message contains a durable lesson or only local feedback.
 
-2. **Capture the decision context.** Preserve why the user made the correction or decision and the historical context that shaped it: prior related decisions, rejected paths, examples, constraints, and tradeoffs. Do not save only the changed output. If the decision context is not explicit, invite Jimmy to context dump or confirm Parker's inferred read before promotion.
+2. **Capture the decision context, with the full moment verbatim.** Preserve why the user made the correction or decision and the historical context that shaped it: prior related decisions, rejected paths, examples, constraints, and tradeoffs. Do not save only the changed output. And keep the real scene word for word — their exact words, the Parker output they were reacting to, and enough of the surrounding exchange to understand why the rule exists. A correction is meaningless without the thing it corrected. This verbatim-full-moment capture is a hard rule from `self-improvement-system.md`; when more history is needed, keep more. If the decision context is not explicit, invite the user to context dump or confirm Parker's inferred read before promotion.
 
-3. **Classify scope.** Use the narrowest accurate scope: local output, brand, team, skill, prompt family, system, or product architecture.
+3. **Classify scope.** Use the narrowest accurate scope: local output, **user**, brand, team, skill, prompt family, system, or product architecture. A learning about the *person* — who they are, their process, their craft, how they like Parker to work, or a standing rule they set for themselves — is `user`-scoped.
 
-4. **Route to the living surface.** Brand-specific lessons go to brand memory or brand rules. Expert method signals go through expert insights. Prompt or skill lessons become candidates. System-level lessons go to self-improvement traces and, when approved, canonical docs.
+4. **Route to the living surface.** User-specific lessons go to `users/[user-id]/user-profile.md` (their rules, process, craft, preferences) and roll up to `operations-and-team.md`, the team profile, and the user-by-user part of `brand-notes-from-org.md` where they touch how work gets done. Brand-specific lessons go to brand memory or brand rules. Expert method signals go through expert insights. Prompt or skill lessons become candidates. System-level lessons go to self-improvement traces and, when approved, canonical docs.
 
 5. **Create or update a trace.** Save new traces under `self-improvement/reasoning-traces/[YYYY-MM]/`. If an existing trace or pattern already covers the lesson, update it rather than creating a duplicate.
 
@@ -50,6 +50,7 @@ This skill can also run after expert-signal intake when the expert source change
 
 ## Trace categories
 
+- **User learning:** who the person is, their process, their craft, how they like Parker to work, or a standing rule they set — routes to their user profile.
 - **Strategic decision:** why a strategy split, recommendation, or direction changed.
 - **Hypothesis edit:** why Parker's explanation of what worked was corrected.
 - **Context rule:** what Parker should load, avoid loading, or treat as canonical.
@@ -67,6 +68,7 @@ This skill can also run after expert-signal intake when the expert source change
 - Do not create new docs when an existing trace, pattern, or living surface can absorb the learning.
 - Do not rewrite prompts or skills from one trace without approval.
 - Always preserve source, scope, status, and promotion condition.
+- Keep the full moment verbatim — their words, the Parker output, the surrounding exchange — never a paraphrase. This is the hard rule the Anthropic team stressed, and it is what keeps a rule from drifting.
 - When the user says "make this a rule," treat it as strong evidence and update the right canonical surface if the scope is clear.
 
 ## Output structure

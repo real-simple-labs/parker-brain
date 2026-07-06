@@ -9,6 +9,7 @@ of method docs on every message instead of having to remember one exists.
 Falls back to the plain instruction if the file is missing or unreadable.
 """
 
+import glob
 import json
 import re
 from pathlib import Path
@@ -59,12 +60,35 @@ def catalog() -> str:
     return FALLBACK_POINTER
 
 
+def user_profile() -> str:
+    """Inject the profile of the person Parker is working with, if one exists.
+
+    The profile grows from usage, so early on there may be none — that's fine,
+    inject nothing. When it exists, put the whole thing in front of every turn
+    (a reminder to read it gets skipped; the content does not) so the person's
+    standing rules and working preferences shape the reply, not just the what.
+    """
+    matches = sorted(glob.glob("users/*/user-profile.md"))
+    if not matches:
+        return ""
+    try:
+        body = Path(matches[0]).read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+    if not body:
+        return ""
+    return (
+        "\n\nWho you're working with — honor this on every reply, their standing "
+        "rules and preferences govern how you answer, not just what:\n" + body
+    )
+
+
 print(
     json.dumps(
         {
             "hookSpecificOutput": {
                 "hookEventName": "UserPromptSubmit",
-                "additionalContext": INSTRUCTION + catalog(),
+                "additionalContext": INSTRUCTION + user_profile() + catalog(),
             }
         }
     )
