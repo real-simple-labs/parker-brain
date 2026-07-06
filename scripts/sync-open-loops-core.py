@@ -54,6 +54,7 @@ BLOCKS = {
     "expertise-core": "prompts/_expertise-core-block.md",
     "parker-voice": "prompts/_parker-voice-block.md",
     "brand-intake": "prompts/_brand-intake-context-block.md",
+    "team-conversations": "prompts/_team-conversations-source-block.md",
 }
 
 SOURCE_RE = re.compile(r"<!-- BLOCK-START -->\n(.*?)\n<!-- BLOCK-END -->", re.DOTALL)

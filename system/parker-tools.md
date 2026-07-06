@@ -29,7 +29,7 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 | Organic social — own + tracked | `search_and_manage_organic_social` | the brand's (and tracked brands') organic posts, stats, competitive reports, and tracking roster; also subscribes/unsubscribes organic tracking |
 | TikTok and video | `search_tiktok_videos`, `analyze_video_from_url`, `analyze_uploaded_video` | niche-creator corpus, and full-video reads of a URL or an uploaded file |
 | A specific web page Parker already has the URL for | `get_webpage` | **fetch only** — it reads a known URL, it does not search |
-| Prior conversations | `search_chat_history` | what was discussed before, across web and Slack |
+| Prior conversations | `search_chat_history` | what was discussed before, across web and Slack. Brand-scoped and multi-teammate: `listThreads` lists the brand's past threads with dates and previews (paginate with the offset), `getMessages` reads one thread, and web threads carry an `authorName` so you can tell which teammate said what. Two uses: reading the prior audit for trajectory, and at cold start pulling the team's whole past Parker history as a first-class source for the team-knowledge Phase-1 docs (the `team-conversations` block) |
 | Memory write-back | `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) |
 | Render a report or chart in chat | `show_widget` (+ `visualize_read_me`, `validate_report_data`) | present an SVG/HTML report or visualization. Read-me first, then widget, then the data self-audit; never plot numbers a tool did not return |
 

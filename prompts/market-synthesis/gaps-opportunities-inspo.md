@@ -58,6 +58,14 @@ The synthesis-layer reads that exist only when the whole watch list is held at o
 
 If any external audit is missing or thin, name the gap rather than synthesizing across it. The synthesis sits on a human-built foundation; running it cold against an incomplete foundation hallucinates.
 
+<!-- team-conversations:start (synced from prompts/_team-conversations-source-block.md; edit there, then run scripts/sync-open-loops-core.py) -->
+**Read the team's past Parker conversations, when they exist. They are a real source for this doc.** If this team used the Parker web app before this brain was built, everything they told Parker there is evidence you would otherwise be missing: the positioning, the decisions already made, the constraints, the preferences, and the strategic thinking that never got written into a formal doc. Pull it with `search_chat_history`. Use `listThreads` to see what is there, paginating with the returned offset, then `getMessages` on the threads that matter. Web threads carry an `authorName`, so you can tell which teammate said what and attribute it. Read this the way this doc reads any source, for what the team stated about the brand, mined for the specific fact, the decision, the exact phrase.
+
+Treat it by kind. A claim made in a conversation is **stated**, not verified. Carry it as the team's word, quoted with its author and date, until another source confirms it. Where a past conversation contradicts what the live data, the account, or the site actually shows, the conflict is the finding: surface it plainly and follow the evidence, and never launder a chat claim into a verified fact. And never let the team's own words in a chat stand in for the customer's; this source is the team on the brand, not voice-of-customer.
+
+**If there are no past conversations, note it in one line and run as normal.** This source sharpens the doc. It is never a gate. A brand whose team never touched the web app still produces the full doc from every other source.
+<!-- team-conversations:end -->
+
 ## Execution steps
 
 Run in this order.
