@@ -121,6 +121,7 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    mkdir -p "$ps/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$ps/fixtures/" 2>/dev/null || true
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -149,6 +150,7 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    mkdir -p "$dir/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$dir/fixtures/" 2>/dev/null || true
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi

@@ -134,7 +134,6 @@ roadmap_read: [strategic-roadmap filename, its date, and its approval status]
 evaluation_read: [idea-evaluation filename and its date]
 round_size: [total concept count and the split across lanes]
 generated_on: YYYY-MM-DD
-refresh_by: YYYY-MM-DD
 data_limitations:
 ---
 
@@ -167,4 +166,4 @@ End every context doc with `## Appendix - Parker media links` as the final appen
 
 ## When you refresh this
 
-A sprint plan is a photograph of one round against one version of the roadmap and one read of the account's spend. It is a per-round artifact, not a calendar-refreshed doc: you write a new one for each sprint rather than re-running this one. Re-plan the current round only if the roadmap is re-approved with shifted priorities before the round ships, or if a fresh spend or cadence read materially changes the size the account can support. When the round ships, its results — which concepts and variations won — feed the retro (`retro.md` in this sprint's folder) and route back as validated hypotheses the next sprint plan can cite, so the following round is sized and split against what this one proved.
+A sprint plan is a photograph of one round against one version of the roadmap and one read of the account's spend. It is a per-round artifact, not a calendar-refreshed doc: you write a new one for each sprint rather than re-running this one. Re-plan the current round only if the roadmap is re-approved with shifted priorities before the round ships, or if a fresh spend or cadence read materially changes the size the account can support. When the round ships, its results — which concepts and variations won — feed the round's creative retro (`retro.md` in this sprint's folder, written at the creative-retro cadence) and route back as validated hypotheses the next sprint plan can cite, so the following round is sized and split against what this one proved.
