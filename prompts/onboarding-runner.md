@@ -48,7 +48,7 @@ The target top-level tree, brand repo root:
 - Every audit the cadence prompts produce writes to `audits/[YYYY-MM]/` for monthly cuts and `audits/[YYYY-Q]/` for quarterly cuts; the external cuts write to `audits/[YYYY-MM]/external/` and `audits/[YYYY-Q]/external/`. The newest audit is the account's present tense.
 - `gaps-opportunities-inspo.md` writes to the current quarter's `audits/[YYYY-Q]/gaps-opportunities-inspo.md`.
 - `z-brands/[brand]/strategy/*.md` writes to `strategy/*.md`.
-- `z-brands/[brand]/idea-bank/…` and `z-brands/[brand]/briefs/…` write to `idea-bank/…` and `briefs/…`.
+- `z-brands/[brand]/idea-bank/…` writes to `idea-bank/…` (entries plus `evaluation-[date].md`), and `z-brands/[brand]/sprints/…` writes to `sprints/[YYYY-MM-DD]-[sprint-slug]/…` — each round's `sprint-plan.md`, its nested `briefs/`, and `retro.md`; ad-hoc co-pilot briefs go to `sprints/_unplanned/briefs/`.
 - `z-brands/[brand]/{open-loops,hypotheses,validations,re-validations}/…` write to the same folders at root, single bucket, with no org-wide-versus-team split, because a standalone brand brain has no team split.
 - `z-brands/[brand]/running-notes/…` collapses to `running-notes/brand-notes-from-org.md` and `running-notes/missing-context.md`.
 
@@ -77,7 +77,7 @@ Then the synthesis nodes, each blocked on its branch:
 - `strategic-roadmap` ← all four inputs.
 - **Gate:** roadmap approved (or the user is already driving their own direction) before Phase 3.
 
-**Phase 3 — strict line.** `brand-idea-bank` (capture) → `idea-evaluation` ← idea-bank + approved roadmap → `brief-creation` ← the shortlist.
+**Phase 3 — strict line.** `brand-idea-bank` (capture) → `idea-evaluation` ← idea-bank + approved roadmap → `sprint-plan` ← the shortlist + account spend/cadence → `brief-creation` ← the concept map.
 
 **Never run as a build step** (these are *included* by other prompts or are global setup, never executed standalone in a brand build):
 - The embedded blocks: `_expertise-core-block`, `_parker-voice-block`, `_open-loops-core-block`, `_notion-ai-tagging-and-foundational-context`, and `brand-profile/_foundations`.
@@ -183,7 +183,7 @@ parker_brain_setup(mode: "update_phase", brand_id, run_id,
 ```
 
 - `phase_index` starts at 1, increments by 1. **Never reuse an index — upsert will silently overwrite the previous phase record.**
-- Use phase names that match the runner's own section and branch names so tracking is consistent with the build log. Examples: `"Phase 0 — Repo & Scaffold"`, `"Phase 1A — Brand Foundation"`, `"Phase 1B — Competitor Profiles"`, `"Phase 1C — Persona Source Pulls"`, `"Phase 1D — Voice of Customer"`, `"Phase 1E — Audit Baseline"`, `"Phase 1 — Synthesis"`, `"Phase 2 — Strategy Inputs"`, `"Phase 2 — Strategic Roadmap"`, `"Phase 3 — Idea Bank"`, `"Phase 3 — Idea Evaluation"`, `"Phase 3 — Brief Creation"`, `"Stamp Operating Contract"`, `"Verify Build"`, `"Save to GitHub"`, `"Onboarding"`. Add or split as the actual work requires.
+- Use phase names that match the runner's own section and branch names so tracking is consistent with the build log. Examples: `"Phase 0 — Repo & Scaffold"`, `"Phase 1A — Brand Foundation"`, `"Phase 1B — Competitor Profiles"`, `"Phase 1C — Persona Source Pulls"`, `"Phase 1D — Voice of Customer"`, `"Phase 1E — Audit Baseline"`, `"Phase 1 — Synthesis"`, `"Phase 2 — Strategy Inputs"`, `"Phase 2 — Strategic Roadmap"`, `"Phase 3 — Idea Bank"`, `"Phase 3 — Idea Evaluation"`, `"Phase 3 — Sprint Plan"`, `"Phase 3 — Brief Creation"`, `"Stamp Operating Contract"`, `"Verify Build"`, `"Save to GitHub"`, `"Onboarding"`. Add or split as the actual work requires.
 - To retry a failed phase, call again with the same index and `phase_status: "in_progress"`.
 - **Include all errors even if the phase ultimately completed** — non-fatal errors matter for auditing.
 
@@ -314,11 +314,12 @@ Run the four strategy inputs first, each resolving its territory's Phase-1 evide
 
 ## Phase 3 — make the work
 
-Only once the roadmap is the agreed direction. The judgment runs as three prompts on one spine:
+Only once the roadmap is the agreed direction. The judgment runs as four prompts on one spine:
 
 1. `brand-idea-bank` — capture the pile, transferred verbatim, ungraded.
-2. `idea-evaluation` — grade the whole pile against the approved roadmap into a ranked shortlist, naming which ideas go to briefs first.
-3. `brief-creation` — build the shortlist's top picks into concepts with variations, creator direction, and the three validations.
+2. `idea-evaluation` — grade the whole pile against the approved roadmap into a ranked shortlist, naming which ideas are strongest and in what order.
+3. `sprint-plan` — size the round from the account's spend and net-new-evergreen cadence, split it across SKUs and personas, set the variation counts, and emit the concept map, into `sprints/[YYYY-MM-DD]-[sprint-slug]/sprint-plan.md`.
+4. `brief-creation` — build each mapped concept into a brief with variations, creator direction, and the three validations, into that sprint's `briefs/`.
 
 ## Stamp the operating contract
 

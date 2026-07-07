@@ -62,6 +62,7 @@ These are the dials. Tune them here; the prompts read the cadence from this doc.
 **Exempt — not calendar-refreshed.**
 - The idea bank and briefs. The idea bank is always-on and captured continuously; briefs are per-campaign artifacts, not refreshed.
 - idea-evaluation. It is event-driven, not calendar: re-run when the bank grows enough to change the rank or when the roadmap is re-approved, not on a fixed date.
+- sprint-plan. It is a per-round artifact — a new one is written for each creative sprint rather than the same one refreshed. Re-plan the current round only if the roadmap is re-approved with shifted priorities before it ships, or if a fresh spend or cadence read changes the size the account can support.
 
 ## Triggers that override the calendar
 

@@ -50,7 +50,7 @@ Keep the boundary clean. When you find yourself reconstructing individual posts 
 
 This is a presentation doc, not an improvement plan. Do not prescribe fixes, content calendars, tactical next steps, or what the brand should do on any platform. Parker often does not have enough internal context to know the correct fix, and the deep read is owned elsewhere. The job here is to give a later reader a grounded inventory of the footprint, a strength read per platform, and the high-level organic-to-paid signal.
 
-Before drafting, load `parker-system/creative-strategy-context/organic-social-analysis.md`. That doc contains the Hannah-derived creative-strategy lens for how to read organic social well: account vibe, customer inclusion, engagement context, boosted-post caveats, organic-to-paid signal, and the line between presentation and prescription. Use it for the strength read, not as license to run the full audit here.
+Before drafting, load `parker-system/creative-strategy-context/organic-social-analysis.md`. That doc contains the creative-strategy lens for how to read organic social well: account vibe, customer inclusion, engagement context, boosted-post caveats, organic-to-paid signal, and the line between presentation and prescription. Use it for the strength read, not as license to run the full audit here.
 
 ## Goal and what success looks like
 
@@ -142,7 +142,7 @@ State who the content reads as targeting, hold it as an audience signal rather t
 
 ## How to score organic strength
 
-Give each platform a strength score from 1 to 10, and state the reasons. There is no rigid grading rubric. Use what the recent window shows and your reasoning from the Hannah-derived organic-social lens. The number should reflect the overall presence, not a mechanical average.
+Give each platform a strength score from 1 to 10, and state the reasons. There is no rigid grading rubric. Use what the recent window shows and your reasoning from the organic-social lens. The number should reflect the overall presence, not a mechanical average.
 
 The score should account for the visible engagement pattern, posting consistency, whether the account feels alive and current, whether real people and customer presence show up, whether the brand includes people or broadcasts at them, whether the content has any range, whether comments show community or customer language, and whether the presence appears aligned with the audience the brand is trying to reach. Keep it a directional read backed by a few pieces of evidence, not a content-by-content audit.
 

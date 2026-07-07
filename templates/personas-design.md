@@ -20,7 +20,7 @@ Personas is a first-class one-pager, sibling to brand-profile.md and competitor-
 - **reddit.md** — unprompted customer discussion in topical communities
 - **other-reviews.md** — third-party review surfaces outside the brand's direct control
 
-## Framing inherited from Sarah Levenger
+## Framing inherited from Sarah Levinger
 
 ### Brands have many personas, not one
 
@@ -32,7 +32,7 @@ Naming a persona, rather than referring to it by demographic shorthand, makes th
 
 ### Identity is the first thing to track
 
-Sarah tracks 5 things when building avatars. Identity is the first and most important. The subconscious makes 95% of purchasing decisions on a daily basis. People are reactive at the point of purchase, not deliberative. Identity is what the subconscious is matching against when a decision happens.
+The method tracks 5 things when building avatars. Identity is the first and most important. The subconscious makes 95% of purchasing decisions on a daily basis. People are reactive at the point of purchase, not deliberative. Identity is what the subconscious is matching against when a decision happens.
 
 ### Identity layers
 
@@ -40,7 +40,7 @@ Each person carries multiple identities at once. Three layers matter:
 
 - **Core identities** are the durable self-conceptions the person holds across contexts and across years.
 - **Contextual identities** activate only in specific environments or social situations. They are stable identities, not trigger events, but they only surface under certain conditions.
-- **Outward-facing identity versus real identity** is the gap between who someone wants to be perceived as and who they are when money is involved. Sarah's cashmere case study illustrates this. A brand asked customers which fabric they wanted, customers chose the premium answer because it sounded fancy, the brand built the product, and the customers did not buy. The frugal-self showed up at the checkout that the aspirational-self never represented in the survey.
+- **Outward-facing identity versus real identity** is the gap between who someone wants to be perceived as and who they are when money is involved. A cashmere case study illustrates this. A brand asked customers which fabric they wanted, customers chose the premium answer because it sounded fancy, the brand built the product, and the customers did not buy. The frugal-self showed up at the checkout that the aspirational-self never represented in the survey.
 
 ### Personas are identities, not trigger events
 
@@ -52,17 +52,17 @@ Implication for the persona doc structure: each persona has a stable identity bl
 
 ### Marketer bias is the silent killer
 
-Sarah's frame: brands generate marketing, marketing attracts a specific kind of customer, that customer's data becomes the canonical avatar, and the next round of marketing reinforces it. Chicken and egg.
+The frame: brands generate marketing, marketing attracts a specific kind of customer, that customer's data becomes the canonical avatar, and the next round of marketing reinforces it. Chicken and egg.
 
-How she audits the team: sit down with each team member individually, never together, and ask who they think the customer is. If everyone says the same thing, the founder's bias has propagated downstream. If answers diverge, the copy team, the ads team, the email team, and the SMS team are each marketing to different people without realizing it.
+How to audit for it: sit down with each team member individually, never together, and ask who they think the customer is. If everyone says the same thing, the founder's bias has propagated downstream. If answers diverge, the copy team, the ads team, the email team, and the SMS team are each marketing to different people without realizing it.
 
 ### The loudest customer is rarely the best customer
 
-Sarah's anecdote: a brand listened to its loudest segment and built everything around them, when the actual core customer was a quieter, larger segment with different needs. Brands often fall into this trap twice before catching it.
+The pattern: a brand listened to its loudest segment and built everything around them, when the actual core customer was a quieter, larger segment with different needs. Brands often fall into this trap twice before catching it.
 
-## Parker's edge over Levenger's pictorial-survey method
+## Parker's edge over the pictorial-survey method
 
-Sarah uses pictorial surveys to bypass conscious bias. Parker cannot run pictorial surveys, but it can triangulate across all source types simultaneously and surface where stated reasons diverge from revealed behavior. The divergence is the gold.
+The pictorial-survey method bypasses conscious bias by asking respondents to react to images rather than describe themselves. Parker cannot run pictorial surveys, but it can triangulate across all source types simultaneously and surface where stated reasons diverge from revealed behavior. The divergence is the gold.
 
 What Parker should explicitly flag in the synthesized one-pager:
 

@@ -129,7 +129,7 @@ A series of catalog reads to run across the library:
 - **Branded technical language**. Flag any branded technical term — patented this, proprietary that, category-internal jargon — that an unaware buyer would not know without category context. The customer pays a cognitive cost before any selling work happens, and most customers do not spend it.
 - **Discount-led creative frequency**. Read discount frequency in the active library as a brand-health diagnostic. Discount-led creative as a meaningful share of the library is either inventory clearing, near-term revenue pressure, or a substitute for a missing demand-generation engine. None of those reads recommends more discount creative.
 - **Cast-coverage versus claimed audience**. Map the visible cast against the breadth of audience the brand publicly claims. The delta is a credibility and reach finding visible in the creative itself.
-- **Organic-versus-paid disconnect**. When a brand has strong organic and weak paid, or strong paid and weak organic, the disconnect is a hypothesis about where the operational gap lives. Hannah's read across the library: a brand can be strong organically and have no discernible paid testing strategy, and recognizing that gap is the whole point of reading the account.
+- **Organic-versus-paid disconnect**. When a brand has strong organic and weak paid, or strong paid and weak organic, the disconnect is a hypothesis about where the operational gap lives. The read across the library: a brand can be strong organically and have no discernible paid testing strategy, and recognizing that gap is the whole point of reading the account.
 
 ## What does not qualify
 

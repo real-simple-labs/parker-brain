@@ -1,5 +1,5 @@
 ---
-summary: "The identity-first persona process — served-vs-buyer, the diagnosis, how persona research drives creative strategy."
+summary: "The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy."
 ---
 
 # Persona research and creative strategy process
@@ -33,6 +33,16 @@ AI belongs in the process, but not everywhere.
 AI is strongest at review mining, persona extraction, emotional-language clustering, source reconciliation, quote preservation, and turning a known diagnosis into briefs or roadmap options. It is also useful inside a brand-specific project or workspace where brand context, persona research, performance docs, creator notes, and past work are all loaded together.
 
 AI is weaker as the very first market read. A senior strategist should spend time manually reading the market before asking AI to synthesize it. Manual reputation and market immersion builds the smell test. Once the strategist has seen the category with their own eyes, hollow personas, invented emotional reads, and overly tidy AI summaries become easier to catch.
+
+## Confidence scales with the data you have
+
+A persona is only as strong as the evidence under it, and the single most important honesty in this work is naming that confidence out loud rather than presenting every persona as equally solid. The strategist's confidence rises and falls with the kind of customer data on hand, and the doc should say, for each persona, how confident it is and what would raise that confidence.
+
+The evidence ranks roughly like this, strongest first: **post-purchase survey data** — the gold standard, because it ties a real buyer to why and when they bought; then **first-party reviews** on the brand's own site; then **Shopify or order data**; then **retail reviews** (Target, Amazon, CVS), which matter enormously for retail-heavy brands whose online review pile is thin; then **organic comments and community**; then, weakest, **competitor and category signal**. Customer data is king: anything tied directly to a real buyer outranks anything inferred. When the strongest tiers are missing, say so — a persona built on reviews alone, with no purchase data behind it, is a real read but a lower-confidence one, and the honest move is to name the gap and recommend the brand stand up a post-purchase survey rather than to round the persona up into false certainty.
+
+**Inferred is not verified.** Without purchase data, age, income, and life stage are *inferred* from how a reviewer writes and what they mention — a useful signal, never a fact. Mark it inferred every time, and do not let an inferred demographic harden into a claim in the retelling. The same holds for the mechanics of how the read was produced: a review corpus is far too large to load whole, so the model samples it per query, which means two runs of the same prompt can surface different sub-sets and rank the personas differently. Treat any single run as one sample, not the truth — force broad reads across the corpus, cross-check a second time (a second model or a second pass), and stake the human claim on the **overlap** between runs, because the overlap is what is stable and the divergence is what the sampling invented.
+
+**The brand's data situation sets the whole job.** Three states recur, and the persona work is genuinely different in each. A brand that has **never run ads and has little customer data** is near-zero confidence: the first round leans on category and competitor signal and an explicit testing on-ramp, and everyone should know the personas are hypotheses to be tested, not settled truth. A brand that **thinks it knows its personas but cannot validate them** — the common case — needs its stated personas checked against hard data, and the finding is often that the account's real buyers and its self-described personas diverge; surface that gap rather than confirming the brand's story back to it. A brand with **personas locked in and validated by first-party data** is a different exercise entirely: the job shifts from building personas to going deeper inside known ones, mining golden nuggets and sharper emotional reads. Confidence does not regress at the very top — a giant, data-rich brand plateaus rather than declining, and the advantage there becomes hyper-niche, high-production storytelling aimed at one deeply-understood persona at a time.
 
 ## The process
 
@@ -89,6 +99,24 @@ The diagnosis is the anchor. It is one to two sentences that explain the why beh
 A useful diagnosis disqualifies ideas. If a diagnosis could greenlight every idea, it is too broad. If it only describes one ad, it is too narrow. It should connect the persona gap, the account state, the customer evidence, the awareness and sophistication read, and the creative diversity constraint into one strategic call.
 
 The diagnosis should refresh quarterly or whenever the account's underlying customer, performance, or business situation materially changes. Do not marry the first diagnosis.
+
+## Personas, overlays, and what is not a persona
+
+The most common mistake an LLM makes in this work is promoting something that is not a persona into one, because the model wants to hand back a full-looking set and a buying behavior dressed up as a persona reads as complete. Three things are distinct and must not be collapsed.
+
+A **persona** is a trigger-anchored identity: who the buyer is *plus* the situation that activates them. Name personas by their trigger, not by a demographic bucket — "the disc switcher," "the heavy-flow survivor," "the cup veteran graduating" each names the activating moment, which is what actually drives the message. The test is *who they are and what moved them*, and a real persona survives that test with its own distinct message.
+
+A **behavioral overlay** is a buying behavior that cuts across personas — deal-motivated, gifting, travel, athletic use. Every persona can exhibit it, so it is never itself a persona; it informs offer structure, calendar and holiday planning, and lifecycle messaging, not who to target. "Deal-motivated buyer" is the textbook trap: it looks like a persona but it is a sale-ad artifact and a retargeting behavior every buyer shares, so treating it as a persona both invents a customer and hides that promotional creative was skewing the read (strip sale creative before the buyer read for exactly this reason). "Health-conscious" is another — it is a lens a chronic-condition or a wellness buyer carries, not a standalone person.
+
+An **identity overlay** is an attribute or life stage that can apply to any persona — a chronic condition, a life stage like perimenopause or postpartum. A life stage is *usually* an overlay, not a persona, because a woman can be in it while sitting inside any of the trigger-personas. The exception earns its way in: when a life stage carries its own distinct trigger, message, and buyer journey — postpartum, where the body has changed and the old product no longer fits — it can stand up as its own persona. The discipline is to ask, every time, *is this who they are, or something they do or a stage they are in?* — and only the first is a persona.
+
+Keep volume and emotional intensity as two separate rankings when you order the set (per Step 3): the highest-volume persona and the highest-emotional-intensity persona are often not the same one, and both facts matter — volume sizes the opportunity, intensity points at the advocacy, creator-led, and message-testing plays. Name the divergence rather than flattening the two into one rank.
+
+## The buyer journey is not linear
+
+Persona work rests on a truth that most funnel diagrams get wrong: real buyers do not move see-ad → click → buy. A real journey looks more like — sees the ad, gets distracted, forgets the brand; sees an organic post days later, scrolls on; adds to cart one night, abandons it; hears a friend mention the brand; price-checks on Amazon, buys something else; and then, a week later, an offhand comment from a mother-in-law or a friend becomes the actual trigger and she buys. The purchase trigger is frequently **off-platform and emotional**, and no attribution model captures it. This is why the persona's *trigger* and its *drop-off points* matter more than a tidy funnel stage, and why the TEEP read (Trigger, Exploration, Evaluation, Purchase — defined in `emotional-delivery-and-timing.md`) exists: to get as close as possible to the emotional event that actually moves this specific persona, and to how *she* explores and evaluates, since a Gen-Z buyer who asks her best friend and a forty-five-year-old who needs her doctor's blessing are on completely different paths to the same product.
+
+Reading the messaging for a persona often surfaces a research need the persona doc itself cannot fill: the **category's own truth** — the old way the buyer is switching from, the legacy player, the emerging alternatives, and the science or studies behind the problem (tampon toxicity, perfume note-building, the shift from one ingredient trend to the next). The strategist has to learn that landscape to write with authority, and it is live research that keeps moving, not a one-time capture. Name it as an open research need when a persona's message depends on it.
 
 ## Evidence-based prioritization
 
@@ -168,7 +196,11 @@ Skipping the diagnosis and moving directly from research to random ideas.
 
 Generating a persona without verbatim customer evidence.
 
-Turning a trigger into a persona.
+Promoting a behavioral or identity overlay — deal-motivated, gifting, a life stage — into a persona instead of keeping it an overlay that cuts across personas.
+
+Presenting an inferred demographic as a verified fact, or treating one sampled review run as if it read the whole corpus.
+
+Presenting every persona at equal confidence when the data behind them differs, instead of naming the confidence and what would raise it.
 
 Making the roadmap only Tier 3 production ideas and starving quick learning.
 
@@ -183,10 +215,12 @@ Before Parker turns persona research into creative direction, check:
 1. Has there been a manual or source-level market read, or is the whole read AI-synthesized from cold inputs?
 2. Is the served-audience picture separated from the actual-buyer picture?
 3. Does every persona claim have verbatim source evidence or an explicit unsupported label?
-4. Are volume and emotional intensity kept separate?
-5. Has the account been read for awareness stage and sophistication concentration?
-6. Has the account been read for creative diversity, including absences?
-7. Does the diagnosis fit in one to two sentences and disqualify ideas?
-8. Are roadmap ideas ranked by evidence first and speed second?
-9. Does each roadmap item name the persona, lifecycle stage, evidence base, production tier, owner, and ship window?
-10. Is the system preserving what worked before inventing net-new work?
+4. Is each persona's confidence named against the data behind it, with inferred demographics marked inferred and the strongest missing source (usually a post-purchase survey) called out?
+5. Is every candidate persona actually a trigger-anchored identity, not a behavioral or identity overlay promoted into one?
+6. Are volume and emotional intensity kept separate?
+7. Has the account been read for awareness stage and sophistication concentration?
+8. Has the account been read for creative diversity, including absences?
+9. Does the diagnosis fit in one to two sentences and disqualify ideas?
+10. Are roadmap ideas ranked by evidence first and speed second?
+11. Does each roadmap item name the persona, lifecycle stage, evidence base, production tier, owner, and ship window?
+12. Is the system preserving what worked before inventing net-new work?

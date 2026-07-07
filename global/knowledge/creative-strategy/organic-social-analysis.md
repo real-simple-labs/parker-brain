@@ -39,7 +39,7 @@ Organic social matters to creative strategy because it is no longer separate fro
 
 That does not mean every organic audit should become a fix-it memo. The strategist's first job is to present the account clearly enough that someone who has never seen it can understand it. What does it feel like? Who is on screen? Does the account look alive, current, and human? Does it include the customer or broadcast at them? Are people actually talking back? Does the feed signal one narrow person, a broad community, or no real audience at all?
 
-Hannah's working method starts with manual read, then uses AI to scale and verify. Parker should copy that division of labor. First, observe like a human strategist. Then use structure to make the read repeatable. The goal is not to sound like an organic expert with fake certainty. The goal is to capture what is visible, infer carefully, and preserve the strategic signal.
+The method starts with a manual read, then uses AI to scale and verify. Parker runs that division of labor. First, observe like a human strategist. Then use structure to make the read repeatable. The goal is not to sound like an organic expert with fake certainty. The goal is to capture what is visible, infer carefully, and preserve the strategic signal.
 
 ## 3. Step-by-step process
 
@@ -73,7 +73,7 @@ End by presenting the account. For an organic channels audit, the final artifact
 
 **Idea capture is separate from concepting.** Organic can feed the brand idea bank, but an idea-bank entry is not a recommendation. It is a saved signal with a source URL, winning element, justification, and notes for later concepting or grading.
 
-**Scores are reasoned reads, not a rigid rubric.** A 1-to-10 score is useful as shorthand, but it should come from the total evidence in the account. Parker should use the Hannah-derived lens, visible performance data, narrative post read, and account-level patterns rather than fixed anchors.
+**Scores are reasoned reads, not a rigid rubric.** A 1-to-10 score is useful as shorthand, but it should come from the total evidence in the account. Parker should use the organic-social lens, visible performance data, narrative post read, and account-level patterns rather than fixed anchors.
 
 ## 5. Examples and patterns to recognize
 

@@ -14,7 +14,7 @@
 **Stamp the doc's freshness.** A context doc is a photograph of a moving thing, so record when it was taken and when it goes stale. In the output frontmatter set `generated_on` to today, read from `get_current_time`, and `refresh_by` to today plus this doc type's cadence in `parker-system/system/refresh-cadence.md`. That date is how a later run knows the doc is aging and offers to re-run the prompt rather than trusting it past its shelf life. If one of the refresh triggers named there has already fired — a rebrand, a launch, a pricing move, a jump in the review corpus — set `refresh_by` sooner.
 <!-- expertise-core:end -->
 
-This produces `evaluation-[YYYY-MM-DD].md`, the ranked verdict on a brand's idea bank. Its single job is to take the whole captured pile of ideas and grade it against the approved Phase-2 strategic roadmap: which priority each idea serves, the lever it pulls, how strong the evidence under it is, and whether it pulls toward a road the strategy deliberately killed. The output is a ranked shortlist, organized by priority, that ends in a plain call — brief these first, in this order — and a read of what the bank is missing.
+This produces `evaluation-[YYYY-MM-DD].md`, the ranked verdict on a brand's idea bank. Its single job is to take the whole captured pile of ideas and grade it against the approved Phase-2 strategic roadmap: which priority each idea serves, the lever it pulls, how strong the evidence under it is, and whether it pulls toward a road the strategy deliberately killed. The output is a ranked shortlist, organized by priority, that ends in a plain call — these are the strongest, in this order, for the sprint plan to size into a round — and a read of what the bank is missing.
 
 You are a senior creative strategist sitting down to grade, not to browse and not yet to build. Write plainly and directly. Lead with the call, then show the evidence that earns it.
 
@@ -30,11 +30,11 @@ The reason grading is split off from capture into its own prompt is to protect c
 
 ## Where this doc sits
 
-This is the evaluate step in the Phase-3 three-prompt split: capture, then evaluate, then build. The split divides on one move. Capture is a transfer that carries every idea across verbatim and ungraded. Evaluation is the judgment that ranks them. Brief-creation builds the top of the rank into production. The reasoning behind the split lives in `parker-system/creative-strategy-context/ideation-and-brainstorming.md` under the capture-is-a-transfer principle; read it before you grade.
+This is the evaluate step in the Phase-3 four-step spine: capture, then evaluate, then plan, then build. The split divides on one move. Capture is a transfer that carries every idea across verbatim and ungraded. Evaluation is the judgment that ranks them. The sprint plan sizes the round and allocates the rank across SKUs and personas. Brief-creation builds each mapped concept into production. The reasoning behind the split lives in `parker-system/creative-strategy-context/ideation-and-brainstorming.md` under the capture-is-a-transfer principle; read it before you grade.
 
 - Upstream: `brand-idea-bank.md` captured the pile. Every entry arrived with its provenance and its verbatim source intact, because this is the pass that needs the real source, not a compression of it.
 - This step: rank the pile against the roadmap and hand the top of the rank forward.
-- Downstream: `brief-creation.md` takes the shortlist's top picks and builds each into a buildable concept with its variations, creator direction, and three validations.
+- Downstream: `sprint-plan.md` takes this ranked shortlist and shapes it into a planned round — how many concepts the account's spend supports, how they split across SKUs and personas, and the variation counts — before `brief-creation.md` builds each mapped concept into a buildable brief with its variations, creator direction, and three validations. This evaluation ranks; the plan sizes and allocates. Keep the jobs separate — do not size the round or set concept counts here.
 
 The harvester and the evaluator are deliberately separate prompts. One keeps the doors open and logs verbatim; the other judges skeptically against the strategy. Run this one as the skeptic.
 
@@ -70,7 +70,7 @@ The right version names the count, the denominator, the roadmap tie, and the ris
 
 Rank confidence-first, then speed, inside each priority. The brand's own verbatim leads, then the proven format, then the affinity shapes that carry the same register. Where two ideas tie on confidence, the faster-to-ship one ranks higher, because a proven thing you can ship this week beats a proven thing that needs a shoot.
 
-Open with the call. The first thing the reader needs is which three or four ideas to brief first and in what order, each with the one reason it leads. Then give the cross-cutting coverage read: which priority the bank is deepest on, which is healthy, which is thin, and why. Then the full ranked shortlist by priority. The call is the headline; the shortlist is the evidence behind it.
+Open with the call. The first thing the reader needs is which ideas are strongest and in what order — the top three or four, each with the one reason it leads — so the plan step can size them into a round. The rank is the call; how many make the round and how they split is the plan step's job, not this one's. Then give the cross-cutting coverage read: which priority the bank is deepest on, which is healthy, which is thin, and why. Then the full ranked shortlist by priority. The call is the headline; the shortlist is the evidence behind it.
 
 Rank provisionally and say so when the roadmap it grades through is not yet approved. A roadmap awaiting sign-off still produces a useful rank, held lightly per the operating model, but every position is provisional on that approval and the doc says so plainly in its data limitations.
 
@@ -135,7 +135,7 @@ data_limitations:
 ## Appendix - Parker media links
 ```
 
-Present the evaluation as the ranked agenda the brief step works from, and mark every band and every position honestly.
+Present the evaluation as the ranked agenda the plan step sizes into a round, and mark every band and every position honestly.
 
 ## Parker media links appendix
 

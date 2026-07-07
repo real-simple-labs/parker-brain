@@ -16,7 +16,7 @@ How to use it:
 
 Many of these docs end with a required sign-off line ("This is everything I know about X"). That stamp is a proof-of-read: if you used a doc, its sign-off must appear. A missing sign-off on a doc the question clearly needed is a tell that you skipped the read.
 
-**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog), `meeting-2026-05-19-v2-architecture.md` (a historical meeting note), `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
+**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog) and `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
 
 <!-- DOC-MAP:START -->
 | Doc | What it is |
@@ -31,13 +31,13 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `emotional-delivery-and-timing.md` | The emotional landing state beneath hooks — valence/intensity and the TEEP buying phase (Trigger, Exploration, Evaluation, Purchase). |
 | `hook-psychology.md` | The cognitive science beneath hooks — the mechanisms (notice, qualify, intrigue, reassure, move, transport) that explain why a hook works. The why-layer under the format taxonomy. |
 | `hooks.md` | The reference taxonomy of hook formats with real examples — the named formats and what each one is. |
-| `ideation-and-brainstorming.md` | How a senior creative strategist generates ideas — the reasoning the idea bank operationalizes. |
+| `ideation-and-brainstorming.md` | How a senior creative strategist generates ideas and plans a creative round — sizing the sprint, splitting it across SKUs and personas, and mapping concepts; the reasoning the idea bank, sprint plan, and briefs operationalize. |
 | `iterations.md` | The doctrine for making iterations on a winning ad — what to hold fixed and what to vary. |
 | `killer-performance-ads.md` | What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against. |
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
 | `lifestyle-video-ad-formats.md` | The library of video ad formats for lifestyle-positioned brands. |
 | `organic-social-analysis.md` | How to analyze organic social through a creative-strategy lens. |
-| `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, how persona research drives creative strategy. |
+| `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
 | `problem-solution-video-ad-formats.md` | The library of video ad formats for problem-solution-positioned brands. |
 | `public-ad-library-analysis.md` | How to read a competitor's public ad library — impression-rank as a proxy, volume/recency/variant reading, the library-vs-live-spend distinction. |
@@ -116,7 +116,7 @@ TikTok mining:
 
 ## Ideation, briefs, and creative generation
 
-Idea bank, idea evaluation, brief creation, concepting:
+Idea bank, idea evaluation, sprint plan, brief creation, concepting:
 - `ideation-and-brainstorming.md`, `iterations.md`, `scriptwriting.md`
 - `emotional-delivery-and-timing.md` — for brief creation especially: the TEEP phase and the from→to emotional shift are required brief inputs, and the funnel-as-emotional-arc lens shapes how variations diverge
 
@@ -124,6 +124,13 @@ Idea evaluation specifically also loads, because it grades the captured pile aga
 - `persona-research-and-creative-strategy-process.md` — so each idea's persona and served-vs-buyer read is graded, not assumed
 - `killer-performance-ads.md` — so every evidence band grades against the real bar
 - `creative-strategy-fundamentals.md` — the priors that order confidence before speed and the kill-list discipline
+
+Sprint plan specifically also loads, because it sizes and splits a round against the account's real production reality rather than grading ideas:
+- `ad-account-analysis.md` and `ad-account-analysis-method.md` — the own-account reading method behind the round-sizing math: the spend read and the net-new-evergreen cadence, promotional creative stripped out
+- `persona-research-and-creative-strategy-process.md` — the diagnosis and the served-vs-buyer read that set the SKU split and the confidence-ranked persona allocation
+- `killer-performance-ads.md` — the bar behind the two live reads: what is already working (double down) and what has been tried and failed (avoid)
+- `creative-strategy-fundamentals.md` — the priors underneath sizing: confidence before speed, and the discipline that every concept in the round names a hypothesis
+- `emotional-delivery-and-timing.md` — so each concept's doorway and leading emotion are set from a real model, not a label
 
 Scriptwriting — any task that produces spoken words for an ad:
 - `spoken-script-voice.md` — the human-voice doctrine and the brand voice-profile method; mandatory before writing any script's words, and the AI-tells audit runs on every draft
