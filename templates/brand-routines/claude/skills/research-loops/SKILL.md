@@ -56,6 +56,10 @@ A validated finding that never reaches the standing docs is drift by design: the
 - Honor the brand hard rules on anything that touches creative or claims.
 - Self-contained: in-repo surfaces and live data only. No factory paths at runtime.
 
+## Log the run
+
+Prepend one entry to `running-notes/routine-log.md` (create it from `parker-system/templates/routine-log-template.md` if it does not exist): the date and time, `research-loops`, scheduled or manual, what was checked (loops rolled up, hypotheses in the queue, re-validations due), what was done (promoted / advanced / validated to which state / re-validated), what was left (awaiting-user, gated on strategy), and what the digest surfaced. Append-only, newest first — this is the shared history of what the brain did on its own, the same ledger `refresh-context` and the other routines write to.
+
 ## Deliverable
 
-The loop agenda rolled up and current, promoted loops advanced into hypotheses (with awaiting-user ones surfaced), the testing queue run with every verdict filed in its state, due re-validations done, the research digest delivered, and the standing docs aligned with the confirmed findings — applied where the user agreed, proposed where they weren't there to ask.
+The loop agenda rolled up and current, promoted loops advanced into hypotheses (with awaiting-user ones surfaced), the testing queue run with every verdict filed in its state, due re-validations done, the research digest delivered, one entry appended to `running-notes/routine-log.md`, and the standing docs aligned with the confirmed findings — applied where the user agreed, proposed where they weren't there to ask.

@@ -38,9 +38,9 @@ Run these in order, following `prompts/onboarding-runner.md` for the exact mecha
 
 7. **Run the build.** Execute the prompts in dependency order per the runner: Phase 1 audit, Phase 2 strategy (with its gate honored per their intake answer), Phase 3 ideation. Speak at phase boundaries — a few plain sentences on what just got built and what starts now, so the build teaches at the moments a person actually reads. Everything between boundaries goes to `BUILD-STATUS.md` and the run log, not the chat: no per-prompt narration, no review verdicts in the transcript. Follow the runner's failure policy — retry transient failures once, mark what still fails as blocked in the status file, keep building what doesn't depend on it, and raise blocked items at the next phase boundary rather than stopping the world.
 
-8. **Verify and save to GitHub.** Run the build verification, then commit and push to the brand's repo so the work is backed up and shareable. Don't skip the save. (Runner's verify and save sections.)
+8. **Verify and save to GitHub.** Run the build verification, then commit and push to the brand's repo so the work is backed up and shareable. Don't skip the save. By this point the runner's stamp step has also armed the standing routines — registered on this instance at their default cadences, no approval gate, because the go-ahead at the top covers it — and the verification checks they're actually registered. (Runner's verify and save sections.)
 
-9. **Hand off to `/get-started`.** The build is done, but the work isn't until they know what they have and how to use it. Run `/get-started` to walk them through the finished brain and leave them with a first move. Tell them it's re-runnable any time, by anyone on the team.
+9. **Hand off to `/get-started`.** The build is done, but the work isn't until they know what they have and how to use it. Lead with the one plain sentence the arming owes them: the brain's routines are on — say what runs and when, and that `/setup-routines` changes a cadence or turns any off. Then run `/get-started` to walk them through the finished brain and leave them with a first move. Tell them it's re-runnable any time, by anyone on the team.
 
 ## Hard rules
 

@@ -17,6 +17,8 @@ This document is the doctrine. It does two jobs. First, it shows how winning scr
 
 The studied corpus is the authority. Nothing below is theory.
 
+This doc has a written twin: `ai-writing-tells.md` carries the written-slop signs — vocabulary tiers, rhetoric, and formatting tells — that mark generated copy whether or not it is spoken, plus the lint-then-judge review every creative deliverable passes before shipping. Scripts pass both docs; this one governs the spoken register.
+
 ---
 
 ## Part 1: How winning scripts actually sound
@@ -174,10 +176,20 @@ AI closes with "Don't wait. Order yours today and experience the difference!" Re
 - WRONG (AI): "Don't wait — transform your wardrobe today!"
 - RIGHT: "with free shipping, exchanges and returns, there's really nothing to lose. I promise you once you try it, you won't want to go back." A promise and a risk reversal, in a friend's voice.
 
-### Tell 11: The invented hyphenated compound
+### Tell 11: The question you're not actually asking
+One of the biggest tells. AI peppers copy with questions nobody asked and the speaker immediately answers: "Honestly?" "Sound familiar?" "The best part?" "Crazy, right?" "You know what's crazy?" A human telling a friend about a product does not interview themselves — they connect the thought and keep going. The one exception is the question hook: an opener deliberately built as a real question to the viewer, per the hook taxonomy. Inside the body of a script, the self-question is writing wearing a conversational costume.
+- WRONG (AI): "And honestly? I like, forgot I was wearing them."
+- RIGHT: "And guys I literally forgot I was wearing them." The emphasis is a word said to the listener, not a question mark aimed at no one.
+
+### Tell 12: The invented hyphenated compound
 AI coins modifiers by jamming two words together with a hyphen: compounds nobody has ever said out loud, minted on the spot to sound precise. The craft's real compounds are fine because they are shared vocabulary a strategist actually says: thumb-stop, problem-solution, direct-to-consumer. The tell is the coinage. If you have never heard a person say it, do not write it.
 - WRONG (AI): "A conversion-ready close with a premium-feel finish and a trust-first tone."
 - RIGHT: "It ends by asking for the sale, it looks expensive, and it earns the trust before it asks." Plain words in plain sentences, no minted compounds.
+
+### Tell 13: The manufactured-intimacy opener
+AI loves to open a hook by asking permission to be honest — "Okay, can I be real for a second?" "Can I be honest with you?" "Let me be real." "Real talk." It is performed vulnerability: a formula that announces authenticity instead of just being authentic, and it shows up on AI-written hooks constantly. A real person doesn't ask to be real, they just say the thing. It is a cousin of the rhetorical self-question (Tell 11) — a question the speaker asks and never waits on — with a fake-confession coat. Cut the wind-up and open on the actual confession or the actual stakes.
+- WRONG (AI): "Okay, can I be real for a second? These are the only jeans I've worn in a month."
+- RIGHT: "I've worn these same jeans every day for a month. My wife's starting to worry." The realness is in the specific admission, not the request to make one.
 
 ---
 
@@ -271,11 +283,26 @@ Read the line out loud. If a real person would say it that way to a friend, keep
 
 ## Written tics that sneak into dialogue
 
-**The rhetorical fragment.** Constructions like a question asked and answered by the same speaker mid-story are writing, not talk. A person telling a story connects the clauses: "and the first thing he said to me was." The fragment-question form belongs only in an opener built deliberately as a question hook, never inside the body of someone's story.
+**The rhetorical fragment.** Constructions like a question asked and answered by the same speaker mid-story are writing, not talk. A person telling a story connects the clauses: "and the first thing he said to me was." The fragment-question form belongs only in an opener built deliberately as a question hook, never inside the body of someone's story. This is the same move as Tell 11 — the question you're not actually asking — named there because it earns a place on the main list.
 
 **Acting notes.** Parenthetical emotion directions on dialogue are the writer doing the actor's job, and they are where generated scripts hide feelings the words failed to carry. If the line needs a note to land, rewrite the line until it lands alone. Physical direction belongs in the visual column and only when it traces to an observed shot.
 
 **The page test, inverted.** These are spoken scripts. The draft is not done when it reads well. It is done when saying it out loud feels like something a person would actually say to someone they know, hesitations and all. Read it to an empty room before delivering it. If your mouth stumbles or your ear flags a line as copy, the line is wrong.
+
+## Written customer language is not spoken customer language
+
+Customer language is the raw material, but it arrives in two registers, and the register of the *source* has to match the register of the *deliverable*.
+
+A review, a post-purchase survey answer, a Reddit comment — these are **written**. The customer typed them, edited them, punctuated them. Carried into a written deliverable — a static headline, a review headline, overlay copy — they are perfect verbatim, and the rule stands: ship them untouched.
+
+Carried into a spoken script, a written verbatim is a trap. Nobody *says* their own review. Typed sentences are too complete, too punctuated, too composed for a mouth — a written-cadence line read aloud is itself a tell, the same class of miss as an em-dash. So the rule for spoken work is **voice it, don't paste it**: keep the customer's exact vocabulary — their words for the problem, the body part, the product, the feeling are the grounding and the gold — but re-cadence the line for the mouth. Break the typed sentence. Add the disfluencies where the thought genuinely turns: the "so," the "like," the "honestly," the "you know," the repeated word, the small false start — placed per the keep-the-mess rule, in the brand's register, never sprinkled as decoration.
+
+- WRITTEN SOURCE (review, ships as-is on a static): "I forgot I was even wearing them by lunch, no red marks at all."
+- SPOKEN LINE (the voiced adaptation): "And guys I literally forgot I was wearing them. Look. No red marks. None."
+
+The customer's words survived: forgot I was wearing them, red marks. The typed cadence did not, because the mouth was never going to say it that way. And note what the voicing did *not* add: no written pause dressed as an em-dash, no "honestly?" self-question — the emphasis is spoken words ("guys," "literally"), because the voicing rules are still these rules.
+
+**The provenance shape.** Voicing a verbatim must not break its trail back to the source. The exact written verbatim lands in the Script Brief's key VoC phrases with its source, and the script line is presented as its voiced adaptation. The grounding review traces the brief's verbatim to the vault; the voice review checks the spoken line was voiced rather than pasted. One customer phrase, two registers, both accounted for.
 
 ## The hundred-script rule
 

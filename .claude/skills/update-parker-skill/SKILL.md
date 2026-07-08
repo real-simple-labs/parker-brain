@@ -128,6 +128,18 @@ The skill runs in two phases: **propose** (always, for global changes) and **exe
 
    Brand-output re-runs are flagged but not executed in the same turn unless the user explicitly asks. A rule change is one global update; the brand-output re-runs that follow are propagation of an already-approved rule and can be queued as a separate batch.
 
+## Principles every new skill is born with
+
+New skills inherit the system's structural standards at creation time, not by retrofit. When this skill is used to add a skill (or materially reshape one), check the draft against these before proposing it:
+
+- **Creative deliverables get both ship gates.** Any skill whose output includes words a customer will read or hear wires the two-gate sequence: the `context-grounding-review` agent first (inputs — was it built from the right method docs, brand context, and pulls; a bounce means re-pull and regenerate), then the `creative-voice-review` agent (surface — does it read human). Each gate gets its receipt block in the output structure (Grounding Review, Voice Review) and its hard rule, and every bounce is captured through `self-improvement-intake` as a one-line reasoning trace so the routing layer learns from the catch. The five creative skills are the reference wiring.
+- **Strategy-first baseline for creative skills.** A skill that executes tactically — scripts, headlines, hooks, assets, iterations — loads the brand's committed strategy (`strategy/`) as the frame before anything else, and checks the idea bank (including evaluated ideas) for the entry the request should execute from. A request that cuts against the committed strategy is surfaced with the conflict named, never silently executed; a brain without those surfaces yet gets one line saying so.
+- **Enforcement is structural, never just instructional.** A behavior that must survive a cloned brain on a stranger's machine uses the stack: a deterministic check where one is possible (a script that cannot be argued with), an independent reviewer context where judgment is needed — independent *and equipped*: the reviewer never wrote the draft it grades, and it loads the same canonical expertise the work was built from before judging — and an output contract that makes a skipped step visible in the output itself. Instruction text alone is the failure mode, not a design.
+- **Canonical-doc-plus-reference, never pasted rules.** A new skill references the canonical doctrine by name (`spoken-script-voice.md`, `ai-writing-tells.md`, the routing map) rather than copying its rules inline — pasted copies drift on the next canonical edit.
+- **Register-match customer language.** Written sources (reviews, surveys, threads) ship verbatim in written deliverables and get voiced — same vocabulary, re-cadenced for the mouth — in spoken ones, per the written-vs-spoken rule in `spoken-script-voice.md`. A skill that touches customer language in both registers carries this distinction explicitly.
+- **Provenance on anything durable.** Outputs that later work depends on carry their sources per `system/attribution-principle.md`, and receipts (Brand Context Applied, sign-offs, gate blocks) are part of the output contract, not optional trim.
+- **Ship-list check.** A new skill that adds files outside `.claude/skills/` (agents, scripts, knowledge docs) extends the onboarding-runner ship step and the propagate script's deliberate-adds list in the same pass, or the skill works in the factory and points at nothing in every brand brain.
+
 ## When NOT to use this skill
 
 Skip the full process when:

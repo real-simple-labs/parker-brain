@@ -23,6 +23,8 @@ This is the file Parker actually watches. On load, Parker reads the schedule, co
 
 On-load checking covers the weeks someone uses the brain. For the weeks nobody opens it, a **refresh-sweep schedule** runs the same check unattended: it reads this schedule on a clock, finds what is overdue, and re-runs the generating prompt. Schedules are the repo-native cron layer that keeps the brain alive when no one is typing — the refresh sweep is one of them. See `system/schedules.md`.
 
+The schedule is a live view of *what is due*; it does not record *what was done*. That history lives in `running-notes/routine-log.md`, the append-only ledger every standing routine writes one entry to on each run. Two different files: the schedule is overwritten as dates move, the log is only ever appended to, so it is the durable record of whether the weekly sweep actually fired and what it touched.
+
 ## The cadence by doc type
 
 These are the dials. Tune them here; the prompts read the cadence from this doc.
@@ -63,6 +65,19 @@ These are the dials. Tune them here; the prompts read the cadence from this doc.
 - The idea bank and briefs. The idea bank is always-on and captured continuously; briefs are per-campaign artifacts, not refreshed.
 - idea-evaluation. It is event-driven, not calendar: re-run when the bank grows enough to change the rank or when the roadmap is re-approved, not on a fixed date.
 - sprint-plan. It is a per-round artifact — a new one is written for each creative sprint rather than the same one refreshed. Re-plan the current round only if the roadmap is re-approved with shifted priorities before it ships, or if a fresh spend or cadence read changes the size the account can support.
+
+## Dependency staleness — the phase spine
+
+A doc can be stale while its own `refresh_by` is still in the future, because the thing it was built *from* moved. The three build phases are a dependency chain, and freshness flows down it: Phase 1 (the audits, the foundation sub-context docs, personas, voice-of-customer, competitors) feeds Phase 2 (the four strategy inputs, which synthesize into the strategic roadmap), which feeds Phase 3 (idea evaluation, briefs). When an upstream doc is re-run and the read *materially changes*, every downstream doc synthesized from it is stale-by-dependency even if its calendar date is fine — a roadmap built on a March performance read is out of date the day that read is refreshed and the picture changes, not 90 days later.
+
+The two event-driven rules above are special cases of this one principle: `brand-profile-narrative` is stale when its sub-context inputs change, and `idea-evaluation` is stale when the roadmap it grades against is re-approved. The spine generalizes them across the whole build.
+
+**The edges that carry staleness downstream:**
+- a Phase-1 doc's read materially changes → the Phase-2 strategy input(s) that rest on it (an ad-account or performance shift hits messaging and creator-talent inputs; a personas or VoC shift hits the persona-strategy input)
+- any of the four Phase-2 strategy inputs changes → the `strategic-roadmap` that synthesizes them
+- the `strategic-roadmap` changes → `idea-evaluation` (the bank is re-graded against the new roadmap)
+
+**The test, and the materiality gate.** A downstream doc is stale-by-dependency when an upstream input it was built from has a `generated_on` *later* than the downstream's own `generated_on`, **and** that upstream re-run materially changed the read. A refresh that carried everything forward unchanged does not cascade — otherwise one quarterly sweep would thrash the entire chain every cycle for no reason. Materiality is the read changing, not the file being touched. Like every other refresh recommendation, stale-by-dependency docs are surfaced for re-run, not silently cascaded: the interactive run asks, the scheduled run re-runs the overdue-plus-material set and reports what it touched and why.
 
 ## Triggers that override the calendar
 

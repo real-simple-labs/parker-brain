@@ -387,6 +387,10 @@ parker/
 │   (each skill folder: SKILL.md, strategy.md, processes/INDEX.md + [process].md,
 │    references/knowledge/[name].md — same anatomy as v1)
 │
+├── .claude/agents/                                 ← Subagent definitions Claude Code loads on clone (not skills — independent reviewer contexts the skills spawn)
+│   ├── context-grounding-review.md                 ← The grounding gate, runs FIRST: verifies the output was built from the right method docs, brand vault docs, and tool pulls — runs scripts/grounding-check.py (verbatims trace, cited sources exist), derives the right context independently from the routing catalog, diffs against the output's vocabulary evidence. Bounced = re-pull and regenerate.
+│   └── creative-voice-review.md                    ← The voice gate, runs SECOND: runs scripts/voice-lint.py, judges per global/knowledge/creative-strategy/ai-writing-tells.md, returns per-line verdicts. Both spawned by the creative skills' ship gates; ship to brand brains with their checkers and doctrine as one bundle.
+│
 ├── references/                                     ← Global knowledge, namespaced by team
 │   └── knowledge/
 │       │

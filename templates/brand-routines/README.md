@@ -22,7 +22,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
 
 ## How it's stamped
 
-`onboarding-runner.md` copies `claude/` → `.claude/` and `schedules/` → `schedules/`, then de-genericizes: replace `[brand]` / "the brand" with the brand name where it reads naturally, and leave the brand-rule pointers (`CLAUDE.md`, `running-notes/brand-notes-from-org.md`) as-is, since those resolve inside the brain. The schedules ship as `status: not-yet-registered`; the brand owner runs `/setup-routines` once per cloud instance to arm the cron.
+`onboarding-runner.md` copies `claude/` → `.claude/` and `schedules/` → `schedules/`, then de-genericizes: replace `[brand]` / "the brand" with the brand name where it reads naturally, and leave the brand-rule pointers (`CLAUDE.md`, `running-notes/brand-notes-from-org.md`) as-is, since those resolve inside the brain. The schedules ship as `status: not-yet-registered`, and the runner's stamp step then arms them itself — `/setup-routines` in build mode, all six at default cadences, disclosed plainly at the finish. A brain cloned onto a *new* cloud instance arrives un-armed (schedules are per-account), and the brand owner runs `/setup-routines` there to arm the cron; it's also the way to change a cadence or turn a routine off.
 
 ## The canonical method behind each routine
 

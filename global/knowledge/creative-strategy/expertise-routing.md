@@ -16,15 +16,16 @@ How to use it:
 
 Many of these docs end with a required sign-off line ("This is everything I know about X"). That stamp is a proof-of-read: if you used a doc, its sign-off must appear. A missing sign-off on a doc the question clearly needed is a tell that you skipped the read.
 
-**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog) and `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
+**Not reasoning docs — never pull these for analysis:** `expertise-routing.md` (this catalog), `brand-brain-CLAUDE-template.md` (a copy of the operating contract). They live in the folder but carry no method.
 
 <!-- DOC-MAP:START -->
 | Doc | What it is |
 |---|---|
-| `ad-account-analysis-method.md` | The step-by-step method for working through an own-account performance read or audit. |
 | `ad-account-analysis.md` | How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. |
 | `adapting-scripts.md` | The method for adapting an existing video or script (such as a breakout organic) into a new ad. |
 | `ai-static-ad-generation.md` | How to generate AI static image ads — prompt construction for static creative. |
+| `ai-writing-tells.md` | The written AI-slop signs — vocabulary, rhetoric, and formatting tells that mark generated copy — and the lint-then-judge review every creative deliverable passes before it ships. |
+| `analyzing-public-ad-accounts.md` | How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
 | `customer-review-mining-method.md` | How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates. |
@@ -40,7 +41,6 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
 | `problem-solution-video-ad-formats.md` | The library of video ad formats for problem-solution-positioned brands. |
-| `public-ad-library-analysis.md` | How to read a competitor's public ad library — impression-rank as a proxy, volume/recency/variant reading, the library-vs-live-spend distinction. |
 | `scriptwriting.md` | The scriptwriting craft for ads — cold-audience acquisition principles and how to build a script. |
 | `selecting-ads-to-iterate-on.md` | The method for choosing which ads are worth iterating on — spend-in-context, run time, the breakdown effect, slow-burners vs high-risers, 60-day trends. |
 | `spoken-script-voice.md` | The doctrine of human-sounding ad scripts and the brand voice-profile method, plus the AI-tells audit run on every draft. |
@@ -63,6 +63,7 @@ Hook audits, any read of openers, and any feedback or critique on a video ad or 
 - `emotional-delivery-and-timing.md` — the layer beneath hooks: the emotional state the viewer lands in, valence/intensity, and the TEEP phase she's in. Load it when the hook has to match a mood or a decision phase, not just create an emotion
 - `ad-account-analysis.md`
 - `ad-formats/` — the format taxonomy (video, static, both); name real formats from it
+- `ai-writing-tells.md` — when the task *generates* hooks rather than reading them, the generated lines pass the lint-then-judge review before output
 
 Selecting which ads to iterate on (account-level "what should we iterate on," before any specific ad is named):
 - `selecting-ads-to-iterate-on.md` — the selection method: spend-in-account-context, run time, the breakdown effect, the promo caveat, slow-burner vs high-riser, 60-day trends. This is Phase A of the `iterations` skill, which then flows into Phase B (making the iterations) using `iterations.md`
@@ -71,6 +72,7 @@ Selecting which ads to iterate on (account-level "what should we iterate on," be
 Iteration reads (biweekly iterations report, iteration recommendations anywhere):
 - `iterations.md` — the iteration doctrine
 - `ad-account-analysis.md`
+- `ai-writing-tells.md` — when the iteration produces new copy (hooks, headlines, script lines), that copy passes the lint-then-judge review like any other creative deliverable
 
 90-day creative-strategy audit and diversity audit:
 - `killer-performance-ads.md`, `ad-account-analysis.md`, `hooks.md`, `ad-formats/`, `iterations.md`
@@ -80,13 +82,13 @@ Visual-vocabulary generation — building the brand's `sub-context-docs/visual-v
 - `visual-vocabulary-method.md` — the canonical method: in-play/adjacent/out-of-play classification, the script-congruence and format-dependence rules
 - `ad-formats/` — the format taxonomy the visual grammar is read against
 - `hooks.md` — the opener taxonomy, so visual hooks are named
-- `public-ad-library-analysis.md` — for the rival visual reads that source adjacent and out-of-play candidates
+- `analyzing-public-ad-accounts.md` — for the rival visual reads that source adjacent and out-of-play candidates
 - `organic-social-analysis.md` — for the brand's own organic, where in-play and adjacent shots are seen
 
 ## Competitor and external reads
 
 Competitor ad-account evaluations, creative landscape, top-impressions reports, single-competitor ad analysis, external 90-day audits:
-- `public-ad-library-analysis.md` — the canonical rival-library method: impression-rank as proxy, volume/recency/variant reading, library-vs-live-spend distinction
+- `analyzing-public-ad-accounts.md` — the canonical rival-library method: impression-rank as proxy, volume/recency/variant reading, library-vs-live-spend distinction
 - `hooks.md`, `ad-formats/`
 - `killer-performance-ads.md` — the bar for judging what a rival's winner actually is
 
@@ -126,7 +128,7 @@ Idea evaluation specifically also loads, because it grades the captured pile aga
 - `creative-strategy-fundamentals.md` — the priors that order confidence before speed and the kill-list discipline
 
 Sprint plan specifically also loads, because it sizes and splits a round against the account's real production reality rather than grading ideas:
-- `ad-account-analysis.md` and `ad-account-analysis-method.md` — the own-account reading method behind the round-sizing math: the spend read and the net-new-evergreen cadence, promotional creative stripped out
+- `ad-account-analysis.md` — the own-account reading method behind the round-sizing math: the spend read and the net-new-evergreen cadence, promotional creative stripped out
 - `persona-research-and-creative-strategy-process.md` — the diagnosis and the served-vs-buyer read that set the SKU split and the confidence-ranked persona allocation
 - `killer-performance-ads.md` — the bar behind the two live reads: what is already working (double down) and what has been tried and failed (avoid)
 - `creative-strategy-fundamentals.md` — the priors underneath sizing: confidence before speed, and the discipline that every concept in the round names a hypothesis
@@ -134,11 +136,13 @@ Sprint plan specifically also loads, because it sizes and splits a round against
 
 Scriptwriting — any task that produces spoken words for an ad:
 - `spoken-script-voice.md` — the human-voice doctrine and the brand voice-profile method; mandatory before writing any script's words, and the AI-tells audit runs on every draft
+- `ai-writing-tells.md` — the written-slop sign families and the lint-then-judge review; every creative deliverable passes it before shipping, via the `creative-voice-review` agent and `scripts/voice-lint.py`
 - `visual-vocabulary-method.md` — the visual twin of the voice profile; per-beat visual direction sources from the brand's `sub-context-docs/visual-vocabulary.md`, each beat marked in-play, adjacent, or out-of-play, with the script-congruence and format-dependence rules
 - `scriptwriting.md`, `adapting-scripts.md`
 
 Headline and static generation:
 - `spoken-script-voice.md` — the AI-tells list applies to headlines too
+- `ai-writing-tells.md` — the written-slop signs are the primary check for headlines and statics; the lint-then-judge review runs before output
 - `visual-vocabulary-method.md` — generated visuals source from the brand's `sub-context-docs/visual-vocabulary.md`; in-play shots ground the generation prompt, out-of-play visual inventions get flagged
 - `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by brand positioning
 - `ai-static-ad-generation.md`, `static-ad-recreation.md` where statics are produced
@@ -172,8 +176,10 @@ Creator and talent strategy input — who should be on screen:
 - `ad-account-analysis.md` — so spend, delivery, frequency, and performance are read as Meta account behavior
 - `andromeda-v2.md` — so creator and talent choices are read as creative-diversity signals, not only representation or credibility
 - `visual-vocabulary-method.md` — so on-screen people, settings, proof moves, and first-frame visuals are reconstructed rather than labeled
-- `public-ad-library-analysis.md` — so competitor talent reads use rival library evidence correctly
+- `analyzing-public-ad-accounts.md` — so competitor talent reads use rival library evidence correctly
 
 ## The test
 
 Before emitting, re-read your analysis against the loaded docs: does it use their named concepts, taxonomies, and vocabulary where they apply? A doc that routes to a method but does not speak its language proves the method was never opened, and the run failed regardless of how complete the output looks.
+
+For creative deliverables, this test is no longer self-graded. The `context-grounding-review` agent (`.claude/agents/context-grounding-review.md`) runs it independently as a ship gate: it derives what should have been loaded and pulled for the task from this catalog, the brand vault, and the tool inventory, runs the deterministic checks in `scripts/grounding-check.py` (verbatims trace to the vault, cited sources exist on disk, receipts present), and diffs the output's *evidence* — its vocabulary, not its claims — against that read. A `bounced` verdict sends the work back for re-pulls and regeneration. Sign-off stamps remain the proof-of-read convention, but they are corroboration the gate verifies, not proof on their own.

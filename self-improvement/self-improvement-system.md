@@ -57,7 +57,7 @@ date_captured: YYYY-MM-DD
 source: chat, expert_signal, brand_output_review, prompt_run, audit_review, user_edit, other
 source_ref: path, chat pointer, or short description
 trigger_type: correction, approval, rejection, reroute, strategic_decision, hypothesis_edit, context_rule, taste_boundary, prompt_rule, product_rule
-scope: local_output, brand, team, skill, prompt_family, system, product_architecture
+scope: local_output, user, brand, team, skill, prompt_family, system, product_architecture
 brand: brand slug or global
 team: creative-strategy, performance, organic-social, search, influencer, brand-pr-comms, partnerships, retention, global
 confidence: strong, mixed, thin
@@ -68,9 +68,13 @@ promotion_condition: explicit approval, repeated traces, account evidence, exper
 ---
 ```
 
+**A `user`-scoped trace** is a learning about the person, not the brand: who they are, their role, their process, their craft, how they like Parker to work, and the standing rules they set. It lands in `users/[user-id]/user-profile.md`, and where it touches how work gets done or who does it, it also rolls up into `operations-and-team.md`, the team profile, and the user-by-user part of `brand-notes-from-org.md`.
+
+**Keep the full moment that caused a trace, verbatim — a hard rule, and the one the Anthropic team stressed.** Every trace records the real scene, word for word, not a paraphrase: the person's exact words, the Parker output they were reacting to, and enough of the surrounding conversation to understand why the rule exists. A correction is meaningless without the thing it corrected. When more history is needed to make the moment legible, keep more history. This is memory, not cross-brand product canon, so the verbatim belongs in the trace and rides into the surface it updates. The abstracted rule drifts; the full moment does not.
+
 The body should answer:
 
-- **What happened:** the user signal or output behavior.
+- **What happened:** the user signal or output behavior, with the verbatim moment attached — their words, the Parker output, the surrounding exchange.
 - **Decision context:** the user's why plus the historical context, prior decisions, rejected paths, examples, constraints, and tradeoffs that shaped the judgment.
 - **Why it matters:** the underlying lesson Parker should carry forward.
 - **Inferred rule:** the rule Parker should consider using later.
