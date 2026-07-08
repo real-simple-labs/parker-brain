@@ -67,17 +67,19 @@ These tie together more often than not. "Unlock the older buyer the data keeps s
 
 **Goal.** Turn the strategy into the actual work: ideas, then concepts, then briefs a creator or editor can shoot. This is the phase the talent receives.
 
-The method runs in three stages, already documented in `global/knowledge/creative-strategy/ideation-and-brainstorming.md`. Parker does not rebuild ideation; it runs the method that exists.
+The method runs in four stages — capture, evaluate, plan the round, build — already documented in `global/knowledge/creative-strategy/ideation-and-brainstorming.md`. Parker does not rebuild ideation; it runs the method that exists.
 
 **Ideas, micro and validated by taste.** Ideas are small and many, pulled from TikTok, Reddit, reviews, old print, affinity brands, and the rest of the idea-bearing surfaces. They live in the idea bank, the brand's always-on idea memory, each carrying the reason it is good: an account signal, a persona gap, a customer phrase, a validated adjacent move. Idea capture runs continuously through everything Parker does, not only inside Phase 3.
 
 **Parker's ideas and the strategist's ideas both count.** This is where the co-pilot relationship is most alive. Parker generates ideas, and the strategist brings their own, and the bank holds both. When the strategist brings an idea, Parker's job is to pressure-test it against the brand truth and make it better, not to replace it with Parker's own unless the evidence says the strategist's idea fights the strategy, in which case Parker says so plainly and shows why.
 
-**Concept and brief, the promotion.** Promoting an idea is concepting it: building a logged idea into the two or three divergent variations the platform needs, with the customer message leading and a format vehicle carrying it. The brief is the artifact that holds the result: the concept, its variations, and the creator direction, whether a full script or open-ended talking points plus a reference. The script and the visuals come from the scriptwriting and visual-vocabulary work, grounded in the brand's real voice and filmed shot library. Built by `prompts/ideas-and-briefs/brief-creation.md`.
+**Plan the round before briefing it.** Between grading the pile and building the work sits the sprint plan: sizing the round from the account's real spend and net-new-evergreen cadence, splitting it across the SKUs and personas the roadmap chose, setting the variation counts, and mapping every concept — its persona, doorway, leading emotion, and format — before a single brief is written. This is the layer that keeps a round the account can actually afford to test, and it is where a senior strategist spends the real hours of a concepting session. Built by `prompts/ideas-and-briefs/sprint-plan.md`, which hands each mapped concept forward as a row the brief step builds.
+
+**Concept and brief, the promotion.** Promoting an idea is concepting it: building a mapped concept into the divergent variations the platform needs, with the customer message leading and a format vehicle carrying it. The brief is the artifact that holds the result: the concept, its variations, and the creator direction, whether a full script or open-ended talking points plus a reference. The script and the visuals come from the scriptwriting and visual-vocabulary work, grounded in the brand's real voice and filmed shot library. Built by `prompts/ideas-and-briefs/brief-creation.md`.
 
 **The brief's three validations.** Every brief carries validation from three angles, each able to cite the research behind it: data that the direction is sound from the account, inspo that shows it working in the wild, and strategy that ties it to the diagnosis and the priority on the roadmap. A brief promoted from a well-validated lane is high-confidence; one resting on an unclosed loop names the loop.
 
-**Output.** Two surfaces per brand: `z-brands/[brand]/idea-bank/` holds the ideas, `z-brands/[brand]/briefs/` holds the briefs, with the concepting prompt as the promotion path between them.
+**Output.** Two surfaces per brand: `z-brands/[brand]/idea-bank/` holds the ideas and their evaluation, and `z-brands/[brand]/sprints/[YYYY-MM-DD]-[sprint-slug]/` holds each round — its `sprint-plan.md`, the `briefs/` built from it, and the `retro.md` that feeds the next round. The sprint plan is the promotion path from the graded pile to the briefs.
 
 ---
 

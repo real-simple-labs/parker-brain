@@ -126,6 +126,7 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    mkdir -p "$ps/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$ps/fixtures/" 2>/dev/null || true
     # The creative review gates ship as a bundle: the written-tells doctrine, the two
     # reviewer agents (voice + grounding), and the two deterministic checkers they run.
     # The creative skills' SKILL.md gates reference all of them by name, so they land together.
@@ -163,6 +164,7 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
     cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    mkdir -p "$dir/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$dir/fixtures/" 2>/dev/null || true
     # Craft skills refresh (update-only): flat brains built with the craft set in
     # .claude/skills/ get the same SKILL.md updates nested brains get from the factory
     # sweep; brains without a given skill gain nothing (--existing adds no files).

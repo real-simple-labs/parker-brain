@@ -4,7 +4,7 @@
 - **Cadence:** Weekly, every brand. A full centered harvest paired each week with the evaluator re-rank (taking the prior week's evaluation as context).
 - **Sources:** Customer language (reviews/surveys/community) first, then old ads, organic TikTok, affinity ads, competitor ads, audits, source pulls, Parker MCP creative reads, web. Evaluation also reads `strategy/strategic-roadmap.md`, `personas/personas-profile.md`, the voice library, and `audits/`.
 - **Skills:** `.claude/skills/harvest-ideas/` (`/harvest-ideas`) then `.claude/skills/evaluate-ideas/` (`/evaluate-ideas`).
-- **Deliverable:** New verbatim entries + updated `idea-bank/index.md`, then a ranked `evaluation-[date].md` that opens with the "brief these first" call and ends with what the bank is starving for.
+- **Deliverable:** New verbatim entries + updated `idea-bank/index.md`, then a ranked `evaluation-[date].md` that opens with the ranked call the sprint plan sizes into a round and ends with what the bank is starving for.
 - **Origin:** Seeded 2026-06-18 from the factory's `prompts/ideas-and-briefs/brand-idea-bank.md` + `idea-evaluation.md`. Matches the cadence already stated in `idea-bank/README.md`.
 - **Status:** Jobs committed and live. Schedule **not yet registered** — run `/setup-routines` to arm it. Note: evaluation ranks **provisionally** until the strategic roadmap is approved (see `strategy/strategic-roadmap.md`).
 

@@ -93,12 +93,18 @@ parker/
 │       ├── idea-bank/                              ← PHASE 3 ideation — brand-specific living idea bank
 │       │   ├── README.md
 │       │   ├── index.md
-│       │   └── entries/[YYYY-MM-DD]-[concept-slug].md
+│       │   ├── entries/[YYYY-MM-DD]-[concept-slug].md
+│       │   └── evaluation-[YYYY-MM-DD].md          ← idea-evaluation: the graded, ranked shortlist
 │       │
-│       ├── briefs/                                 ← PHASE 3 briefing — promoted ideas → execution-ready briefs
+│       ├── sprints/                                ← PHASE 3 rounds — a sprint is the container; briefs nest inside
 │       │   ├── README.md
-│       │   ├── index.md
-│       │   └── [YYYY-MM-DD]-[concept-slug].md      ← concept + variations + creator direction + 3 validations
+│       │   ├── [YYYY-MM-DD]-[sprint-slug]/         ← one planned creative round
+│       │   │   ├── sprint-plan.md                  ← sprint-plan: sized round + split + concept map (planning columns)
+│       │   │   ├── briefs/
+│       │   │   │   └── [concept-slug].md           ← brief-creation: concept + variations + creator direction + 3 validations
+│       │   │   └── retro.md                        ← round retrospective; feeds the next sprint's sizing
+│       │   └── _unplanned/                         ← ad-hoc co-pilot briefs with no planned round behind them
+│       │       └── briefs/[concept-slug].md
 │       │
 │       ├── dreaming/                               ← Brand dreaming (planning arm): proposals from the day's comms, read vs the vault
 │       │   ├── README.md
@@ -739,7 +745,7 @@ The big move: **teams expansion.** Parker now serves 8 marketing teams under one
 ## What changed on 2026-05-21
 
 - **`ad-account-evaluation` and `reviews-and-customer-language` no longer brand sub-context prompts** — they're produced by their own dedicated context docs and other docs reference their output. ad-account-evaluation now lives under `teams/performance/`; reviews-and-customer-language content lives under `personas/sources/customer-reviews.md`.
-- **`public-perception` renamed to `reputation-analysis`** (and pivoted to Hannah's reputation method).
+- **`public-perception` renamed to `reputation-analysis`** (and pivoted to the reputation method).
 - **`public-perception`, `community-and-forums`, and `customer-journey-and-persona-discovery` are brand sub-context docs** (previously listed only under competitor).
 
 ---

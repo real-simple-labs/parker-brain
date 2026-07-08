@@ -1,6 +1,6 @@
 ---
 name: evaluate-ideas
-description: Rank the brand idea bank against the approved Phase-2 strategic roadmap. Grades the whole captured pile — which priority each idea serves, the lever it pulls, how strong the evidence is, whether it trips a roads-not-taken kill — and produces a ranked shortlist by priority that ends in a plain "brief these first" call plus a read of what the bank is starving for. The skeptical pass. Run after harvest-ideas (weekly), when the bank grows enough to change the rank, or when the roadmap is re-approved.
+description: Rank the brand idea bank against the approved Phase-2 strategic roadmap. Grades the whole captured pile — which priority each idea serves, the lever it pulls, how strong the evidence is, whether it trips a roads-not-taken kill — and produces a ranked shortlist by priority that ends in a plain ranked call the sprint plan sizes into a round, plus a read of what the bank is starving for. The skeptical pass. Run after harvest-ideas (weekly), when the bank grows enough to change the rank, or when the roadmap is re-approved.
 ---
 
 # Evaluate ideas — the skeptical pass
@@ -39,7 +39,7 @@ The evidence walk is the part a weak evaluation skips:
 
 ## How you rank
 
-Confidence-first, then speed, inside each priority. Own verbatim leads, then proven format, then affinity shapes carrying the same register. Ties on confidence break to faster-to-ship. **Open with the call** — which three or four ideas to brief first and in what order, each with its one reason — then the cross-cutting coverage read, then the full ranked shortlist by priority.
+Confidence-first, then speed, inside each priority. Own verbatim leads, then proven format, then affinity shapes carrying the same register. Ties on confidence break to faster-to-ship. **Open with the call** — which three or four ideas are strongest and in what order, each with its one reason, for the sprint plan to size into a round — then the cross-cutting coverage read, then the full ranked shortlist by priority.
 
 ## What the bank is starving for
 

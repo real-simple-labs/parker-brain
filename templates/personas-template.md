@@ -34,7 +34,7 @@ When generating customer-facing work, pick the relevant persona for voice and id
 
 ## Cross-persona bias notes
 
-This section surfaces where marketer bias may be distorting the picture. The framing is from Sarah Levenger: marketers tend to create the customer they are biased toward, so the signal in the data can be partly self-generated. Name the divergences so the team can sanity-check.
+This section surfaces where marketer bias may be distorting the picture. The framing is from Sarah Levinger: marketers tend to create the customer they are biased toward, so the signal in the data can be partly self-generated. Name the divergences so the team can sanity-check.
 
 - **Brand-self echo:** Phrases or themes that only began appearing in customer language after the brand introduced them in marketing. These should be treated as low-confidence until they appear in unprompted channels.
 - **Vocal minority risk:** Segments that are loudest in surveys, reviews, or social, but underrepresent purchase volume. Name the segment and quantify the gap between voice share and revenue share.
