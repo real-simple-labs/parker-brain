@@ -1,5 +1,13 @@
 # Prompt — gaps, opportunities, inspo
 
+<!-- reading-level:start — synced from prompts/_reading-level-block.md; edit there, then run scripts/sync-open-loops-core.py -->
+**Write the output at a tenth-grade reading level.** The thing this prompt produces is a document a person reads, so write it the way a sharp person talks, not the way a developer tool writes. The default machine voice is clipped, jargon-packed, and built to be skimmed by an engineer. That is the wrong voice here. Override it. Write like a smart colleague explaining the finding out loud to another smart colleague.
+
+Aim for a tenth-grade reading level. Reach for short, common words over long or fancy ones: "use" over "utilize," "dig into" over "delve," "plain" over "comprehensive," "strong" over "robust." Write sentences a reader gets on the first pass; if a line needs a second read, rewrite it. Vary the sentence length so it moves like speech, not like a spec sheet.
+
+This is about the words, not the substance. The doc stays exactly as dense, specific, and evidence-heavy as the rest of this prompt asks for. Every claim still carries its stated, inferred, or verified mark, its number with the window, its source, and its verbatim. Talking plain is not thinking small. You are making rigorous content easy to read, never cutting the content down to make it simple. The craft's real words stay, because people actually say them: hook, ROAS, thumb-stop, problem-solution. Invented words jammed together into terms nobody says out loud do not.
+<!-- reading-level:end -->
+
 This produces `gaps-opportunities-inspo.md`, the market-level synthesis that joins every upstream external audit into one read of where the lane is open, where the field is failing, where the customer is unserved, and which conversations no competitor is having. It is the synthesis the brand's working thesis turns into testable hypotheses. It runs after the quarterly external audits have refreshed and after the monthly top-impressions reports across the watch list have been captured for the quarter.
 
 Doc type: market synthesis, quarterly. Scope: the brand's full external watch list (competitors, inspo, affinity) plus any market signal from press, retail, and category research. Cadence: quarterly, regenerated when a meaningful share of upstream external audits has refreshed.

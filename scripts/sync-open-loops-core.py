@@ -6,7 +6,7 @@ many other files. This script copies each source's canonical text into every
 target that carries the matching marker pair, so a fix to the source lands
 everywhere at once. The registry of what syncs where is system/system-of-records.md.
 
-Four blocks are synced:
+Six blocks are synced:
 
   - open-loops-core  <- prompts/_open-loops-core-block.md
         embedded in every context-doc-generating prompt
@@ -17,6 +17,12 @@ Four blocks are synced:
   - brand-intake     <- prompts/_brand-intake-context-block.md
         embedded in a targeted subset of generating prompts (audits, account
         reads, strategy inputs, brief creation, personas, competitor syntheses)
+  - team-conversations <- prompts/_team-conversations-source-block.md
+        embedded in the Phase-1 team-knowledge reads
+  - reading-level    <- prompts/_reading-level-block.md
+        embedded in the Phase-1 doc-generating prompts only (audits, brand
+        profile, competitor profile, personas, voice-of-customer, market
+        synthesis, open-loops roll-up); not Phase 2 or Phase 3
 
 How a block is delimited:
   - In the SOURCE file, the canonical text sits between `<!-- BLOCK-START -->`
@@ -55,6 +61,7 @@ BLOCKS = {
     "parker-voice": "prompts/_parker-voice-block.md",
     "brand-intake": "prompts/_brand-intake-context-block.md",
     "team-conversations": "prompts/_team-conversations-source-block.md",
+    "reading-level": "prompts/_reading-level-block.md",
 }
 
 SOURCE_RE = re.compile(r"<!-- BLOCK-START -->\n(.*?)\n<!-- BLOCK-END -->", re.DOTALL)
