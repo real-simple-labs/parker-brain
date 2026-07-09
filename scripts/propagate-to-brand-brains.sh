@@ -159,7 +159,13 @@ for repo in "${REPOS[@]}"; do
     for sk in "$FACTORY"/.claude/skills/*/; do
       name="$(basename "$sk")"
       [ "$name" = "dream" ] && continue
-      [ -d "$dir/.claude/skills/$name" ] || { cp -R "$sk" "$dir/.claude/skills/$name"; echo "  seeded craft skill: $name"; }
+      # Check for SKILL.md, not the directory: the --existing rsync above creates
+      # empty skill dirs (it only skips files), and git never ships an empty dir.
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded craft skill: $name"
+      fi
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
@@ -226,7 +232,13 @@ for repo in "${REPOS[@]}"; do
     for sk in "$FACTORY"/.claude/skills/*/; do
       name="$(basename "$sk")"
       [ "$name" = "dream" ] && continue
-      [ -d "$dir/.claude/skills/$name" ] || { cp -R "$sk" "$dir/.claude/skills/$name"; echo "  seeded craft skill: $name"; }
+      # Check for SKILL.md, not the directory: the --existing rsync above creates
+      # empty skill dirs (it only skips files), and git never ships an empty dir.
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded craft skill: $name"
+      fi
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
