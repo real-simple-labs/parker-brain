@@ -32,7 +32,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `emotional-delivery-and-timing.md` | The emotional landing state beneath hooks — valence/intensity and the TEEP buying phase (Trigger, Exploration, Evaluation, Purchase). |
 | `hook-psychology.md` | The cognitive science beneath hooks — the mechanisms (notice, qualify, intrigue, reassure, move, transport) that explain why a hook works. The why-layer under the format taxonomy. |
 | `hooks.md` | The reference taxonomy of hook formats with real examples — the named formats and what each one is. |
-| `ideation-and-brainstorming.md` | How a senior creative strategist generates ideas and plans a creative round — sizing the sprint, splitting it across SKUs and personas, and mapping concepts; the reasoning the idea bank, sprint plan, and briefs operationalize. |
+| `ideation-and-brainstorming.md` | How a senior creative strategist generates ideas and plans a creative round — the always-on capture posture and the spark, the structured weekly hunt (hunt brief, cold pass, lanes, merge), sizing the sprint, splitting it across SKUs and personas, and mapping concepts; the reasoning the idea bank, sprint plan, and briefs operationalize. |
 | `iterations.md` | The doctrine for making iterations on a winning ad — what to hold fixed and what to vary. |
 | `killer-performance-ads.md` | What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against. |
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
