@@ -52,7 +52,7 @@ Both phases run on canonical doctrine, not general intuition. The reads live in 
 - `hooks.md` and `hook-psychology.md` — Phase B, whenever a hook iteration is on the table: the opener taxonomy/examples and the mechanism behind why a hook works. `processes/hook-iteration.md` executes it.
 - `ad-formats/` — both phases. Name real formats from it (`Founder Ads`, `Comment Response`, `Us vs Them`, `Before & After`, `Listicle`, and the rest) rather than inventing blends.
 
-Performance data and the creatives pull through the Parker tools inventoried in `system/parker-tools.md`.
+Performance data and the creatives pull through the Parker tools inventoried in `parker-system/system/parker-tools.md`.
 
 ---
 

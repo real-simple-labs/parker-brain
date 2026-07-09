@@ -6,7 +6,7 @@ The ritual is real and self-invented, which is why it is credible. The script do
 
 ## Required inputs
 
-- A documented customer-invented ritual or demo. Source: the customer review audit and ad-comments surface — `creative-strategy-context/customer-review-mining-method.md`, `prompts/personas/customer-reviews.md`, `prompts/personas/ad-comments.md`.
+- A documented customer-invented ritual or demo. Source: the customer review audit and ad-comments surface — `parker-system/creative-strategy-context/customer-review-mining-method.md`, `parker-system/prompts/personas/customer-reviews.md`, `parker-system/prompts/personas/ad-comments.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, compliance constraints.
 

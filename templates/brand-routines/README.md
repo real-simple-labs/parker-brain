@@ -1,6 +1,6 @@
 # Brand-routines template — the stampable living loop
 
-This is the factory-canonical **routine bundle** that `prompts/onboarding-runner.md` stamps into every brand brain. It is what makes a shipped brain *self-running*: clone the brain into a Claude Code instance and the dreaming / self-improvement / idea / refresh routines are live immediately, ready to be armed on a schedule.
+This is the factory-canonical **routine bundle** that `parker-system/prompts/onboarding-runner.md` stamps into every brand brain. It is what makes a shipped brain *self-running*: clone the brain into a Claude Code instance and the dreaming / self-improvement / idea / refresh routines are live immediately, ready to be armed on a schedule.
 
 Author the routines **here**, once. Do not hand-edit them per brand — when a routine's method changes, change it here and re-stamp, so every brain stays in sync. (This is the "clean long-term flow" the brand-instance `.claude/README.md` points at.)
 
@@ -19,7 +19,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
     - `disconnect-factory` — the deliberate decoupling for teams that want to own and edit the method itself. Confirmation-gated.
     - `setup-routines` — one-time installer that arms the cron schedules in a fresh instance.
     - `get-started` — the first-run walkthrough: teaches a new user (or a teammate who just cloned the brain) what it knows, how to use it, and the single best first move, grounded in the brand's own data. On-demand and re-runnable; the runner invokes it live at hand-off.
-- **`schedules/`** → stamped to the brand brain's **`schedules/`**. One recipe per routine (task, cron cadence, what it runs/reads/updates, deliverable, status, origin) plus the folder README. These are repo-native cron routines — **not** the Parker-MCP `workflows/` product surface (see `system/schedules.md`).
+- **`schedules/`** → stamped to the brand brain's **`schedules/`**. One recipe per routine (task, cron cadence, what it runs/reads/updates, deliverable, status, origin) plus the folder README. These are repo-native cron routines — **not** the Parker-MCP `workflows/` product surface (see `parker-system/system/schedules.md`).
 
 ## How it's stamped
 
@@ -30,7 +30,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
 These skills are faithful distillations of the factory method docs — keep them in sync with:
 - `self-improvement/the-living-loop.md` (the plan→execute spine + the five streams)
 - `self-improvement/dreaming-system.md` (the planning arm, the day's-comms read, the verbatim rule)
-- `system/schedules.md` (repo-native cron vs MCP workflows)
-- `system/open-loops-system.md` (the loop lifecycle the `self-improve` roll-up runs)
-- `system/refresh-cadence.md` (what `refresh-context` acts on)
-- `prompts/ideas-and-briefs/` (what `harvest-ideas` / `evaluate-ideas` distill)
+- `parker-system/system/schedules.md` (repo-native cron vs MCP workflows)
+- `parker-system/system/open-loops-system.md` (the loop lifecycle the `self-improve` roll-up runs)
+- `parker-system/system/refresh-cadence.md` (what `refresh-context` acts on)
+- `parker-system/prompts/ideas-and-briefs/` (what `harvest-ideas` / `evaluate-ideas` distill)

@@ -18,7 +18,7 @@ triggers:
 
 Take a loop the open-loops roll-up already promoted and turn it into a hypothesis: the loop's open question becomes a falsifiable prediction, and the **test that would settle it** — the few complementary pulls that each see a different angle, within Parker's reach — is named. The output is a short hypothesis document routed either to the user for approval or straight into the testing queue. The discipline is the strategist's cut on depth, not breadth: triangulate the full picture from a few sources, but don't over-build any one of them into a research study.
 
-This is the middle stage of the loop-to-validation chain: **roll-up promotes → advance plans → validate resolves.** This skill does the planning only. It does not re-score the loop, and it does not run the research. If the loop has not been graded and promoted yet, that is the roll-up's job (`prompts/open-loops/open-loops-roll-up.md`); if the plan is ready to run, that is `open-loops-validate`.
+This is the middle stage of the loop-to-validation chain: **roll-up promotes → advance plans → validate resolves.** This skill does the planning only. It does not re-score the loop, and it does not run the research. If the loop has not been graded and promoted yet, that is the roll-up's job (`parker-system/prompts/open-loops/open-loops-roll-up.md`); if the plan is ready to run, that is `open-loops-validate`.
 
 ## What you are working from
 

@@ -10,7 +10,7 @@ Every data tool below depends on the brand's data actually being reachable. If t
 
 When the connection is missing, say so plainly and name what it takes to fix it:
 
-- Parker needs **some way to reach the brand's marketing data** — the ad account, organic social, customer reviews, post-purchase surveys, the competitor/inspo ad library. The **Parker MCP is the one connection that carries all of it**, so it is the recommended path: connect it and every tool below comes online at once.
+- Parker needs **some way to reach the brand's marketing data** — the ad account, organic social, customer reviews, post-purchase surveys, the competitor/inspo ad library. The **Parker MCP is the one connection that carries all of it**, so it is the recommended path: connect it and every tool below comes online at once. The connection instructions live at https://app.heyparker.ai/dashboard/parker-brain — point the user there whenever the MCP is missing.
 - It does **not strictly have to be the Parker MCP.** A team can also feed Parker the same evidence through other independent platforms or exports — an ads-manager export, an organic-social export, a reviews/PPS dump — and Parker will reason over what it is given. That route is more manual and piecemeal; the Parker MCP is what makes the whole toolset work without hand-feeding.
 - Until a data path exists, treat the brain as **evidence-starved**: answer from whatever the brand has handed over, mark every claim's limits, and name the missing connection as the blocker rather than guessing.
 

@@ -31,9 +31,10 @@ Times are suggestions — confirm against the user's timezone and working rhythm
 ## Steps
 
 1. **Confirm prerequisites** (guided mode only) — timezone, connected MCP/web tools, and that the user wants all six (or a subset). Build mode skips this step and registers the full set at the defaults.
+   - **Check for another instance's schedules first — this brain may be shared.** Schedules are per-account, so a teammate may already have these routines armed on *their* account: read the `../schedules/*.md` status lines before registering anything. If they're marked active (registered by someone, with a date), say so plainly and ask before arming: two accounts running the same weekly refresh or nightly dream means every routine fires twice — double the usage, and two cloud runs pushing generated docs into the same repo. The right setups are one teammate owning the schedules, or splitting the routines between accounts — never the same routine armed twice. Only arm a duplicate when the prior instance is being retired, and note the handover in the status line.
 2. **Register each routine** via `/schedule`, one per row above (all six). **Prefix every schedule's name with the brand** — "[brand]: dream", "[brand]: standard updates" — because schedules are account-level, and an account running two brand brains would otherwise hold two indistinguishable "dream" jobs; the prefix is also what the reconcile step matches on. The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
 3. **Verify** — list the scheduled routines back to the user with their next-run times, and confirm each points at the right skill.
-4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active), so the schedule doc reflects reality.
+4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active, plus who registered it and when), and commit the change, so the schedule doc reflects reality and a teammate's later `/setup-routines` run can see the routines are already owned.
 
 ## Notes
 

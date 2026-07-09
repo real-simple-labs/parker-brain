@@ -2,7 +2,7 @@
 
 Set up a direct comparison between two options, methods, eras, or products in the opener so the viewer leans in to see which one wins.
 
-The format and its psychology live in `creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
+The format and its psychology live in `parker-system/creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
 
 ## Psychological framework
 

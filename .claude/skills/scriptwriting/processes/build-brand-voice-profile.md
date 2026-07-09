@@ -1,6 +1,6 @@
 # Process — Build Brand Script-Voice Profile
 
-Build a brand's voice fingerprint from its own winning scripts before writing or adapting anything. This is the operational version of the profile method in `creative-strategy-context/spoken-script-voice.md`. The profile becomes the brand baseline every script is checked against, so generated lines land in the brand's register instead of generic ad-voice.
+Build a brand's voice fingerprint from its own winning scripts before writing or adapting anything. This is the operational version of the profile method in `parker-system/creative-strategy-context/spoken-script-voice.md`. The profile becomes the brand baseline every script is checked against, so generated lines land in the brand's register instead of generic ad-voice.
 
 This is step one of every scripting request. Run it before find-reference-ads.
 

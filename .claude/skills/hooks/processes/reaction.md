@@ -2,7 +2,7 @@
 
 Open on a strong, genuine emotional reaction — tears, shock, anger, delight — held before any explanation, so the viewer has to keep watching to find out what caused it.
 
-The format and its psychology live in `creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
+The format and its psychology live in `parker-system/creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
 
 ## Psychological framework
 

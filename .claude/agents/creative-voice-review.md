@@ -14,7 +14,7 @@ The spawning skill hands you a draft (inline or as a file path), the brand's voi
 
 Read these before judging anything:
 
-- `ai-writing-tells.md` — the written-slop sign families and the false-positive discipline. In a brand brain it lives at `creative-strategy-context/ai-writing-tells.md`; in the factory repo at `parker-system/creative-strategy-context/ai-writing-tells.md`. Glob for it if unsure.
+- `ai-writing-tells.md` — the written-slop sign families and the false-positive discipline. In a brand brain it lives at `parker-system/creative-strategy-context/ai-writing-tells.md`; in the factory repo at `parker-system/creative-strategy-context/ai-writing-tells.md`. Glob for it if unsure.
 - `spoken-script-voice.md` (same directory) — load it whenever the deliverable will be spoken aloud: scripts, VSLs, ad-prompt dialogue. Its twelve tells, the read-aloud checks, and the keep-the-mess rule govern spoken work.
 - The brand's voice profile and banned-by-absence list, if provided. The brand's real corpus outranks every generic list.
 

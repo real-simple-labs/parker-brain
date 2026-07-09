@@ -6,7 +6,7 @@ The objection is already public and already shared by the audience. Answering it
 
 ## Required inputs
 
-- A real comment from the brand's ad or organic surfaces. Source: the ad-comments audit — `prompts/personas/ad-comments.md`, the `search_facebook_ad_comments_semantic` and `search_facebook_ad_comments_sql` MCP surfaces. The 32-Degrees dupe comment is a real documented example of this surface.
+- A real comment from the brand's ad or organic surfaces. Source: the ad-comments audit — `parker-system/prompts/personas/ad-comments.md`, the `search_facebook_ad_comments_semantic` and `search_facebook_ad_comments_sql` MCP surfaces. The 32-Degrees dupe comment is a real documented example of this surface.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 - The brand's defensible answer to the objection.

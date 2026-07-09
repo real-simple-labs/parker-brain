@@ -5,7 +5,7 @@
 - **Sources:** `open-loops/` and every context doc's open-loops tail, dreaming's captured loop proposals, `hypotheses/` (the testing queue and awaiting-user), `re-validations/scheduled/`, plus the live Parker MCP pulls each test plan names.
 - **Skill:** `.claude/skills/research-loops/` (`/research-loops`), which sequences the roll-up prompt (`parker-system/prompts/open-loops/open-loops-roll-up.md`) and the `open-loops-advance` / `open-loops-validate` skills.
 - **Deliverable:** The consolidated roll-up updated, hypotheses filed (awaiting-user surfaced), validations resolved into their four states with closure docs, re-validation results filed, the research digest, and doc-alignment updates applied or proposed with validation provenance.
-- **Origin:** Seeded 2026-07-02 from `system/open-loops-system.md` and the loop pipeline skills, at Jimmy's direction that the loop → hypothesis → validation system run standing, like dreaming and the idea cycle.
+- **Origin:** Seeded 2026-07-02 from `parker-system/system/open-loops-system.md` and the loop pipeline skills, at Jimmy's direction that the loop → hypothesis → validation system run standing, like dreaming and the idea cycle.
 - **Status:** Job committed and live. Schedule **not yet registered** — run `/setup-routines` to arm it.
 
 ## Schedule recipe (register once via `/schedule`)

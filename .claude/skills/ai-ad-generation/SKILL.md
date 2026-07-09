@@ -36,7 +36,7 @@ This skill produces prompt text. It does not generate the final asset, evaluate 
 
 ## What you are working from
 
-The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `system/parker-tools.md`.
+The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `parker-system/system/parker-tools.md`.
 
 ## Background that loads up front
 

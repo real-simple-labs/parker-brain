@@ -6,7 +6,7 @@ The convergence is proof the language already lives in the customer's head. The 
 
 ## Required inputs
 
-- A documented VoC convergence with mention count. Source: the VoC assembly at `prompts/voice-of-customer/voice-of-customer-assembly.md` and the metaphor and pain-phrase corpora.
+- A documented VoC convergence with mention count. Source: the VoC assembly at `parker-system/prompts/voice-of-customer/voice-of-customer-assembly.md` and the metaphor and pain-phrase corpora.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, compliance constraints.
 

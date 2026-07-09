@@ -6,8 +6,8 @@ The idea was logged because something about it resonated. Concepting turns that 
 
 ## Required inputs
 
-- A logged idea from the brand idea bank with its justification field. Source: `prompts/ideas-and-briefs/brand-idea-bank.md`.
-- The brief-creation flow this ties into. Source: `prompts/ideas-and-briefs/brief-creation.md`.
+- A logged idea from the brand idea bank with its justification field. Source: `parker-system/prompts/ideas-and-briefs/brand-idea-bank.md`.
+- The brief-creation flow this ties into. Source: `parker-system/prompts/ideas-and-briefs/brief-creation.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 

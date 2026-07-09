@@ -18,7 +18,7 @@ triggers:
 
 Maintain the living idea bank for a specific brand. The brand idea bank stores ideas Parker may want to retrieve later for hooks, scripts, headlines, briefs, audits, concept generation, and creative strategy.
 
-The brand idea bank spec lives at `prompts/ideas-and-briefs/brand-idea-bank.md`. Read that spec before creating, updating, merging, or curating entries.
+The brand idea bank spec lives at `parker-system/prompts/ideas-and-briefs/brand-idea-bank.md`. Read that spec before creating, updating, merging, or curating entries.
 
 ## What feeds the idea bank
 
@@ -37,7 +37,7 @@ Parker should create or update idea-bank entries from:
 
 ## What you are working from
 
-The keep-or-cut judgment this skill makes on every entry runs on the canonical ideation method, not a generic gut call. Before deciding what belongs, load what `parker-system/creative-strategy-context/expertise-routing.md` names for idea-bank and ideation work: `ideation-and-brainstorming.md`, the senior-strategist reasoning for what an idea is, where ideas come from, and what makes one worth keeping. The storage schema this skill fills lives in its spec, `prompts/ideas-and-briefs/brand-idea-bank.md`; the spec is how that reasoning gets stored, so read both before curating. Brand and creative data pull through the Parker tools inventoried in `system/parker-tools.md`.
+The keep-or-cut judgment this skill makes on every entry runs on the canonical ideation method, not a generic gut call. Before deciding what belongs, load what `parker-system/creative-strategy-context/expertise-routing.md` names for idea-bank and ideation work: `ideation-and-brainstorming.md`, the senior-strategist reasoning for what an idea is, where ideas come from, and what makes one worth keeping. The storage schema this skill fills lives in its spec, `parker-system/prompts/ideas-and-briefs/brand-idea-bank.md`; the spec is how that reasoning gets stored, so read both before curating. Brand and creative data pull through the Parker tools inventoried in `parker-system/system/parker-tools.md`.
 
 From the ideation method, the bar an entry has to clear is freshness, not familiarity. The ice box is for new directions worth targeting — a fresh angle, a different visual, a hook the brand is not already running — and every entry carries what was liked and why, because that note is what makes a half-baked idea retrievable later. The capture bar is lower than a concept's on purpose: a hook, a format, a storyline, a single line of customer language, or a visual is enough to log when something resonated. But what counts as worth keeping is relative to the brand's goal and the state of its account, so weigh the idea against both where they are known. An entry that never speaks the method's language proves the method was never opened.
 

@@ -5,7 +5,7 @@
 - **Sources:** `running-notes/refresh-schedule.md`, each standing doc's frontmatter, the live sources each doc rests on (Parker MCP reads, brand surfaces, web), `parker-system/creative-strategy-context/` per the `CLAUDE.md` routing table.
 - **Skill:** `.claude/skills/refresh-context/` (`/refresh-context`).
 - **Deliverable:** Due docs re-run and re-stamped, `refresh-schedule.md` updated, a short report of what was refreshed / left / surfaced.
-- **Origin:** Seeded 2026-06-18 from the factory's `system/refresh-cadence.md`.
+- **Origin:** Seeded 2026-06-18 from the factory's `parker-system/system/refresh-cadence.md`.
 - **Status:** Job committed and live. Schedule **not yet registered** in this instance — run `/setup-routines` to arm it.
 
 ## Schedule recipe (register once via `/schedule`)

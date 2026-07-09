@@ -28,7 +28,7 @@ This skill writes scripts. It does not write hooks in isolation (route to hooks 
 
 ## What you are working from
 
-Scriptwriting runs on the canonical methods, routed by `parker-system/creative-strategy-context/expertise-routing.md`: `spoken-script-voice.md`, the human-voice doctrine and AI-tells audit, mandatory before writing any words; `scriptwriting.md` and `adapting-scripts.md` for the craft and the 1:1 adaptation method; `visual-vocabulary-method.md` for per-beat visual direction; and `hooks.md` for the opener. Reference ads and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
+Scriptwriting runs on the canonical methods, routed by `parker-system/creative-strategy-context/expertise-routing.md`: `spoken-script-voice.md`, the human-voice doctrine and AI-tells audit, mandatory before writing any words; `scriptwriting.md` and `adapting-scripts.md` for the craft and the 1:1 adaptation method; `visual-vocabulary-method.md` for per-beat visual direction; and `hooks.md` for the opener. Reference ads and customer language pull through the Parker tools inventoried in `parker-system/system/parker-tools.md`.
 
 ## The default flow is reference-driven adaptation
 
