@@ -16,7 +16,7 @@ The defining example: the open-loops system used to say "If a loop has several t
 
 The rule lives in one of:
 - A system doc at `parker-v2/[topic]-system.md` or similar
-- The open-loops reasoning doc at `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`
+- The open-loops reasoning doc at `creative-strategy-context/creative-strategy-fundamentals.md`
 - A methodology doc at `parker-v2/[topic]-method.md`
 
 If the rule exists in multiple places, the one that gets loaded at runtime alongside prompts is the canonical home. The others are derived.
@@ -46,7 +46,7 @@ A rule without a diagnosis is a rule the model will drift past. The diagnosis is
 
 The rule lives in two places: the canonical doc that runs at runtime, and the training corpus that derived it. Both need to agree.
 
-For rules that derive from the senior-strategist open-loops reasoning, update `global/knowledge/creative-strategy/creative-strategy-fundamentals.md` (or the verdict template in `prompts/open-loops/open-loops-roll-up.md` if it is a grading rule).
+For rules that derive from the senior-strategist open-loops reasoning, update `creative-strategy-context/creative-strategy-fundamentals.md` (or the verdict template in `prompts/open-loops/open-loops-roll-up.md` if it is a grading rule).
 
 ### 5. Check if the prompt reference paragraphs need updating
 

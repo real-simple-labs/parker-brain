@@ -51,7 +51,6 @@ PATH_PREFIXES = [
     "parker-system/",
     "creative-strategy-context/",
     "parker-system/creative-strategy-context/",
-    "global/knowledge/creative-strategy/",
 ]
 
 

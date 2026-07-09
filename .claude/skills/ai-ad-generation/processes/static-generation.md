@@ -14,7 +14,7 @@ The output is prompt text that gets pasted into an image model alongside brand r
 
 ## Format library reference
 
-The full library lives at `global/knowledge/creative-strategy/ai-static-ad-generation.md`. Eight categories cover the proven format families:
+The full library lives at `parker-system/creative-strategy-context/ai-static-ad-generation.md`. Eight categories cover the proven format families:
 
 - **Social proof & testimonials.** Customer voices, review data, star ratings, verified badges. Pick for trust-sensitive categories, high-consideration purchases, or retargeting where one more trust signal closes the deal.
 - **Comparison & competition.** Side-by-side against competitors or generic category. Pick for crowded markets, products with measurable advantages, or audiences who frequently mention switching from competitors.

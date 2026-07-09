@@ -17,7 +17,7 @@ This is step one of every scripting request. Run it before find-reference-ads.
 
 ## The visual twin
 
-When the brand's visual-vocabulary doc exists at `sub-context-docs/visual-vocabulary.md`, load it with the voice profile. The two are twins. Voice is what the brand sounds like; the vocabulary is what it looks like — the brand's filmed settings, talent situations, and product moves, classified in-play, adjacent, and out-of-play per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`. The voice profile anchors the words a script writes; the vocabulary anchors the visual direction each beat carries. Load both so the script's sound and look both belong to the brand.
+When the brand's visual-vocabulary doc exists at `sub-context-docs/visual-vocabulary.md`, load it with the voice profile. The two are twins. Voice is what the brand sounds like; the vocabulary is what it looks like — the brand's filmed settings, talent situations, and product moves, classified in-play, adjacent, and out-of-play per the method at `parker-system/creative-strategy-context/visual-vocabulary-method.md`. The voice profile anchors the words a script writes; the vocabulary anchors the visual direction each beat carries. Load both so the script's sound and look both belong to the brand.
 
 ## Source order
 

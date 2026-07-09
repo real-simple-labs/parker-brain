@@ -13,6 +13,8 @@ For each routine below, create a scheduled cloud agent (a "routine") whose promp
 
 This skill runs two ways. **Build mode** — the onboarding build invokes it at the stamp step: register all six routines at the default cadences below with no questions asked, using the user's timezone when the session already knows it (from intake or the account) and the suggested times otherwise. The build's go-ahead covers the consent and the build's finish carries the disclosure, so don't re-ask here. **Guided mode** — a person invokes it: before registering, confirm their timezone, which routines they want, and that the instance's data sources (Parker MCP server, web tools) are connected — a scheduled run can only do what the connected tools allow.
 
+**Say what it costs — plainly, once, at the right moment.** Every scheduled run is a real Claude Code session doing real reading and writing, and it draws from the same usage as everything else on the account — the plan's usage limits on a subscription, per-token billing on an API account. Six routines with dreaming daily is a meaningful standing draw, and dreaming is the biggest single driver. In guided mode, say this before registering and let it shape their picks — turning dreaming down to a few days a week, or starting with a subset, is a perfectly good answer. In build mode, don't interrupt the build with it, but make sure the finish's disclosure sentence carries it: what's running, when, that it consumes usage on this account, and that `/setup-routines` changes the cadence or turns any routine off.
+
 ## The routines to register
 
 | Routine | Skill | Cadence | Suggested cron |
@@ -29,13 +31,13 @@ Times are suggestions — confirm against the user's timezone and working rhythm
 ## Steps
 
 1. **Confirm prerequisites** (guided mode only) — timezone, connected MCP/web tools, and that the user wants all six (or a subset). Build mode skips this step and registers the full set at the defaults.
-2. **Register each routine** via `/schedule`, one per row above (all six). The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
+2. **Register each routine** via `/schedule`, one per row above (all six). **Prefix every schedule's name with the brand** — "[brand]: dream", "[brand]: standard updates" — because schedules are account-level, and an account running two brand brains would otherwise hold two indistinguishable "dream" jobs; the prefix is also what the reconcile step matches on. The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
 3. **Verify** — list the scheduled routines back to the user with their next-run times, and confirm each points at the right skill.
 4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active), so the schedule doc reflects reality.
 
 ## Notes
 
-- **Re-runnable safely**: if a routine is already registered, update it rather than duplicating. List existing scheduled routines first and reconcile.
+- **Re-runnable safely**: if a routine is already registered, update it rather than duplicating. List existing scheduled routines first and reconcile — matching on this brand's name prefix, so another brain's routines on the same account are never touched.
 - **Subset is fine**: a user may want only dreaming + ideas at first. Register what they confirm; leave the rest documented in `../schedules/` for later.
 - **Manual fallback**: every routine can also be run on demand by invoking its skill directly (`/dream`, `/self-improve`, …) without any schedule — useful for a first manual pass before arming the cron.
 - Self-contained: this skill only registers schedules that point at in-repo skills. It does not depend on the factory.

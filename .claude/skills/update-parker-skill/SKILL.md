@@ -36,7 +36,7 @@ The reason: global changes have wide blast radius. A system-doc edit propagates 
 
 ### What counts as global
 
-- Any edit to a system doc, rubric, knowledge doc, methodology doc, or template at the `parker-v2/` top level (e.g., `system/open-loops-system.md`, `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`, `global/knowledge/creative-strategy/public-ad-library-analysis.md`, `templates/voc-design.md`, `templates/personas-template.md`).
+- Any edit to a system doc, rubric, knowledge doc, methodology doc, or template at the `parker-v2/` top level (e.g., `system/open-loops-system.md`, `creative-strategy-context/creative-strategy-fundamentals.md`, `creative-strategy-context/public-ad-library-analysis.md`, `templates/voc-design.md`, `templates/personas-template.md`).
 - Any edit to a prompt at `prompts/**`.
 - Any edit to a skill at `skills/**` — including this one.
 - Any new entry to the reasoning library at `parker-v2/reasoning-layer-notes/`.
@@ -65,6 +65,7 @@ The skill produces a structured proposal before any edits. The proposal includes
 6. **Training corpus updates** — which cases or reasoning entries need to change and how.
 7. **Brand outputs flagged for re-run** — which outputs will need re-running after this change lands, with the impact named explicitly.
 8. **Index doc updates** — which READMEs need new entries or updated entries.
+9. **Migration impact** — standing brand brains pin the factory at a release tag and only move the pin, so ask explicitly: does this change reshape the brand repo itself (a renamed or moved path a brain references, a new standing file brains should carry, a change to the committed `.claude/` bundle or the brand-brain layout)? If yes, the proposal includes the `migrations/vN.md` content that ships in the same change, per `migrations/README.md` and the Releases And Migrations rules in `CLAUDE.md`. A method-only change states "no migration — pin bump delivers it."
 
 The user then approves, redirects, or rejects. The skill executes only after explicit approval. If the user asks for changes to the proposal, the skill re-proposes — it does not start editing and assume the user will catch the differences.
 
@@ -120,7 +121,7 @@ The skill runs in two phases: **propose** (always, for global changes) and **exe
 
 7. **Propagate per the approved scope.** If inheriting via reference, verify each dependent prompt actually loads the canonical doc by name. If updating reference paragraphs, make the same edit consistently across all affected prompts.
 
-8. **Capture the reasoning per the approved scope.** If the change is a new open-loops reasoning move or prior, add it to `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`. If the change reshapes how a prompt should work, add a new entry to `reasoning-layer-notes/` documenting the move.
+8. **Capture the reasoning per the approved scope.** If the change is a new open-loops reasoning move or prior, add it to `creative-strategy-context/creative-strategy-fundamentals.md`. If the change reshapes how a prompt should work, add a new entry to `reasoning-layer-notes/` documenting the move.
 
 9. **Update index docs per the approved scope.** READMEs that list affected docs need to reflect new files, new sections, or new references. Common ones: `parker-v2/README.md`, `prompts/brand-profile/README.md`, brand README files.
 
@@ -138,7 +139,7 @@ New skills inherit the system's structural standards at creation time, not by re
 - **Canonical-doc-plus-reference, never pasted rules.** A new skill references the canonical doctrine by name (`spoken-script-voice.md`, `ai-writing-tells.md`, the routing map) rather than copying its rules inline — pasted copies drift on the next canonical edit.
 - **Register-match customer language.** Written sources (reviews, surveys, threads) ship verbatim in written deliverables and get voiced — same vocabulary, re-cadenced for the mouth — in spoken ones, per the written-vs-spoken rule in `spoken-script-voice.md`. A skill that touches customer language in both registers carries this distinction explicitly.
 - **Provenance on anything durable.** Outputs that later work depends on carry their sources per `system/attribution-principle.md`, and receipts (Brand Context Applied, sign-offs, gate blocks) are part of the output contract, not optional trim.
-- **Ship-list check.** A new skill that adds files outside `.claude/skills/` (agents, scripts, knowledge docs) extends the onboarding-runner ship step and the propagate script's deliberate-adds list in the same pass, or the skill works in the factory and points at nothing in every brand brain.
+- **Ship-list check.** A new skill that adds files outside `.claude/skills/` (agents, scripts, knowledge docs) extends the onboarding-runner ship step in the same pass — and if already-built brains need the file too, the release's migration carries it (`migrations/README.md`) — or the skill works in the factory and points at nothing in every brand brain.
 
 ## When NOT to use this skill
 

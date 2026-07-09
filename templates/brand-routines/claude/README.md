@@ -15,11 +15,13 @@ So the work is fully pre-built and version-controlled; the clock gets armed **pe
 
 ## What's here
 
-- **`settings.json`** — committed project config. The `UserPromptSubmit` hook runs `hooks/craft-context.py`, which injects the actual craft catalog (the DOC-MAP table from `parker-system/creative-strategy-context/expertise-routing.md`) into every turn, plus the standing rules: load the method docs the question touches, close substantive answers with a Sources list, and treat a creative answer whose sources name no method doc as under-retrieved. A menu in front of the planner beats a reminder to go find one. Travels with the repo; falls back to a plain pointer if the catalog file is missing.
-- **`hooks/craft-context.py`** — the small script behind that hook. Reads the generated DOC-MAP section live, so the injected catalog stays current as method docs are added.
+- **`settings.json`** — committed project config. The `permissions.deny` rules keep the `parker-system/` method mount (a pinned submodule of the public factory) read-only, so updates only ever arrive through `/update-brain` moving the pin. The `SessionStart` hook runs `hooks/session-start.py`, which catches a clone whose mount was never initialized (empty `parker-system/`), says exactly how to fix it (`git submodule update --init parker-system`), and reminds the session to `git pull --recurse-submodules` before real work. The `UserPromptSubmit` hook runs `hooks/craft-context.py`, which injects the actual craft catalog (the DOC-MAP table from `parker-system/creative-strategy-context/expertise-routing.md`) into every turn, plus the standing rules: load the method docs the question touches, close substantive answers with a Sources list, and treat a creative answer whose sources name no method doc as under-retrieved. A menu in front of the planner beats a reminder to go find one. Travels with the repo; falls back to a plain pointer if the catalog file is missing.
+- **`hooks/craft-context.py`** — the small script behind the prompt hook. Reads the generated DOC-MAP section live, so the injected catalog stays current as method docs are added.
+- **`hooks/session-start.py`** — the small script behind the session-start check. Instruction-only: it runs no git commands itself, it tells the session what to run.
 - **`skills/`** — `.claude/skills/` is where Claude Code loads skills from, so **all** of the brain's skills live here. Alongside the routines listed below sit the **craft skills** (scriptwriting, hooks, headlines, iterations, ad-account-analysis, ai-ad-generation, the open-loops pipeline, and the rest), copied in during onboarding so the brand `CLAUDE.md` can route execution through `.claude/skills/<skill>/` and they register the moment the brain is cloned. The routines, each a self-contained skill (invoke as `/refresh-context`, `/dream`, etc.):
   - `refresh-context` — re-runs stale context docs on cadence.
-  - `update-brain` — weekly standard check against the factory and the brain's own canonical build; offers gaps, never overrides, remembers declines.
+  - `update-brain` — weekly standard check: in the standard (connected) layout it compares the pinned factory release against the newest and offers the bump plus its migrations; on a decoupled brain it falls back to per-file compare-and-offer. Never overrides, remembers declines.
+  - `disconnect-factory` — the deliberate decoupling: converts the read-only `parker-system/` mount into files the team owns (or repoints it at their own factory copy), removes the guardrails, and flips the update posture. Confirmation-gated; never runs as a side effect.
   - `dream` — daily dreaming run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
   - `harvest-ideas` — weekly agentic idea capture into the idea bank.
   - `evaluate-ideas` — ranks the idea bank against the strategic roadmap.
@@ -31,7 +33,7 @@ So the work is fully pre-built and version-controlled; the clock gets armed **pe
 
 ## Portability rule (important)
 
-These skills are **self-contained**. The brand brain is the *output* of the `parker-brain` factory, but the factory does **not** travel when this repo is cloned. So every skill embeds its own method and points only at in-repo surfaces — `CLAUDE.md`, the folder READMEs (`open-loops/`, `idea-bank/`, `dreaming/`, `schedules/`…), `parker-system/creative-strategy-context/`, and the brand's own docs. No skill reads a `parker-brain/...` path at runtime, because in a cloned instance that path won't exist.
+These skills are **self-contained**. The brand brain is the *output* of the `parker-brain` factory, but the factory does **not** travel when this repo is cloned. So every skill embeds its own method and points only at in-repo surfaces — `CLAUDE.md`, the folder READMEs (`open-loops/`, `idea-bank/`, `dreaming/`, `schedules/`…), the `parker-system/` mount, and the brand's own docs. The mount itself travels as a pinned submodule, so a clone materializes it with `git submodule update --init` (the session-start hook catches a clone that skipped it).
 
 ## System-of-records note (for the factory maintainer)
 

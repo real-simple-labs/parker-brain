@@ -1,8 +1,8 @@
 # Schedule — update-brain
 
-- **Task:** Compare this brain against the current `parker-brain` factory (new method docs, skills, prompts, system docs, synced blocks) and against its own canonical build (standing docs never generated), then write the offer list — take / decline / defer — to the ledger and the digest. **Offers only; a scheduled run applies nothing.** Declined items stay declined until the factory version moves.
+- **Task:** Compare this brain against the current `parker-brain` factory — on the standard layout, the pinned `parker-system/` release against the newest factory tag (the offer is the release bump plus its migrations); on a decoupled brain, per-file compare — and against its own canonical build (standing docs never generated), then write the offer list — take / decline / defer — to the ledger and the digest. **Offers only; a scheduled run applies nothing.** Declined items stay declined until the factory version moves.
 - **Cadence:** Weekly, early Monday, so the week opens with the offer list ready before the refresh sweep runs.
-- **Sources:** The factory remote recorded in `running-notes/standard-sync.md` (shallow fetch), the brain's own `parker-system/prompts/` and their path map, the standing docs on disk, and the ledger's history of prior answers.
+- **Sources:** The posture, pin, and factory remote recorded in `running-notes/standard-sync.md`, the factory's tags and `migrations/` (fetched through the mount), the brain's own `parker-system/prompts/` and their path map, the standing docs on disk, and the ledger's history of prior answers.
 - **Skill:** `.claude/skills/update-brain/` (`/update-brain`).
 - **Deliverable:** `running-notes/standard-sync.md` updated with the week's comparison and offers, and a plain digest — what's new in the standard, what's missing from this brain, what stayed declined. One line when nothing changed.
 - **Origin:** Seeded 2026-07-02 from Jimmy's direction: standing brains drift below the improving standard and below their own canonical build (older brains missing persona source pulls), and the fix must offer, never override — the team's deletions and edits are theirs.

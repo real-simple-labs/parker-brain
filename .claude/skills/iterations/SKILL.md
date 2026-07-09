@@ -43,7 +43,7 @@ When Phase A flows into Phase B in one run, carry the selection reasoning forwar
 
 ## What you are working from
 
-Both phases run on canonical doctrine, not general intuition. The reads live in `global/knowledge/creative-strategy/`. Load the ones the active phase touches and reason in their named concepts — work that never speaks the doctrine's vocabulary proves the docs were not opened.
+Both phases run on canonical doctrine, not general intuition. The reads live in `parker-system/creative-strategy-context/`. Load the ones the active phase touches and reason in their named concepts — work that never speaks the doctrine's vocabulary proves the docs were not opened.
 
 - `selecting-ads-to-iterate-on.md` — **Phase A.** The selection method: the two precursors (spend volume in the account, run time), spend judged in the context of the whole account, the breakdown effect, the promotional-top-spender caveat, slow-burner vs high-riser, and how 60-day account trends shape the pick. Anytime you reference it, end that output with its required line.
 - `iterations.md` — **Phase B.** The iteration doctrine: the two strategic goals, iteration-vs-recreation, the optimization hierarchy, the signal-change ladder, the dual-lens diagnosis, the high-confidence list, and the iteration reference menu. Anytime you reference it, end that output with its required line.

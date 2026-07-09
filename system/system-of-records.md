@@ -9,8 +9,8 @@ The principle: every rule, concept, block, and method has exactly one home. Ever
 Four trees hold prompts and canon. They are not independent; three of them are downstream of the first.
 
 - **`parker-v2/`** is the canon and the lab. Every source of truth lives here. This is where edits happen.
-- Per-brand `parker-system/` snapshots are shipped inside each vault so the brand brain is self-contained and portable. They should match `parker-v2/` for every shared file.
-- **`parker-brain/`** is the product layer, the clean canonical repo. It mirrors `parker-v2/` canon but uses a different layout: method docs live under `global/knowledge/creative-strategy/` rather than `creative-strategy-context/`, and it omits brand-private material. Shared files should match content even though the path differs.
+- Per-brand `parker-system/` snapshots are shipped inside each lab vault so it is self-contained and portable. They should match `parker-v2/` for every shared file. (Production brand brains built on the current layout have no snapshot to drift: they mount `parker-brain` as a submodule pinned to a release, so their `parker-system/` *is* the factory at that tag. The parity checks below apply to the lab vaults and any legacy copy-based brains.)
+- **`parker-brain/`** is the product layer, the clean canonical repo. It mirrors `parker-v2/` canon but uses a different layout: method docs live under `creative-strategy-context/` rather than `creative-strategy-context/`, and it omits brand-private material. Shared files should match content even though the path differs.
 
 ## Synced blocks (one source, many embeds, marker-enforced)
 
@@ -26,9 +26,9 @@ These are kept in step by `scripts/sync-open-loops-core.py`. Each has a source f
 
 These live in `parker-v2/` and are copied into the three vault `parker-system/` trees and into `parker-brain/` when they change. They have no marker enforcement, so they are the highest-drift surface and the audit checks them by content comparison.
 
-- **The reasoning and method layer** — `global/knowledge/creative-strategy/` (the method docs, `expertise-routing.md`, `spoken-script-voice.md`, `visual-vocabulary-method.md`, and the brand lens overlays). In `parker-brain` these live under `global/knowledge/creative-strategy/`.
+- **The reasoning and method layer** — `creative-strategy-context/` (the method docs, `expertise-routing.md`, `spoken-script-voice.md`, `visual-vocabulary-method.md`, and the brand lens overlays). In `parker-brain` these live under `creative-strategy-context/`.
 - **The system layer** — `system/` (`open-loops-system.md`, `parker-system-map.md`, `master-file-structure.md`, `master-prompt-review.md`, `attribution-principle.md`, `three-phase-operating-model.md`, `parker-tools.md`, `refresh-cadence.md`, `schedules.md`, `growing-the-brain.md`, and this doc). The last four also ship into every brand brain as runtime docs per the onboarding runner's system ship list.
-- **The open-loops generation rubric** — `prompts/_open-loops-core-block.md`, synced into every context-doc prompt; the deeper reasoning is `global/knowledge/creative-strategy/creative-strategy-fundamentals.md`, loaded via expertise-routing.
+- **The open-loops generation rubric** — `prompts/_open-loops-core-block.md`, synced into every context-doc prompt; the deeper reasoning is `creative-strategy-context/creative-strategy-fundamentals.md`, loaded via expertise-routing.
 - **The generator prompts** — everything under `prompts/`.
 - **The skills** — `.claude/skills/` (the directory Claude Code loads skills from, so they register on clone).
 - **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context, refresh-schedule, brand-rules, and success-definition templates, the brand-notes-from-org and brand-lens templates, the persona and VoC templates, and the brand-routines bundle with its `claude/hooks/craft-context.py` context hook (the UserPromptSubmit hook that injects the craft catalog every turn; no relation to ad hooks) and `claude/settings.json`).

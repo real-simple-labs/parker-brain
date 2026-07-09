@@ -57,7 +57,7 @@ These principles apply universally and govern every process.
 Every prompt is built from the brand's actual ICP, voice, compliance, and visual identity. If brand context is not loaded, do not generate output. The discipline that makes AI-generated assets usable rather than generic is the discipline of always grounding in brand context.
 
 ### Visual vocabulary grounding
-When `sub-context-docs/visual-vocabulary.md` exists, the brand's in-play shots ground the generation prompt — its filmed settings, talent situations, and product moves are the brand's visual language, per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`. Build the prompt from that language. A visual the prompt invents outside the vocabulary is out-of-play; flag it so the user knows the prompt asks for something the brand has not shot.
+When `sub-context-docs/visual-vocabulary.md` exists, the brand's in-play shots ground the generation prompt — its filmed settings, talent situations, and product moves are the brand's visual language, per the method at `parker-system/creative-strategy-context/visual-vocabulary-method.md`. Build the prompt from that language. A visual the prompt invents outside the vocabulary is out-of-play; flag it so the user knows the prompt asks for something the brand has not shot.
 
 ### Specificity
 Every detail the prompt omits, the model fills in arbitrarily. The discipline of the skill is forensic specificity — what is in the frame, what is said, what is on the soundtrack, what aesthetic governs the composition, what the brand's visual identity actually looks like.
@@ -73,7 +73,7 @@ Where copy is in the prompt — dialogue, headlines, supporting copy — it must
 
 ## Video-specific decisions
 
-The source of truth for everything in this section is `global/knowledge/creative-strategy/veo3-video-prompting.md` — the canonical Veo method, with the full camera-language reference, the worked prompt examples by use case, and the iteration process. What follows is the working recap for picking and running a process; when the two ever diverge, the canonical doc wins, and the deeper craft references live there.
+The source of truth for everything in this section is `parker-system/creative-strategy-context/veo3-video-prompting.md` — the canonical Veo method, with the full camera-language reference, the worked prompt examples by use case, and the iteration process. What follows is the working recap for picking and running a process; when the two ever diverge, the canonical doc wins, and the deeper craft references live there.
 
 ### The five-part formula
 Every Veo prompt is built from these five components:
@@ -115,7 +115,7 @@ The model carries no memory between timestamps. Character details must be repeat
 ## Static-specific decisions
 
 ### Format library reference
-The static-generation process draws from a library of proven format structures, organized by category. The source library is at `global/knowledge/creative-strategy/ai-static-ad-generation.md`, which is the source of truth for the format set — it holds 40 named formats across these categories:
+The static-generation process draws from a library of proven format structures, organized by category. The source library is at `parker-system/creative-strategy-context/ai-static-ad-generation.md`, which is the source of truth for the format set — it holds 40 named formats across these categories:
 
 - **Social proof & testimonials.** Customer voices, review data, star ratings, verified badges. Best for brands with strong review data or high-consideration categories.
 - **Comparison & competition.** Brand vs competitor or generic category. Best for crowded markets or products with measurable advantages.
@@ -129,7 +129,7 @@ The static-generation process draws from a library of proven format structures, 
 The static-generation process picks one or more formats based on the brand's situation and fills the bracketed fields.
 
 ### Recreation discipline
-The recreation method is canonical at `global/knowledge/creative-strategy/static-ad-recreation.md`. The recreation process preserves the original's story while rewriting every word for the brand. Hard constraints:
+The recreation method is canonical at `parker-system/creative-strategy-context/static-ad-recreation.md`. The recreation process preserves the original's story while rewriting every word for the brand. Hard constraints:
 - Every word gets rewritten. Nothing carries over.
 - Word count matches the original at every level.
 - Copy mechanics are preserved — number stays a number, question stays a question, quote stays a quote.

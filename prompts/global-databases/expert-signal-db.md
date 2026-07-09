@@ -24,17 +24,17 @@ Three jobs the database does:
 
 ## Storage and access
 
-The canonical spec lives here. For creative-strategy v1, runtime entries live under `global/knowledge/creative-strategy/expert-insights/`, and reusable cross-brand creative patterns live under `global/knowledge/creative-strategy/parker-taste/`. The file-backed version is the v1 staging layer and uses the same schema the MCP-backed database should enforce later. Future non-creative teams can use Parker's global team signal pools under `global/teams/[team]/expert-insights/` once those layers exist.
+The canonical spec lives here. For creative-strategy v1, runtime entries live under `creative-strategy-context/expert-insights/`, and reusable cross-brand creative patterns live under `creative-strategy-context/parker-taste/`. The file-backed version is the v1 staging layer and uses the same schema the MCP-backed database should enforce later. Future non-creative teams can use Parker's global team signal pools under `global/teams/[team]/expert-insights/` once those layers exist.
 
 Jimmy provides expert content in v1. The first capture path is uploaded video analyzed through Gemini's video understanding API. Parker does not scrape a watchlist yet. When automation arrives, it should create candidate entries for review rather than silently promoting every source into memory.
 
-Team-scoped signals default to the team folder that can act on them. Creative strategy signals go to `global/knowledge/creative-strategy/expert-insights/`. Performance, organic social, search, influencer, brand PR comms, partnerships, and retention signals use their own team folders when those layers exist.
+Team-scoped signals default to the team folder that can act on them. Creative strategy signals go to `creative-strategy-context/expert-insights/`. Performance, organic social, search, influencer, brand PR comms, partnerships, and retention signals use their own team folders when those layers exist.
 
 ## Acquisition layer
 
 V1 acquisition is upload-first.
 
-Jimmy uploads a video file into Parker Vault at `expert-intake`. The app sends the file to Gemini with the Files API, asks Gemini to read both audio and visuals, and saves a reviewable expert signal draft into `global/knowledge/creative-strategy/expert-insights/inbox/`. This is the default path for TikTok videos, social screen recordings, YouTube clips, downloaded videos, and any expert clip where platform scraping is unreliable.
+Jimmy uploads a video file into Parker Vault at `expert-intake`. The app sends the file to Gemini with the Files API, asks Gemini to read both audio and visuals, and saves a reviewable expert signal draft into `creative-strategy-context/expert-insights/inbox/`. This is the default path for TikTok videos, social screen recordings, YouTube clips, downloaded videos, and any expert clip where platform scraping is unreliable.
 
 Link scraping is not the default v1 path. If Jimmy gives a link without a file, Parker should ask for a video upload, screen recording, transcript, screenshots, or manual summary. Official APIs, Apify, oEmbed, and third-party providers can enrich later versions, but the durable v1 system is upload to Gemini first.
 
@@ -95,7 +95,7 @@ Seventh, route it. If the signal is broadly useful, save it to the right team ex
 
 Idea-bank routing is mandatory. Every expert source should answer: did this create or update a brand idea-bank entry, a global taste idea-bank entry, a pattern-to-monitor entry, or no idea-bank entry? Do not force method-only or measurement-only signals into an idea bank, but do record the no-idea-bank decision.
 
-Eighth, propagate it. Add context targets and proposed context updates to the saved entry. If the signal is useful but not yet strong enough to rewrite canonical method, create a candidate under the relevant expert-insights context-update candidates area and, where useful, add it to patterns-to-monitor. For creative strategy, that area is `global/knowledge/creative-strategy/expert-insights/context-update-candidates/`. If the user explicitly approves a context-doc update, or if curation finds repeated evidence, apply the update to the relevant context doc with the source signal cited.
+Eighth, propagate it. Add context targets and proposed context updates to the saved entry. If the signal is useful but not yet strong enough to rewrite canonical method, create a candidate under the relevant expert-insights context-update candidates area and, where useful, add it to patterns-to-monitor. For creative strategy, that area is `creative-strategy-context/expert-insights/context-update-candidates/`. If the user explicitly approves a context-doc update, or if curation finds repeated evidence, apply the update to the relevant context doc with the source signal cited.
 
 Before creating any new candidate or pattern, check whether an existing one should be updated instead. Parker's knowledge should feel like living context, not a pile of disconnected notes.
 

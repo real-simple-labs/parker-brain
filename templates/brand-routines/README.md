@@ -7,7 +7,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
 ## What's in the bundle
 
 - **`claude/`** → stamped to the brand brain's **`.claude/`**. (Named `claude/` without the dot on purpose, so Claude Code does not treat the factory's own template as active config. The runner renames it to `.claude/` on stamp.)
-  - `settings.json` + `hooks/craft-context.py` — the `UserPromptSubmit` context hook (brand-agnostic; a Claude Code hook, no relation to ad hooks). The script injects the live craft catalog from `parker-system/creative-strategy-context/expertise-routing.md` into every turn, with the sources-receipt rule; settings.json wires it up with a static fallback.
+  - `settings.json` + `hooks/` — the committed guardrails and hooks (brand-agnostic; Claude Code hooks, no relation to ad hooks). settings.json carries the deny rules that keep the `parker-system/` mount read-only, plus three hooks: `hooks/session-start.py` (SessionStart — catches an un-initialized mount and reminds about pulling first), `hooks/craft-context.py` (UserPromptSubmit — injects the live craft catalog from `parker-system/creative-strategy-context/expertise-routing.md` into every turn, with the sources-receipt rule and a static fallback), and `hooks/pull-log.py` (PostToolUse — the session pull log the grounding gate verifies).
   - `README.md` — explains the two layers of a routine (job travels in the repo; schedule armed per-account).
   - `skills/` — the bundled skills, self-contained (no `parker-brain/...` paths at runtime). The first four are the scheduled routines; the last two are on-demand helpers:
     - `dream` — daily planning run over the day's comms → five-bucket proposals, captured verbatim (proposes, never applies).
@@ -15,7 +15,8 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
     - `research-loops` — the weekly research cycle: rolls up the open loops, advances promoted ones into hypotheses, runs the validations and due re-validations, and aligns the standing docs with the confirmed findings.
     - `harvest-ideas` → `evaluate-ideas` — the weekly idea cycle (capture verbatim, then grade against the roadmap).
     - `refresh-context` — re-runs docs past their `refresh_by`.
-    - `update-brain` — the weekly standard check: compares the brain against the current factory and its own canonical build, and offers every gap as a choice. Never overrides; the team's edits, deletions, and declines are remembered and respected.
+    - `update-brain` — the weekly standard check: on the standard layout it compares the pinned factory release against the newest tag and offers the bump (applying the factory's `migrations/` notes on a yes); on a decoupled brain it falls back to per-file compare-and-offer. Never overrides; the team's edits, deletions, and declines are remembered and respected.
+    - `disconnect-factory` — the deliberate decoupling for teams that want to own and edit the method itself. Confirmation-gated.
     - `setup-routines` — one-time installer that arms the cron schedules in a fresh instance.
     - `get-started` — the first-run walkthrough: teaches a new user (or a teammate who just cloned the brain) what it knows, how to use it, and the single best first move, grounded in the brand's own data. On-demand and re-runnable; the runner invokes it live at hand-off.
 - **`schedules/`** → stamped to the brand brain's **`schedules/`**. One recipe per routine (task, cron cadence, what it runs/reads/updates, deliverable, status, origin) plus the folder README. These are repo-native cron routines — **not** the Parker-MCP `workflows/` product surface (see `system/schedules.md`).

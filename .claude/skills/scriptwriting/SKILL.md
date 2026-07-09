@@ -28,7 +28,7 @@ This skill writes scripts. It does not write hooks in isolation (route to hooks 
 
 ## What you are working from
 
-Scriptwriting runs on the canonical methods, routed by `global/knowledge/creative-strategy/expertise-routing.md`: `spoken-script-voice.md`, the human-voice doctrine and AI-tells audit, mandatory before writing any words; `scriptwriting.md` and `adapting-scripts.md` for the craft and the 1:1 adaptation method; `visual-vocabulary-method.md` for per-beat visual direction; and `hooks.md` for the opener. Reference ads and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
+Scriptwriting runs on the canonical methods, routed by `parker-system/creative-strategy-context/expertise-routing.md`: `spoken-script-voice.md`, the human-voice doctrine and AI-tells audit, mandatory before writing any words; `scriptwriting.md` and `adapting-scripts.md` for the craft and the 1:1 adaptation method; `visual-vocabulary-method.md` for per-beat visual direction; and `hooks.md` for the opener. Reference ads and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
 
 ## The default flow is reference-driven adaptation
 
@@ -90,7 +90,7 @@ The full script, beat by beat, with timing. Includes:
 - Visual cues throughout — cuts, b-roll, product reveals, on-screen text.
 - Total runtime.
 
-Every beat's visual direction sources from the brand's visual vocabulary doc at `sub-context-docs/visual-vocabulary.md` when it exists, and carries three markings, per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`:
+Every beat's visual direction sources from the brand's visual vocabulary doc at `sub-context-docs/visual-vocabulary.md` when it exists, and carries three markings, per the method at `parker-system/creative-strategy-context/visual-vocabulary-method.md`:
 
 - **In-play, adjacent, or out-of-play.** Mark each beat's visual against the brand's vocabulary. In-play is a shot the brand already films. Adjacent is a near-neighbor the brand has not filmed but the vocabulary supports. Out-of-play is a visual invention outside the brand's current language.
 - **Evidence on every adjacent and out-of-play pick.** Name where the shot was seen — the brand's own organic, a competitor, or an inspo source — so the production ask is grounded, not invented. In-play shots need no evidence; the vocabulary doc already holds them.
@@ -144,7 +144,7 @@ The output structure above governs every path in this skill. `creative-strategy-
 - **Keep the mess. This is the default writing voice for every script.** Every script ships with placed, in-register disfluencies: the natural "so," "okay," "honestly," "I mean," "you know," a repeated word, a small false start, each one voiced where the thought genuinely turns and never sprinkled as decoration. Pull the fillers from how the brand actually sounds (the brand voice profile and the brand's own transcripts), not generic "um, like." A too-clean script that a person could deliver perfectly on the first take is a fail, the same class of miss as an em-dash or a fake question. The one exception: a brand whose voice profile or explicit instruction calls for a clean, polished read. When you take that exception, say so in one line.
 - **Match awareness stage and sophistication.** Different audiences need different lead approaches and proof depths.
 - **Visual cues throughout.** Every beat has visual direction — what is shown, what cut happens, what product moment lands.
-- **Source visuals from the brand's vocabulary.** When `sub-context-docs/visual-vocabulary.md` exists, every beat's visual direction sources from it. Mark each beat in-play, adjacent, or out-of-play per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`. Adjacent and out-of-play picks carry their evidence — where the shot was seen, organic or competitor or inspo — so the production ask is grounded.
+- **Source visuals from the brand's vocabulary.** When `sub-context-docs/visual-vocabulary.md` exists, every beat's visual direction sources from it. Mark each beat in-play, adjacent, or out-of-play per the method at `parker-system/creative-strategy-context/visual-vocabulary-method.md`. Adjacent and out-of-play picks carry their evidence — where the shot was seen, organic or competitor or inspo — so the production ask is grounded.
 - **Script-congruence.** The shot shows what the words claim. A beat whose visual contradicts its dialogue fails. If the line names a thing, the frame shows that thing.
 - **Format-dependence.** The visual grammar follows the chosen ad format. The same beat shoots differently across formats. Direct each beat's visual to the format actually being made, not a generic shot.
 - **No fabricated stats or claims.** Every factual element traces to verified sources.

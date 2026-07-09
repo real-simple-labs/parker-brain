@@ -2,7 +2,7 @@
 
 > Status: `[~]` revised 2026-06-11 from Jimmy's articulation of how Phase 2 and Phase 3 should actually work, and how rigid the phases should be (not very). Supersedes the 2026-06-10 draft. Pending Jimmy's review.
 
-This is how an A+ creative strategist works a brand, captured as three phases: learn everything, decide what to do, then make the work. It sits above the creative method in `global/knowledge/creative-strategy/persona-research-and-creative-strategy-process.md`. That doc is the *how* of the creative read; this doc is the *what happens when*.
+This is how an A+ creative strategist works a brand, captured as three phases: learn everything, decide what to do, then make the work. It sits above the creative method in `parker-system/creative-strategy-context/persona-research-and-creative-strategy-process.md`. That doc is the *how* of the creative read; this doc is the *what happens when*.
 
 Read the governing principle first, because it changes how everything below is used.
 
@@ -67,7 +67,7 @@ These tie together more often than not. "Unlock the older buyer the data keeps s
 
 **Goal.** Turn the strategy into the actual work: ideas, then concepts, then briefs a creator or editor can shoot. This is the phase the talent receives.
 
-The method runs in four stages — capture, evaluate, plan the round, build — already documented in `global/knowledge/creative-strategy/ideation-and-brainstorming.md`. Parker does not rebuild ideation; it runs the method that exists.
+The method runs in four stages — capture, evaluate, plan the round, build — already documented in `parker-system/creative-strategy-context/ideation-and-brainstorming.md`. Parker does not rebuild ideation; it runs the method that exists.
 
 **Ideas, micro and validated by taste.** Ideas are small and many, pulled from TikTok, Reddit, reviews, old print, affinity brands, and the rest of the idea-bearing surfaces. They live in the idea bank, the brand's always-on idea memory, each carrying the reason it is good: an account signal, a persona gap, a customer phrase, a validated adjacent move. Idea capture runs continuously through everything Parker does, not only inside Phase 3.
 

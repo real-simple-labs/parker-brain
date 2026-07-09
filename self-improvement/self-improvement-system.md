@@ -102,7 +102,7 @@ Use the narrowest correct route.
 
 - **Local output issue:** fix the output; capture a trace only if the issue is likely to recur.
 - **Brand-specific learning:** route to `z-brands/[brand]/running-notes/`, brand rules, or the brand swipe file.
-- **Creative-strategy operating pattern:** route to `global/knowledge/creative-strategy/parker-taste/patterns-to-monitor/` or expert-insights candidates.
+- **Creative-strategy operating pattern:** route to `creative-strategy-context/parker-taste/patterns-to-monitor/` or expert-insights candidates.
 - **Expert content:** route through `expert-signal-intake` first, then link any self-improvement trace to the saved expert signal.
 - **Prompt or skill behavior:** create a self-improvement trace and route to the affected prompt or skill as a candidate.
 - **System-level rule:** create a self-improvement trace, update `CLAUDE.md` only when the user explicitly asks or the rule is already clearly approved, and route larger changes through the update process.

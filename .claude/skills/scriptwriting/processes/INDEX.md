@@ -2,7 +2,7 @@
 
 Three groups. The default adaptation path runs first. The idea paths are the distinct ways a strategist arrives at a script idea from the surfaces the brand vaults hold — pick the one whose source surface is live. The framework fallbacks are net-new from scratch, used only when no surface and no reference exist.
 
-Every process's output step cites the voice audit. The human-voice doctrine and the brand voice-profile method live at `global/knowledge/creative-strategy/spoken-script-voice.md` — read it before writing any script's words, and run the brand voice profile against the draft before output.
+Every process's output step cites the voice audit. The human-voice doctrine and the brand voice-profile method live at `parker-system/creative-strategy-context/spoken-script-voice.md` — read it before writing any script's words, and run the brand voice profile against the draft before output.
 
 ## The default adaptation path
 
@@ -29,7 +29,7 @@ Every distinct way a strategist arrives at a script idea from the vault. Each li
 - **script-from-customer-ritual** — Film the ritual the community already performs, honestly. Fires when a customer-invented demo is documented — the squat test, the drain check, the belt hack. Source: `prompts/personas/customer-reviews.md` and the review-mining method.
 - **script-from-calendar-moment** — A seasonal or campaign moment in the brand's own MO: days-out promo flashes, gifting in the buyer's voice, launch beats. Fires when a documented calendar moment approaches. Source: `prompts/brand-profile/marketing-calendar-and-campaigns.md`.
 - **script-from-founder-story** — The origin/why-narrative within what's publicly verified; routes to intake when the founder is absent from canon. Fires for founder-led, unaware or problem-aware placements. Source: `prompts/brand-profile/operations-and-team.md`.
-- **script-from-authority** — A credentialed expert within the claims envelope; the lived moment beats the lab coat. Fires when a real documented expert backs the brand. Source: `creative-strategy-context/expert-insights/INDEX.md` and `prompts/global-databases/expert-signal-db.md`.
+- **script-from-authority** — A credentialed expert within the claims envelope; the lived moment beats the lab coat. Fires when a real documented expert backs the brand. Source: `expert-insights/INDEX.md` and `prompts/global-databases/expert-signal-db.md`.
 
 ## The framework fallbacks
 
