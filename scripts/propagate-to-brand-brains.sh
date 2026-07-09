@@ -120,6 +120,9 @@ for repo in "${REPOS[@]}"; do
     # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
     # SHOULD gain. --existing above never adds files, so each is named here once.
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
+    # New synced-block source: --existing refreshes the 67 embeds inline but never
+    # creates this source file, so name it here to keep the brain's prompts/ a mirror.
+    cp -n "$FACTORY/prompts/_reading-level-block.md" "$ps/prompts/" 2>/dev/null || true
     cp -n "$FACTORY/templates/routine-log-template.md" "$ps/templates/" 2>/dev/null || true
     cp -n "$FACTORY/templates/user-profile-template.md" "$ps/templates/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
