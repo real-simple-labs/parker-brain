@@ -120,6 +120,9 @@ for repo in "${REPOS[@]}"; do
     # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
     # SHOULD gain. --existing above never adds files, so each is named here once.
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
+    # New synced-block source: --existing refreshes the 67 embeds inline but never
+    # creates this source file, so name it here to keep the brain's prompts/ a mirror.
+    cp -n "$FACTORY/prompts/_reading-level-block.md" "$ps/prompts/" 2>/dev/null || true
     cp -n "$FACTORY/templates/routine-log-template.md" "$ps/templates/" 2>/dev/null || true
     cp -n "$FACTORY/templates/user-profile-template.md" "$ps/templates/" 2>/dev/null || true
     [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
@@ -136,6 +139,15 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # The old-ads corpus (harvest v2): a new directory --existing never creates, and
+    # whose entries/ grows at the factory — seed it whole if missing, else add the
+    # new entry files (README/INDEX refresh via the --existing sweep above).
+    if [ -d "$ps/creative-strategy-context/old-ads" ]; then
+      mkdir -p "$ps/creative-strategy-context/old-ads/entries"
+      cp -n "$FACTORY"/creative-strategy-context/old-ads/entries/*.md "$ps/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
+    else
+      cp -R "$FACTORY/creative-strategy-context/old-ads" "$ps/creative-strategy-context/"
+    fi
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -176,6 +188,13 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # The old-ads corpus (harvest v2) — same seed-or-add as the nested branch.
+    if [ -d "$dir/creative-strategy-context/old-ads" ]; then
+      mkdir -p "$dir/creative-strategy-context/old-ads/entries"
+      cp -n "$FACTORY"/creative-strategy-context/old-ads/entries/*.md "$dir/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
+    else
+      cp -R "$FACTORY/creative-strategy-context/old-ads" "$dir/creative-strategy-context/"
+    fi
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi
