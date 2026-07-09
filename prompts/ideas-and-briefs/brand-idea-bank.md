@@ -33,7 +33,9 @@ Entries can also be mirrored into team taste files or pulled from global expert 
 Parker should maintain the idea bank from these sources:
 
 - Customer language. Reviews, survey responses, community posts, and the exact words customers use. This is the bread and butter for concepting, so customer-sourced ideas take priority over everything else.
-- Old print ads and historical advertising. The strategist's gold mine, especially for statics, because nothing is new under the sun and the craft in old headlines and visuals outclasses most modern feed content. Adapt the shape of a strong old line or layout to the brand.
+- Old print ads and historical advertising. The strategist's gold mine, especially for statics, because nothing is new under the sun and the craft in old headlines and visuals outclasses most modern feed content. Adapt the shape of a strong old line or layout to the brand. The curated home for this source is the old-ads corpus at `parker-system/creative-strategy-context/old-ads/`, organized by industry and mechanic; live web archives are the fallback when the corpus is thin.
+- Parker's own cold brainstorm. The notepad method, run feeds-closed at the top of every weekly hunt: the simplest-language hooks and storylines the personas and customer verbatim produce on their own, logged with the persona and seeding language as provenance.
+- Far-transfer categories. Two or three deliberately unrelated categories per weekly hunt, rotated and logged, mined for mechanisms rather than messages — the richest transfers come from outside the category entirely.
 - Organic video and social research. The high-level idea, messaging, hook, or format pulled from a scroll, not only full concepts worth a one-to-one adaptation.
 - Affinity brand paid ads. Brands close in nature to the product but not direct rivals, weighted above direct competitors because copying a competitor is rarely a novel way to scale.
 - Competitor snapshots and competitor paid ads. The hooks and angles a rival is testing that could be adapted and run differently, kept with a note on how Parker would run it differently so it is never replicated one to one.
@@ -64,10 +66,12 @@ Each idea-bank entry carries these fields.
 - **source_link** - link to the source when available.
 - **source_path** - local doc path or Parker source reference when the idea comes from Parker work.
 - **parker_media_links** - every Parker media link, media file path, thumbnail path, video URL, ad-library link, post link, source URL, or media reference available for the source. Preserve each link or path exactly. If no Parker media links or media references were available for the entry, write `No Parker media links were available for this entry.`
-- **source_type** - competitor ad, inspiration ad, organic video, expert content, customer language, community post, user conversation, ideas tab save, internal Parker observation.
+- **source_type** - competitor ad, inspiration ad, organic video, expert content, customer language, community post, user conversation, ideas tab save, internal Parker observation, cold-brainstorm, far-transfer, old-ad-corpus, trend-pulse.
 - **source_name** - brand, creator, expert, user, or doc that produced the idea.
 - **date_added** - when the entry entered the idea bank.
 - **winning_elements** - the parts worth saving, using tags such as hook, visual, script, headline, format, offer, angle, proof, pacing, creator, product demo, comment mechanic, emotional frame.
+- **spark** - the one-breath brand collision, captured at the moment of noticing: what this is, and how it could carry this brand. Record it only when it arrives naturally per the articulation test; if the fit has to be forced, leave the field empty with a one-line note saying no spark landed. A spark is a direction ("this format, pointed at our switcher persona"), never a build — no storylines, variations, scripts, or briefs. It rides on top of the verbatim source and never replaces it.
+- **hunt_lane** - which lane of the hunt produced the entry: a persona or SKU lane, a named far-transfer category, the cold pass, the trend lane, or incidental capture during other work. This is what lets the evaluation and the starving-for read see coverage per lane.
 - **source_read** - narrative description of the source or idea. For visual sources, describe what happens in order so the reader can picture it without seeing it.
 - **justification** - why this idea earned a place. For competitor ads, include running time, top impression status, spend signal, repetition, or placement when available. For organic videos, include views, engagement, comment energy, or visible cultural traction when available. For expert content, include credibility, recency, and tactical specificity. For user-saved ideas, preserve why the user saved it if known.
 - **stage_of_awareness** - unaware, problem aware, solution aware, product aware, or most aware.
@@ -105,6 +109,8 @@ Second, describe the source as if the reader has never seen it. If it is a video
 
 Third, identify the winning elements. Tag the parts Parker should remember. The tags should explain what made the source worth saving, not what the brand should copy.
 
+Then record the spark, if one landed. In one breath: how this could carry the brand. The articulation test is the gate — if the collision arrived in a second or two, write it down; if it has to be forced, leave the field empty with a note, because a labored fit is evidence against the idea. Also record the hunt_lane the entry came from.
+
 Fourth, tell the research story and carry the evidence picture. Treat the entry as context another LLM or strategist may read before concepting from the idea. The entry should show what source was reviewed, what reusable pattern was noticed, what exact line, visual, behavior, or source detail made it worth saving, how representative or thin the evidence is, and what uncertainty remains.
 
 Fifth, preserve the media handles. Fill `parker_media_links` with every Parker media link, media file path, thumbnail path, video URL, ad-library link, post link, source URL, or media reference that came with the source. Preserve the original link or path exactly. If none were available, write `No Parker media links were available for this entry.`
@@ -137,7 +143,7 @@ During monthly curation, merge duplicates, mark stale ideas, promote strong idea
 
 ## Critical rules
 
-1. Do not write how the brand should run competitor, inspiration, or affinity hooks inside the source entry. Adaptation belongs in future concept-generation, grading, and strategy runs.
+1. The spark is welcome; the build is not. An entry carries the one-breath brand collision in its `spark` field when it arrives naturally — that is the moment of combining, and it does not keep until concepting. What stays out of an entry is the *build*: adaptation instructions, worked-out storylines, variations, scripts, and briefs all belong in future concept-generation, grading, and strategy runs. This boundary is scoped to the idea bank only — competitor, inspiration, and affinity **source-capture docs** remain purely descriptive per `system/attribution-principle.md` and never contain how the active brand should respond.
 2. Preserve the source-backed idea, the winning elements, the justification, and the awareness-stage read.
 3. Manual saves from the ideas tab should enter the idea bank unless the user marks them as throwaway.
 4. User conversations can create entries when the idea is durable enough to retrieve later.

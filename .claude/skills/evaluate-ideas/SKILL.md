@@ -1,6 +1,6 @@
 ---
 name: evaluate-ideas
-description: Rank the brand idea bank against the approved Phase-2 strategic roadmap. Grades the whole captured pile — which priority each idea serves, the lever it pulls, how strong the evidence is, whether it trips a roads-not-taken kill — and produces a ranked shortlist by priority that ends in a plain "brief these first" call plus a read of what the bank is starving for. The skeptical pass. Run after harvest-ideas (weekly), when the bank grows enough to change the rank, or when the roadmap is re-approved.
+description: Rank the brand idea bank against the approved Phase-2 strategic roadmap. Grades the whole captured pile — which priority each idea serves, the lever it pulls, how strong the evidence is, whether it trips a roads-not-taken kill — and produces a ranked shortlist by priority that ends in a plain ranked call the sprint plan sizes into a round, plus a read of what the bank is starving for. The skeptical pass. Run after harvest-ideas (weekly), when the bank grows enough to change the rank, or when the roadmap is re-approved.
 ---
 
 # Evaluate ideas — the skeptical pass
@@ -31,7 +31,7 @@ The first two place it; the second two weight it.
 
 ### The written form of each ranked idea (prose, not a table)
 
-First, the entry it came from, named by filename so the brief step can reopen it. Second, the priority + persona in one line. Third, the lever (primary then secondary). Fourth, the evidence band **with its walk** — the band, then the concrete proof: the exact verbatim with source and date, the spend/view count with its window, the own-account number with its denominator. Fifth, the production tier and the one-line verdict.
+First, the entry it came from, named by filename so the brief step can reopen it. Second, the priority + persona in one line. Third, the lever (primary then secondary) — where the entry carries a `spark`, start the lever read from it, because the spark is the harvester's recorded read of how the idea carries the brand; confirm or overrule it, don't ignore it. Fourth, the evidence band **with its walk** — the band, then the concrete proof: the exact verbatim with source and date, the spend/view count with its window, the own-account number with its denominator. Fifth, the production tier and the one-line verdict — a natural spark shortens the path to a brief, so let it inform the speed read, never the confidence band.
 
 The evidence walk is the part a weak evaluation skips:
 - WRONG: "Band: HIGH. Strong customer language and a clear fit."
@@ -39,11 +39,11 @@ The evidence walk is the part a weak evaluation skips:
 
 ## How you rank
 
-Confidence-first, then speed, inside each priority. Own verbatim leads, then proven format, then affinity shapes carrying the same register. Ties on confidence break to faster-to-ship. **Open with the call** — which three or four ideas to brief first and in what order, each with its one reason — then the cross-cutting coverage read, then the full ranked shortlist by priority.
+Confidence-first, then speed, inside each priority. Own verbatim leads, then proven format, then affinity shapes carrying the same register. Ties on confidence break to faster-to-ship. **Open with the call** — which three or four ideas are strongest and in what order, each with its one reason, for the sprint plan to size into a round — then the cross-cutting coverage read, then the full ranked shortlist by priority.
 
 ## What the bank is starving for
 
-After ranking, name what's missing: a priority deep on message but with no genuine product or creator-talent move; a proven own-account winner the roadmap named that no entry redeploys; a prioritized persona the pile never speaks to. Say which lever the bank leans on and which it starves — that read is what the next `harvest-ideas` round acts on.
+After ranking, name what's missing: a priority deep on message but with no genuine product or creator-talent move; a proven own-account winner the roadmap named that no entry redeploys; a prioritized persona the pile never speaks to. Say which lever the bank leans on and which it starves — and read coverage per `hunt_lane` too: a persona lane that logged nothing, a cold pass that keeps coming back empty, a far-transfer lane producing mechanisms nothing pairs with. That read is what the next `harvest-ideas` round's hunt brief acts on.
 
 ## Required sources (all in-repo)
 
