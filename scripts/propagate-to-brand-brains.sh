@@ -125,10 +125,19 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/prompts/_reading-level-block.md" "$ps/prompts/" 2>/dev/null || true
     cp -n "$FACTORY/templates/routine-log-template.md" "$ps/templates/" 2>/dev/null || true
     cp -n "$FACTORY/templates/user-profile-template.md" "$ps/templates/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # Routine-bundle seeding: any routine skill the brain is missing (checked by
+    # SKILL.md, not the dir — rsync --existing leaves empty dirs) is seeded whole,
+    # including the canonical routine dream, plus every schedule recipe.
+    for sk in "$FACTORY"/templates/brand-routines/claude/skills/*/; do
+      name="$(basename "$sk")"
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded routine skill: $name"
+      fi
+    done
+    mkdir -p "$dir/schedules"
+    cp -n "$FACTORY"/templates/brand-routines/schedules/*.md "$dir/schedules/" 2>/dev/null || true
     mkdir -p "$ps/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$ps/fixtures/" 2>/dev/null || true
     # The creative review gates ship as a bundle: the written-tells doctrine, the two
     # reviewer agents (voice + grounding), and the two deterministic checkers they run.
@@ -168,6 +177,7 @@ for repo in "${REPOS[@]}"; do
       fi
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
@@ -193,10 +203,19 @@ for repo in "${REPOS[@]}"; do
     # Deliberate adds (same list as the nested branch). Flat path normalization below
     # rewrites the system docs' nested-layout references.
     cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # Routine-bundle seeding: any routine skill the brain is missing (checked by
+    # SKILL.md, not the dir — rsync --existing leaves empty dirs) is seeded whole,
+    # including the canonical routine dream, plus every schedule recipe.
+    for sk in "$FACTORY"/templates/brand-routines/claude/skills/*/; do
+      name="$(basename "$sk")"
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded routine skill: $name"
+      fi
+    done
+    mkdir -p "$dir/schedules"
+    cp -n "$FACTORY"/templates/brand-routines/schedules/*.md "$dir/schedules/" 2>/dev/null || true
     mkdir -p "$dir/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$dir/fixtures/" 2>/dev/null || true
     # Craft skills refresh (update-only): flat brains built with the craft set in
     # .claude/skills/ get the same SKILL.md updates nested brains get from the factory
@@ -241,6 +260,7 @@ for repo in "${REPOS[@]}"; do
       fi
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
