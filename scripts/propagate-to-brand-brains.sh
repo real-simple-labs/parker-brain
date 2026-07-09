@@ -151,6 +151,16 @@ for repo in "${REPOS[@]}"; do
     # Skill/agent path normalization (always ship the tool, then run it): the factory
     # copies rsynced above carry factory doc paths that don't resolve in the brain's
     # layout. The rewrite is deterministic and idempotent.
+    # Craft-skill seeding: brains built before the all-skills-in-.claude/ convention
+    # carry the craft set in an inert top-level skills/ (which Claude Code never
+    # loads) or not at all, so "write me a script" has no skill to route through.
+    # Seed any missing craft skill from the factory set; ones already present were
+    # refreshed by the --existing sweep above. The routine `dream` stays canonical.
+    for sk in "$FACTORY"/.claude/skills/*/; do
+      name="$(basename "$sk")"
+      [ "$name" = "dream" ] && continue
+      [ -d "$dir/.claude/skills/$name" ] || { cp -R "$sk" "$dir/.claude/skills/$name"; echo "  seeded craft skill: $name"; }
+    done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
@@ -201,6 +211,23 @@ for repo in "${REPOS[@]}"; do
       cp -R "$FACTORY/global/knowledge/creative-strategy/old-ads" "$dir/creative-strategy-context/"
     fi
     # Skill/agent path normalization for the flat layout (see the nested branch's note).
+    # Runtime system docs: some flat brains were built without a system/ dir, so
+    # the skills' system/<doc>.md references resolve to nothing and update-only
+    # can never add them. Seed the six runtime docs the brains actually read.
+    mkdir -p "$dir/system"
+    for doc in parker-tools.md three-phase-operating-model.md open-loops-system.md refresh-cadence.md schedules.md growing-the-brain.md; do
+      cp -n "$FACTORY/system/$doc" "$dir/system/" 2>/dev/null || true
+    done
+    # Craft-skill seeding: brains built before the all-skills-in-.claude/ convention
+    # carry the craft set in an inert top-level skills/ (which Claude Code never
+    # loads) or not at all, so "write me a script" has no skill to route through.
+    # Seed any missing craft skill from the factory set; ones already present were
+    # refreshed by the --existing sweep above. The routine `dream` stays canonical.
+    for sk in "$FACTORY"/.claude/skills/*/; do
+      name="$(basename "$sk")"
+      [ "$name" = "dream" ] && continue
+      [ -d "$dir/.claude/skills/$name" ] || { cp -R "$sk" "$dir/.claude/skills/$name"; echo "  seeded craft skill: $name"; }
+    done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
