@@ -52,7 +52,7 @@ A doc can be stale while its own date is fine, because what it was built *from* 
 - The doc's own frontmatter is the source of truth; the schedule is a view. Correct the schedule to the doc, never the reverse.
 - Honor the brand hard rules (see `CLAUDE.md` and `running-notes/brand-notes-from-org.md`) on every regenerated doc.
 - Never let a re-run erase brand-authored content. Tribal knowledge, hand-corrections, and notes the brand or team added carry forward into the new version; a genuine data contradiction is surfaced and offered, never silently overwritten.
-- Re-run the doc's own generating prompt from `parker-system/prompts/` — it ships in this brain for exactly this. Self-contained otherwise: read only in-repo surfaces and live data sources. Do not depend on factory (`parker-brain`) paths — they do not exist in a cloned instance.
+- Re-run the doc's own generating prompt from its home: `parker-system/prompts/` for the factory generators (they travel in the mount for exactly this), or the brain's own root `prompts/` for generators the brain authored itself per growing-the-brain. Those two are the whole contract — no third location. Self-contained otherwise: read only in-repo surfaces and live data sources. Do not depend on factory (`parker-brain`) paths — they do not exist in a cloned instance.
 - Dependency staleness cascades only on a *material* change, and only downstream along the phase spine. A carry-forward-unchanged refresh does not force the chain to re-run; surface stale-by-dependency docs as recommendations, never auto-cascade the whole spine on a touch.
 
 ## Deliverable

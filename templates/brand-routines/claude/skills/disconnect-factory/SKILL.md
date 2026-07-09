@@ -45,7 +45,7 @@ All of this lands as **one commit**, so it is one `git revert` away from undone:
 
 ## After either path
 
-- Tell them plainly what changed and what to expect: `/update-brain` now runs in decoupled mode per its own skill doc, the session-start hook will stop reporting a pin (absorb) or report their own remote (repoint), and method edits are theirs to make and version.
+- Tell them plainly what changed and what to expect: `/update-brain` now runs in decoupled mode per its own skill doc, and method edits are theirs to make and version. The session-start hook adjusts itself — it detects the absorbed (non-submodule) state and switches to the decoupled message, dropping the pin and read-only language; no manual hook edit is needed. Under option 1 (repoint) the mount is still a submodule, so the hook keeps its standard message against their own remote.
 - Honesty about the road back: reconnecting later is possible but manual — re-adding the submodule is easy, but any method edits they made in the meantime have to be carried over by hand. Say this at the confirmation step, not after.
 - Log the decision through `self-improvement-intake` as a reasoning trace: teams decouple for reasons, and the reason is signal.
 

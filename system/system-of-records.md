@@ -10,7 +10,7 @@ Four trees hold prompts and canon. They are not independent; three of them are d
 
 - **`parker-v2/`** is the canon and the lab. Every source of truth lives here. This is where edits happen.
 - Per-brand `parker-system/` snapshots are shipped inside each lab vault so it is self-contained and portable. They should match `parker-v2/` for every shared file. (Production brand brains built on the current layout have no snapshot to drift: they mount `parker-brain` as a submodule pinned to a release, so their `parker-system/` *is* the factory at that tag. The parity checks below apply to the lab vaults and any legacy copy-based brains.)
-- **`parker-brain/`** is the product layer, the clean canonical repo. It mirrors `parker-v2/` canon but uses a different layout: method docs live under `creative-strategy-context/` rather than `creative-strategy-context/`, and it omits brand-private material. Shared files should match content even though the path differs.
+- **`parker-brain/`** is the product layer, the clean canonical repo. It mirrors `parker-v2/` canon but uses a different layout: method docs live under `creative-strategy-context/` rather than parker-v2's `global/knowledge/creative-strategy/`, and it omits brand-private material. Shared files should match content even though the path differs.
 
 ## Synced blocks (one source, many embeds, marker-enforced)
 

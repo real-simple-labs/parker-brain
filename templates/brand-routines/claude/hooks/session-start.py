@@ -42,7 +42,21 @@ def pinned_tag() -> str:
 
 state = mount_state()
 
-if state == "ok":
+# A submodule checkout carries a .git *file* inside the mount. A brain that ran
+# /disconnect-factory's absorb path has plain tracked files there instead — the
+# method is team-owned then, and the pin/read-only language would be wrong.
+is_submodule = (MOUNT / ".git").exists()
+
+if state == "ok" and not is_submodule:
+    context = (
+        "Session start check: parker-system/ holds this team's own copy of the "
+        "method (this brain is decoupled from the factory — no submodule, no pin). "
+        "It is theirs to edit and versions with the repo. Before starting real "
+        "work, bring the brain current: run `git pull` — the scheduled cloud "
+        "routines and any teammates push to this repo between sessions. "
+        "/update-brain runs in decoupled mode here, per running-notes/standard-sync.md."
+    )
+elif state == "ok":
     tag = pinned_tag()
     pin = f" (pinned to factory release {tag})" if tag else ""
     context = (

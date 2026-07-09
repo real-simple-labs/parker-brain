@@ -60,7 +60,7 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
 5. **Source customer language.** Every script — adapted or net-new — pulls language from real reviews, comments, surveys, voice of customer data. Marketing voice fails.
 
-6. **Self-check as you draft** — read every line aloud, watch for AI-tells per `creative-strategy-context/spoken-script-voice.md`. This is your own pre-pass while writing. It is **not** the gate, and it does not replace the two review agents below. Running `scripts/voice-lint.py` yourself is not the gate either — the linter is a tool the gate agents run inside their own context. Your own lint plus your own read is the writer grading the writer's paper, which is exactly what the gates exist to stop.
+6. **Self-check as you draft** — read every line aloud, watch for AI-tells per `parker-system/creative-strategy-context/spoken-script-voice.md`. This is your own pre-pass while writing. It is **not** the gate, and it does not replace the two review agents below. Running `scripts/voice-lint.py` yourself is not the gate either — the linter is a tool the gate agents run inside their own context. Your own lint plus your own read is the writer grading the writer's paper, which is exactly what the gates exist to stop.
 
 7. **The two gates run automatically, before you show the user anything.** They are not optional, not a "second opinion," and never offered as a choice. You do not ask the user whether to review — you run both, apply what they return, and only then present. **If you catch yourself writing "want me to run it through the reviewer," you have already failed the gate: go run it.** Run them in order, because grounding can change the content and voice only changes the lines:
 
@@ -116,7 +116,7 @@ The voice gate's returned verdict, verbatim from the `creative-voice-review` age
 
 ## Output contract precedence
 
-The output structure above governs every path in this skill. `creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
+The output structure above governs every path in this skill. `parker-system/creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
 
 ## Two gates before any script gets written
 

@@ -46,7 +46,7 @@ It should not rewrite canonical iteration or scriptwriting method from one self-
 **Promotion condition:** Apply with the fundamentals refresh, or Jimmy approves.
 
 ### 5. Brand-brain CLAUDE template — corroborating note on the "communication brain"
-**Target path:** `creative-strategy-context/brand-brain-CLAUDE-template.md`
+**Target path:** `templates/brand-brain-CLAUDE-template.md`
 **Proposed change:** Add a corroborating note (not a new requirement): an independent operator teaches the same context-engineering posture Parker already uses — give the model clean, *unburied* framework files (communication models, story frameworks, emotion vocabulary, funnel) kept separate from brand/customer data, so it holds a chosen psychological register instead of defaulting to robotic. Reinforces the existing separation discipline.
 **Evidence:** Source: "build Claude a communication brain... don't bury it... don't throw reviews on top of it"; reverse it to find a brand's winning zone-stack from its own winners/organic.
 **Confidence:** mixed
