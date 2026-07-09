@@ -42,12 +42,27 @@ def pinned_tag() -> str:
 
 state = mount_state()
 
-# A submodule checkout carries a .git *file* inside the mount. A brain that ran
-# /disconnect-factory's absorb path has plain tracked files there instead — the
-# method is team-owned then, and the pin/read-only language would be wrong.
+# A submodule checkout carries a .git *file* inside the mount. Plain tracked
+# files there mean one of two very different things: the team deliberately
+# decoupled (/disconnect-factory stamps posture own-factory/independent in the
+# ledger), or this is a legacy brain still carrying the old vendored copy and
+# not yet migrated. Only the ledger's posture separates them — never assume
+# decoupled without it.
 is_submodule = (MOUNT / ".git").exists()
 
-if state == "ok" and not is_submodule:
+
+def decoupled_by_choice() -> bool:
+    try:
+        ledger = Path("running-notes/standard-sync.md").read_text(encoding="utf-8")
+    except OSError:
+        return False
+    for line in ledger.splitlines():
+        if "posture" in line.lower():
+            return "own-factory" in line or "independent" in line
+    return False
+
+
+if state == "ok" and not is_submodule and decoupled_by_choice():
     context = (
         "Session start check: parker-system/ holds this team's own copy of the "
         "method (this brain is decoupled from the factory — no submodule, no pin). "
@@ -55,6 +70,17 @@ if state == "ok" and not is_submodule:
         "work, bring the brain current: run `git pull` — the scheduled cloud "
         "routines and any teammates push to this repo between sessions. "
         "/update-brain runs in decoupled mode here, per running-notes/standard-sync.md."
+    )
+elif state == "ok" and not is_submodule:
+    context = (
+        "Session start check: parker-system/ carries the method as an older "
+        "vendored copy (plain files, no submodule) — this brain predates the "
+        "current layout and has not been migrated. That's fine to work with "
+        "today, but don't edit inside parker-system/ (updates would overwrite "
+        "it), and don't treat this as a decoupled brain. The current standard "
+        "mounts the factory as a pinned submodule; /update-brain can offer the "
+        "v1 migration that converts this brain. Before real work, run `git pull` "
+        "— cloud routines and teammates push to this repo between sessions."
     )
 elif state == "ok":
     tag = pinned_tag()
