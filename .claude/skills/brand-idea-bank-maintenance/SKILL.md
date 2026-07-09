@@ -49,11 +49,11 @@ From the ideation method, the bar an entry has to clear is freshness, not famili
 
 3. **Decide whether it belongs.** Save the idea only if it gives a strategist a fresh direction to act on — a new angle, visual, hook, or format the brand is not already running — and is specific enough to retrieve later. Do not save generic strategy observations, and do not log the brand's own known assets reflected back, because an award, channel, or credibility marker the brand already advertises hands the strategist nothing to test. Record what was liked and why so the half-baked idea stays retrievable.
 
-4. **Write or update the entry.** Use one file per idea under `z-brands/[brand]/idea-bank/entries/`.
+4. **Write or update the entry.** Use one file per idea under `z-brands/[brand]/idea-bank/entries/`. Record the `spark` — the one-breath brand collision — when it arrives naturally per the articulation test, and leave it empty with a note when it doesn't; a labored fit is evidence against the idea. Set `hunt_lane` to how the entry arrived (a hunt lane, or incidental capture during other work).
 
 5. **Update the index.** Add or update the concept name, source type, winning elements, stage of awareness, status, and source path.
 
-6. **Keep adaptation separate.** Do not write how the brand should run a competitor, inspiration, affinity, or expert-sourced idea inside the source entry. That work belongs in future concept-generation and grading runs.
+6. **The spark is welcome; the build is not.** The `spark` field carries the one-breath direction. What stays out of an entry is the build: worked-out storylines, variations, scripts, briefs, and step-by-step adaptation instructions all belong in future concept-generation and grading runs. This boundary is idea-bank-only — competitor, inspiration, and affinity *source-capture docs* remain purely descriptive per the attribution rules and never gain sparks.
 
 ## Backfill mode
 
@@ -90,5 +90,5 @@ Name any source areas that still need backfill or access.
 - Manual ideas-tab saves should enter unless marked throwaway.
 - User conversation ideas can enter when durable.
 - Use narrative reconstruction for videos, ads, posts, and visual examples.
-- Do not add adaptation instructions to source entries.
+- Record the spark when it lands naturally; never the build. No adaptation instructions, storylines, variations, or briefs in source entries.
 - Keep evidence strength visible.
