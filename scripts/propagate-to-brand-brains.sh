@@ -139,6 +139,11 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # Skill/agent path normalization (always ship the tool, then run it): the factory
+    # copies rsynced above carry factory doc paths that don't resolve in the brain's
+    # layout. The rewrite is deterministic and idempotent.
+    cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -179,6 +184,9 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # Skill/agent path normalization for the flat layout (see the nested branch's note).
+    cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi

@@ -38,6 +38,8 @@ This skill produces prompt text. It does not generate the final asset, evaluate 
 
 The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `global/knowledge/creative-strategy/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `system/parker-tools.md`.
 
+**Path resolution:** the doc paths above are the factory's. In a shipped brand brain the same docs live under `parker-system/creative-strategy-context/` (craft) and `parker-system/system/` (runtime system docs); ship-time normalization (`scripts/normalize-brain-paths.py`) rewrites these references so they resolve there. If a path ever fails to resolve, glob for the doc by filename rather than skipping the load — a missing read is never the fallback.
+
 ## Background that loads up front
 
 Two pieces of context every AI-generation prompt depends on:

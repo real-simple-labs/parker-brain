@@ -6,7 +6,7 @@ The review already converted one customer in their own words. The script is that
 
 ## Required inputs
 
-- A high-signal review with a clear arc. Source: the customer review audit and VoC docs — `creative-strategy-context/customer-review-mining-method.md`, the `search_customer_reviews_semantic` MCP surface, and the VoC corpus at `prompts/voice-of-customer/`.
+- A high-signal review with a clear arc. Source: the customer review audit and VoC docs — `global/knowledge/creative-strategy/customer-review-mining-method.md`, the `search_customer_reviews_semantic` MCP surface, and the VoC corpus at `prompts/voice-of-customer/`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, compliance constraints.
 
