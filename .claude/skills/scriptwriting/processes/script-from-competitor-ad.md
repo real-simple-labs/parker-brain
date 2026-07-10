@@ -6,7 +6,7 @@ The competitor already proved the structure with spend. The job is to run the sa
 
 ## Required inputs
 
-- A captured competitor script with full transcript and timing. Source: the vault's competitor ad-account evaluation at `parker-system/prompts/competitor-profile/competitor-ad-account-evaluation.md` and single-ad teardowns, where rival scripts are already captured and tagged.
+- A captured competitor script with full transcript and timing. Source: the rival's profile under `competitors/[rival]/` (its ad-account evaluation) and the single-ad teardowns under `audits/[YYYY-Q]/external/`, where rival scripts are already captured and tagged.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 - The competitor's claim envelope versus ours — what they can say that we cannot, and what we can say that they cannot.

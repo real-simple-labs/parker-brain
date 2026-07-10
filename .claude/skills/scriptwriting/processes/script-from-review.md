@@ -6,7 +6,7 @@ The review already converted one customer in their own words. The script is that
 
 ## Required inputs
 
-- A high-signal review with a clear arc. Source: the customer review audit and VoC docs — `parker-system/creative-strategy-context/customer-review-mining-method.md`, the `search_customer_reviews_semantic` MCP surface, and the VoC corpus at `parker-system/prompts/voice-of-customer/`.
+- A high-signal review with a clear arc. Source: the brand's own review reads — `source-pulls/customer-reviews.md`, the newest `customer-review-audit` under `audits/`, and the VoC library at `personas/voice-of-customer/` (brain root) — plus the `search_customer_reviews_semantic` MCP surface for fresh pulls, read through the method at `parker-system/creative-strategy-context/customer-review-mining-method.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, compliance constraints.
 

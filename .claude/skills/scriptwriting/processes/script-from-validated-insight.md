@@ -6,7 +6,7 @@ The insight came out of the open-loops pipeline carrying its own evidence. The s
 
 ## Required inputs
 
-- A validated hypothesis from the open-loops pipeline. Source: `parker-system/prompts/open-loops/open-loops-roll-up.md` and the open-loops core block at `parker-system/prompts/_open-loops-core-block.md`.
+- A validated hypothesis from the open-loops pipeline. Source: the resolved verdicts in `validations/` at the brain root, with the loop and its test plan in `open-loops/` and `hypotheses/`.
 - The evidence that validated it.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.

@@ -6,8 +6,8 @@ The persona voice library and the lifecycle journey maps together fix who is spe
 
 ## Required inputs
 
-- The persona voice library. Source: `parker-system/prompts/personas/persona-voice-library.md`.
-- The lifecycle journey maps. Source: `parker-system/prompts/personas/lifecycle-journey-maps.md`.
+- The persona voice library. Source: `personas/persona-voice-library.md` at the brain root.
+- The lifecycle journey maps. Source: `personas/lifecycle-journey-maps.md` at the brain root.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, compliance constraints.
 

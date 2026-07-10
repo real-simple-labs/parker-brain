@@ -6,7 +6,7 @@ The moment supplies urgency and context the script does not have to manufacture.
 
 ## Required inputs
 
-- A named calendar moment with the brand's documented MO for it. Source: the marketing-calendar doc at `parker-system/prompts/brand-profile/marketing-calendar-and-campaigns.md`.
+- A named calendar moment with the brand's documented MO for it. Source: the brand's calendar doc at `sub-context-docs/marketing-calendar-and-campaigns.md` (brain root).
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 
