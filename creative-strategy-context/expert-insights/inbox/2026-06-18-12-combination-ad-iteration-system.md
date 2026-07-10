@@ -25,7 +25,7 @@ context_targets:
   - creative-strategy-context/creative-strategy-fundamentals.md
   - creative-strategy-context/ideation-and-brainstorming.md
   - creative-strategy-context/hooks.md
-  - creative-strategy-context/brand-brain-CLAUDE-template.md
+  - templates/brand-brain-CLAUDE-template.md
 proposed_context_updates: creative-strategy-context/expert-insights/context-update-candidates/2026-06-18-12-combination-ad-iteration-system.md
 propagation_status: candidate created
 swipe_file_routes:
