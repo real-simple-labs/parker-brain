@@ -13,13 +13,17 @@ The factory keeps improving after a brain ships: new method docs, sharper skills
 
 **Weekly** as a scheduled routine, early Monday, so the week starts with the offer list ready. Also runnable on demand whenever someone asks what's new or wants to bring the brain up to the standard.
 
+## Terminology
+
+Remember that most users are likely unfamiliar with git, so don't confuse the user with terms like "diff", "push to main", "pull a tag" - use commonly understood terms like "changes", "save new files", "download a new version". When describing changes, do it from a non-technical perspective: "improved the monthly report" instead of "refactored the report validation script". 
+
 ## The two comparisons
 
 ### 1. The brain vs the current factory — what's new in the standard
 
 Read the brain's update posture from `running-notes/standard-sync.md` first — it decides which of two shapes this comparison takes. If the ledger is missing or unreadable, say so plainly and stop; never guess at what the standard contains.
 
-Before deciding the mode, also read `parker-system/migrations/README.md` and any `migrations/vN.md` newer than this brain's last-applied migration — a release can change the filesystem shape or how the two modes work, and that context belongs in the comparison before the offer is framed.
+Before deciding the mode or doing any comparison, also read `parker-system/migrations/README.md` and any `migrations/vN.md` newer than this brain's last-applied migration — a release can change the filesystem shape or how the two modes work, and that context belongs in the comparison before the offer is framed.
 
 **Connected mode — `parker-system/` is a pinned submodule and the posture is `follow` (the standard shape).** The factory arrives whole or not at all, so there is no per-file diffing of the method: the offer is the *release*. Fetch the factory's tags (`git -C parker-system fetch --tags`) and compare the pinned release against the newest `vN` tag. If the pin is current, this comparison is one line in the digest. If the factory has moved:
 
