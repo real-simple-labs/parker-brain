@@ -67,6 +67,7 @@ One connected-mode caveat on that memory: if the team declined an earlier releas
 - **Methodology comes from the factory; brand truth comes from the brand.** This routine copies method and generates outputs from data. It never invents brand content to fill a hole.
 - Ask through the popup question form whenever a run needs the user; a question in plain chat strands the routine.
 - Honor the brand hard rules on anything regenerated.
+- Always commit and push the changes immediately so that they are propagated to the rest of the team.
 
 ## Deliverable
 
