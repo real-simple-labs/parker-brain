@@ -6,7 +6,7 @@ Hook iteration is the right call when hook rate or CTR is the bottleneck and the
 
 ## The source of truth for hooks
 
-The hook craft — the opener taxonomy, the psychology behind each format, the brand-type and awareness-stage routing, the four-element hook anatomy, and the must-haves every hook has to pass — lives in `global/knowledge/creative-strategy/hooks.md`. That doc is canonical. Load it and execute it; do not work from a remembered version of it. This process file does not restate the taxonomy — it adds the layer that is specific to iterating a hook onto a *proven body*: which of the four hook elements to change, how to splice the new opener onto the existing body, and the tactical moves for refreshing an opener without touching what converts.
+The hook craft — the opener taxonomy, the psychology behind each format, the brand-type and awareness-stage routing, the four-element hook anatomy, and the must-haves every hook has to pass — lives in `parker-system/creative-strategy-context/hooks.md`. That doc is canonical. Load it and execute it; do not work from a remembered version of it. This process file does not restate the taxonomy — it adds the layer that is specific to iterating a hook onto a *proven body*: which of the four hook elements to change, how to splice the new opener onto the existing body, and the tactical moves for refreshing an opener without touching what converts.
 
 A hook iteration that never speaks the named concepts in `hooks.md` — the specific format it pulls from, the awareness stage it serves, the emotional driver it activates, the four hook elements — proves the doc was not opened. Use its vocabulary.
 

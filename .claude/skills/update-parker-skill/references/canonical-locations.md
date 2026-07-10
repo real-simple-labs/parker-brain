@@ -7,9 +7,9 @@ Where each kind of content lives in the Parker system. The canonical location is
 | Topic | Canonical | Inherits-from / derived |
 |---|---|---|
 | Open-loops rules, weighting, verdict template | `system/open-loops-system.md` | `_open-loops-core-block.md` (generation) + `open-loops-roll-up.md` (grading) |
-| Senior-strategist open-loops reasoning | `global/knowledge/creative-strategy/creative-strategy-fundamentals.md` | Loaded via expertise-routing; the block + roll-up carry the operational rubric |
-| Ad-account analysis methodology | `global/knowledge/creative-strategy/public-ad-library-analysis.md` | Prompts reference it |
-| Customer-review mining methodology | `global/knowledge/creative-strategy/customer-review-mining-method.md` | Prompts reference it |
+| Senior-strategist open-loops reasoning | `creative-strategy-context/creative-strategy-fundamentals.md` | Loaded via expertise-routing; the block + roll-up carry the operational rubric |
+| Ad-account analysis methodology | `creative-strategy-context/public-ad-library-analysis.md` | Prompts reference it |
+| Customer-review mining methodology | `creative-strategy-context/customer-review-mining-method.md` | Prompts reference it |
 | Personas design | `templates/personas-design.md` + `templates/personas-template.md` | Prompts reference them |
 | Voice of customer design | `templates/voc-design.md` + `templates/voc-template.md` | Prompts reference them |
 | Attribution principle | `system/attribution-principle.md` | All persistent-claim docs reference |
@@ -76,8 +76,8 @@ Where each kind of content lives in the Parker system. The canonical location is
 
 | Type | Canonical | Notes |
 |---|---|---|
-| Creative-strategy expert insights | `global/knowledge/creative-strategy/expert-insights/` | Active v1 home for user-provided creative-strategy expert signals |
-| Creative-strategy Parker taste | `global/knowledge/creative-strategy/parker-taste/` | Active v1 home for cross-brand creative taste, idea bank, and patterns to monitor |
+| Creative-strategy expert insights | `creative-strategy-context/expert-insights/` | Active v1 home for user-provided creative-strategy expert signals |
+| Creative-strategy Parker taste | `creative-strategy-context/parker-taste/` | Active v1 home for cross-brand creative taste, idea bank, and patterns to monitor |
 | Team expert insights | `global/teams/[team]/expert-insights/` | Expert signal entries staged by team |
 | Team Parker taste | `global/teams/[team]/parker-taste/` | Cross-brand team taste, idea bank, Parker ideas, and patterns to monitor |
 

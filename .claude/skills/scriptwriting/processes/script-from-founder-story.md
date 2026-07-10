@@ -6,7 +6,7 @@ A founder story converts because it is real. The discipline is never writing one
 
 ## Required inputs
 
-- The founder story as documented in the brand profile. Source: `prompts/brand-profile/operations-and-team.md` and the brand-profile narrative at `prompts/brand-profile/brand-profile-narrative.md`.
+- The founder story as documented in the brand profile. Source: `sub-context-docs/operations-and-team.md` and the always-loaded narrative at `sub-context-docs/brand-profile-narrative.md` (brain root).
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, compliance constraints.
 

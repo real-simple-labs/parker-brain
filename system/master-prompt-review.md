@@ -75,7 +75,7 @@ These are not preferences. They are the rules everything else is built on.
 
 **Teach the model from scratch.** A model arrives at any task knowing almost nothing about this specific brand or this specific discipline. Everything useful it will ever do is downstream of the context this prompt puts in front of it. Write for a reader who knows nothing and needs to know what matters. Lean toward including a relevant signal with its source over omitting it; that is not license to pad.
 
-**Grounded methodology, not LLM common sense.** Every interpretive read in the prompt comes from real creative-strategy expertise — the rubric for organic strength, the three-tag competitor taxonomy, the constraint-versus-excuse distinction, the way reputation is reconstructed from a customer's vantage. If a section reads like a generic AI think-piece, it is not done. Ground the read in the actual creative-strategy methodology in `global/knowledge/creative-strategy/`.
+**Grounded methodology, not LLM common sense.** Every interpretive read in the prompt comes from real creative-strategy expertise — the rubric for organic strength, the three-tag competitor taxonomy, the constraint-versus-excuse distinction, the way reputation is reconstructed from a customer's vantage. If a section reads like a generic AI think-piece, it is not done. Ground the read in the actual creative-strategy methodology in `creative-strategy-context/`.
 
 **Smart model, not a subject-matter expert.** The model can reason. It cannot judge what matters in creative strategy on its own. The prompt closes that gap by giving it the discipline and trusting it to bring the reasoning. Overcorrecting in either direction is a failure mode in its own right.
 

@@ -55,7 +55,7 @@ Beyond matching the emotion, match the **zone and the headspace**: on cold traff
 
 ## The format menu
 
-The full hook taxonomy is `creative-strategy-context/hooks.md`. Strategy picks from that taxonomy; the processes below are the execution playbooks for the format families that have one. Picking a format means picking it from `hooks.md` — these entries are pointers to where the writing playbook lives, not a competing list of what formats exist.
+The full hook taxonomy is `parker-system/creative-strategy-context/hooks.md`. Strategy picks from that taxonomy; the processes below are the execution playbooks for the format families that have one. Picking a format means picking it from `hooks.md` — these entries are pointers to where the writing playbook lives, not a competing list of what formats exist.
 
 Each process below holds the writing playbook for a family of hooks. Strategy picks one or more based on the decisions above plus the brand's hook history.
 

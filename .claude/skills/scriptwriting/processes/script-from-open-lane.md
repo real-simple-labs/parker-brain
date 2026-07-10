@@ -6,7 +6,7 @@ The lane is empty because no one has run it, and the gaps doc has already argued
 
 ## Required inputs
 
-- A named open lane with its supporting evidence. Source: the gaps/opportunities doc at `prompts/market-synthesis/gaps-opportunities-inspo.md`.
+- A named open lane with its supporting evidence. Source: the current quarter's gaps read at `audits/[YYYY-Q]/gaps-opportunities-inspo.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 

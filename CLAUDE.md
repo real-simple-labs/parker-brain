@@ -2,6 +2,8 @@
 
 This is the draft root `CLAUDE.md` for the future `parker-brain` GitHub repository. It should be written so the Parker team can copy it into the production runtime instructions with minimal adaptation.
 
+**If you are reading this inside a brand brain — at `parker-system/CLAUDE.md` — you are inside the read-only method library, mounted as a pinned submodule.** This file governs building and maintaining the *factory*, not running a brand. The brand's own root `CLAUDE.md` is the operating contract there; nothing in here overrides it. Runtime docs throughout this repo reference the method at `parker-system/…` paths — that is the brain's view of this very repo; from the factory's own root, drop the prefix.
+
 ## Parker Identity
 
 Parker is a context-aware marketing intelligence system for brands and marketing teams. Parker is not a generic chatbot, not a static prompt library, and not a single giant context pack. Parker reasons from the user, the brand, the team, the recent conversation, the available memory, and the task shape, then pulls only the context that would change the answer.
@@ -59,7 +61,7 @@ Beyond Parker MCP, the team can connect their own tools to the brain — Notion,
 
 When the task is to stand up a brand's brain from scratch — a fresh clone with a new brand to audit — the front door is the **`/set-up-brain`** skill: it welcomes the user, calibrates to their comfort with GitHub and Claude Code, runs the build, and hands off to `/get-started` at the end. It follows `prompts/onboarding-runner.md` as its method, so whether entered through the skill or directly, follow that runner. It is the executable cold-start sequence: it scaffolds the flat standalone brand-brain layout, ships the craft layer into the repo, maps each prompt's output path, asks the optional brand intake before the prompts run, runs the prompts in dependency order (audit, then strategy, then ideation), and carries the approval gates. The sequence and the why behind it live in `prompts/README.md`. This is not a gate for daily co-pilot work; if the user just asks for a script or an idea, give it to them and let the phases run silently underneath.
 
-**A new brand gets its own repository — do not build on top of `parker-brain`.** This repo is the open-sourced product brain teams clone to get the prompts, skills, methodology, and craft layer. When you onboard a brand, the brand brain you build is a **separate, standalone repository for that brand**: initialize a new git repo (a new GitHub repo for the brand) and write every brand output there, never as commits back into the cloned `parker-brain`. The clone is the read-only factory; the brand repo is the product, and the onboarding runner's flat standalone layout is its shape. Concretely, at the start of onboarding, confirm with the user where the brand repo should live, create it distinct from this product brain, and scaffold the brand brain inside it. If the user is working inside the cloned `parker-brain` checkout, do not commit brand data into it — stand up the brand's own repo and explain why.
+**A new brand gets its own repository — do not build on top of `parker-brain`.** This repo is the open-sourced product brain: the prompts, skills, methodology, and craft layer. When you onboard a brand, the brand brain you build is a **separate, standalone repository for that brand**, provisioned by the `setup_parker_brain` tool (Parker MCP) — never created by hand, never commits back into `parker-brain`. The brand repo is the product, the onboarding runner's flat standalone layout is its shape, and the method reaches it as a **git submodule of this repo mounted read-only at `parker-system/`, pinned to a release tag** — not as copied files. Every brand output is committed in the brand repo; if the user is working inside a `parker-brain` checkout, do not commit brand data into it — stand up the brand's own repo and explain why.
 
 A note on Parker MCP: the data tools the prompts call only work if the brand's data is reachable. If the Parker MCP is not connected, briefly remind the user that Parker needs some way to reach the ad account, organic socials, reviews, and the rest — the Parker MCP is the one connection that carries all of it, though independent platform exports can also feed Parker piecemeal. The full version of this reminder lives in `system/parker-tools.md`.
 
@@ -168,6 +170,7 @@ This repo should contain:
 - generalized cross-brand knowledge
 - sanitized fixtures and golden examples
 - evals, review rubrics, and release notes
+- migration notes (`migrations/vN.md`) for every release whose changes reshape standing brand brains
 
 This repo should not contain:
 
@@ -182,7 +185,12 @@ This repo should not contain:
 
 Customer data, test brand outputs, MCP snapshots, scratch experiments, and raw learning material belong in the private OS/lab repo or runtime data layer, not in product brain.
 
-## Promotion Into Product Brain
+## Releases And Migrations
+
+Standing brand brains pin this repo at a release tag through their `parker-system/` submodule; they take updates by moving the pin, offered weekly by their `/update-brain` routine. That makes releases the factory's delivery mechanism, and it puts two duties on every maintainer:
+
+- **Tags are plain and manual.** Releases are `v1`, `v2`, … — no semver, cut by the team when a coherent set of changes is ready, with a `release-notes/` entry describing what shipped. Nothing reaches a standing brain until a tag is cut.
+- **Structural changes ship a migration in the same PR.** Any change that alters the brand-brain layout, renames or moves a path a brain references, adds a standing file brains should carry, or changes the committed `.claude/` bundle must add its `migrations/vN.md` (named for the release it will ship in) alongside the change, per `migrations/README.md`. A method-only change — a sharper prompt, a better craft doc — needs no migration; the pin bump delivers it. When in doubt, ask: "does an already-built brain need to *do* anything besides move the pin?" If yes, write the migration.
 
 Most durable improvements originate outside this repo: prompt failures, test-brand runs, customer feedback, expert sources, human corrections, and workflow experiments.
 
@@ -242,7 +250,7 @@ They should:
 - work across problem-solution, lifestyle, impulse, high-consideration, small, and large brands unless scoped otherwise
 - avoid forced binary buckets when the underlying strategic decision lives in a gray area
 
-**Make every creative-strategy knowledge doc findable — describe it, don't pre-tag its relevance.** Retrieval at runtime is the failure point: the brain under-pulls when it can't tell what's there. The fix is *not* to precompute relevance with tags — families, when-to-pull triggers, or hand-curated `related` lists all go stale, force gray docs into buckets, and quietly cap what the planner would consider. Instead, each doc in `global/knowledge/creative-strategy/` carries one descriptive frontmatter line, `summary` — an honest "what this doc is," never "when to pull it." The doc catalog at the top of `creative-strategy-context/expertise-routing.md` is **generated** from those summaries by `scripts/build-doc-map.py` — never hand-edit between the `DOC-MAP` markers. When you add or materially change a knowledge doc: write its `summary`, run `python3 scripts/build-doc-map.py`. Relevance stays the planner's job: it reasons over the catalog generously and greps the doc bodies for the rest, so nothing a tag forgot to mention is ever out of reach.
+**Make every creative-strategy knowledge doc findable — describe it, don't pre-tag its relevance.** Retrieval at runtime is the failure point: the brain under-pulls when it can't tell what's there. The fix is *not* to precompute relevance with tags — families, when-to-pull triggers, or hand-curated `related` lists all go stale, force gray docs into buckets, and quietly cap what the planner would consider. Instead, each doc in `creative-strategy-context/` carries one descriptive frontmatter line, `summary` — an honest "what this doc is," never "when to pull it." The doc catalog at the top of `creative-strategy-context/expertise-routing.md` is **generated** from those summaries by `scripts/build-doc-map.py` — never hand-edit between the `DOC-MAP` markers. When you add or materially change a knowledge doc: write its `summary`, run `python3 scripts/build-doc-map.py`. Relevance stays the planner's job: it reasons over the catalog generously and greps the doc bodies for the rest, so nothing a tag forgot to mention is ever out of reach.
 
 ## Fixtures And Evals
 

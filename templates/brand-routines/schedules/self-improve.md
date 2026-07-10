@@ -5,7 +5,7 @@
 - **Sources:** `self-improvement/reasoning-traces/`, `dreaming/proposals/pending/`, `schedules/proposed/`, every context doc's open-loops + `open-loops/`, `hypotheses/`, `validations/`, `re-validations/scheduled/`.
 - **Skill:** `.claude/skills/self-improve/` (`/self-improve`). Scaffolds `self-improvement/` on first run if absent.
 - **Deliverable:** Promotions logged with cited trace IDs; proposals moved to applied/dismissed with reasoning; Tier-1 loops promoted into `hypotheses/`; due re-validations filed under `re-validations/results/`; a report of what was promoted, what awaits the user, and what was killed (and why).
-- **Origin:** Seeded 2026-06-18 from the factory's `self-improvement/self-improvement-system.md` + `system/open-loops-system.md`.
+- **Origin:** Seeded 2026-06-18 from the factory's `self-improvement/self-improvement-system.md` + `parker-system/system/open-loops-system.md`.
 - **Status:** Job committed and live. Schedule **not yet registered** — run `/setup-routines` to arm it.
 
 ## Schedule recipe (register once via `/schedule`)

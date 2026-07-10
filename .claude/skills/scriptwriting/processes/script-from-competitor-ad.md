@@ -6,14 +6,14 @@ The competitor already proved the structure with spend. The job is to run the sa
 
 ## Required inputs
 
-- A captured competitor script with full transcript and timing. Source: the vault's competitor ad-account evaluation at `prompts/competitor-profile/competitor-ad-account-evaluation.md` and single-ad teardowns, where rival scripts are already captured and tagged.
+- A captured competitor script with full transcript and timing. Source: the rival's profile under `competitors/[rival]/` (its ad-account evaluation) and the single-ad teardowns under `audits/[YYYY-Q]/external/`, where rival scripts are already captured and tagged.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 - The competitor's claim envelope versus ours — what they can say that we cannot, and what we can say that they cannot.
 
 ## Philosophy
 
-A competitor's running ad is a validated skeleton paid for by someone else. Adapting it is the standard reference move from `creative-strategy-context/adapting-scripts.md`, with one added discipline: inversion. A rival ad is built to position the rival. Lifting it 1:1 imports their angle. The stronger move is to keep the structure and invert the target — same beats, opposite buyer relationship. Where the rival shames the buyer into action, we absolve. Where the rival makes a claim they are cornered into defending, we make the claim that is true for us and not for them.
+A competitor's running ad is a validated skeleton paid for by someone else. Adapting it is the standard reference move from `parker-system/creative-strategy-context/adapting-scripts.md`, with one added discipline: inversion. A rival ad is built to position the rival. Lifting it 1:1 imports their angle. The stronger move is to keep the structure and invert the target — same beats, opposite buyer relationship. Where the rival shames the buyer into action, we absolve. Where the rival makes a claim they are cornered into defending, we make the claim that is true for us and not for them.
 
 ## When to pick
 
@@ -52,4 +52,4 @@ Confirm segment count, hook type, proof position match the rival. Confirm every 
 - Drifting off the segment count. Structural sameness is the priority.
 - Letting the rival's marketing voice leak into the script instead of our customer's voice.
 
-Cite: this leans on `creative-strategy-context/adapting-scripts.md`. End any output that draws on it with that doc's required attribution line.
+Cite: this leans on `parker-system/creative-strategy-context/adapting-scripts.md`. End any output that draws on it with that doc's required attribution line.

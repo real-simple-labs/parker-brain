@@ -10,7 +10,7 @@ Every data tool below depends on the brand's data actually being reachable. If t
 
 When the connection is missing, say so plainly and name what it takes to fix it:
 
-- Parker needs **some way to reach the brand's marketing data** — the ad account, organic social, customer reviews, post-purchase surveys, the competitor/inspo ad library. The **Parker MCP is the one connection that carries all of it**, so it is the recommended path: connect it and every tool below comes online at once.
+- Parker needs **some way to reach the brand's marketing data** — the ad account, organic social, customer reviews, post-purchase surveys, the competitor/inspo ad library. The **Parker MCP is the one connection that carries all of it**, so it is the recommended path: connect it and every tool below comes online at once. The connection instructions live at https://app.heyparker.ai/dashboard/parker-brain — point the user there whenever the MCP is missing.
 - It does **not strictly have to be the Parker MCP.** A team can also feed Parker the same evidence through other independent platforms or exports — an ads-manager export, an organic-social export, a reviews/PPS dump — and Parker will reason over what it is given. That route is more manual and piecemeal; the Parker MCP is what makes the whole toolset work without hand-feeding.
 - Until a data path exists, treat the brain as **evidence-starved**: answer from whatever the brand has handed over, mark every claim's limits, and name the missing connection as the blocker rather than guessing.
 
@@ -27,11 +27,10 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 | Competitor / external ads, and tracking them | `search_competitor_facebook_ads` | the public ad library for any brand that is **not** the user's own — competitor / inspo / affinity; also lists, discovers, and subscribes tracked brands. Impression-rank as a proxy |
 | Post-purchase surveys | `semantic_search_post_purchase_survey`, `lookup_post_purchase_survey` | what the buyer says at the moment of paying. Chain them: `lookup` finds responses by numeric score → `semantic` pulls those respondents' text |
 | Organic social — own + tracked | `search_and_manage_organic_social` | the brand's (and tracked brands') organic posts, stats, competitive reports, and tracking roster; also subscribes/unsubscribes organic tracking |
-| TikTok and video | `search_tiktok_videos`, `analyze_video_from_url`, `analyze_uploaded_video` | niche-creator corpus, and full-video reads of a URL or an uploaded file |
+| TikTok and video | `search_tiktok_videos`, `analyze_video_from_url` | niche-creator corpus, and full-video reads of a URL or an uploaded file |
 | A specific web page Parker already has the URL for | `get_webpage` | **fetch only** — it reads a known URL, it does not search |
 | Prior conversations | `search_chat_history` | what was discussed before, across web and Slack. Brand-scoped and multi-teammate: `listThreads` lists the brand's past threads with dates and previews (paginate with the offset), `getMessages` reads one thread, and web threads carry an `authorName` so you can tell which teammate said what. Two uses: reading the prior audit for trajectory, and at cold start pulling the team's whole past Parker history as a first-class source for the team-knowledge Phase-1 docs (the `team-conversations` block) |
 | Memory write-back | `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) |
-| Render a report or chart in chat | `show_widget` (+ `visualize_read_me`, `validate_report_data`) | present an SVG/HTML report or visualization. Read-me first, then widget, then the data self-audit; never plot numbers a tool did not return |
 
 **Not a research tool:** `manage_insights_subscriptions` is the user-facing recurring-reports product — the catalog, subscriptions, custom insight definitions, and their schedules — not a way to answer a loop.
 

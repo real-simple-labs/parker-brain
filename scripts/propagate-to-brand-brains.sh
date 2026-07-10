@@ -12,7 +12,7 @@
 #   prompts/  -> parker-system/prompts/   (the generating prompts; the brain refreshes itself with these)
 #   system/   -> parker-system/system/
 #   templates/-> parker-system/templates/
-#   global/knowledge/creative-strategy/ -> parker-system/creative-strategy-context/
+#   creative-strategy-context/ -> parker-system/creative-strategy-context/
 #   .claude/skills/ (factory craft skills, minus dream) -> .claude/skills/
 #   templates/brand-routines/claude/skills/ (routine skills) -> .claude/skills/
 #   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (added if missing,
@@ -20,7 +20,7 @@
 #                                          machinery and settings.json requires the script)
 #
 # FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
-#   global/knowledge/creative-strategy/ -> creative-strategy-context/
+#   creative-strategy-context/ -> creative-strategy-context/
 #   system/                             -> system/  (runtime subset only; --existing
 #                                          never adds the factory-internal docs)
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
@@ -34,7 +34,7 @@
 # + context-grounding-review.md, and scripts/voice-lint.py + grounding-check.py).
 # Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
-#    shipped system docs get their global/knowledge/creative-strategy/ refs rewritten
+#    shipped system docs get their creative-strategy-context/ refs rewritten
 #    to creative-strategy-context/)
 #
 # After mirroring, it runs scripts/sync-open-loops-core.py against the brain to
@@ -43,7 +43,7 @@
 # parker-system/ and is never rsynced.
 #
 # What it PRESERVES (never overwritten or deleted) in each brand brain:
-#   - parker-system/creative-strategy-context/_*-lens.md   (brand lens overlays)
+#   - parker-system/creative-strategy-context/_*-lens.md   (brand lens overlays, legacy nested location; current-layout brains keep brand-lens.md at the root, untouched by this sweep)
 #   - parker-system/creative-strategy-context/expert-insights/ (brand intake)
 #   - everything OUTSIDE parker-system/ (brand-profile, personas, strategy,
 #     audits, competitors, open-loops, running-notes, sub-context-docs,
@@ -102,7 +102,7 @@ for repo in "${REPOS[@]}"; do
     rsync -a --existing \
       --exclude '_*-lens.md' \
       --exclude 'expert-insights' \
-      "$FACTORY/global/knowledge/creative-strategy/" "$ps/creative-strategy-context/"
+      "$FACTORY/creative-strategy-context/" "$ps/creative-strategy-context/"
     # All skills live in .claude/skills/ — the only place Claude Code loads them on clone.
     # Refresh both the craft skills (from the factory's own .claude/skills/) and the
     # routine bundle (from templates/), update-only so nothing brand-specific is added/lost.
@@ -133,7 +133,7 @@ for repo in "${REPOS[@]}"; do
     # The creative review gates ship as a bundle: the written-tells doctrine, the two
     # reviewer agents (voice + grounding), and the two deterministic checkers they run.
     # The creative skills' SKILL.md gates reference all of them by name, so they land together.
-    cp -n "$FACTORY/global/knowledge/creative-strategy/ai-writing-tells.md" "$ps/creative-strategy-context/" 2>/dev/null || true
+    cp -n "$FACTORY/creative-strategy-context/ai-writing-tells.md" "$ps/creative-strategy-context/" 2>/dev/null || true
     mkdir -p "$dir/.claude/agents" "$dir/scripts"
     cp -n "$FACTORY/.claude/agents/creative-voice-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
@@ -144,9 +144,9 @@ for repo in "${REPOS[@]}"; do
     # new entry files (README/INDEX refresh via the --existing sweep above).
     if [ -d "$ps/creative-strategy-context/old-ads" ]; then
       mkdir -p "$ps/creative-strategy-context/old-ads/entries"
-      cp -n "$FACTORY"/global/knowledge/creative-strategy/old-ads/entries/*.md "$ps/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
+      cp -n "$FACTORY"/creative-strategy-context/old-ads/entries/*.md "$ps/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
     else
-      cp -R "$FACTORY/global/knowledge/creative-strategy/old-ads" "$ps/creative-strategy-context/"
+      cp -R "$FACTORY/creative-strategy-context/old-ads" "$ps/creative-strategy-context/"
     fi
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
@@ -161,7 +161,7 @@ for repo in "${REPOS[@]}"; do
     rsync -a --existing \
       --exclude '_*-lens.md' \
       --exclude 'expert-insights' \
-      "$FACTORY/global/knowledge/creative-strategy/" "$dir/creative-strategy-context/"
+      "$FACTORY/creative-strategy-context/" "$dir/creative-strategy-context/"
     rsync -a --existing "$FACTORY/system/"                                  "$dir/system/"
     rsync -a --existing "$FACTORY/templates/brand-routines/claude/skills/"  "$dir/.claude/skills/"
     # Context hook + settings ship together, added if missing (see the nested branch's
@@ -182,7 +182,7 @@ for repo in "${REPOS[@]}"; do
     # sweep; brains without a given skill gain nothing (--existing adds no files).
     rsync -a --existing --exclude 'dream' "$FACTORY/.claude/skills/" "$dir/.claude/skills/"
     # The creative review-gate bundle (see the nested branch's note).
-    cp -n "$FACTORY/global/knowledge/creative-strategy/ai-writing-tells.md" "$dir/creative-strategy-context/" 2>/dev/null || true
+    cp -n "$FACTORY/creative-strategy-context/ai-writing-tells.md" "$dir/creative-strategy-context/" 2>/dev/null || true
     mkdir -p "$dir/.claude/agents" "$dir/scripts"
     cp -n "$FACTORY/.claude/agents/creative-voice-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
@@ -191,9 +191,9 @@ for repo in "${REPOS[@]}"; do
     # The old-ads corpus (harvest v2) — same seed-or-add as the nested branch.
     if [ -d "$dir/creative-strategy-context/old-ads" ]; then
       mkdir -p "$dir/creative-strategy-context/old-ads/entries"
-      cp -n "$FACTORY"/global/knowledge/creative-strategy/old-ads/entries/*.md "$dir/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
+      cp -n "$FACTORY"/creative-strategy-context/old-ads/entries/*.md "$dir/creative-strategy-context/old-ads/entries/" 2>/dev/null || true
     else
-      cp -R "$FACTORY/global/knowledge/creative-strategy/old-ads" "$dir/creative-strategy-context/"
+      cp -R "$FACTORY/creative-strategy-context/old-ads" "$dir/creative-strategy-context/"
     fi
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
@@ -208,14 +208,14 @@ for repo in "${REPOS[@]}"; do
   python3 "$FACTORY/scripts/sync-open-loops-core.py" --scan "$dir"
 
   # Flat-layout path normalization. Factory canon carries nested-layout paths:
-  # the rsync'd system docs reference the craft layer as global/knowledge/creative-strategy/,
+  # the rsync'd system docs reference the craft layer as creative-strategy-context/,
   # and the marker blocks the sync just refreshed into the brain's root CLAUDE.md
   # carry parker-system/ paths. Rewrite both to the flat repo's shape so every
   # reference resolves. (Nested brains keep parker-system/ as-is, so this is flat-only.)
   if [ "$layout" = flat ]; then
     LC_ALL=C find "$dir/system" -name '*.md' -type f \
       -exec sed -i '' \
-        -e 's#global/knowledge/creative-strategy/#creative-strategy-context/#g' \
+        -e 's#creative-strategy-context/#creative-strategy-context/#g' \
         -e 's#parker-system/creative-strategy-context/#creative-strategy-context/#g' \
         -e 's#parker-system/system/#system/#g' \
         {} + 2>/dev/null || true

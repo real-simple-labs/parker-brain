@@ -6,7 +6,7 @@ Authority converts when it is real and bounded. The discipline is staying inside
 
 ## Required inputs
 
-- A documented credentialed expert tied to the brand. Source: the expert-insights library at `creative-strategy-context/expert-insights/INDEX.md` and the expert-signal DB at `prompts/global-databases/expert-signal-db.md`.
+- A documented credentialed expert tied to the brand. Source: the brand's expert-insights library at `expert-insights/` (brain root — INDEX.md plus the curated entries).
 - The claims envelope — what the expert is permitted to say.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.

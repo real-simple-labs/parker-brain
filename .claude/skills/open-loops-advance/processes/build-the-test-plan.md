@@ -13,7 +13,7 @@ A real read usually needs a few angles, because each source answers a different 
 - **Competitors** (`search_competitor_facebook_ads`) — whether someone is already doing it and whether it works in market.
 - **Post-purchase, organic, ad comments, a known web page** — as the specific question needs.
 
-Pick the two, three, or four that each add a *different* angle on this prediction. The discipline is not "use one source"; it is "use the few that see the whole thing, and don't pile on a fifth that only repeats an angle you already have." Tools come from `system/parker-tools.md`; Parker has no open-web search, so the competitor and open-web angles run through `search_competitor_facebook_ads` and known-URL fetches, not a search.
+Pick the two, three, or four that each add a *different* angle on this prediction. The discipline is not "use one source"; it is "use the few that see the whole thing, and don't pile on a fifth that only repeats an angle you already have." Tools come from `parker-system/system/parker-tools.md`; Parker has no open-web search, so the competitor and open-web angles run through `search_competitor_facebook_ads` and known-URL fetches, not a search.
 
 ## The ad account is blind to what it has never tested
 

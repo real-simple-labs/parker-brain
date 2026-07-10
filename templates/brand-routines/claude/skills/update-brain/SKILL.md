@@ -17,11 +17,23 @@ The factory keeps improving after a brain ships: new method docs, sharper skills
 
 ### 1. The brain vs the current factory — what's new in the standard
 
-Fetch the latest `parker-brain` factory (shallow clone of the repo this brain was built from; the remote is recorded in `running-notes/standard-sync.md`, and if it isn't reachable, say so plainly and stop — never guess at what the standard contains). Compare the methodology layers only — the generating prompts, the craft knowledge in `creative-strategy-context/`, the runtime system docs, the skills, and the synced blocks in `CLAUDE.md` — and sort every difference into three honest piles:
+Read the brain's update posture from `running-notes/standard-sync.md` first — it decides which of two shapes this comparison takes. If the ledger is missing or unreadable, say so plainly and stop; never guess at what the standard contains.
 
-- **New in the factory, absent here** — a method doc, skill, prompt, or system doc the factory added since this brain shipped. These are the main offers: name each, say in one plain line what it does and why the factory added it, and offer to bring it in.
+**Connected mode — `parker-system/` is a pinned submodule and the posture is `follow` (the standard shape).** The factory arrives whole or not at all, so there is no per-file diffing of the method: the offer is the *release*. Fetch the factory's tags (`git -C parker-system fetch --tags`) and compare the pinned release against the newest `vN` tag. If the pin is current, this comparison is one line in the digest. If the factory has moved:
+
+- Name the new release and what changed — the factory's `release-notes/` entries and `migrations/` files between the pinned tag and the new one say exactly this; read them and put it in plain words.
+- Offer the bump. **On a yes:** check out the new tag in `parker-system/`, then walk the factory's `migrations/` files in order — every `vN.md` with the old pin < N ≤ new pin — and apply each as written (they are agent-executable instructions: layout moves, re-runs, new files to copy out of the mount). Migrations that touch the brain's own data are still shown before applying. Then re-sync the **copied executable layer** — the craft skills, review-gate agents, and checker scripts the build copied out of the mount into `.claude/` and `scripts/` — for those copies the three piles below still govern, because the team may have adapted them. Finally commit the moved pin and record the new release in the ledger and in `parker_config.json` (`parker_brain_version`).
+- Never edit anything *inside* `parker-system/` — the mount is read-only; an update is only ever the pin moving.
+
+**Decoupled mode — the posture is `own-factory` or `independent`, and `parker-system/` is the team's own vendored copy (or their own factory fork).** The team owns their method now, so the comparison is informational: fetch the public factory (shallow clone; the remote is recorded in the ledger), compare the methodology layers — the generating prompts, the craft knowledge in `parker-system/creative-strategy-context/`, the runtime system docs, the skills — and sort every difference into three honest piles:
+
+- **New in the factory, absent here** — a method doc, skill, prompt, or system doc the factory added since this brain decoupled. These are the main offers: name each, say in one plain line what it does and why the factory added it, and offer to bring it in.
 - **Changed in the factory, unmodified here** — the brain's copy matches an older factory version. Offer the refresh; this is the safe pile, since the team never touched theirs.
-- **Changed here, by the team** — the brain's copy differs from every factory version because the team edited it. **Theirs wins, full stop.** Surface it once as a note ("your scriptwriting skill has local changes; the factory version also moved — want to see what changed there?") and never offer it again unless the factory ships something newer still. The brand lens, `expert-insights/`, and everything outside the methodology layers are never even compared — they are brand property, invisible to this routine.
+- **Changed here, by the team** — the brain's copy differs from every factory version because the team edited it. **Theirs wins, full stop.** Surface it once as a note ("your scriptwriting skill has local changes; the factory version also moved — want to see what changed there?") and never offer it again unless the factory ships something newer still.
+
+Under `independent`, soften even that: one "FYI, the factory moved" line in the digest unless they've asked for offers.
+
+In both modes, the brand lens, `expert-insights/`, and everything outside the methodology layers are never even compared — they are brand property, invisible to this routine.
 
 ### 2. The brain vs its own canonical build — what was never generated
 
@@ -29,7 +41,7 @@ Walk the generating prompts the brain ships in `parker-system/prompts/` against 
 
 ## The memory — decline once, not weekly
 
-`running-notes/standard-sync.md` is this routine's ledger: the factory remote, the factory version last compared against, and every offer with its answer — taken (and when), declined (and why, when they gave a reason), or deferred. A declined offer is not raised again unless the factory version of that item has changed since the decline. This is what makes the routine a colleague and not a nag: it remembers what the team already said.
+`running-notes/standard-sync.md` is this routine's ledger: the factory remote, the update posture (`follow` / `own-factory` / `independent`), the release the brain is pinned to (or was last compared against), which migrations have been applied, and every offer with its answer — taken (and when), declined (and why, when they gave a reason), or deferred. A declined offer is not raised again unless the factory version of that item has changed since the decline. This is what makes the routine a colleague and not a nag: it remembers what the team already said.
 
 ## How the offers land
 
@@ -41,6 +53,7 @@ Walk the generating prompts the brain ships in `parker-system/prompts/` against 
 
 - **Offer, never override.** Nothing is copied, regenerated, or edited without the user's explicit yes, in any mode. No exceptions, including "obviously safe" ones.
 - **The team's changes always win.** A locally modified file is surfaced once and left alone. Deleted is a decision. The brand lens and expert-insights are never compared, never offered against.
+- **The mount is untouchable.** In connected mode, never write inside `parker-system/` — an update is the pin moving to a new release tag plus the migrations that release ships, nothing else. A brain that wants to edit the method decouples first (`/disconnect-factory`).
 - **Remember the answers.** The ledger is read before any offer is made; a declined item stays quiet until the factory moves again.
 - **Generate, don't fabricate.** A missing standing doc is filled by running its own generating prompt in full — never by writing a summary that looks like one.
 - **Methodology comes from the factory; brand truth comes from the brand.** This routine copies method and generates outputs from data. It never invents brand content to fill a hole.

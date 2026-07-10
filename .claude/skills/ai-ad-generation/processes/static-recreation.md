@@ -4,7 +4,7 @@ Recreate a competitor or inspo static for the user's brand. Preserve the origina
 
 This is not redesign. This is faithful recreation of someone else's working ad in your brand's voice.
 
-The recreation method is canonical at `global/knowledge/creative-strategy/static-ad-recreation.md` — that doc is the source of truth for the story-first discipline and the copy-mechanics rules. What follows is the execution playbook for running it; when the two diverge, the canonical doc wins, except that the recreation brief is written as prose here, never a table, per the no-tables output rule.
+The recreation method is canonical at `parker-system/creative-strategy-context/static-ad-recreation.md` — that doc is the source of truth for the story-first discipline and the copy-mechanics rules. What follows is the execution playbook for running it; when the two diverge, the canonical doc wins, except that the recreation brief is written as prose here, never a table, per the no-tables output rule.
 
 ## Required inputs
 

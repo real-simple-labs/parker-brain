@@ -2,7 +2,7 @@
 """voice-lint: deterministic scan for mechanical AI-writing tells in creative copy.
 
 The mechanical layer of the two-layer check defined in
-global/knowledge/creative-strategy/ai-writing-tells.md (shipped to brand
+creative-strategy-context/ai-writing-tells.md (shipped to brand
 brains as creative-strategy-context/ai-writing-tells.md). Sign inventory
 generalized from Wikipedia: Signs of AI writing, retrieved 2026-07-03.
 

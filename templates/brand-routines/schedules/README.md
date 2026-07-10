@@ -2,7 +2,7 @@
 
 Repo-native cron routines that run **inside this brain** to keep its docs current without anyone asking — the nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs. Clone this repo into a Claude Code instance and the schedules are what run against it on the back end.
 
-**Schedules are not workflows.** Workflows (`../workflows/`) are the Parker-MCP product surface and call out to the hosted product. A schedule needs nothing but this repo and a Claude Code runner. Full concept: the Parker brain's `system/schedules.md`.
+**Schedules are not workflows.** Workflows (`../workflows/`) are the Parker-MCP product surface and call out to the hosted product. A schedule needs nothing but this repo and a Claude Code runner. Full concept: the Parker brain's `parker-system/system/schedules.md`.
 
 Schedules act on the **refresh cadence**, not instead of it: each doc stamps a `refresh_by` (the clock); a refresh schedule is the worker that wakes up, reads what's overdue, and re-runs the generating prompt.
 

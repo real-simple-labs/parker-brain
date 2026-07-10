@@ -5,7 +5,7 @@ This document picks which scriptwriting process to run. The default path is refe
 ## What to load before deciding
 
 - **Brand script-voice profile.** Build or load it via build-brand-voice-profile. Pull the brand's own winning scripts, read them out loud, and extract the voice fingerprint — pacing, diction with exact recurring phrases, signature moves, direct-address habit, CTA shape, and the banned-by-absence list. This is the voice and structural fingerprint everything generated must match and sound like.
-- **Brand visual vocabulary.** Load `sub-context-docs/visual-vocabulary.md` alongside the voice profile when it exists. Voice is what the brand sounds like; the vocabulary is what it looks like — the brand's filmed settings, talent situations, and product moves, classified in-play, adjacent, and out-of-play per the method at `global/knowledge/creative-strategy/visual-vocabulary-method.md`. Every beat's visual direction sources from it.
+- **Brand visual vocabulary.** Load `sub-context-docs/visual-vocabulary.md` alongside the voice profile when it exists. Voice is what the brand sounds like; the vocabulary is what it looks like — the brand's filmed settings, talent situations, and product moves, classified in-play, adjacent, and out-of-play per the method at `parker-system/creative-strategy-context/visual-vocabulary-method.md`. Every beat's visual direction sources from it.
 - **Brand profile, ICP, personas, voice of customer.**
 - **Brand voice rules and compliance constraints.**
 - **Hook strategy and hook history.** Load the hooks skill strategy, the shared hook doctrine, and the brand's latest hook audit or hook history before writing the first three seconds. The opener is where the script earns the watch, so it must be chosen from ICP, emotion, brand history, and actual first-three-second evidence.
@@ -70,7 +70,7 @@ Non-negotiable across every process — reference-driven or net-new.
 Every script must read and sound as belonging to this brand. The brand script-voice profile — built from the brand's own winning scripts read out loud — defines what that means. Pacing, diction, signature moves, direct-address habit, CTA shape, and the banned-by-absence words. If the generated script does not match the brand's voice fingerprint, it does not ship.
 
 ### Spoken, not written
-Every script must survive being read out loud by a real person. Write for the mouth, not the page. Apply the spoken-register rules in `creative-strategy-context/spoken-script-voice.md`: short sentences with the length jumping around, contractions and elisions, fragments as emphasis, the mess left in, concrete named things over abstractions, transitions by moving not signposting, and a friend's-recommendation CTA. The AI-tells list there is the contrast set — train every line against the real corpus lines, not the AI defaults.
+Every script must survive being read out loud by a real person. Write for the mouth, not the page. Apply the spoken-register rules in `parker-system/creative-strategy-context/spoken-script-voice.md`: short sentences with the length jumping around, contractions and elisions, fragments as emphasis, the mess left in, concrete named things over abstractions, transitions by moving not signposting, and a friend's-recommendation CTA. The AI-tells list there is the contrast set — train every line against the real corpus lines, not the AI defaults.
 
 ### Cold-audience assumption
 The script must work for cold audiences. Cold-focused works for warm too; warm-focused never scales.

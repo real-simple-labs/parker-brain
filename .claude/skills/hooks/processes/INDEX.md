@@ -1,6 +1,6 @@
 # Hooks — Process Index
 
-The canonical hook taxonomy and the psychology behind every format live in `creative-strategy-context/hooks.md`. Each process below is the execution playbook for one format family from that taxonomy — how to write it well, not what it is. Load `hooks.md` first; the processes assume it. Where a process names a format, it is the same format `hooks.md` defines; `hooks.md` is the source of truth if the two ever drift.
+The canonical hook taxonomy and the psychology behind every format live in `parker-system/creative-strategy-context/hooks.md`. Each process below is the execution playbook for one format family from that taxonomy — how to write it well, not what it is. Load `hooks.md` first; the processes assume it. Where a process names a format, it is the same format `hooks.md` defines; `hooks.md` is the source of truth if the two ever drift.
 
 Several `hooks.md` formats are covered without a standalone process: educational-teach-in-timeframe carries both the Give Me Time and Educational formats; controversy-anti-traditional carries both Controversy/Anti-Traditional and Myth-Busting/Contrarian.
 

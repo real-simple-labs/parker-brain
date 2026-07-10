@@ -201,15 +201,15 @@ The on-demand brand runner for the dreaming system, invoked with `/dream`. Reads
 The grounding gate, and the first of the two ship gates (it changes content; the voice gate changes lines). The five creative skills spawn it on every finished draft before the voice review. It reviews as a **peer strategist, not a citation checker**: its first move is reading the method docs the task routes to — end to end, the same reads the generator owed — so its judgment happens through the methods' own reasoning rather than general marketing opinion. Then it runs the deterministic checks (`scripts/grounding-check.py`: quoted verbatims trace to the vault, cited sources exist on disk, receipts present) and reviews on three dimensions: the right context loaded and pulled (vocabulary evidence, not claimed sources), nothing fabricated, and the methods **applied, not just opened** — every misapplication finding must cite the doc passage it violates, and where a method leaves a call to judgment, the writer's call stands. Returns `grounded` or `bounced` with missing loads, missing pulls, and misapplications named; a bounce means re-pull and regenerate. This is the routing map's closing test made independent instead of self-graded, and every bounce is reasoning-trace material for how the planner should have routed.
 
 ### `.claude/agents/creative-voice-review.md` · `[built]` — an agent, not a skill
-The independent ship gate for creative copy. The five creative skills (`scriptwriting`, `headlines`, `hooks`, `ai-ad-generation`, `iterations`) spawn it on every finished draft; it runs the deterministic tells scan (`scripts/voice-lint.py`), judges the flags against the brand's voice profile per the doctrine at `global/knowledge/creative-strategy/ai-writing-tells.md`, catches what regex can't, and returns per-line verdicts with rewrites in the brand's register — never touching hook format, framework beats, claims, or sourced customer language. Its verdict appears in each output's required Voice Review block. It is a subagent definition, not a skill: a fresh reviewer context so the writer never grades its own draft. Ships to brand brains as a trio with the linter and the doctrine doc.
+The independent ship gate for creative copy. The five creative skills (`scriptwriting`, `headlines`, `hooks`, `ai-ad-generation`, `iterations`) spawn it on every finished draft; it runs the deterministic tells scan (`scripts/voice-lint.py`), judges the flags against the brand's voice profile per the doctrine at `creative-strategy-context/ai-writing-tells.md`, catches what regex can't, and returns per-line verdicts with rewrites in the brand's register — never touching hook format, framework beats, claims, or sourced customer language. Its verdict appears in each output's required Voice Review block. It is a subagent definition, not a skill: a fresh reviewer context so the writer never grades its own draft. Ships to brand brains as a trio with the linter and the doctrine doc.
 
 ---
 
 ## Knowledge tier — domain reasoning docs
 
-Knowledge docs hold the field-level expertise. They are not brand-specific and they are not skill-specific. They are the canonical thinking on a domain. Today these live at `global/knowledge/creative-strategy/`; the post-launch architecture moves them under `global/teams/[team]/knowledge/` per team plus a `global/knowledge/` tier for cross-team principles.
+Knowledge docs hold the field-level expertise. They are not brand-specific and they are not skill-specific. They are the canonical thinking on a domain. Today these live at `creative-strategy-context/`; the post-launch architecture moves them under `global/teams/[team]/knowledge/` per team plus a `global/knowledge/` tier for cross-team principles.
 
-### `global/knowledge/creative-strategy/` · `[built]`
+### `creative-strategy-context/` · `[built]`
 The current home of creative-strategy domain knowledge. Holds the canonical reads on scriptwriting principles, hook frameworks, headline generators, ad-format taxonomies, AI-assisted ad generation, video prompting, persona-to-roadmap process, adaptation playbooks, the old-ads corpus (`old-ads/` — the historical print-ad swipe library the weekly hunt's historian lens digs, organized by industry and mechanic), and the voice doctrine pair — `spoken-script-voice.md` for the spoken register and `ai-writing-tells.md` for the written AI-slop signs, the latter enforced at ship time by the `creative-voice-review` agent and `scripts/voice-lint.py`.
 
 ### `creative-strategy-context/expert-insights/` · `[built]`
@@ -261,9 +261,9 @@ The prompts that generate the brand surfaces above. Prompts produce context. The
 
 Methodology documents that govern how Parker reads the brand surfaces.
 
-- `global/knowledge/creative-strategy/analyzing-public-ad-accounts.md` — the canonical read on how to analyze public ad accounts
-- `global/knowledge/creative-strategy/customer-review-mining-method.md` — the canonical read on how to mine customer reviews
-- `global/knowledge/creative-strategy/persona-research-and-creative-strategy-process.md` — the process bridge from persona research to diagnosis, roadmap, and sprint execution
+- `creative-strategy-context/analyzing-public-ad-accounts.md` — the canonical read on how to analyze public ad accounts
+- `creative-strategy-context/customer-review-mining-method.md` — the canonical read on how to mine customer reviews
+- `creative-strategy-context/persona-research-and-creative-strategy-process.md` — the process bridge from persona research to diagnosis, roadmap, and sprint execution
 - `system/attribution-principle.md` — the attribution metadata schema every doc carries (locked 2026-06-08: inline in the markdown)
 - `system/open-loops-system.md` — the open-loops pipeline architecture
 - `self-improvement/self-improvement-system.md` — the reasoning-trace capture, routing, curation, and promotion method
@@ -319,7 +319,7 @@ Triggers for updating this map:
 - A new self-improvement trace category, routing rule, or promotion state is added. Update the self-improvement memory and system-level references.
 - A new pipeline state is added to the open-loops, hypotheses, or validations folders. Update the corresponding entry.
 - A new methodology doc lands under `parker-v2/`. Add it to the system-level references section.
-- A new domain knowledge doc lands under `global/knowledge/creative-strategy/` or the team-namespaced knowledge tiers. Update the knowledge tier section.
+- A new domain knowledge doc lands under `creative-strategy-context/` or the team-namespaced knowledge tiers. Update the knowledge tier section.
 - A new tool integration comes online. Update the tools tier section to name the category and what the tool returns.
 - A new team comes online inside a brand. Update the team tier section to name what the team owns.
 - The thinking step's reasoning move changes. Update the thinking step section.

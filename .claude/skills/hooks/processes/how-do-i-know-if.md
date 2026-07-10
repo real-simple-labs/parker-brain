@@ -2,7 +2,7 @@
 
 Open by saying out loud the exact qualifying question the viewer is already asking themselves — "How do I know if this is right for me?" — then frame the rest of the ad as the honest answer from their side of the table.
 
-The format and its psychology live in `creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
+The format and its psychology live in `parker-system/creative-strategy-context/hooks.md`; that doc is the source of truth if the two ever drift. This is the execution playbook — how to write it well, not what it is.
 
 ## Psychological framework
 

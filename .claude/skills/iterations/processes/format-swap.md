@@ -11,7 +11,7 @@ Take a winning message and rebuild it in a different format. The signal-change l
 
 ## Decision: which target format
 
-This is the choice that determines the value of the iteration. Name the target format by its real tag from `global/knowledge/creative-strategy/ad-formats/` rather than an invented blend, so the recommendation speaks the same language the account uses to classify creative. Common moves:
+This is the choice that determines the value of the iteration. Name the target format by its real tag from `parker-system/creative-strategy-context/ad-formats/` rather than an invented blend, so the recommendation speaks the same language the account uses to classify creative. Common moves:
 
 - **Video to static.** Distill the most powerful moment from the video into a single headline-plus-visual that converts at a glance — a `Headline Only`, `Headline + Benefits`, or `Native` static depending on the brand's static playbook. Strongest when the brand has a winning video but limited static creative in rotation.
 - **Static to video.** Rebuild the winning static as video using the winning headline as the opening hook. The natural target tags are `Motion Videos` if the static is animated into motion, or a creator-led `UGC Single` or `Demo` if it is rebuilt as a shot ad. Strongest when the brand has a winning static and wants to extend the message into higher-reach video placements.

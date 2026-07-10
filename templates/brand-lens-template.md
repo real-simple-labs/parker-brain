@@ -1,6 +1,6 @@
 # Brand lens template
 
-> Status: `[~]` template. This is the canonical scaffold for a brand's lens overlay, instantiated per brand at `parker-system/creative-strategy-context/_<brand>-lens.md`. The onboarding runner seeds it during the "Stamp the operating contract" step; the refresh and self-improve routines keep adding to it. Fill the `{{slots}}`, delete this header block, and keep every line sourced and dated.
+> Status: `[~]` template. This is the canonical scaffold for a brand's lens overlay, instantiated per brand at `brand-lens.md`, at the brand brain's root. The onboarding runner seeds it during the "Stamp the operating contract" step; the refresh and self-improve routines keep adding to it. Fill the `{{slots}}`, delete this header block, and keep every line sourced and dated.
 >
 > **What this file is for.** The creative-strategy method docs teach how a strategist thinks in general. This lens is the one place that says how *this* brand is different — the tribal knowledge the team has handed over that no general method could know. The expertise layer loads it on top of the method docs on every creative output (the expertise-core block names it), so it is the highest-leverage way the brand's own knowledge keeps shaping the work after onboarding. **When the lens and a general method disagree, the lens wins** — it is the brand speaking. Keep it tight and true: a short lens of verified brand rules beats a long one padded with guesses.
 

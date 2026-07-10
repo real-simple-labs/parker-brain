@@ -14,8 +14,9 @@ import json
 import re
 from pathlib import Path
 
-# Nested layout keeps the craft layer under parker-system/; legacy flat brains
-# keep it at the repo root. Check both so the same script works in either.
+# The standard layout mounts the craft layer at parker-system/ (a pinned
+# submodule of the factory); legacy flat brains keep it at the repo root.
+# Check both so the same script works in either.
 _CANDIDATES = [
     Path("parker-system/creative-strategy-context/expertise-routing.md"),
     Path("creative-strategy-context/expertise-routing.md"),
@@ -27,8 +28,12 @@ INSTRUCTION = (
     "creative-strategy knowledge is thin and ungrounded until you load the craft docs. "
     "For anything touching creative strategy, before you answer: reason over the craft "
     "catalog below generously, open every method doc that would genuinely help, and load "
-    "the expert-insights and the brand lens overlay if one exists. Ground every insight "
-    "in those methods and speak their vocabulary. Close every substantive answer with its "
+    "the expert-insights (expert-insights/ at the repo root) and the brand lens "
+    "(brand-lens.md at the repo root) if they exist. Ground every insight "
+    "in those methods and speak their vocabulary. The vault says what was true; only a "
+    "pull says what is true — any claim about the current state of the account or market "
+    "comes from a fresh Parker MCP pull, not from memory of a doc or an old audit. "
+    "Close every substantive answer with its "
     "Sources list and check the receipt before sending: a creative or strategic answer "
     "whose sources name no method doc is presumed under-retrieved. Rebuild it, don't ship it. "
     "Use the vault hard and honor the brand hard rules. "

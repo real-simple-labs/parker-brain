@@ -14,7 +14,7 @@ Run after adding or editing a knowledge doc:
 import os, re, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-KB = os.path.join(ROOT, "global/knowledge/creative-strategy")
+KB = os.path.join(ROOT, "creative-strategy-context")
 CATALOG_DOC = os.path.join(KB, "expertise-routing.md")
 
 # Not method docs — never indexed.

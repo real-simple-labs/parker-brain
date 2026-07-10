@@ -1,6 +1,6 @@
 # Growing the brain — the scaffold is a floor, not a ceiling
 
-> Runtime system doc: ships into every brand brain at `parker-system/system/growing-the-brain.md`. It governs how a standing brain expands when the org connects new tools or asks about domains the original build never covered.
+> Runtime system doc: reaches every brand brain inside the `parker-system/` mount, at `parker-system/system/growing-the-brain.md`. It governs how a standing brain expands when the org connects new tools or asks about domains the original build never covered.
 
 The build hands a team the performance-marketing core: the ad account read, the personas, the voice of customer, the competitors, the strategy on top. That is the part Parker can construct cold from the brand's marketing data, and it is where most teams start. It is not where the brain ends. The brain is org-shaped, not channel-shaped: every connector the team adds and every domain they bring to it is a new part of the business the brain can learn, by the same rules the original build followed. The folder tree the build produced is the buildable core — the floor. Nothing about it is a cage.
 
@@ -42,7 +42,7 @@ Do not scaffold empty folders for domains nobody has connected and nobody asks a
 
 - `refresh-context` re-runs its docs on their cadence, same as any standing doc;
 - `dream` reads it as part of the day's picture, and dreaming is also where growth usually starts — when a connected tool carries truth with no home, the right first move is a dreaming proposal for the new surface, disposed by `self-improve` with the human in the loop;
-- if the domain needs its own generating prompt, author it in the brain's `parker-system/prompts/` following the prompt standards that shipped with the brain, so the refresh routine can re-run it instead of improvising. The brain carries the method for writing its own generators; growing one is normal, not exceptional.
+- if the domain needs its own generating prompt, author it in the brain's own `prompts/` folder at the repo root (create it on first use — the `parker-system/` mount is read-only, so brain-authored generators live beside it, following the same prompt standards it carries). The refresh routine treats both homes as generator sources: factory prompts under `parker-system/prompts/`, the brain's own under `prompts/`. The brain carries the method for writing its own generators; growing one is normal, not exceptional.
 
 **6. Tell the user what grew.** A new surface is a real change to what the brain is. Name it plainly when it happens: what got created, what feeds it, what it will be watched for. The team should always be able to answer "what does our brain cover now?" from the map alone.
 
