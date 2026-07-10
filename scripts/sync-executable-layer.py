@@ -77,6 +77,27 @@ def skippable(path: str) -> bool:
     return any(p in SKIP_NAMES for p in parts) or path.endswith(".pyc")
 
 
+def safe_dest(dest: str) -> bool:
+    """A destination this script may touch: a relative path confined to the
+    brand repo, no symlinked component anywhere in it, and nothing but a
+    regular file (or nothing at all) at the end. Anything else — a symlink,
+    a directory where a file should be, a path that escapes the repo — is
+    treated as team-owned and left alone."""
+    p = Path(dest)
+    if p.is_absolute() or ".." in p.parts:
+        return False
+    cur = Path(".")
+    for part in p.parts[:-1]:
+        cur = cur / part
+        if cur.is_symlink():
+            return False
+    if p.is_symlink():
+        return False
+    if p.exists() and not p.is_file():
+        return False
+    return True
+
+
 def bundle_map(factory: dict[str, str]) -> dict[str, str]:
     """factory source path -> brand destination path, for one tag's tree.
 
@@ -188,6 +209,9 @@ def main() -> int:
     for dest, src in sorted(new_by_dest.items()):
         dest_path = Path(dest)
         old_src = old_by_dest.get(dest)
+        if not safe_dest(dest):
+            edited.append(dest)  # symlink / dir / escaping path: theirs, never touch it
+            continue
         if not dest_path.exists():
             if old_src:
                 deleted_by_team.append(dest)   # was shipped before; deleted is a decision
@@ -225,7 +249,16 @@ def main() -> int:
         removed.append(dest)  # factory dropped it; never delete, just say so
 
     if not args.dry_run:
+        root = Path.cwd().resolve()
         for path, content in writes:
+            # belt and braces: re-verify confinement at write time
+            if not safe_dest(str(path)) or not (root / path).resolve().is_relative_to(root):
+                edited.append(str(path))
+                if str(path) in updated:
+                    updated.remove(str(path))
+                if str(path) in added:
+                    added.remove(str(path))
+                continue
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
             if path.suffix == ".py" or path.parts[0] == "scripts":
