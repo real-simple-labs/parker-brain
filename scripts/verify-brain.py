@@ -87,6 +87,7 @@ def main() -> int:
         except json.JSONDecodeError as e:
             report(False, "settings.json parses", str(e))
     report(cfg is not None, "settings.json present and valid JSON")
+    report((ROOT / "AGENTS.md").is_file(), "AGENTS.md present (entry point for non-Claude agents)")
     if cfg is not None:
         hooks = cfg.get("hooks", {})
         report("UserPromptSubmit" in hooks, "UserPromptSubmit hook configured (craft-catalog injection)")

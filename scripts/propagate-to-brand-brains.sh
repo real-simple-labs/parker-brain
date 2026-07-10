@@ -178,6 +178,8 @@ for repo in "${REPOS[@]}"; do
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
+    # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
+    cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
@@ -261,6 +263,8 @@ for repo in "${REPOS[@]}"; do
     done
     cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
     cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
+    # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
+    cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
