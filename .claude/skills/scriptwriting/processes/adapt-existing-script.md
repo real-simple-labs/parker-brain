@@ -80,7 +80,7 @@ When the reference makes a claim the brand cannot make, substitute with the clos
 
 ## Output content
 
-The reference-adaptation path delivers in the four-part contract from `creative-strategy-context/adapting-scripts.md` — Overview, Script, Script with Storyboard, Fidelity Summary — per the output-contract-precedence rule in the skill's SKILL.md. The deconstruction in Steps 1 and 2 and the drift audit in Step 5 are internal working that informs the output, never shown to the user. What reaches the user:
+The reference-adaptation path delivers in the four-part contract from `global/knowledge/creative-strategy/adapting-scripts.md` — Overview, Script, Script with Storyboard, Fidelity Summary — per the output-contract-precedence rule in the skill's SKILL.md. The deconstruction in Steps 1 and 2 and the drift audit in Step 5 are internal working that informs the output, never shown to the user. What reaches the user:
 
 - The adapted script in full with visual cues, in the brand's voice fingerprint.
 - The brand baseline elements applied — pacing norm, voice match, CTA style, signature moves — surfaced in the brief, not as a deconstruction dump.

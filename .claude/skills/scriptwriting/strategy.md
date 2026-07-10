@@ -70,7 +70,7 @@ Non-negotiable across every process — reference-driven or net-new.
 Every script must read and sound as belonging to this brand. The brand script-voice profile — built from the brand's own winning scripts read out loud — defines what that means. Pacing, diction, signature moves, direct-address habit, CTA shape, and the banned-by-absence words. If the generated script does not match the brand's voice fingerprint, it does not ship.
 
 ### Spoken, not written
-Every script must survive being read out loud by a real person. Write for the mouth, not the page. Apply the spoken-register rules in `creative-strategy-context/spoken-script-voice.md`: short sentences with the length jumping around, contractions and elisions, fragments as emphasis, the mess left in, concrete named things over abstractions, transitions by moving not signposting, and a friend's-recommendation CTA. The AI-tells list there is the contrast set — train every line against the real corpus lines, not the AI defaults.
+Every script must survive being read out loud by a real person. Write for the mouth, not the page. Apply the spoken-register rules in `global/knowledge/creative-strategy/spoken-script-voice.md`: short sentences with the length jumping around, contractions and elisions, fragments as emphasis, the mess left in, concrete named things over abstractions, transitions by moving not signposting, and a friend's-recommendation CTA. The AI-tells list there is the contrast set — train every line against the real corpus lines, not the AI defaults.
 
 ### Cold-audience assumption
 The script must work for cold audiences. Cold-focused works for warm too; warm-focused never scales.

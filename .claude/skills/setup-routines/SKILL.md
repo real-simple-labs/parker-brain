@@ -1,17 +1,25 @@
 ---
 name: setup-routines
-description: One-time setup for a fresh brand brain instance. Registers the standing routines (refresh-context, dream, harvest+evaluate ideas, research-loops, update-brain, self-improve) as scheduled cloud agents so they run on cadence without being asked. The job definitions already travel with this repo; this skill arms the schedules, which are per-account and can't be committed. Run once after cloning the brain into a new Claude Code cloud instance, or when asked to set up / register / schedule the routines.
+description: Arms the brand brain's standing routines (refresh-context, dream, harvest+evaluate ideas, research-loops, update-brain, self-improve) as scheduled cloud agents so they run on cadence without being asked. The job definitions already travel with this repo; this skill registers the schedules, which are per-account and can't be committed. The onboarding build runs it automatically at the stamp step (build mode, no questions); run it yourself after cloning the brain into a new Claude Code cloud instance, or any time to change a cadence or turn a routine off.
 ---
 
-# Setup routines — arm the schedules (run once per instance)
+# Setup routines — arm the schedules
 
-The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them once for this instance.
+## Two ways to arm the clock — pick one, never both
+
+1. **Claude Code scheduled cloud agents** — this skill's native path, below. Best when the team lives in Claude.
+2. **The repo's GitHub Actions workflow** (`.github/workflows/parker-routines.yml`) — the harness-agnostic path: cron fires in GitHub and runs each routine through whichever agent CLI the team configured (`PARKER_AGENT_RUNNER` repo variable set to `claude` or `codex`, plus the matching API-key secret; cron times are UTC). Best when the team's daily agent is not Claude, or they want the schedule to live with the repo instead of one person's account.
+
+Running both double-runs every routine. If the team arms the Actions path, this skill's job is only to confirm `PARKER_AGENT_RUNNER` and the secret are set and leave the cloud agents unregistered.
+
+
+The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them for this instance.
 
 ## How it works
 
 For each routine below, create a scheduled cloud agent (a "routine") whose prompt is simply to run the corresponding skill in this repo. Use the **`/schedule`** skill / command to create each one (it manages the cron cloud agents). The cadence and the exact prompt for each are also recorded in `../schedules/*.md` — those schedule docs are the canonical recipe; this skill is the guided installer.
 
-Before registering, confirm with the user: their timezone, and that the instance's data sources (Parker MCP server, web tools) are connected — a scheduled run can only do what the connected tools allow.
+This skill runs two ways. **Build mode** — the onboarding build invokes it at the stamp step: register all six routines at the default cadences below with no questions asked, using the user's timezone when the session already knows it (from intake or the account) and the suggested times otherwise. The build's go-ahead covers the consent and the build's finish carries the disclosure, so don't re-ask here. **Guided mode** — a person invokes it: before registering, confirm their timezone, which routines they want, and that the instance's data sources (Parker MCP server, web tools) are connected — a scheduled run can only do what the connected tools allow.
 
 ## The routines to register
 
@@ -28,7 +36,7 @@ Times are suggestions — confirm against the user's timezone and working rhythm
 
 ## Steps
 
-1. **Confirm prerequisites** — timezone, connected MCP/web tools, and that the user wants all four (or a subset).
+1. **Confirm prerequisites** (guided mode only) — timezone, connected MCP/web tools, and that the user wants all six (or a subset). Build mode skips this step and registers the full set at the defaults.
 2. **Register each routine** via `/schedule`, one per row above (all six). The scheduled prompt should be minimal — e.g. *"Run the /dream routine for the brand brain in this repo. Follow the skill exactly; propose, never apply."* — letting the committed SKILL.md carry the method. For the idea cycle, schedule a single weekly agent that runs `/harvest-ideas` then `/evaluate-ideas` in sequence.
 3. **Verify** — list the scheduled routines back to the user with their next-run times, and confirm each points at the right skill.
 4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active), so the schedule doc reflects reality.

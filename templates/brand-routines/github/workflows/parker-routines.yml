@@ -1,0 +1,105 @@
+# Parker routines — the harness-agnostic scheduler.
+#
+# The brain is a GitHub repo, so GitHub Actions is the alarm clock: it fires on
+# cron and hires whichever agent CLI this team configured, so the brain stays
+# alive no matter what the team chats with day to day. The routine definitions
+# stay canonical in schedules/*.md; this workflow only invokes them.
+#
+# One-time setup (a human, once per brain):
+#   1. Repo variable  PARKER_AGENT_RUNNER = claude | codex | none   (Settings -> Secrets and variables -> Actions -> Variables)
+#   2. Repo secret    ANTHROPIC_API_KEY  (for claude)  or  OPENAI_API_KEY  (for codex)
+#   3. Give Actions write permission (Settings -> Actions -> General -> Workflow permissions -> Read and write)
+# Set PARKER_AGENT_RUNNER to `none` (or leave it unset) to keep the clock silent,
+# e.g. when the team runs routines as Claude Code scheduled cloud agents instead
+# (see .claude/skills/setup-routines/ — don't run both, you'd double-run routines).
+#
+# Two GitHub quirks worth knowing: cron times are UTC (adjust to the team's
+# timezone), and GitHub pauses scheduled workflows after ~60 days without repo
+# activity — the routines' own commits normally keep it alive, but a paused
+# clock is silent, so /harness-check after any long quiet stretch.
+
+name: parker-routines
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # daily 05:00 CT  -> dream
+    - cron: "30 10 * * 1"  # Mon  05:30 CT  -> update-brain
+    - cron: "0 11 * * 1"   # Mon  06:00 CT  -> refresh-context
+    - cron: "0 12 * * 1"   # Mon  07:00 CT  -> ideas-weekly (harvest -> evaluate)
+    - cron: "0 11 * * 3"   # Wed  06:00 CT  -> research-loops
+    - cron: "0 21 * * 5"   # Fri  16:00 CT  -> self-improve
+  workflow_dispatch:
+    inputs:
+      routine:
+        description: "Routine to run now"
+        required: true
+        type: choice
+        options: [dream, update-brain, refresh-context, ideas-weekly, research-loops, self-improve]
+
+concurrency:
+  group: parker-routines
+  cancel-in-progress: false
+
+jobs:
+  routine:
+    if: ${{ vars.PARKER_AGENT_RUNNER != '' && vars.PARKER_AGENT_RUNNER != 'none' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pick the routine for this firing
+        id: pick
+        run: |
+          if [ -n "${{ github.event.inputs.routine }}" ]; then
+            R="${{ github.event.inputs.routine }}"
+          else
+            case "${{ github.event.schedule }}" in
+              "0 10 * * *")  R=dream ;;
+              "30 10 * * 1") R=update-brain ;;
+              "0 11 * * 1")  R=refresh-context ;;
+              "0 12 * * 1")  R=ideas-weekly ;;
+              "0 11 * * 3")  R=research-loops ;;
+              "0 21 * * 5")  R=self-improve ;;
+              *) echo "unknown cron ${{ github.event.schedule }}"; exit 1 ;;
+            esac
+          fi
+          echo "routine=$R" >> "$GITHUB_OUTPUT"
+          case "$R" in
+            ideas-weekly) P="Run the weekly idea cycle for the brand brain in this repo: first /harvest-ideas, then /evaluate-ideas. Follow schedules/ideas-weekly.md exactly." ;;
+            *)            P="Run the $R routine for the brand brain in this repo. Follow schedules/$R.md exactly, executing the matching skill in .claude/skills/ in full." ;;
+          esac
+          echo "prompt=$P" >> "$GITHUB_OUTPUT"
+
+      - name: Harness sanity check
+        run: python3 scripts/verify-brain.py . || { echo "::error::verify-brain failed — fix the harness before routines can run"; exit 1; }
+
+      - name: Run via Claude Code
+        if: ${{ vars.PARKER_AGENT_RUNNER == 'claude' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude --dangerously-skip-permissions -p "${{ steps.pick.outputs.prompt }}"
+
+      - name: Run via Codex
+        if: ${{ vars.PARKER_AGENT_RUNNER == 'codex' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          npm install -g @openai/codex
+          codex exec --full-auto "${{ steps.pick.outputs.prompt }} Start by reading AGENTS.md and following its contract."
+
+      - name: Commit the routine's outputs
+        run: |
+          git config user.name "parker-routine[bot]"
+          git config user.email "parker-routine@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && { echo "routine produced no changes"; exit 0; }
+          git commit -m "routine: ${{ steps.pick.outputs.routine }} ($(date -u +%F))"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          git push

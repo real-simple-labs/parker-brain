@@ -30,6 +30,8 @@ This skill writes scripts. It does not write hooks in isolation (route to hooks 
 
 Scriptwriting runs on the canonical methods, routed by `global/knowledge/creative-strategy/expertise-routing.md`: `spoken-script-voice.md`, the human-voice doctrine and AI-tells audit, mandatory before writing any words; `scriptwriting.md` and `adapting-scripts.md` for the craft and the 1:1 adaptation method; `visual-vocabulary-method.md` for per-beat visual direction; and `hooks.md` for the opener. Reference ads and customer language pull through the Parker tools inventoried in `system/parker-tools.md`.
 
+**Path resolution:** the doc paths above are the factory's. In a shipped brand brain the same docs live under `parker-system/creative-strategy-context/` (craft) and `parker-system/system/` (runtime system docs); ship-time normalization (`scripts/normalize-brain-paths.py`) rewrites these references so they resolve there. If a path ever fails to resolve, glob for the doc by filename rather than skipping the load — a missing read is never the fallback.
+
 ## The default flow is reference-driven adaptation
 
 Adaptation is the default because AI cannot write good net-new scripts cold. Left to invent from scratch, AI produces clean, written-sounding, AI-tell-ridden copy that dies when read aloud. Proven references supply the structural skeleton; the brand's own voice fingerprint supplies the sound. Net-new is the rare fallback, not a co-equal path. The full flow:
@@ -60,13 +62,13 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
 5. **Source customer language.** Every script — adapted or net-new — pulls language from real reviews, comments, surveys, voice of customer data. Marketing voice fails.
 
-6. **Self-check as you draft** — read every line aloud, watch for AI-tells per `creative-strategy-context/spoken-script-voice.md`. This is your own pre-pass while writing. It is **not** the gate, and it does not replace the two review agents below. Running `scripts/voice-lint.py` yourself is not the gate either — the linter is a tool the gate agents run inside their own context. Your own lint plus your own read is the writer grading the writer's paper, which is exactly what the gates exist to stop.
+6. **Self-check as you draft** — read every line aloud, watch for AI-tells per `global/knowledge/creative-strategy/spoken-script-voice.md`. This is your own pre-pass while writing. It is **not** the gate, and it does not replace the two review agents below. Running `scripts/voice-lint.py` yourself is not the gate either — the linter is a tool the gate agents run inside their own context. Your own lint plus your own read is the writer grading the writer's paper, which is exactly what the gates exist to stop.
 
 7. **The two gates run automatically, before you show the user anything.** They are not optional, not a "second opinion," and never offered as a choice. You do not ask the user whether to review — you run both, apply what they return, and only then present. **If you catch yourself writing "want me to run it through the reviewer," you have already failed the gate: go run it.** Run them in order, because grounding can change the content and voice only changes the lines:
 
    **7a. Grounding gate.** Spawn the `context-grounding-review` agent (`.claude/agents/context-grounding-review.md`) with the user's task, the draft, the brain root, and the tool pulls made this session. It independently reads the routed method docs, runs `scripts/grounding-check.py`, and checks the draft was built from the right context, nothing fabricated, the methods applied not just cited. A `bounced` verdict means re-pull and regenerate the affected parts — never annotate around it — then re-run. Every bounce is captured through `self-improvement-intake` as a one-line trace (task shape + what was missed) so the routing layer learns.
 
-   **7b. Voice gate.** Spawn the `creative-voice-review` agent (`.claude/agents/creative-voice-review.md`) on the grounded draft with the brand voice profile and deliverable type. It runs the mechanical lint and the judgment pass independently, in a context that did not write the draft. Apply its rewrites and re-run until the verdict is `ships`. A flag that conflicts with sourced customer language or the reference structure keeps the source, with the reason carried into the Voice Review block.
+   **7b. Voice gate.** Spawn the `creative-voice-review` agent (`.claude/agents/creative-voice-review.md`) on the grounded draft with the brand voice profile and deliverable type. It runs the mechanical lint and the judgment pass independently, in a context that did not write the draft. Apply its rewrites and re-run until the verdict is `ships`. A flag that conflicts with sourced customer language or the reference structure keeps the source, with the reason carried into the Voice Review block. **Harness fallback:** if this session's harness cannot spawn subagents, the gates still run — execute the grounding checklist from `.claude/agents/context-grounding-review.md` and then the voice checklist from `.claude/agents/creative-voice-review.md` as separate, fresh passes, running `python3 scripts/grounding-check.py` and `python3 scripts/voice-lint.py` yourself, and mark both review blocks "run in-context — no subagent harness" so the degradation is visible.
 
    The Grounding Review and Voice Review blocks in the output are the agents' **returned verdicts**, verbatim — you cannot write them yourself. A script with no verdict blocks did not pass the gates and is not done.
 
@@ -116,7 +118,7 @@ The voice gate's returned verdict, verbatim from the `creative-voice-review` age
 
 ## Output contract precedence
 
-The output structure above governs every path in this skill. `creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
+The output structure above governs every path in this skill. `global/knowledge/creative-strategy/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
 
 ## Two gates before any script gets written
 

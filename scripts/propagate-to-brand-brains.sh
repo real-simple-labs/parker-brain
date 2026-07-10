@@ -125,10 +125,19 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/prompts/_reading-level-block.md" "$ps/prompts/" 2>/dev/null || true
     cp -n "$FACTORY/templates/routine-log-template.md" "$ps/templates/" 2>/dev/null || true
     cp -n "$FACTORY/templates/user-profile-template.md" "$ps/templates/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # Routine-bundle seeding: any routine skill the brain is missing (checked by
+    # SKILL.md, not the dir — rsync --existing leaves empty dirs) is seeded whole,
+    # including the canonical routine dream, plus every schedule recipe.
+    for sk in "$FACTORY"/templates/brand-routines/claude/skills/*/; do
+      name="$(basename "$sk")"
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded routine skill: $name"
+      fi
+    done
+    mkdir -p "$dir/schedules"
+    cp -n "$FACTORY"/templates/brand-routines/schedules/*.md "$dir/schedules/" 2>/dev/null || true
     mkdir -p "$ps/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$ps/fixtures/" 2>/dev/null || true
     # The creative review gates ship as a bundle: the written-tells doctrine, the two
     # reviewer agents (voice + grounding), and the two deterministic checkers they run.
@@ -148,6 +157,37 @@ for repo in "${REPOS[@]}"; do
     else
       cp -R "$FACTORY/global/knowledge/creative-strategy/old-ads" "$ps/creative-strategy-context/"
     fi
+    # Skill/agent path normalization (always ship the tool, then run it): the factory
+    # copies rsynced above carry factory doc paths that don't resolve in the brain's
+    # layout. The rewrite is deterministic and idempotent.
+    # Craft-skill seeding: brains built before the all-skills-in-.claude/ convention
+    # carry the craft set in an inert top-level skills/ (which Claude Code never
+    # loads) or not at all, so "write me a script" has no skill to route through.
+    # Seed any missing craft skill from the factory set; ones already present were
+    # refreshed by the --existing sweep above. The routine `dream` stays canonical.
+    for sk in "$FACTORY"/.claude/skills/*/; do
+      name="$(basename "$sk")"
+      [ "$name" = "dream" ] && continue
+      # Check for SKILL.md, not the directory: the --existing rsync above creates
+      # empty skill dirs (it only skips files), and git never ships an empty dir.
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded craft skill: $name"
+      fi
+    done
+    cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
+    # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
+    cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
+    # Standing brains never get onboarding-stamped, so resolve the hard-rules
+    # placeholder into a pointer at CLAUDE.md (idempotent; no-op once stamped).
+    LC_ALL=C sed -i '' 's/{{BRAND_HARD_RULES[^}]*}}/The hard rules at the top of CLAUDE.md are canonical here too — read them before anything else./' "$dir/AGENTS.md" 2>/dev/null || true
+    # Harness-agnostic scheduler: cron workflow that runs routines via the team's
+    # configured agent CLI. Silent until PARKER_AGENT_RUNNER is set on the repo.
+    mkdir -p "$dir/.github/workflows"
+    cp -n "$FACTORY/templates/brand-routines/github/workflows/parker-routines.yml" "$dir/.github/workflows/" 2>/dev/null || true
+    python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
     echo "  Layout: flat (standalone)"
@@ -172,10 +212,19 @@ for repo in "${REPOS[@]}"; do
     # Deliberate adds (same list as the nested branch). Flat path normalization below
     # rewrites the system docs' nested-layout references.
     cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/research-loops" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/research-loops" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/research-loops.md" "$dir/schedules/" 2>/dev/null || true
-    [ -d "$dir/.claude/skills/update-brain" ] || cp -R "$FACTORY/templates/brand-routines/claude/skills/update-brain" "$dir/.claude/skills/"
-    cp -n "$FACTORY/templates/brand-routines/schedules/update-brain.md" "$dir/schedules/" 2>/dev/null || true
+    # Routine-bundle seeding: any routine skill the brain is missing (checked by
+    # SKILL.md, not the dir — rsync --existing leaves empty dirs) is seeded whole,
+    # including the canonical routine dream, plus every schedule recipe.
+    for sk in "$FACTORY"/templates/brand-routines/claude/skills/*/; do
+      name="$(basename "$sk")"
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded routine skill: $name"
+      fi
+    done
+    mkdir -p "$dir/schedules"
+    cp -n "$FACTORY"/templates/brand-routines/schedules/*.md "$dir/schedules/" 2>/dev/null || true
     mkdir -p "$dir/fixtures" 2>/dev/null; cp -n "$FACTORY/fixtures/creative-tracker-example.csv" "$dir/fixtures/" 2>/dev/null || true
     # Craft skills refresh (update-only): flat brains built with the craft set in
     # .claude/skills/ get the same SKILL.md updates nested brains get from the factory
@@ -195,6 +244,42 @@ for repo in "${REPOS[@]}"; do
     else
       cp -R "$FACTORY/global/knowledge/creative-strategy/old-ads" "$dir/creative-strategy-context/"
     fi
+    # Skill/agent path normalization for the flat layout (see the nested branch's note).
+    # Runtime system docs: some flat brains were built without a system/ dir, so
+    # the skills' system/<doc>.md references resolve to nothing and update-only
+    # can never add them. Seed the six runtime docs the brains actually read.
+    mkdir -p "$dir/system"
+    for doc in parker-tools.md three-phase-operating-model.md open-loops-system.md refresh-cadence.md schedules.md growing-the-brain.md; do
+      cp -n "$FACTORY/system/$doc" "$dir/system/" 2>/dev/null || true
+    done
+    # Craft-skill seeding: brains built before the all-skills-in-.claude/ convention
+    # carry the craft set in an inert top-level skills/ (which Claude Code never
+    # loads) or not at all, so "write me a script" has no skill to route through.
+    # Seed any missing craft skill from the factory set; ones already present were
+    # refreshed by the --existing sweep above. The routine `dream` stays canonical.
+    for sk in "$FACTORY"/.claude/skills/*/; do
+      name="$(basename "$sk")"
+      [ "$name" = "dream" ] && continue
+      # Check for SKILL.md, not the directory: the --existing rsync above creates
+      # empty skill dirs (it only skips files), and git never ships an empty dir.
+      if [ ! -f "$dir/.claude/skills/$name/SKILL.md" ]; then
+        mkdir -p "$dir/.claude/skills/$name"
+        cp -R "$sk". "$dir/.claude/skills/$name/"
+        echo "  seeded craft skill: $name"
+      fi
+    done
+    cp -f "$FACTORY/scripts/normalize-brain-paths.py" "$dir/scripts/" 2>/dev/null || true
+    cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
+    # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
+    cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
+    # Standing brains never get onboarding-stamped, so resolve the hard-rules
+    # placeholder into a pointer at CLAUDE.md (idempotent; no-op once stamped).
+    LC_ALL=C sed -i '' 's/{{BRAND_HARD_RULES[^}]*}}/The hard rules at the top of CLAUDE.md are canonical here too — read them before anything else./' "$dir/AGENTS.md" 2>/dev/null || true
+    # Harness-agnostic scheduler: cron workflow that runs routines via the team's
+    # configured agent CLI. Silent until PARKER_AGENT_RUNNER is set on the repo.
+    mkdir -p "$dir/.github/workflows"
+    cp -n "$FACTORY/templates/brand-routines/github/workflows/parker-routines.yml" "$dir/.github/workflows/" 2>/dev/null || true
+    python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue
   fi

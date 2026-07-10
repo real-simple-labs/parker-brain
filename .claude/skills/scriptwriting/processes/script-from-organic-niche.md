@@ -6,14 +6,14 @@ The organic view count is the validation. The adaptation is structural fidelity,
 
 ## Required inputs
 
-- A breakout organic video from the brand's niche with view and engagement signal. Source: the mined organic library via the `search_and_manage_organic_social` MCP surface and `creative-strategy-context/organic-social-analysis.md`.
+- A breakout organic video from the brand's niche with view and engagement signal. Source: the mined organic library via the `search_and_manage_organic_social` MCP surface and `global/knowledge/creative-strategy/organic-social-analysis.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 - The video's transcript, segment map, and on-screen text.
 
 ## Philosophy
 
-Roughly a third of the time a breakout organic video is a full concept worth adapting one to one. The rest of the time the find is narrower — a hook that stops the scroll, a format, a messaging beat — and only that piece travels. Either way the organic engagement is the verified hunch that this shape works in the niche. The adaptation method is `creative-strategy-context/adapting-scripts.md`: select one reference, deconstruct it, build a 1:1 segment skeleton, replace content not structure.
+Roughly a third of the time a breakout organic video is a full concept worth adapting one to one. The rest of the time the find is narrower — a hook that stops the scroll, a format, a messaging beat — and only that piece travels. Either way the organic engagement is the verified hunch that this shape works in the niche. The adaptation method is `global/knowledge/creative-strategy/adapting-scripts.md`: select one reference, deconstruct it, build a 1:1 segment skeleton, replace content not structure.
 
 The honesty rule governs hacks. When the breakout works because of a hack or trick, run it honestly — show what the product actually does — then retire it. A dishonest demo that goes wide burns trust faster than it converts.
 
@@ -54,4 +54,4 @@ If the concept rode a hack, rebuild the demo to show what the product honestly d
 - Adding voiceover to a text-on-screen-only original.
 - Running a dishonest hack because it tested well organically.
 
-Cite: this leans on `creative-strategy-context/adapting-scripts.md`. End any output that draws on it with that doc's required attribution line.
+Cite: this leans on `global/knowledge/creative-strategy/adapting-scripts.md`. End any output that draws on it with that doc's required attribution line.
