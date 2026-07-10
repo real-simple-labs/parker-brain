@@ -19,7 +19,7 @@ The factory keeps improving after a brain ships: new method docs, sharper skills
 
 Read the brain's update posture from `running-notes/standard-sync.md` first — it decides which of two shapes this comparison takes. If the ledger is missing or unreadable, say so plainly and stop; never guess at what the standard contains.
 
-Before deciding the mode, also read the `migrations/README.md` and the latest migration files from the `migrations/` folder to see if there is any new information about the shape of the filesystem and modes.
+Before deciding the mode, also read `parker-system/migrations/README.md` and any `migrations/vN.md` newer than this brain's last-applied migration — a release can change the filesystem shape or how the two modes work, and that context belongs in the comparison before the offer is framed.
 
 **Connected mode — `parker-system/` is a pinned submodule and the posture is `follow` (the standard shape).** The factory arrives whole or not at all, so there is no per-file diffing of the method: the offer is the *release*. Fetch the factory's tags (`git -C parker-system fetch --tags`) and compare the pinned release against the newest `vN` tag. If the pin is current, this comparison is one line in the digest. If the factory has moved:
 
@@ -45,7 +45,7 @@ Walk the generating prompts the brain ships in `parker-system/prompts/` against 
 
 `running-notes/standard-sync.md` is this routine's ledger: the factory remote, the update posture (`follow` / `own-factory` / `independent`), the release the brain is pinned to (or was last compared against), which migrations have been applied, and every offer with its answer — taken (and when), declined (and why, when they gave a reason), or deferred. A declined offer is not raised again unless the factory version of that item has changed since the decline. This is what makes the routine a colleague and not a nag: it remembers what the team already said.
 
-However, in the connected mode (submodule), if a user decides to accept a later version, consider the fact that all previous migrations that were skipped will likely need to run too. 
+One connected-mode caveat on that memory: if the team declined an earlier release and later accepts a newer one, every migration between the old pin and the new one still runs. Declining a *release offer* does not skip the migrations those releases carried — the pin bump walks `vN.md` in order for the whole range.
 
 ## How the offers land
 
