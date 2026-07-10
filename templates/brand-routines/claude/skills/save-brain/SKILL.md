@@ -21,10 +21,10 @@ Run `git remote get-url origin`.
 **Save and push** (the whole loop, in order):
 
 ```bash
-git remote set-url origin <authenticated_clone_url>   # fresh token in, first
+git add -A && git commit -m "<plain summary of what changed>"   # commit first — rebase refuses a dirty tree
+git remote set-url origin <authenticated_clone_url>   # fresh token in
 git pull --rebase origin main
 git submodule update --init              # keep the method mount populated
-git add -A && git commit -m "<plain summary of what changed>"
 git push origin main
 git remote set-url origin https://github.com/parker-brain/<repo>.git   # token out, last
 ```
