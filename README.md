@@ -91,9 +91,8 @@ Before public or external distribution, confirm that methodology examples, fixtu
 
 ## Public Release Checklist
 
-- Confirm `LICENSE` matches the intended rights model.
 - Keep `.env`, `.env.*`, local settings, build artifacts, logs, and dependency folders ignored.
 - Run a tracked-file secret scan before publishing.
 - Replace any private or named-brand training examples with sanitized fixtures.
-- Rewrite git history into a single curated initial commit before pushing to the public remote.
-
+- Rewrite git history into a single curated commit before pushing to the public remote.
+- Create a migrations/vN.md file for the new version
