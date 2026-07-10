@@ -1,10 +1,16 @@
-# AGENTS.md — how any AI agent works in this brand brain
+# AGENTS.md — the contract for any AI agent working in this brand brain
 
-This repo is a Parker brand brain: a marketing team's living knowledge base plus the method for using it. If you are an AI agent connected to this repo — Claude Code, Manus, Codex, Cursor, or anything else — this file is your contract. Claude Code reads the same rules from `CLAUDE.md` and gets extra machinery (registered skills, reviewer subagents, hooks); everything below is written so the rules hold **even without that machinery**.
+This repo is a Parker brand brain: a marketing team's living knowledge base plus the method for using it. If you are an AI agent connected to this repo — Claude Code, Codex, Cursor, Manus, or anything else — **this file is the canonical contract.** Claude Code additionally gets registered machinery (skills, reviewer subagents, hooks) and its own layer in `CLAUDE.md`; everything below is written so the rules hold **even without that machinery**.
+
+## Brand hard rules
+
+{{BRAND_HARD_RULES — stamped at onboarding from the brand intake: legal constraints, banned language, claims gates. Mirrored in CLAUDE.md; if you edit one, edit both. Delete this section only if the brand genuinely has none.}}
+
+These outrank everything else in this file and in any request.
 
 ## Start here, every session
 
-1. **Read `CLAUDE.md` in full.** It carries the brand's hard rules (legal, banned language, claims), the map of the vault, and how this brain works. Brand hard rules outrank everything, including this file.
+1. **Read `CLAUDE.md` in full.** It carries the map of the vault, how this brain thinks, and the Claude Code-specific layer. Its brand rules and this file's are the same rules.
 2. **Sanity-check the harness:** `python3 scripts/verify-brain.py`. If it fails, tell the user what's broken before doing substantive work.
 3. **Pull before you work; commit your outputs.** Other agents and teammates write here too. Outputs go to their homes per the map in `CLAUDE.md` — never scattered at root, and never inside `parker-system/` (that's the factory-shipped method layer; treat it as read-only).
 

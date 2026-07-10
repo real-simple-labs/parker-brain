@@ -29,3 +29,8 @@ Every routine here prepends one entry to `running-notes/routine-log.md` each tim
 ## The runner
 
 Routines run as Claude Code scheduled agents (the `/schedule` skill / cron). This repo carries the *definition* of each schedule; the Claude Code instance carries the *execution*. The file here is the source of truth for what the routine is supposed to do — `/setup-routines` is the guided installer that arms the cron.
+
+
+## Scheduler choice
+
+These recipes are canonical; the clock that fires them is a choice, made once per brain. Either register them as Claude Code scheduled cloud agents (`/setup-routines`), or arm the repo's harness-agnostic GitHub Actions workflow at `.github/workflows/parker-routines.yml` (set the `PARKER_AGENT_RUNNER` repo variable to `claude` or `codex` plus the matching API-key secret; times in the workflow are UTC). One or the other — both means every routine runs twice.

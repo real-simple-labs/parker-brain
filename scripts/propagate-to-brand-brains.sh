@@ -180,6 +180,13 @@ for repo in "${REPOS[@]}"; do
     cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
     # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
     cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
+    # Standing brains never get onboarding-stamped, so resolve the hard-rules
+    # placeholder into a pointer at CLAUDE.md (idempotent; no-op once stamped).
+    LC_ALL=C sed -i '' 's/{{BRAND_HARD_RULES[^}]*}}/The hard rules at the top of CLAUDE.md are canonical here too — read them before anything else./' "$dir/AGENTS.md" 2>/dev/null || true
+    # Harness-agnostic scheduler: cron workflow that runs routines via the team's
+    # configured agent CLI. Silent until PARKER_AGENT_RUNNER is set on the repo.
+    mkdir -p "$dir/.github/workflows"
+    cp -n "$FACTORY/templates/brand-routines/github/workflows/parker-routines.yml" "$dir/.github/workflows/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" nested
   elif [ -d "$dir/creative-strategy-context" ]; then
     layout=flat
@@ -265,6 +272,13 @@ for repo in "${REPOS[@]}"; do
     cp -f "$FACTORY/scripts/verify-brain.py" "$dir/scripts/" 2>/dev/null || true
     # Cross-agent entry point: non-Claude agents (Manus, Codex, Cursor) read AGENTS.md.
     cp -n "$FACTORY/templates/brand-brain-AGENTS.md" "$dir/AGENTS.md" 2>/dev/null || true
+    # Standing brains never get onboarding-stamped, so resolve the hard-rules
+    # placeholder into a pointer at CLAUDE.md (idempotent; no-op once stamped).
+    LC_ALL=C sed -i '' 's/{{BRAND_HARD_RULES[^}]*}}/The hard rules at the top of CLAUDE.md are canonical here too — read them before anything else./' "$dir/AGENTS.md" 2>/dev/null || true
+    # Harness-agnostic scheduler: cron workflow that runs routines via the team's
+    # configured agent CLI. Silent until PARKER_AGENT_RUNNER is set on the repo.
+    mkdir -p "$dir/.github/workflows"
+    cp -n "$FACTORY/templates/brand-routines/github/workflows/parker-routines.yml" "$dir/.github/workflows/" 2>/dev/null || true
     python3 "$FACTORY/scripts/normalize-brain-paths.py" "$dir" flat
   else
     echo "  SKIP: $repo has neither parker-system/ nor creative-strategy-context/ (unrecognized layout)"; continue

@@ -5,6 +5,14 @@ description: Arms the brand brain's standing routines (refresh-context, dream, h
 
 # Setup routines — arm the schedules
 
+## Two ways to arm the clock — pick one, never both
+
+1. **Claude Code scheduled cloud agents** — this skill's native path, below. Best when the team lives in Claude.
+2. **The repo's GitHub Actions workflow** (`.github/workflows/parker-routines.yml`) — the harness-agnostic path: cron fires in GitHub and runs each routine through whichever agent CLI the team configured (`PARKER_AGENT_RUNNER` repo variable set to `claude` or `codex`, plus the matching API-key secret; cron times are UTC). Best when the team's daily agent is not Claude, or they want the schedule to live with the repo instead of one person's account.
+
+Running both double-runs every routine. If the team arms the Actions path, this skill's job is only to confirm `PARKER_AGENT_RUNNER` and the secret are set and leave the cloud agents unregistered.
+
+
 The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them for this instance.
 
 ## How it works
