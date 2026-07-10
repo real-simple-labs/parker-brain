@@ -122,10 +122,11 @@ parker/
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
 │       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
-│       │   ├── settings.json                        ← the craft UserPromptSubmit hook (wires hooks/craft-context.py)
+│       │   ├── settings.json                        ← wires the hooks below + the deny rules that keep the mount read-only
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
+│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
+│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
