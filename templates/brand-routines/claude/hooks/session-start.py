@@ -65,9 +65,12 @@ def attempt_pull() -> str:
         if any(s in err for s in AUTH_SIGNS):
             return ("PULL FAILED — the saved credentials have expired (they last about "
                     "an hour; this is normal). First job of this session, before any "
-                    "other work: call setup_parker_brain (Parker MCP) for a fresh "
-                    "authenticated URL, run `git remote set-url origin <that url>`, then "
-                    "`git pull --rebase origin main` and `git submodule update --init --recursive`.")
+                    "other work: call setup_parker_brain (Parker MCP), lift the token "
+                    "out of its authenticated_clone_url, and use the Write tool to save "
+                    "the line `https://x-access-token:<TOKEN>@github.com` to "
+                    ".git/parker-credentials — never put the token inside a shell "
+                    "command — then `git pull --rebase origin main` and `git submodule "
+                    "update --init --recursive`. Full procedure: /save-brain.")
         detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
         return ("PULL FAILED — not an auth problem: "
                 + (detail[-1] if detail else "unknown error")
