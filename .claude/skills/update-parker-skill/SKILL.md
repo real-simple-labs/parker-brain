@@ -65,7 +65,7 @@ The skill produces a structured proposal before any edits. The proposal includes
 6. **Training corpus updates** — which cases or reasoning entries need to change and how.
 7. **Brand outputs flagged for re-run** — which outputs will need re-running after this change lands, with the impact named explicitly.
 8. **Index doc updates** — which READMEs need new entries or updated entries.
-9. **Migration impact** — standing brand brains pin the factory at a release tag and only move the pin, so ask explicitly: does this change reshape the brand repo itself (a renamed or moved path a brain references, a new standing file brains should carry, a change to the committed `.claude/` bundle or the brand-brain layout)? If yes, the proposal includes the `migrations/vN.md` content that ships in the same change, per `migrations/README.md` and the Releases And Migrations rules in `CLAUDE.md`. A method-only change states "no migration — pin bump delivers it."
+9. **Migration impact** — every release ships its `migrations/vN.md` in the same change, per `migrations/README.md` and the Releases And Migrations rules in `CLAUDE.md`; the proposal decides what goes inside. Real steps when the change reshapes the brand repo itself (a renamed or moved path a brain references, a new standing file outside the copied bundle, an edit to brand-authored content, a brand-brain layout change); a one-liner no-op ("Nothing to do; record `vN`.") when the change is method-only or lives entirely in the copied bundle the pin bump's re-sync delivers.
 
 The user then approves, redirects, or rejects. The skill executes only after explicit approval. If the user asks for changes to the proposal, the skill re-proposes — it does not start editing and assume the user will catch the differences.
 

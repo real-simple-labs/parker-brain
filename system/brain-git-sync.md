@@ -13,9 +13,11 @@ The runtime procedure lives in the routine bundle as the `save-brain` skill (`te
 
 The user usually has no working GitHub auth in the session at all (they were invited, or never touched GitHub). When they *do*, using it misattributes commits, sidesteps the access Parker manages, and — for `gh` specifically — habituates a tool that will be missing or wrongly-logged-in in most brand sessions. One credential path means one failure mode and one fix: re-call the tool.
 
-## Token hygiene: why the remote gets cleaned
+## Credentials live in the remote (and why we stopped cleaning them out)
 
-Cloning or pushing with the token-embedded URL makes git store that URL — secret included — in `.git/config`. An hour later the token is dead and every future `git push origin main` fails with a 403 that looks like a permissions mystery. So the procedure brackets each sync: fresh token in (`git remote set-url origin <authenticated_clone_url>`), `git push origin main`, token out (`set-url` back to the clean URL). Explicit `origin main` on every push so nothing depends on upstream config that a fresh clone doesn't have.
+The repo is cloned with the token-embedded `authenticated_clone_url`, and that URL simply stays in `origin`. Plain `git pull --rebase origin main` and `git push origin main` work for the token's hour; when one fails with an auth error, the playbook is two lines — call `setup_parker_brain` again, `git remote set-url origin <fresh url>` — and retry. Explicit `origin main` on every push so nothing depends on upstream config that a fresh clone doesn't have.
+
+An earlier revision bracketed every sync with token-in/token-out `set-url` calls so no secret lingered in `.git/config`. In practice the ceremony was worse than the risk: agents found the sequence complicated enough to skip pushes entirely or stall asking the user, which loses real work — while the "secret" it protected is local-only (`.git/config` is never pushed), scoped to this one repo, `contents:write` only, and dead within the hour. An expired token in the remote now costs exactly one clear auth error followed by the two-line refresh, which is the same recovery a clean remote needed anyway. Simplicity won.
 
 ## Detecting the self-hosted exception
 
@@ -23,9 +25,11 @@ A rare team hosts the brain in their own GitHub instead of the managed org. Dete
 
 ## The enforcement stack (instructions alone don't survive contact)
 
-1. **`git-guard.py`** — PreToolUse hook on Bash in the shipped `.claude/settings.json`. Deterministic: on managed repos it blocks `gh`, credential-less `push`/`pull`/`fetch`, any force-push, and clones missing `--recurse-submodules`; its block message teaches the correct three-line flow at the moment of the mistake. Ops on the public mount (`git -C parker-system …`) pass through. It fails open internally, and its settings entry must never get the `2>/dev/null || true` wrapper the other hooks use — exit code 2 and stderr are the mechanism.
-2. **The `save-brain` skill** — the full procedure, discoverable by name and description for anything save/sync/clone-shaped, and the reference the guard's messages point to. Self-contained on purpose: git trouble often happens exactly when the mount is empty.
-3. **The brand `CLAUDE.md` section** ("How this brain saves itself") — always loaded, a few lines, points at the skill.
-4. **The tool's own returned message** (mevin2 side) — the one channel that reaches sessions outside the repo, e.g. claude.ai during onboarding. It should teach the same clean-remote bracket; keeping it consistent with the skill is a cross-repo duty.
+1. **`git-guard.py`** — PreToolUse hook on Bash in the shipped `.claude/settings.json`. Deterministic: on managed repos it blocks `gh`, credential-less `push`/`pull`/`fetch`, any force-push, and clones missing `--recurse-submodules`; its block message teaches the two-line credential refresh at the moment of the mistake. Ops on the public mount (`git -C parker-system …`) pass through. It fails open internally, and its settings entry must never get the `2>/dev/null || true` wrapper the other hooks use — exit code 2 and stderr are the mechanism.
+2. **`session-start.py`** — the pull-first enforcement. On session start it *runs* `git pull --rebase origin main` + submodule update itself when the working tree is clean, instead of only reminding; on a dirty tree or a failure (expired token, offline) it reports loudly and makes fixing the pull the session's first job.
+3. **`commit-guard.py`** — Stop hook, the push-always enforcement. When a turn is about to end on a managed repo with uncommitted changes or commits that never got pushed, it blocks the stop once and tells the agent to run the save-and-push loop. The `stop_hook_active` flag prevents loops: the second stop passes with the warning logged rather than re-blocking.
+4. **The `save-brain` skill** — the full procedure, discoverable by name and description for anything save/sync/clone-shaped, and the reference every guard message points to. Self-contained on purpose: git trouble often happens exactly when the mount is empty.
+5. **The brand `CLAUDE.md` section** ("How this brain saves itself") — always loaded, carries the two absolutes: pull first, and commit-and-push immediately without ever asking the user for permission to save.
+6. **The tool's own returned message** (mevin2 side) — the one channel that reaches sessions outside the repo, e.g. claude.ai during onboarding. It should teach the same keep-credentials-in-the-remote flow; keeping it consistent with the skill is a cross-repo duty.
 
-Layers 1–3 travel in the routine bundle, so `sync-executable-layer.py` delivers them to standing brains on a pin bump; only a team-customized `settings.json` needs the migration's manual merge.
+Layers 1–5 travel in the routine bundle, so `sync-executable-layer.py` delivers them to standing brains on a pin bump; only a team-customized `settings.json` needs the migration's manual merge.

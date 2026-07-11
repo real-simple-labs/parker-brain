@@ -16,32 +16,38 @@ Run `git remote get-url origin`.
 
 ## The managed procedure
 
-**Credentials.** Call the `setup_parker_brain` tool (Parker MCP) with the brand id. Every call returns a fresh `authenticated_clone_url` — a token that lives about **1 hour**, works only on this one repo, and looks like `https://x-access-token:<TOKEN>@github.com/parker-brain/<repo>.git`. That URL is a secret: never print it to the user, never write it into any file in the repo, never commit it.
+**Credentials.** The remote already carries them: the repo is cloned with the `authenticated_clone_url` that `setup_parker_brain` (Parker MCP) returns, so the token lives in `origin` and plain git commands just work. The token lasts about **1 hour**, works only on this one repo, and looks like `https://x-access-token:<TOKEN>@github.com/parker-brain/<repo>.git`. When it expires, any pull or push fails with an auth error (403, 401, "could not read Username") — that is normal, not a problem. The fix is always the same two lines:
+
+```bash
+# call setup_parker_brain (Parker MCP) to get a fresh authenticated_clone_url, then:
+git remote set-url origin <authenticated_clone_url>
+# retry the command that failed
+```
+
+Never print the token to the user, never write it into any file in the repo, never commit it. (It sitting inside `.git/config` is fine — that file is local and never pushed.)
 
 **Save and push** (the whole loop, in order):
 
 ```bash
 git add -A && git commit -m "<plain summary of what changed>"   # commit first — rebase refuses a dirty tree
-git remote set-url origin <authenticated_clone_url>   # fresh token in
 git pull --rebase origin main
 git submodule update --init              # keep the method mount populated
 git push origin main
-git remote set-url origin https://github.com/parker-brain/<repo>.git   # token out, last
 ```
 
-Always `git push origin main` — spelled out, never a bare `git push` — so nothing depends on upstream config that may not exist. The last line matters: it takes the token back out of the repo's saved settings, so an expired secret never lingers on disk to cause mystery failures next session.
+Always `git push origin main` — spelled out, never a bare `git push` — so nothing depends on upstream config that may not exist. If the pull or push hits an auth error, refresh the credentials as above and retry; don't switch to any other auth.
 
-**Clone** with `git clone --recurse-submodules <authenticated_clone_url> <folder>` into a persistent, user-accessible folder — then immediately set the remote to the clean URL as above.
+**Clone** with `git clone --recurse-submodules <authenticated_clone_url> <folder>` into a persistent, user-accessible folder.
 
-**Commit often, push immediately.** Never leave finished work sitting locally: other people and scheduled routines read this repo, and unpushed work doesn't exist for them. Small commits with plain messages beat one giant end-of-session dump.
+**Commit and push immediately — every time, without being asked and without asking.** The moment a batch of edits is done, run the save-and-push loop. Do not wait for the end of the session, do not accumulate work locally, and never ask the user "should I commit/save this?" — the yes they gave to the work *is* the yes to saving it; an unsaved brain is a broken promise, not a pending question. Other people and scheduled routines read this repo: unpushed work doesn't exist for them, and two sessions editing unpushed copies is how work gets destroyed. Small commits with plain messages, pushed right away. Ending a turn with uncommitted or unpushed changes is a failure state — the commit-guard hook will call it out.
 
-**Pull before you read or edit** anything that might have moved — start of session, start of a routine, before a batch of edits. `--rebase`, plus `git submodule update --init`.
+**Pull before you read or edit** anything that might have moved — start of session, start of a routine, before a batch of edits. `git pull --rebase origin main`, plus `git submodule update --init`. The session-start hook attempts this pull for you when the working tree is clean; if it reports a failure, fixing the pull is the first job of the session, before any other work.
 
 **Conflicts: resolve best-effort, prefer keeping both sides.** Brain files are additive — notes, entries, docs — so when both sides changed a file, keeping both changes is almost always right. Never discard a teammate's lines to make a conflict go away, never `git reset --hard` away content you didn't write, and never force-push (there's no branch protection; a force-push can erase someone's work). If a conflict is genuinely unresolvable, commit your side to a clearly named file, push, and tell the user plainly what needs a human eye.
 
 **No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, don't use `gh` at all — `gh` runs on the user's personal login, which has no business in a managed repo.
 
-**When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. Call `setup_parker_brain` again — it always mints a fresh token — set the remote, and retry once.
+**When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. Call `setup_parker_brain` again — it always mints a fresh token — `git remote set-url origin <authenticated_clone_url>`, and retry once.
 
 ## Talking to the user about all this
 
@@ -50,8 +56,9 @@ The user is usually not a git person. Say "saved your brain," "downloaded the la
 ## Hard rules
 
 - Never the user's own GitHub login on a managed repo. Never `gh`. Never a bare `git push`.
-- The token is a secret: not in chat, not in files, not in the saved remote after the push is done.
+- The token is a secret: not in chat, not in any committed file. Living in the remote URL is fine — that's the design.
 - Never force-push. Never delete or overwrite a teammate's work to simplify a conflict.
 - Clone and pull with submodules, always.
-- Commit often, push immediately; finished work never sits local.
+- **Every change is committed and pushed the moment it's done. No batching for later, no ending the turn dirty, and never asking the user for permission to save — saving is part of the work, not a separate favor.**
+- Auth error → `setup_parker_brain` → `git remote set-url origin <fresh url>` → retry. That's the whole playbook.
 - Self-hosted repos are exempt from the credential rules — check the origin before enforcing.

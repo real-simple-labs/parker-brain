@@ -1,5 +1,5 @@
 {
-  "$comment": "Committed project config for the brand brain. Travels with the repo: clone it into a Claude Code cloud instance and the hooks + routine skills are live immediately. The permissions block keeps the parker-system/ method mount read-only — it is a pinned submodule of the public parker-brain factory, and updates arrive only through /update-brain moving the pin (both path forms are listed so the rule holds whether the pattern anchors to the project root or the cwd). The SessionStart hook catches an un-initialized mount and reminds about pulling before work; the UserPromptSubmit hook injects the live craft catalog; the PostToolUse hook keeps a session pull log (in the OS temp dir, never in the repo) that the grounding gate verifies data pulls against; the PreToolUse git-guard blocks gh and credential-less git network commands on parker-brain-org repos and teaches the setup_parker_brain flow (it deliberately has no '2>/dev/null || true' wrapper — its exit code and stderr ARE the mechanism, and it fails open internally). Personal/instance-specific overrides (MCP server connections, model, theme) belong in .claude/settings.local.json, which is gitignored. See .claude/README.md for the full routines model.",
+  "$comment": "Committed project config for the brand brain. Travels with the repo: clone it into a Claude Code cloud instance and the hooks + routine skills are live immediately. The permissions block keeps the parker-system/ method mount read-only — it is a pinned submodule of the public parker-brain factory, and updates arrive only through /update-brain moving the pin (both path forms are listed so the rule holds whether the pattern anchors to the project root or the cwd). The SessionStart hook catches an un-initialized mount and reminds about pulling before work; the UserPromptSubmit hook injects the live craft catalog; the PostToolUse hook keeps a session pull log (in the OS temp dir, never in the repo) that the grounding gate verifies data pulls against; the PreToolUse git-guard blocks gh and credential-less git network commands on parker-brain-org repos and teaches the setup_parker_brain flow; the Stop commit-guard blocks ending a turn with uncommitted or unpushed changes on managed repos, once per turn. Neither guard gets the '2>/dev/null || true' wrapper — their exit codes and stderr ARE the mechanism, and both fail open internally. Personal/instance-specific overrides (MCP server connections, model, theme) belong in .claude/settings.local.json, which is gitignored. See .claude/README.md for the full routines model.",
   "permissions": {
     "deny": [
       "Edit(/parker-system/**)",
@@ -49,6 +49,16 @@
           {
             "type": "command",
             "command": "python3 .claude/hooks/pull-log.py 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/commit-guard.py"
           }
         ]
       }

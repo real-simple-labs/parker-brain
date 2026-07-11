@@ -125,6 +125,7 @@ parker/
 │       │   ├── settings.json                        ← wires the hooks below + the deny rules that keep the mount read-only
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
+│       │   ├── hooks/commit-guard.py                ← Stop guard: blocks ending a turn with uncommitted/unpushed changes on managed repos, once per turn
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
