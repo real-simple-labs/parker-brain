@@ -18,25 +18,9 @@ model; exit 0 allows silently.
 """
 
 import json
-import os
 import re
 import subprocess
 import sys
-
-# Hooks run in the cwd at fire time, which may be a subfolder of the repo;
-# anchor to the project root so relative paths behave. CLAUDE_PROJECT_DIR is
-# documented for CLI/cloud/SDK sessions; the git toplevel covers the rest.
-_proj = os.environ.get("CLAUDE_PROJECT_DIR")
-if not (_proj and os.path.isdir(_proj)):
-    try:
-        _proj = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True, text=True, timeout=5,
-        ).stdout.strip()
-    except Exception:
-        _proj = ""
-if _proj and os.path.isdir(_proj):
-    os.chdir(_proj)
 
 MANAGED_ORG = re.compile(r"github\.com[:/]parker-brain/", re.I)
 TOKEN_MARK = "x-access-token:"

@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "d=\"${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || echo .)}\"; f=\"$d/.claude/hooks/git-guard.py\"; [ -f \"$f\" ] || exit 0; python3 \"$f\""
+            "command": "[ -f .claude/hooks/git-guard.py ] || exit 0; python3 .claude/hooks/git-guard.py"
           }
         ]
       }
@@ -25,7 +25,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/session-start.py\" 2>/dev/null || true",
+            "command": "python3 .claude/hooks/session-start.py 2>/dev/null || true",
             "statusMessage": "Checking the method mount"
           }
         ]
@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/craft-context.py\" 2>/dev/null || echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The base Claude harness knows nothing about creative strategy, so assume your own creative-strategy knowledge is thin until you load the craft docs. Before answering anything that touches creative strategy, open the catalog at parker-system/creative-strategy-context/expertise-routing.md (at creative-strategy-context/expertise-routing.md on a legacy flat brain), load every method doc that would genuinely help plus the expert-insights (expert-insights/ at the repo root) and the brand lens (brand-lens.md at the repo root) if they exist, and speak their vocabulary. Any claim about the current state of the account or market comes from a fresh Parker MCP pull, not from memory of a doc. Close every substantive answer with its Sources list; a creative or strategic answer whose sources name no method doc is presumed under-retrieved. Creative deliverables have no casual path: words a customer will read or hear route through their skill in .claude/skills/ and ship with both gate receipts (Grounding Review, Voice Review). Use the vault hard and honor the brand hard rules.\\\"}}\"",
+            "command": "python3 .claude/hooks/craft-context.py 2>/dev/null || echo \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"UserPromptSubmit\\\",\\\"additionalContext\\\":\\\"The base Claude harness knows nothing about creative strategy, so assume your own creative-strategy knowledge is thin until you load the craft docs. Before answering anything that touches creative strategy, open the catalog at parker-system/creative-strategy-context/expertise-routing.md (at creative-strategy-context/expertise-routing.md on a legacy flat brain), load every method doc that would genuinely help plus the expert-insights (expert-insights/ at the repo root) and the brand lens (brand-lens.md at the repo root) if they exist, and speak their vocabulary. Any claim about the current state of the account or market comes from a fresh Parker MCP pull, not from memory of a doc. Close every substantive answer with its Sources list; a creative or strategic answer whose sources name no method doc is presumed under-retrieved. Creative deliverables have no casual path: words a customer will read or hear route through their skill in .claude/skills/ and ship with both gate receipts (Grounding Review, Voice Review). Use the vault hard and honor the brand hard rules.\\\"}}\"",
             "statusMessage": "Loading the craft catalog"
           }
         ]
@@ -48,7 +48,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/pull-log.py\" 2>/dev/null || true"
+            "command": "python3 .claude/hooks/pull-log.py 2>/dev/null || true"
           }
         ]
       }

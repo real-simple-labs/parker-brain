@@ -21,21 +21,6 @@ import os
 import subprocess
 from pathlib import Path
 
-# Hooks run in the cwd at fire time, which may be a subfolder of the repo;
-# anchor to the project root so relative paths behave. CLAUDE_PROJECT_DIR is
-# documented for CLI/cloud/SDK sessions; the git toplevel covers the rest.
-_proj = os.environ.get("CLAUDE_PROJECT_DIR")
-if not (_proj and os.path.isdir(_proj)):
-    try:
-        _proj = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True, text=True, timeout=5,
-        ).stdout.strip()
-    except Exception:
-        _proj = ""
-if _proj and os.path.isdir(_proj):
-    os.chdir(_proj)
-
 MOUNT = Path("parker-system")
 AUTH_SIGNS = ("authentication failed", "403", "401", "could not read username",
               "terminal prompts disabled", "invalid username or token")
