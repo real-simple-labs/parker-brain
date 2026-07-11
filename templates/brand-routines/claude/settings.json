@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/git-guard.py"
+            "command": "[ -f .claude/hooks/git-guard.py ] || exit 0; python3 .claude/hooks/git-guard.py"
           }
         ]
       }
