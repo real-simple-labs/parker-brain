@@ -218,6 +218,25 @@ This is basically free exposure of our ads. Maybe somebody sent it to a friend, 
 
 ---
 
+## Funnel Stage — Don't Compare Ads on a Level Playing Field
+
+There's one caveat that has to sit on top of all the top-spender and metric reading above: **not all ads are competing for the same thing, so you can't compare them apples-to-apples.**
+
+Here's the situation that makes this concrete. You open an account and the top spender is a buy-one-get-one offer ad. On spend alone it looks like the account's most potent creative. But that ad is scooping up people who already knew the brand and were likely to buy anyway — it's just closing them with a discount. That is not the same job as reaching a cold audience who has never heard of the product, and it shouldn't be weighed equally against an ad that does.
+
+The distinction is the funnel stage the ad is built for:
+
+- **TOF (top of funnel)** ads are made for cold traffic — people who have never seen the brand, sitting in the first three stages of awareness. This is the harder, growth-driving job.
+- **MOF / BOF (middle and bottom of funnel)** ads target people in the final two stages of awareness — warm audiences already close to buying. Typical BOF creative: BOGO offers, discounts, heavy social proof, review statics.
+
+A few practical reads that follow from this:
+
+- **Statics skew BOF.** Not exclusively, but generally — so an account that's heavy on statics is often heavy on bottom-of-funnel demand capture, and should be read that way. This matters a lot when an account is static-dominant.
+- **Don't compare a TOF video to a BOF static as if they're the same.** They're playing different games. When you rank or judge creative, make that caveat explicit rather than letting a BOF offer ad's spend crown it the "best" ad outright.
+- **The hook and intro reveal the stage.** The first 15–30% of an ad usually tells you whether it's built for TOF, MOF, or BOF — a cold-audience opener does different work than one that leans on an offer or existing familiarity. Use the opener to classify the ad before you compare it to anything.
+
+None of this means BOF ads are bad — demand capture is real and profitable. It means a fair read groups ads by the job they're doing before it judges them against each other.
+
 ## Understanding Breakdowns
 
 We use breakdowns to further get information about our prospects and our audience who is seeing the ads. You can use several types of breakdowns, such as:

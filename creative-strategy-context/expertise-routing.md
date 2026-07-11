@@ -22,12 +22,20 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | Doc | What it is |
 |---|---|
 | `ad-account-analysis.md` | How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. |
+| `ad-metrics-glossary.md` | Plain-language definitions of the Meta ad metrics Parker reads — what each measures, how it's calculated, and how to read it in the account, organized by category. |
 | `adapting-scripts.md` | The method for adapting an existing video or script (such as a breakout organic) into a new ad. |
+| `advertising-luxury-and-higher-price-points.md` | Creative strategy for luxury and high-priced products — the two distinct axes (luxury = brand positioning, status, identity; high-priced = cost relative to category average), why a brand can be one, both, or neither, the creative constraints luxury brands impose (brand-element requirements, resistance to native formats), price-objection handling for anything above category average, what luxury creative actually looks like, and how to read which applies. These aren't impulse buys. |
+| `advertising-to-older-audiences.md` | How to build creative for older audiences (roughly 50–70) on paid social — the mental model behind the demographic and the messaging, pacing, hooks, visuals, tone, authority, social-proof, and format patterns that tend to win, plus the common misreads that sink them. |
+| `ai-animation-prompting.md` | Prompting method for AI-animated ad assets — how animation prompting differs from static image and Veo-style video prompting. |
 | `ai-static-ad-generation.md` | How to generate AI static image ads — prompt construction for static creative. |
 | `ai-writing-tells.md` | The written AI-slop signs — vocabulary, rhetoric, and formatting tells that mark generated copy — and the lint-then-judge review every creative deliverable passes before it ships. |
+| `algospeak.md` | Algospeak and platform content policy — the coded language creators use to get sensitive topics past moderation, how enforcement differs across TikTok and Meta, category playbooks for cannabis/CBD, adult wellness, harm reduction and mental health, crypto, and body image / sex ed, and the compliance guardrails that keep a brand's account alive. |
 | `analyzing-public-ad-accounts.md` | How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
+| `creative-consumption-analysis.md` | The per-persona method for characterizing the organic content a persona already watches — creator type, production level, setting, delivery, format — then reverse-engineering that native aesthetic into a casting and production brief so ads blend in to stand out. |
+| `creative-strategy-by-brand-size.md` | How creative strategy shifts with brand spend level — the different priorities and plays at roughly $10k, $50k, and $1m per month: getting shots on goal and finding angles at the low end, founder ads and new-audience reach in the middle, and big net-new creative swings and new-persona unlocks at scale. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
+| `creator-briefs.md` | How to write creator briefs — the freedom-vs-direction call (freestyle vs director briefs), why authorities earn more freedom, the role of clear references, a shared creator-terminology vocabulary (POV, handheld selfie, direct-to-camera, b-roll), and giving the creator a story structure to build on. |
 | `customer-review-mining-method.md` | How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates. |
 | `emotional-delivery-and-timing.md` | The emotional landing state beneath hooks — valence/intensity and the TEEP buying phase (Trigger, Exploration, Evaluation, Purchase). |
 | `hook-psychology.md` | The cognitive science beneath hooks — the mechanisms (notice, qualify, intrigue, reassure, move, transport) that explain why a hook works. The why-layer under the format taxonomy. |
@@ -35,18 +43,25 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `ideation-and-brainstorming.md` | How a senior creative strategist generates ideas and plans a creative round — the always-on capture posture and the spark, the structured weekly hunt (hunt brief, cold pass, lanes, merge), sizing the sprint, splitting it across SKUs and personas, and mapping concepts; the reasoning the idea bank, sprint plan, and briefs operationalize. |
 | `iterations.md` | The doctrine for making iterations on a winning ad — what to hold fixed and what to vary. |
 | `killer-performance-ads.md` | What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against. |
+| `legal-ai-ugc.md` | The legal disclosure rules for AI-generated people in ads — the core principle (disclose synthetic humans, not AI products or backgrounds) and New York's S.8420-A, the first US law requiring it: what it covers, who's liable, the penalties, what 'conspicuous' means, and why the answer is labeling AI creative, not abandoning it. A practitioner summary, not legal advice. |
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
 | `lifestyle-video-ad-formats.md` | The library of video ad formats for lifestyle-positioned brands. |
+| `new-product-launches.md` | How to build launch creative for an established brand's new product or SKU — the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries. |
+| `new-sku-launch.md` | Launching a new SKU into an existing catalog (colorway, flavor, format, bundle, spinoff) — the Scenario A/B case of the launch method, which lives in full in new-product-launches.md. |
+| `non-problem-solution-creative.md` | Creative strategy for non-problem-solution brands — products bought for transformation, emotion, and belonging rather than to fix a pain. Why agitation misfires here, what to sell instead (the feeling, the experience, disruptor status), and the reaction- and story-led formats that carry it. |
 | `organic-social-analysis.md` | How to analyze organic social through a creative-strategy lens. |
 | `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
 | `problem-solution-video-ad-formats.md` | The library of video ad formats for problem-solution-positioned brands. |
 | `scriptwriting.md` | The scriptwriting craft for ads — cold-audience acquisition principles and how to build a script. |
+| `seasonality.md` | How to work seasonality in paid creative — that it's more than sale spikes (buyer, angle, and SKU shifts too), how the buyer avatar and even the ICP flip during gifting windows, why evergreen winners must stay on while seasonal creative layers in, planning and testing months ahead, how to find which seasons actually matter for a brand (ask then validate; first-time vs returning), category and SKU shifts, and the strategic nuance that beats obvious seasonal advice. |
 | `selecting-ads-to-iterate-on.md` | The method for choosing which ads are worth iterating on — spend-in-context, run time, the breakdown effect, slow-burners vs high-risers, 60-day trends. |
 | `spoken-script-voice.md` | The doctrine of human-sounding ad scripts and the brand voice-profile method, plus the AI-tells audit run on every draft. |
+| `static-ad-design.md` | The design psychology of static ads — statics have hooks too. How the eye scans a static in milliseconds, the visual-hierarchy call (what's seen first, second, third), the formatting devices that stop the scroll, message-image congruency, product money-shots, and where social proof goes. |
 | `static-ad-recreation.md` | How to recreate or adapt an existing static ad. |
 | `veo3-video-prompting.md` | How to prompt AI video generation (Veo 3). |
 | `visual-vocabulary-method.md` | The method behind a brand's visual vocabulary — in-play / adjacent / out-of-play shot classification, the script-congruence and format-dependence rules. |
+| `visuals.md` | The why-layer of the visual craft — how the visual carries the message alone (sound off, copy skimmed) and the eight principles that decide whether an ad is even seen: half-second clarity, visual hierarchy, pattern interruption, human presence, emotional specificity, native context over polish, click pre-qualification, and cognitive ease. |
 
 <!-- DOC-MAP:END -->
 
