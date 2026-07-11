@@ -21,6 +21,12 @@ import os
 import subprocess
 from pathlib import Path
 
+# Hooks inherit the launch directory, which may be a subfolder of the repo;
+# anchor to the project root so relative paths behave.
+_proj = os.environ.get("CLAUDE_PROJECT_DIR")
+if _proj and os.path.isdir(_proj):
+    os.chdir(_proj)
+
 MOUNT = Path("parker-system")
 AUTH_SIGNS = ("authentication failed", "403", "401", "could not read username",
               "terminal prompts disabled", "invalid username or token")
