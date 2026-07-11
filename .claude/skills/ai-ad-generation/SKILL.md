@@ -26,7 +26,7 @@ triggers:
 
 Produce the prompt text that goes into an AI generation tool — Veo 3 for video, image models for static — so the output matches the brand's voice, compliance, and visual language. Whatever the model fills in by default is the model's interpretation of the brand, which is almost never what the brand actually is. The skill's job is to remove that gap by being forensically specific about everything in the frame, on the soundtrack, in the copy, and in the visual identity.
 
-This skill produces prompt text. It does not generate the final asset, evaluate the asset's performance, or iterate on a winning asset — those are different skills (ad-account-analysis, iterations).
+This skill produces prompt text. It does not generate the final asset, evaluate the asset's performance, or iterate on a winning asset — those are different skills (ad-account-analysis, iterations). The end-to-end static pipeline — sourcing a proven angle, drafting gated concepts, explicit user approval, then actual generation through the connected image tool — is `static-workflow`, and it runs only when the user explicitly invokes `/static-workflow`; a plain static request stays here.
 
 ## What this skill covers
 
@@ -36,7 +36,7 @@ This skill produces prompt text. It does not generate the final asset, evaluate 
 
 ## What you are working from
 
-The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `parker-system/system/parker-tools.md`.
+The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, `ai-animation-prompting.md` when the asset is AI-animated, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. Two why-layer docs sit under the frame: `static-ad-design.md` for the design psychology of a static (the milliseconds-long eye scan, visual hierarchy, message-image congruency, the money-shot) and `visuals.md` for the eight principles that decide whether the ad is even seen. When the asset shows a synthetic human, `legal-ai-ugc.md` carries the disclosure rules — label the AI creative, don't abandon it. The Parker tools that pull brand reference and creative data are inventoried in `parker-system/system/parker-tools.md`.
 
 ## Background that loads up front
 

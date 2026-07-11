@@ -69,6 +69,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 
 Performance reports and audits (weekly, monthly, 90-day), performance-targets-and-metrics, whitespace:
 - `ad-account-analysis.md` — the canonical own-account reading method
+- `ad-metrics-glossary.md` — plain-language definitions of the Meta metrics the read leans on; pull it when a number's meaning or calculation is in question
 - `killer-performance-ads.md` — what a genuinely great ad looks like, the bar every read grades against
 - `andromeda-v2.md` — how Meta's delivery system behaves, so delivery patterns are read as auction mechanics rather than mysteries
 
@@ -136,6 +137,8 @@ TikTok mining:
 Idea bank, idea evaluation, sprint plan, brief creation, concepting:
 - `ideation-and-brainstorming.md`, `iterations.md`, `scriptwriting.md`
 - `emotional-delivery-and-timing.md` — for brief creation especially: the TEEP phase and the from→to emotional shift are required brief inputs, and the funnel-as-emotional-arc lens shapes how variations diverge
+- `creator-briefs.md` — for brief creation: the freedom-vs-direction call (freestyle vs director briefs), the role of references, the shared creator terminology, and giving the creator a story structure to build on
+- `creative-consumption-analysis.md` — the per-persona read of the native content a persona already watches, reverse-engineered into a casting and production brief
 
 Idea evaluation specifically also loads, because it grades the captured pile against the strategy rather than capturing it:
 - `persona-research-and-creative-strategy-process.md` — so each idea's persona and served-vs-buyer read is graded, not assumed
@@ -153,6 +156,9 @@ Scriptwriting — any task that produces spoken words for an ad:
 - `spoken-script-voice.md` — the human-voice doctrine and the brand voice-profile method; mandatory before writing any script's words, and the AI-tells audit runs on every draft
 - `ai-writing-tells.md` — the written-slop sign families and the lint-then-judge review; every creative deliverable passes it before shipping, via the `creative-voice-review` agent and `scripts/voice-lint.py`
 - `visual-vocabulary-method.md` — the visual twin of the voice profile; per-beat visual direction sources from the brand's `sub-context-docs/visual-vocabulary.md`, each beat marked in-play, adjacent, or out-of-play, with the script-congruence and format-dependence rules
+- `visuals.md` — the why-layer beneath the visual-vocabulary method: how the visual carries the message with sound off and copy skimmed, and the eight principles that decide whether the ad is even seen
+- `creative-consumption-analysis.md` — the persona's native-content read, so casting and on-screen situations blend into her feed
+- `creator-briefs.md` — when the script hands off to a creator, the terminology and story-structure the brief needs
 - `scriptwriting.md`, `adapting-scripts.md`
 
 Headline and static generation:
@@ -160,7 +166,23 @@ Headline and static generation:
 - `ai-writing-tells.md` — the written-slop signs are the primary check for headlines and statics; the lint-then-judge review runs before output
 - `visual-vocabulary-method.md` — generated visuals source from the brand's `sub-context-docs/visual-vocabulary.md`; in-play shots ground the generation prompt, out-of-play visual inventions get flagged
 - `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by brand positioning
+- `static-ad-design.md` — the design psychology of statics: the milliseconds-long eye scan, the visual-hierarchy call, message-image congruency, the money-shot, and where social proof goes. Statics have hooks too
+- `visuals.md` — the eight principles that decide whether a static is even seen, the why-layer under the design rules
 - `ai-static-ad-generation.md`, `static-ad-recreation.md` where statics are produced
+- `ai-animation-prompting.md` — when the asset is AI-animated, how animation prompting differs from static-image and Veo-style video prompting
+- `legal-ai-ugc.md` — when the generated asset shows a synthetic human, the disclosure rules (the answer is labeling AI creative, not abandoning it)
+
+## Brand-and-task modifiers — pull when the brand or the task fits
+
+These docs don't belong to one task family. They bend the read when the brand or the moment matches, and they cut across the creative-generation and strategy work above — hooks, headlines, scripts, statics, ideation, the account read, and the persona and messaging calls. Reason over them the way you reason over the catalog: pull the ones the brand or task actually calls for, and don't force a fit where there isn't one.
+
+- `advertising-luxury-and-higher-price-points.md` — when the brand is luxury-positioned or priced above its category average: the two axes, the brand-element constraints, and price-objection handling
+- `advertising-to-older-audiences.md` — when the target skews roughly 50–70: the messaging, pacing, hooks, visuals, tone, and social-proof patterns that win, and the common misreads
+- `non-problem-solution-creative.md` — when the product is bought for transformation, emotion, or belonging rather than to fix a pain: why agitation misfires and what to sell instead
+- `creative-strategy-by-brand-size.md` — when the plan depends on spend level: the different priorities and plays at roughly $10k, $50k, and $1m per month
+- `seasonality.md` — when the task lands near a gifting window or seasonal peak: how the buyer, angle, and SKU shift, why evergreen winners stay on, and how to find which seasons actually matter
+- `new-product-launches.md` (with its SKU-case pointer `new-sku-launch.md`) — when the task is launch creative for an established brand's new product, SKU, colorway, format, bundle, spinoff, or new-audience entry
+- `algospeak.md` — when the category faces platform moderation risk (cannabis/CBD, adult wellness, harm reduction, mental health, crypto, body image): the coded-language and compliance guardrails that keep the account alive
 
 ## Syntheses
 
