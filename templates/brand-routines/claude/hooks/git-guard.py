@@ -114,7 +114,11 @@ def main() -> int:
         if "--recurse-submodules" not in cmd:
             print(BLOCK_CLONE, file=sys.stderr)
             return 2
-        if "credential.helper" not in cmd:
+        # Both entries required: the blank reset (shuts out the user's own
+        # helpers, e.g. the macOS keychain) AND the store helper.
+        blank_reset = re.search(r"credential\.helper=([\"']\s*[\"'])?(\s|$)", cmd)
+        store_helper = re.search(r"credential\.helper=[\"']?store\b", cmd)
+        if not (blank_reset and store_helper):
             print(BLOCK_CLONE_CREDS, file=sys.stderr)
             return 2
 

@@ -69,7 +69,7 @@ cd <folder> && git config credential.helper "" && git config --add credential.he
 
 **No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, don't use `gh` at all — `gh` runs on the user's personal login, which has no business in a managed repo.
 
-**When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. Call `setup_parker_brain` again — it always mints a fresh token — re-write `.git/parker-credentials` with the Write tool, and retry once.
+**When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. First check `git remote get-url origin` — if the URL still has `x-access-token:` embedded (the pre-v8 layout), git reads *that* instead of the credential file, so strip it first with `git remote set-url origin <the plain URL>` (no secret in that command) and wire the credential file per the one-time setup above. Then call `setup_parker_brain` again — it always mints a fresh token — re-write `.git/parker-credentials` with the Write tool, and retry once.
 
 ## Talking to the user about all this
 

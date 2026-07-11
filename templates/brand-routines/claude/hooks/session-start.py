@@ -22,6 +22,7 @@ import subprocess
 from pathlib import Path
 
 MOUNT = Path("parker-system")
+TOKEN_MARK = "x-access-token:"
 AUTH_SIGNS = ("authentication failed", "403", "401", "could not read username",
               "terminal prompts disabled", "invalid username or token")
 
@@ -35,9 +36,11 @@ def git(*args: str, timeout: int = 45) -> subprocess.CompletedProcess:
 def attempt_pull() -> str:
     """Run the start-of-session pull when safe; return the story for the model."""
     try:
-        if git("remote", "get-url", "origin", timeout=5).returncode != 0:
+        origin = git("remote", "get-url", "origin", timeout=5)
+        if origin.returncode != 0:
             return ("No `origin` remote is configured, so nothing was pulled. If this "
                     "brain lives on GitHub, wire the remote per /save-brain before working.")
+        origin_txt = origin.stdout.strip()
         dirty = git("status", "--porcelain", timeout=10).stdout.strip()
         if dirty:
             return ("PULL SKIPPED — the working tree has uncommitted changes (likely a "
@@ -63,14 +66,26 @@ def attempt_pull() -> str:
             return f"Pulled the latest before starting: {tail}."
         err = (pulled.stderr or "").lower()
         if any(s in err for s in AUTH_SIGNS):
+            fix = ("call setup_parker_brain (Parker MCP), lift the token out of its "
+                   "authenticated_clone_url, and use the Write tool to save the line "
+                   "`https://x-access-token:<TOKEN>@github.com` to "
+                   ".git/parker-credentials — never put the token inside a shell "
+                   "command — then `git pull --rebase origin main` and `git submodule "
+                   "update --init --recursive`. Full procedure: /save-brain.")
+            if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
+                # Legacy layout: credentials embedded in origin shadow the store
+                # file, so rewriting the file alone changes nothing.
+                plain = "https://github.com" + origin_txt.split("@github.com", 1)[1]
+                fix = ("this clone still carries credentials inside the origin URL "
+                       "(the pre-v8 layout), and git reads those instead of the "
+                       f"credential file. First strip them: `git remote set-url origin "
+                       f"{plain}` (that command carries no secret), then wire the "
+                       "credential file once — `git config credential.helper \"\"` and "
+                       "`git config --add credential.helper \"store --file "
+                       ".git/parker-credentials\"` — then " + fix)
             return ("PULL FAILED — the saved credentials have expired (they last about "
                     "an hour; this is normal). First job of this session, before any "
-                    "other work: call setup_parker_brain (Parker MCP), lift the token "
-                    "out of its authenticated_clone_url, and use the Write tool to save "
-                    "the line `https://x-access-token:<TOKEN>@github.com` to "
-                    ".git/parker-credentials — never put the token inside a shell "
-                    "command — then `git pull --rebase origin main` and `git submodule "
-                    "update --init --recursive`. Full procedure: /save-brain.")
+                    "other work: " + fix)
         detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
         return ("PULL FAILED — not an auth problem: "
                 + (detail[-1] if detail else "unknown error")
