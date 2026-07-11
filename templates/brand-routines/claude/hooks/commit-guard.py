@@ -18,6 +18,7 @@ and stderr are the mechanism.
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -26,7 +27,9 @@ MANAGED_ORG = re.compile(r"github\.com[:/]parker-brain/", re.I)
 
 
 def git(*args: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", *args], capture_output=True, text=True, timeout=10)
+    env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
+    return subprocess.run(["git", *args], capture_output=True, text=True,
+                          timeout=10, env=env)
 
 
 def main() -> int:
@@ -63,7 +66,8 @@ def main() -> int:
         f"This brain has {described} — finish the save before ending the turn, "
         "without asking the user (saving is part of the work): "
         "`git add -A && git commit -m \"<plain summary>\"`, "
-        "`git pull --rebase origin main`, `git push origin main`. "
+        "`git pull --rebase origin main`, `git submodule update --init --recursive`, "
+        "`git push origin main`. "
         "On an auth error, call setup_parker_brain (Parker MCP), "
         "`git remote set-url origin <fresh authenticated url>`, and retry. "
         "Full procedure: /save-brain.",

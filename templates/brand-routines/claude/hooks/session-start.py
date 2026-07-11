@@ -44,11 +44,20 @@ def attempt_pull() -> str:
                     "previous session that ended without saving). First job of this "
                     "session, before anything else: commit and push those changes per "
                     "/save-brain (`git add -A && git commit`, `git pull --rebase origin "
-                    "main`, `git push origin main`), refreshing credentials via "
-                    "setup_parker_brain if a step hits an auth error.")
+                    "main`, `git submodule update --init --recursive`, `git push origin "
+                    "main`), refreshing credentials via setup_parker_brain if a step "
+                    "hits an auth error.")
         pulled = git("pull", "--rebase", "origin", "main")
         if pulled.returncode == 0:
-            git("submodule", "update", "--init", timeout=60)
+            sub = git("submodule", "update", "--init", "--recursive", timeout=60)
+            if sub.returncode != 0:
+                sub_err = (sub.stderr or sub.stdout or "").strip().splitlines()
+                return ("PULL FAILED — the pull landed but the parker-system/ mount did "
+                        "not follow it ("
+                        + (sub_err[-1] if sub_err else "submodule update failed")
+                        + "), so the method files on disk may be STALE. First job of "
+                        "this session, before any other work: run `git submodule update "
+                        "--init --recursive` and resolve whatever it reports, per /save-brain.")
             summary = (pulled.stdout or "").strip().splitlines()
             tail = summary[-1] if summary else "done"
             return f"Pulled the latest before starting: {tail}."
@@ -58,7 +67,7 @@ def attempt_pull() -> str:
                     "an hour; this is normal). First job of this session, before any "
                     "other work: call setup_parker_brain (Parker MCP) for a fresh "
                     "authenticated URL, run `git remote set-url origin <that url>`, then "
-                    "`git pull --rebase origin main` and `git submodule update --init`.")
+                    "`git pull --rebase origin main` and `git submodule update --init --recursive`.")
         detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
         return ("PULL FAILED — not an auth problem: "
                 + (detail[-1] if detail else "unknown error")

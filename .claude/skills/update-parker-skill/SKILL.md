@@ -109,7 +109,7 @@ The skill runs in two phases: **propose** (always, for global changes) and **exe
    - **Inherit via reference + tighten prompt reference paragraphs** — change the canonical doc; update the short reference paragraph each prompt carries so the new rule is invoked by name at runtime. Use when the rule needs to be explicitly named in each prompt's section to be reliably invoked.
    - **Direct edit each affected file** — when the inheritance pattern doesn't exist for this rule, or when the rule is encoded in each prompt's own language. Highest-effort, highest-drift-risk; use only when the inheritance pattern can't be added.
 
-5. **Write the proposal and wait.** Use the structure defined under "The propose-then-execute pattern" above. The proposal must include all eight elements (canonical doc, current content, proposed content, why, propagation scope, training corpus updates, brand-output re-runs, index updates). Then stop. Do not edit. Wait for the user to approve, redirect, or reject.
+5. **Write the proposal and wait.** Use the structure defined under "The propose-then-execute pattern" above. The proposal must include all nine elements (canonical doc, current content, proposed content, why, propagation scope, training corpus updates, brand-output re-runs, index updates, migration impact). Then stop. Do not edit. Wait for the user to approve, redirect, or reject.
 
    If the user redirects, revise the proposal and present again. Do not start editing and assume the user will catch the differences.
 

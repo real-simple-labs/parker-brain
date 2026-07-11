@@ -31,7 +31,7 @@ Never print the token to the user, never write it into any file in the repo, nev
 ```bash
 git add -A && git commit -m "<plain summary of what changed>"   # commit first — rebase refuses a dirty tree
 git pull --rebase origin main
-git submodule update --init              # keep the method mount populated
+git submodule update --init --recursive  # the pull can move the mount's pin; this makes the checkout follow it
 git push origin main
 ```
 
@@ -41,7 +41,7 @@ Always `git push origin main` — spelled out, never a bare `git push` — so no
 
 **Commit and push immediately — every time, without being asked and without asking.** The moment a batch of edits is done, run the save-and-push loop. Do not wait for the end of the session, do not accumulate work locally, and never ask the user "should I commit/save this?" — the yes they gave to the work *is* the yes to saving it; an unsaved brain is a broken promise, not a pending question. Other people and scheduled routines read this repo: unpushed work doesn't exist for them, and two sessions editing unpushed copies is how work gets destroyed. Small commits with plain messages, pushed right away. Ending a turn with uncommitted or unpushed changes is a failure state — the commit-guard hook will call it out.
 
-**Pull before you read or edit** anything that might have moved — start of session, start of a routine, before a batch of edits. `git pull --rebase origin main`, plus `git submodule update --init`. The session-start hook attempts this pull for you when the working tree is clean; if it reports a failure, fixing the pull is the first job of the session, before any other work.
+**Pull before you read or edit** anything that might have moved — start of session, start of a routine, before a batch of edits. `git pull --rebase origin main`, always followed by `git submodule update --init --recursive` — the pull alone can advance the `parker-system/` pin while leaving the old files checked out, which means reading stale method. The session-start hook attempts this pull for you when the working tree is clean; if it reports a failure, fixing the pull is the first job of the session, before any other work.
 
 **Conflicts: resolve best-effort, prefer keeping both sides.** Brain files are additive — notes, entries, docs — so when both sides changed a file, keeping both changes is almost always right. Never discard a teammate's lines to make a conflict go away, never `git reset --hard` away content you didn't write, and never force-push (there's no branch protection; a force-push can erase someone's work). If a conflict is genuinely unresolvable, commit your side to a clearly named file, push, and tell the user plainly what needs a human eye.
 
