@@ -17,4 +17,3 @@ Enforcement has to sit where the failure happens: the pull was skipped at sessio
 ## Follow-ups
 
 - Cut the `v6` tag once this merges.
-- Mevin2 (cross-repo): `setup_parker_brain`'s returned message should teach the same keep-credentials-in-the-remote flow — clone with the authenticated URL and refresh via `set-url` on auth errors, no cleanup step.
