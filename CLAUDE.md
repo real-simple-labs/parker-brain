@@ -170,7 +170,7 @@ This repo should contain:
 - generalized cross-brand knowledge
 - sanitized fixtures and golden examples
 - evals, review rubrics, and release notes
-- migration notes (`migrations/vN.md`) for every release whose changes reshape standing brand brains
+- migration notes (`migrations/vN.md`) for every release — real steps when the change reshapes standing brand brains, a one-liner no-op otherwise
 
 This repo should not contain:
 
@@ -190,7 +190,7 @@ Customer data, test brand outputs, MCP snapshots, scratch experiments, and raw l
 Standing brand brains pin this repo at a release tag through their `parker-system/` submodule; they take updates by moving the pin, offered weekly by their `/update-brain` routine. That makes releases the factory's delivery mechanism, and it puts two duties on every maintainer:
 
 - **Tags are plain and manual.** Releases are `v1`, `v2`, … — no semver, cut by the team when a coherent set of changes is ready, with a `release-notes/` entry describing what shipped. Nothing reaches a standing brain until a tag is cut.
-- **Structural changes ship a migration in the same PR.** Any change that alters the brand-brain layout, renames or moves a path a brain references, adds a standing file brains should carry, or changes the committed `.claude/` bundle must add its `migrations/vN.md` (named for the release it will ship in) alongside the change, per `migrations/README.md`. A method-only change — a sharper prompt, a better craft doc — needs no migration; the pin bump delivers it. When in doubt, ask: "does an already-built brain need to *do* anything besides move the pin?" If yes, write the migration.
+- **Every release ships its migration in the same PR — no exceptions.** Each release adds `migrations/vN.md` (named for the tag it ships in), per `migrations/README.md`. The only question is what goes inside: a change that alters the brand-brain layout, renames or moves a path a brain references, adds a standing file outside the copied bundle, or edits brand-authored content writes real steps; a method-only or copied-bundle-only change — a sharper prompt, a better craft doc, a skill or hook tweak the pin bump's re-sync delivers — writes a one-liner no-op ("Nothing to do; record `vN`."). The litmus test for real steps: "does an already-built brain need to *do* anything besides move the pin?"
 
 Most durable improvements originate outside this repo: prompt failures, test-brand runs, customer feedback, expert sources, human corrections, and workflow experiments.
 

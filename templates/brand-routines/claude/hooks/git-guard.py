@@ -28,8 +28,7 @@ TOKEN_MARK = "x-access-token:"
 HOW = (
     "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP), then:\n"
     "  git remote set-url origin <authenticated_clone_url>\n"
-    "  git push origin main\n"
-    "  git remote set-url origin <clean https url, no token>\n"
+    "and retry (always `git push origin main`, never a bare `git push`). "
     "Full procedure: /save-brain (or parker-system/system/brain-git-sync.md)."
 )
 
