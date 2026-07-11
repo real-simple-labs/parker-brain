@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "f=\"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/git-guard.py\"; [ -f \"$f\" ] || exit 0; python3 \"$f\""
+            "command": "d=\"${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null || echo .)}\"; f=\"$d/.claude/hooks/git-guard.py\"; [ -f \"$f\" ] || exit 0; python3 \"$f\""
           }
         ]
       }
