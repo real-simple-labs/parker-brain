@@ -8,7 +8,7 @@ The two-gate contract is shared across all five skills; the wording is skill-spe
 
 ## Why
 
-Jimmy reported the review agents almost never fired on scriptwriting work. Root cause was prompt wording, not the scripts: framed passively, the model treated the gates as optional.
+It was reported that the review agents almost never fired on scriptwriting work. Root cause was prompt wording, not the scripts: framed passively, the model treated the gates as optional.
 
 ## Migration
 
