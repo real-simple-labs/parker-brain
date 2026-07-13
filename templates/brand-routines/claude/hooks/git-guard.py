@@ -29,8 +29,9 @@ CRED_FILE = Path(".git/parker-credentials")
 
 HOW = (
     "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP), lift "
-    "the token out of its authenticated_clone_url, and use the Write tool to save this "
-    "single line to .git/parker-credentials:\n"
+    "the token out of its authenticated_clone_url, run `rm -f .git/parker-credentials` "
+    "(the Write tool won't overwrite an unread file), and use the Write tool to save "
+    "this single line to .git/parker-credentials:\n"
     "  https://x-access-token:<TOKEN>@github.com\n"
     "with origin on the plain URL and the one-time repo wiring in place "
     "(`git config credential.helper \"\"` then `git config --add credential.helper "

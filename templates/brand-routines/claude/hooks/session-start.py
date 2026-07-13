@@ -67,11 +67,15 @@ def attempt_pull() -> str:
         err = (pulled.stderr or "").lower()
         if any(s in err for s in AUTH_SIGNS):
             fix = ("call setup_parker_brain (Parker MCP), lift the token out of its "
-                   "authenticated_clone_url, and use the Write tool to save the line "
+                   "authenticated_clone_url, run `rm -f .git/parker-credentials` (the "
+                   "Write tool won't overwrite a file it hasn't read), and use the "
+                   "Write tool to save the line "
                    "`https://x-access-token:<TOKEN>@github.com` to "
                    ".git/parker-credentials — never put the token inside a shell "
-                   "command — then `git pull --rebase origin main` and `git submodule "
-                   "update --init --recursive`. Full procedure: /save-brain.")
+                   "command; if the safety layer refuses the write, ask the user for "
+                   "permission in plain words and retry — then `git pull --rebase "
+                   "origin main` and `git submodule update --init --recursive`. "
+                   "Full procedure: /save-brain.")
             if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
                 # Legacy layout: credentials embedded in origin shadow the store
                 # file, so rewriting the file alone changes nothing.
