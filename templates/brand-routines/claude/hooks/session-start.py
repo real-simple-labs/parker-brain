@@ -66,6 +66,16 @@ def attempt_pull() -> str:
             return f"Pulled the latest before starting: {tail}."
         err = (pulled.stderr or "").lower()
         if any(s in err for s in AUTH_SIGNS):
+            # The Parker-credential recovery applies only to managed repos (same
+            # origin test as git-guard.py); a self-hosted brain uses its own auth.
+            o = origin_txt.lower()
+            if "github.com/parker-brain/" not in o and "github.com:parker-brain/" not in o:
+                return ("PULL FAILED — authentication to this brain's own remote "
+                        "failed. This repo self-hosts outside Parker's GitHub org, so "
+                        "fix it with the team's normal git auth (their credential "
+                        "helper, their login) and rerun `git pull --rebase origin "
+                        "main`; the managed-credential rules in /save-brain don't "
+                        "apply here.")
             fix = ("call setup_parker_brain (Parker MCP), lift the token out of its "
                    "authenticated_clone_url, run `rm -f .git/parker-credentials` (the "
                    "Write tool won't overwrite a file it hasn't read), and use the "
@@ -73,9 +83,11 @@ def attempt_pull() -> str:
                    "`https://x-access-token:<TOKEN>@github.com` to "
                    ".git/parker-credentials — never put the token inside a shell "
                    "command; if the safety layer refuses the write, ask the user for "
-                   "permission in plain words and retry — then `git pull --rebase "
-                   "origin main` and `git submodule update --init --recursive`. "
-                   "Full procedure: /save-brain.")
+                   "permission in plain words and retry, and in a scheduled run with "
+                   "nobody to ask, commit local work, state that the online save "
+                   "needs a human session, and end the run cleanly — then `git pull "
+                   "--rebase origin main` and `git submodule update --init "
+                   "--recursive`. Full procedure: /save-brain.")
             if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
                 # Legacy layout: credentials embedded in origin shadow the store
                 # file, so rewriting the file alone changes nothing.

@@ -12,11 +12,12 @@ v8 moved the token out of shell commands into `.git/parker-credentials`, written
 - **`rm -f .git/parker-credentials` before every re-Write** — baked into the skill's refresh steps, the session-start recovery message, and the guard's teaching text. The command carries no secret, and it works whether or not the stale file survived (git self-erases rejected lines, so existence isn't predictable).
 - **`permissions.allow` rules in the bundle's `.claude/settings.json`** — `Write(.git/parker-credentials)` (both path anchors), the clone-time temp file, and the `rm -f` command. Allow rules are checked before the auto-mode classifier, so the one sanctioned token location is pre-approved by configuration the user's own repo carries. This is also what makes **headless scheduled runs** work: settings are read the same way with nobody watching.
 - **The refusal playbook in `save-brain`** — tell the two refusals apart: "not been read yet" → `rm -f` and retry; a safety-layer block → ask the user in plain words through the question tool ("To save your work to GitHub I need to store a temporary access key (expires in about an hour) in the brain's local settings — OK?") and retry on their yes, which supplies exactly the authorization the classifier finds missing. Scheduled runs with nobody to ask commit locally and end loudly; the next interactive session finishes the push.
-- **The factory's own `.claude/settings.json`** (new) — matching allow rules for onboarding sessions, which are rooted in a factory clone where the brand bundle's settings don't govern yet.
 - **`migrations/v10.md`** — no-op for most brains (the re-sync delivers everything); one manual merge of the allow block if the team customized `settings.json`.
+- **Self-hosted gating in `session-start.py`** — the auth-failure recovery now applies the same origin test as `git-guard.py`; a self-hosted brain gets pointed at its own team auth instead of Parker's credential flow.
 
 ## Deliberately not done
 
+- **No factory-side `.claude/settings.json`.** Onboarding sessions (rooted in a factory clone, outside the brand bundle's settings) always have a human present, so the ask-the-user fallback covers them; shipping live permission config to every factory contributor session isn't worth removing one friendly question.
 - **No rename of `parker-credentials`.** The classifier reads content, not filenames — a token in a file named something innocuous reads as obfuscation, which is worse for the classifier and for any security review. The honest name is what makes the allow rule defensible, and it matches git's own `.git-credentials` convention.
 
 ## Follow-ups

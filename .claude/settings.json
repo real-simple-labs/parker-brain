@@ -1,9 +1,0 @@
-{
-  "$comment": "Committed project config for the parker-brain factory. Onboarding runs inside a factory clone: the brand repo gets cloned as a sibling/subfolder, so the brand bundle's own settings.json does not govern the session yet. These allow rules pre-approve the credential-file writes the onboarding clone flow depends on (the clone-time temp file and any brand repo's .git/parker-credentials), so the safety classifier is never asked about the one sanctioned place a token may be written. The flow itself: templates/brand-routines/claude/skills/save-brain/SKILL.md; rationale: system/brain-git-sync.md.",
-  "permissions": {
-    "allow": [
-      "Write(//tmp/parker-credentials)",
-      "Write(//**/.git/parker-credentials)"
-    ]
-  }
-}
