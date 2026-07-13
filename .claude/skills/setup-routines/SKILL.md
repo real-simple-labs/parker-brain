@@ -13,6 +13,8 @@ For each routine below, create a scheduled cloud agent (a "routine") whose promp
 
 Before registering, confirm with the user: their timezone, and that the instance's data sources (Parker MCP server, web tools) are connected — a scheduled run can only do what the connected tools allow.
 
+**A caveat as of July 2026:** whether `/schedule` actually creates a cloud routine (runs on Anthropic's infrastructure, independent of any machine) or a local Desktop-scheduled task (tied to this machine and app being open) currently depends on the environment `/schedule` is invoked from — the two are separate systems with separate `/schedule` implementations, and confirmed open bugs cover both the split ([anthropics/claude-code#41364](https://github.com/anthropics/claude-code/issues/41364)) and cases where the tool isn't wired up at all ([#29022](https://github.com/anthropics/claude-code/issues/29022)). After registering, verify each routine actually shows up as a cloud routine, not a local task, before trusting it to run unattended.
+
 ## The routines to register
 
 | Routine | Skill | Cadence | Suggested cron |
