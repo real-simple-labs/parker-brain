@@ -14,6 +14,7 @@ v8 moved the token out of shell commands into `.git/parker-credentials`, written
 - **The refusal playbook in `save-brain`** — tell the two refusals apart: "not been read yet" → `rm -f` and retry; a safety-layer block → ask the user in plain words through the question tool ("To save your work to GitHub I need to store a temporary access key (expires in about an hour) in the brain's local settings — OK?") and retry on their yes, which supplies exactly the authorization the classifier finds missing. Scheduled runs with nobody to ask commit locally and end loudly; the next interactive session finishes the push.
 - **`migrations/v10.md`** — no-op for most brains (the re-sync delivers everything); one manual merge of the allow block if the team customized `settings.json`.
 - **Self-hosted gating in `session-start.py`** — the auth-failure recovery now applies the same origin test as `git-guard.py`; a self-hosted brain gets pointed at its own team auth instead of Parker's credential flow.
+- **`gh` scoped to the actual rule** — the guard blocked every `gh` invocation in a managed repo, including GitHub searches and reads of unrelated repos (field complaint: agents fell back to web search). It now blocks only `gh` aimed at *this* repo: a bare `parker-brain/` org mention, or a repo-context subcommand (pr, issue, release, run, and kin) with no `-R`/`--repo` pointing elsewhere. Everything else passes.
 
 ## Deliberately not done
 

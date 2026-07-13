@@ -69,7 +69,7 @@ cd <folder> && git config credential.helper "" && git config --add credential.he
 
 **Conflicts: resolve best-effort, prefer keeping both sides.** Brain files are additive — notes, entries, docs — so when both sides changed a file, keeping both changes is almost always right. Never discard a teammate's lines to make a conflict go away, never `git reset --hard` away content you didn't write, and never force-push (there's no branch protection; a force-push can erase someone's work). If a conflict is genuinely unresolvable, commit your side to a clearly named file, push, and tell the user plainly what needs a human eye.
 
-**No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, don't use `gh` at all — `gh` runs on the user's personal login, which has no business in a managed repo.
+**No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, and never point `gh` at this repo — `gh` runs on the user's personal login, which has no business in a managed repo. (`gh` aimed at *other* repos — searching GitHub, reading someone else's project — is fine; name the target explicitly.)
 
 **When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. First check `git remote get-url origin` — if the URL still has `x-access-token:` embedded (the pre-v8 layout), git reads *that* instead of the credential file, so strip it first with `git remote set-url origin <the plain URL>` (no secret in that command) and wire the credential file per the one-time setup above. Then call `setup_parker_brain` again — it always mints a fresh token — re-write `.git/parker-credentials` with the Write tool, and retry once.
 
@@ -79,7 +79,7 @@ The user is usually not a git person. Say "saved your brain," "downloaded the la
 
 ## Hard rules
 
-- Never the user's own GitHub login on a managed repo. Never `gh`. Never a bare `git push`.
+- Never the user's own GitHub login on a managed repo. Never `gh` against this repo (elsewhere is fine). Never a bare `git push`.
 - The token is a secret: not in chat, not in any committed file, and **never inside a shell command** — it lives only in `.git/parker-credentials`, written with the Write tool. That's the design, and Claude's safety layer blocks any command that carries it anyway.
 - Never force-push. Never delete or overwrite a teammate's work to simplify a conflict.
 - Clone and pull with submodules, always.
