@@ -33,10 +33,12 @@ The blank first entry is load-bearing: without it, a keychain helper on the user
 
 **Write the credential file with the Write tool — the token must never appear inside a shell command.** Not in a clone URL, not in `git remote set-url`, not in an `echo`. Claude's own safety layer blocks any Bash command carrying a live token, so the old token-in-the-remote style doesn't just risk a leak — it fails outright, every time. The Write tool into `.git/parker-credentials` is the whole move: `.git/` is local-only, so the file can never be committed or pushed. Never print the token to the user and never write it into any tracked file.
 
+**If the write itself gets refused, tell the two refusals apart.** An error saying the file *"has not been read yet"* is just the overwrite guard — run `rm -f .git/parker-credentials` and Write again. A *safety-layer block* on saving the credential is different: don't fight it, and never fall back to putting the token in a command. Ask the user directly, in plain words, through the question tool — something like *"To save your work to GitHub I need to store a temporary access key (it expires in about an hour) in the brain's local settings. OK if I do that?"* Their yes is exactly the authorization the safety layer found missing; retry the Write after it. In a scheduled run with nobody to ask, commit the work locally, end the run saying plainly that the online save needs a human session, and let the next interactive session finish the push. This should be rare: the shipped `.claude/settings.json` pre-approves writes to `.git/parker-credentials` — if blocks keep happening, check that its `permissions.allow` block survived team edits.
+
 When the token expires, any pull or push fails with an auth error (403, 401, "could not read Username") — that is normal, not a problem. The fix is always the same three steps:
 
 1. Call `setup_parker_brain` (Parker MCP) and lift the fresh token out of its `authenticated_clone_url`.
-2. Write `.git/parker-credentials` again with the fresh line (git erases a rejected line on its own, so an empty or missing file just means write it).
+2. Clear the stale file, then Write the fresh line: `rm -f .git/parker-credentials` (safe — the command carries no secret), then the Write tool. The delete matters: the Write tool refuses to overwrite a file it hasn't read this session, and `rm -f` sidesteps that whether or not a stale file survived (git erases a rejected line on its own).
 3. Retry the command that failed.
 
 **Save and push** (the whole loop, in order):
@@ -67,7 +69,7 @@ cd <folder> && git config credential.helper "" && git config --add credential.he
 
 **Conflicts: resolve best-effort, prefer keeping both sides.** Brain files are additive — notes, entries, docs — so when both sides changed a file, keeping both changes is almost always right. Never discard a teammate's lines to make a conflict go away, never `git reset --hard` away content you didn't write, and never force-push (there's no branch protection; a force-push can erase someone's work). If a conflict is genuinely unresolvable, commit your side to a clearly named file, push, and tell the user plainly what needs a human eye.
 
-**No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, don't use `gh` at all — `gh` runs on the user's personal login, which has no business in a managed repo.
+**No branches, no pull requests.** The brain works directly on `main`. Don't create feature branches, don't open PRs, and never point `gh` at this repo — `gh` runs on the user's personal login, which has no business in a managed repo. (`gh` aimed at *other* repos — searching GitHub, reading someone else's project — is fine; name the target explicitly.)
 
 **When auth fails** (403, 401, "could not read Username", token expired): don't retry with other credentials and don't fall back to `gh`. First check `git remote get-url origin` — if the URL still has `x-access-token:` embedded (the pre-v8 layout), git reads *that* instead of the credential file, so strip it first with `git remote set-url origin <the plain URL>` (no secret in that command) and wire the credential file per the one-time setup above. Then call `setup_parker_brain` again — it always mints a fresh token — re-write `.git/parker-credentials` with the Write tool, and retry once.
 
@@ -77,7 +79,7 @@ The user is usually not a git person. Say "saved your brain," "downloaded the la
 
 ## Hard rules
 
-- Never the user's own GitHub login on a managed repo. Never `gh`. Never a bare `git push`.
+- Never the user's own GitHub login on a managed repo. Never `gh` against this repo (elsewhere is fine). Never a bare `git push`.
 - The token is a secret: not in chat, not in any committed file, and **never inside a shell command** — it lives only in `.git/parker-credentials`, written with the Write tool. That's the design, and Claude's safety layer blocks any command that carries it anyway.
 - Never force-push. Never delete or overwrite a teammate's work to simplify a conflict.
 - Clone and pull with submodules, always.
