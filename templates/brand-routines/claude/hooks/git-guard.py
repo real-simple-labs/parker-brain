@@ -28,7 +28,10 @@ TOKEN_MARK = "x-access-token:"
 CRED_FILE = Path(".git/parker-credentials")
 
 HOW = (
-    "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP), lift "
+    "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP; its "
+    "brand_id is in parker_config.json at the repo root — read it, don't guess; if "
+    "that file is missing, call get_available_brands and use the exact brand_id it "
+    "returns for this brand), lift "
     "the token out of its authenticated_clone_url, run `rm -f .git/parker-credentials` "
     "(the Write tool won't overwrite an unread file), and use the Write tool to save "
     "this single line to .git/parker-credentials:\n"

@@ -22,7 +22,7 @@ Run `git remote get-url origin`.
 https://x-access-token:<TOKEN>@github.com
 ```
 
-The `<TOKEN>` (looks like `ghs_…`) comes from `setup_parker_brain` (Parker MCP): the tool returns an `authenticated_clone_url` shaped like `https://x-access-token:<TOKEN>@github.com/parker-brain/<repo>.git` — lift the token out of it; the URL itself is never fed to git. The token lasts about **1 hour** and works only on this one repo. `origin` stays the **plain** URL (`https://github.com/parker-brain/<repo>.git`), and a one-time, two-line repo setting tells git to read the file whenever GitHub asks who's calling:
+That line comes ready-made from `setup_parker_brain` (Parker MCP) as `credential_file_line` — save it exactly as returned. (Older servers only return `authenticated_clone_url`, shaped like `https://x-access-token:<TOKEN>@github.com/parker-brain/<repo>.git` — lift the token out and build the line yourself; the URL itself is never fed to git.) The `brand_id` the tool needs is in `parker_config.json` at the repo root — read it from there, never guess it from the repo name (only if the file is missing, fall back to `get_available_brands` and match the brand). The token lasts about **1 hour** and works only on this one repo. `origin` stays the **plain** URL (`https://github.com/parker-brain/<repo>.git`), and a one-time, two-line repo setting tells git to read the file whenever GitHub asks who's calling:
 
 ```bash
 git config credential.helper ""   # blank entry first: shut out any system/global helper (e.g. the user's keychain)
@@ -37,18 +37,23 @@ The blank first entry is load-bearing: without it, a keychain helper on the user
 
 When the token expires, any pull or push fails with an auth error (403, 401, "could not read Username") — that is normal, not a problem. The fix is always the same three steps:
 
-1. Call `setup_parker_brain` (Parker MCP) and lift the fresh token out of its `authenticated_clone_url`.
-2. Clear the stale file, then Write the fresh line: `rm -f .git/parker-credentials` (safe — the command carries no secret), then the Write tool. The delete matters: the Write tool refuses to overwrite a file it hasn't read this session, and `rm -f` sidesteps that whether or not a stale file survived (git erases a rejected line on its own).
+1. Call `setup_parker_brain` (Parker MCP) and take `credential_file_line` from the result.
+2. Clear the stale file, then Write the fresh line: `rm -f .git/parker-credentials` (safe — the command carries no secret), then the Write tool. The delete matters: the Write tool refuses to overwrite a file it hasn't read this session, and `rm -f` sidesteps that whether or not a stale file survived (git erases a rejected line on its own; the session-start hook clears it too when it catches the failure).
 3. Retry the command that failed.
+
+**Don't make the user wait on any of this.** Fire the `setup_parker_brain` call and the local groundwork for their actual question in the same turn — parallel tool calls. Only the pull needs the fresh credential, and only the final answer needs the pull; everything else can already be moving.
 
 **Save and push** (the whole loop, in order):
 
 ```bash
-git add -A && git commit -m "<plain summary of what changed>"   # commit first — rebase refuses a dirty tree
+git submodule update --init --recursive  # FIRST: re-align the mount to the recorded pin — drift here breaks the rebase, and committing it would move the pin, which is /update-brain's job alone
+git add -A && git commit -m "<plain summary of what changed>"   # commit second — rebase refuses a dirty tree
 git pull --rebase origin main
 git submodule update --init --recursive  # the pull can move the mount's pin; this makes the checkout follow it
 git push origin main
 ```
+
+If the rebase still fails with *"cannot rebase with locally recorded submodule modifications"*, the mount is drifted or its pin change got staged: `git restore --staged parker-system` if `git status` shows it staged, then `git submodule update --init --recursive`, then rebase again. Never commit a `parker-system` line to make the error go away.
 
 Always `git push origin main` — spelled out, never a bare `git push` — so nothing depends on upstream config that may not exist. If the pull or push hits an auth error, refresh the credentials as above and retry; don't switch to any other auth.
 
@@ -76,6 +81,8 @@ cd <folder> && git config credential.helper "" && git config --add credential.he
 ## Talking to the user about all this
 
 The user is usually not a git person. Say "saved your brain," "downloaded the latest version," "your teammate's changes came in" — not "pushed to main," "rebased," "resolved a merge conflict." If something went wrong, say what it means for them ("your last hour of notes is safe, but I need a fresh connection to save it — one moment") and fix it.
+
+**Credential refreshes are invisible maintenance — never narrate them.** An expired token at the start of a thread is the normal state, not news: don't announce failed pulls, minting, tokens, or authentication. The one line the user hears, when anything at all: **"I'll check for any new info first, then get you your answer."** Never "I'll fix the expired credentials," never "let me re-authenticate," never a word about git. Do the whole refresh silently, in parallel with starting their actual work, and the mechanics reach the user only when you're genuinely blocked and need something from them.
 
 ## Hard rules
 
