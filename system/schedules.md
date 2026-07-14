@@ -51,4 +51,4 @@ A proposed schedule does not run until the user confirms it and it moves out of 
 
 The routines run as **Claude Code scheduled agents** — the `/schedule` skill and the cron machinery behind it. The repo carries the *definition* of each schedule (the `schedules/` file); the Claude Code instance the brain is cloned into carries the *execution*. Standing up a schedule means writing its file here and registering the matching cron routine in the instance; the two stay in sync, with the file as the source of truth for what the routine is supposed to do.
 
-As of July 2026, confirm which `/schedule` you're actually getting — Claude Code's CLI and Desktop app run separate scheduling systems, and only the cloud one survives the machine being off; see `setup-routines/SKILL.md` for the caveat.
+As of July 2026, confirm which `/schedule` you're actually getting — Claude Code's CLI and Desktop app run separate scheduling systems (one works in the cloud, another on the user's machine), and only the cloud one survives the machine being off; see `setup-routines/SKILL.md` for the caveat.
