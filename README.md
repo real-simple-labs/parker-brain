@@ -105,5 +105,4 @@ Promotion flow:
 - Keep `.env`, `.env.*`, local settings, build artifacts, logs, and dependency folders ignored.
 - Run a tracked-file secret scan before publishing.
 - Replace any private or named-brand training examples with sanitized fixtures.
-- Keep customer and brand names out of commits, PRs, release notes, and migration examples.
 - Create a `migrations/vN.md` file for every new version.
