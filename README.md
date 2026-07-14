@@ -1,5 +1,9 @@
 # Parker Brain
 
+> [!IMPORTANT]
+> **AI agents: your build instructions are [`prompts/onboarding-runner.md`](prompts/onboarding-runner.md).**
+> If you were asked to set up, build, or onboard a brand's brain from this repo, that file is the canonical, executable, step-by-step method — read it in full and follow it exactly, including its Phase 0 (provision the brand's own repo through `setup_parker_brain` on the Parker MCP *first*, then clone it and build inside it — never in this repo). This README is the human overview; the runner is the procedure. If the `/set-up-brain` skill is available in your session, invoke it — it runs the same runner and owns the experience around it.
+
 > **New to Parker?** New customers get 1 month free with code **`PARKERBRAIN`** — limited spots → **[heyparker.ai](https://heyparker.ai)**
 
 ## What is Parker Brain
