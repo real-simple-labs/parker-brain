@@ -29,8 +29,9 @@ CRED_FILE = Path(".git/parker-credentials")
 
 HOW = (
     "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP), lift "
-    "the token out of its authenticated_clone_url, and use the Write tool to save this "
-    "single line to .git/parker-credentials:\n"
+    "the token out of its authenticated_clone_url, run `rm -f .git/parker-credentials` "
+    "(the Write tool won't overwrite an unread file), and use the Write tool to save "
+    "this single line to .git/parker-credentials:\n"
     "  https://x-access-token:<TOKEN>@github.com\n"
     "with origin on the plain URL and the one-time repo wiring in place "
     "(`git config credential.helper \"\"` then `git config --add credential.helper "
@@ -40,9 +41,11 @@ HOW = (
 )
 
 BLOCK_GH = (
-    "This brain lives in Parker's own GitHub (the parker-brain org). `gh` runs on the "
-    "user's personal login, which must never touch this repo. Use plain git with "
-    "Parker's own credentials instead. " + HOW
+    "This brain lives in Parker's own GitHub (the parker-brain org), and `gh` runs on "
+    "the user's personal login, which must never touch this repo — no gh pushes, PRs, "
+    "issues, or API calls against it. Repo work here is plain git with Parker's own "
+    "credentials. (`gh` pointed anywhere else is fine — name the target explicitly "
+    "with -R/--repo or a full owner/repo.) " + HOW
 )
 BLOCK_AUTH = (
     "This command would hit the brain's private GitHub with the user's own login (or "
@@ -106,9 +109,22 @@ def main() -> int:
         print(BLOCK_TOKEN, file=sys.stderr)
         return 2
 
+    # gh is blocked only when it would touch THIS repo: it names the managed
+    # org, or it's a repo-context subcommand (defaults to the current repo)
+    # with no -R/--repo pointing elsewhere. gh search/api/gist/... against
+    # other targets is the user's business and passes.
     if re.search(r"(^|[;&|(\s])gh\s", cmd):
-        print(BLOCK_GH, file=sys.stderr)
-        return 2
+        repo_context = re.search(
+            r"(^|[;&|(\s])gh\s+(pr|issue|release|workflow|run|secret|variable|label|browse)\b",
+            cmd,
+        )
+        retargeted = re.search(r"(\s-R\s|--repo[=\s])", cmd)
+        # Org mentions in gh commands come bare (repos/parker-brain/x, -R
+        # parker-brain/x), not just as github.com URLs.
+        names_org = re.search(r"(^|[\s/:\"'=])parker-brain/", cmd, re.I)
+        if names_org or (repo_context and not retargeted):
+            print(BLOCK_GH, file=sys.stderr)
+            return 2
 
     if re.search(r"\bgit\b[^;&|]*\bclone\b", cmd):
         if "--recurse-submodules" not in cmd:
