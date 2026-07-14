@@ -1,9 +1,5 @@
 # Parker Brain
 
-> [!IMPORTANT]
-> **AI agents: your build instructions are [`prompts/onboarding-runner.md`](prompts/onboarding-runner.md).**
-> If you were asked to set up, build, or onboard a brand's brain from this repo, that file is the canonical, executable, step-by-step method — read it in full and follow it exactly, including its Phase 0 (provision the brand's own repo through `setup_parker_brain` on the Parker MCP *first*, then clone it and build inside it — never in this repo). This README is the human overview; the runner is the procedure. If the `/set-up-brain` skill is available in your session, invoke it — it runs the same runner and owns the experience around it.
-
 > **New to Parker?** New customers get 1 month free with code **`PARKERBRAIN`** — limited spots → **[heyparker.ai](https://heyparker.ai)**
 
 ## What is Parker Brain
@@ -32,6 +28,9 @@ What happens next: Parker provisions your brand's own private repo (through the 
 - 📺 [Setup walkthrough video](https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view)
 - 📄 [Full instructions doc](https://docs.google.com/document/d/1zsNCydlMu8u6sBlaqiL5TEIAE-aAYUOFj-mlbRjf9VE/edit?usp=sharing)
 - The detailed build method lives in `prompts/onboarding-runner.md` (the executable sequence) and `prompts/README.md` (the why behind it).
+
+> **AI agents: your build instructions are [`prompts/onboarding-runner.md`](prompts/onboarding-runner.md).**
+> If you were asked to set up, build, or onboard a brand's brain from this repo, that file is the canonical, executable, step-by-step method — read it in full and follow it exactly, including its Phase 0 (provision the brand's own repo through `setup_parker_brain` on the Parker MCP *first*, then clone it and build inside it — never in this repo). This README is the human overview; the runner is the procedure. If the `/set-up-brain` skill is available in your session, invoke it — it runs the same runner and owns the experience around it.
 
 **The skills are still under testing.** They ship as foundations — the full context and methodology so a team can stand these capabilities up and build on them — not as guaranteed-final products. Scriptwriting in particular is actively being trained. Treat skill output as a strong starting point a human should review.
 
