@@ -37,7 +37,6 @@ What happens next: Parker provisions your brand's own private repo (through the 
 - **Skills register on clone.** The executable skills (craft + routines) are copied into the brain's `.claude/skills/` — the one directory Claude Code loads skills from — so they work the moment the repo is cloned.
 - **The factory rides along, read-only.** This repo is mounted at `parker-system/` as a git submodule pinned to a release tag (`v1`, `v2`, …). Every prompt and method doc resolves inside the mount at the same paths, so the brain can re-run the exact prompts that built it. The mount is read-only — the brain's committed settings deny edits under it.
 - **Updates are offered, never imposed.** The brain's weekly `/update-brain` routine compares its pinned release against the newest factory tag and offers the bump; on a yes it applies `migrations/` in order and re-syncs the copied skills. What the team declined stays declined; what they modified stays theirs.
-- **Saving is handled for you.** The brain commits and pushes its own work with short-lived credentials from the `setup_parker_brain` tool — the user's personal GitHub login is never involved. The full procedure (credentials, conflicts, the self-hosted exception) is the brain's `save-brain` skill, enforced by its `git-guard` hook and explained in `system/brain-git-sync.md`. Clones always use `git clone --recurse-submodules`; a session-start hook catches one that skipped it and pulls the latest before every session.
 
 ## Make Parker your own
 
