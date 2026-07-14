@@ -46,14 +46,14 @@ When the token expires, any pull or push fails with an auth error (403, 401, "co
 **Save and push** (the whole loop, in order):
 
 ```bash
-git submodule update --init --recursive  # FIRST: re-align the mount to the recorded pin — drift here breaks the rebase, and committing it would move the pin, which is /update-brain's job alone
+git submodule update --init --recursive  # FIRST: re-align the mount to the recorded pin — drift here breaks the rebase, and committing it would move the pin, which is /update-brain's job alone. (Mid-/update-brain the pin move is deliberate: it must already be STAGED — `git add parker-system` from the brain root — because a staged pin survives this re-align and an unstaged one gets reverted.)
 git add -A && git commit -m "<plain summary of what changed>"   # commit second — rebase refuses a dirty tree
 git pull --rebase origin main
 git submodule update --init --recursive  # the pull can move the mount's pin; this makes the checkout follow it
 git push origin main
 ```
 
-If the rebase still fails with *"cannot rebase with locally recorded submodule modifications"*, the mount is drifted or its pin change got staged: `git restore --staged parker-system` if `git status` shows it staged, then `git submodule update --init --recursive`, then rebase again. Never commit a `parker-system` line to make the error go away.
+If the rebase still fails with *"cannot rebase with locally recorded submodule modifications"*, the mount is drifted or its pin change got staged. Unless you are mid-`/update-brain` (where the staged pin move is the point — commit it, don't undo it): `git restore --staged parker-system` if `git status` shows it staged, then `git submodule update --init --recursive`, then rebase again. Never commit a `parker-system` line to make an error go away — the only commit that moves the pin is `/update-brain`'s own.
 
 Always `git push origin main` — spelled out, never a bare `git push` — so nothing depends on upstream config that may not exist. If the pull or push hits an auth error, refresh the credentials as above and retry; don't switch to any other auth.
 
