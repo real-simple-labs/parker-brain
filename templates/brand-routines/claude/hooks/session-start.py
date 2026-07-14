@@ -43,12 +43,23 @@ def attempt_pull() -> str:
         origin_txt = origin.stdout.strip()
         dirty = git("status", "--porcelain", timeout=10).stdout.strip()
         if dirty:
+            # A drifted mount checkout (' M parker-system') is not work to
+            # save: committing it would move the pin, which is /update-brain's
+            # job alone, and rebase refuses to run over it. Re-aligning the
+            # checkout to the recorded pin clears it.
+            lines = [l for l in dirty.splitlines() if l.strip()]
+            if all(l.split()[-1].rstrip("/") == "parker-system" for l in lines):
+                git("submodule", "update", "--init", "--recursive", timeout=60)
+                dirty = git("status", "--porcelain", timeout=10).stdout.strip()
+        if dirty:
             return ("PULL SKIPPED — the working tree has uncommitted changes (likely a "
                     "previous session that ended without saving). First job of this "
                     "session, before anything else: commit and push those changes per "
-                    "/save-brain (`git add -A && git commit`, `git pull --rebase origin "
+                    "/save-brain — `git submodule update --init --recursive` first (a "
+                    "modified `parker-system` line is mount drift to clear, never to "
+                    "commit), then `git add -A && git commit`, `git pull --rebase origin "
                     "main`, `git submodule update --init --recursive`, `git push origin "
-                    "main`), refreshing credentials via setup_parker_brain if a step "
+                    "main` — refreshing credentials via setup_parker_brain if a step "
                     "hits an auth error.")
         pulled = git("pull", "--rebase", "origin", "main")
         if pulled.returncode == 0:
@@ -76,32 +87,56 @@ def attempt_pull() -> str:
                         "helper, their login) and rerun `git pull --rebase origin "
                         "main`; the managed-credential rules in /save-brain don't "
                         "apply here.")
-            fix = ("call setup_parker_brain (Parker MCP), lift the token out of its "
-                   "authenticated_clone_url, run `rm -f .git/parker-credentials` (the "
-                   "Write tool won't overwrite a file it hasn't read), and use the "
-                   "Write tool to save the line "
-                   "`https://x-access-token:<TOKEN>@github.com` to "
-                   ".git/parker-credentials — never put the token inside a shell "
-                   "command; if the safety layer refuses the write, ask the user for "
-                   "permission in plain words and retry, and in a scheduled run with "
-                   "nobody to ask, commit local work, state that the online save "
-                   "needs a human session, and end the run cleanly — then `git pull "
-                   "--rebase origin main` and `git submodule update --init "
-                   "--recursive`. Full procedure: /save-brain.")
+            # The stale credential is dead anyway; clearing it here saves the
+            # agent a step (and the Write tool's refusal to overwrite a file
+            # it hasn't read).
+            try:
+                Path(".git/parker-credentials").unlink(missing_ok=True)
+            except OSError:
+                pass
+            try:
+                brand_id = json.loads(
+                    Path("parker_config.json").read_text(encoding="utf-8")
+                ).get("brand_id", "")
+            except Exception:
+                brand_id = ""
+            brand = (f' with brand_id "{brand_id}"' if brand_id else
+                     " (parker_config.json is missing or unreadable here, so call "
+                     "get_available_brands first and use the exact brand_id it "
+                     "returns for this brand — never guess it from the repo name)")
+            refresh = (f"call setup_parker_brain (Parker MCP){brand} and save its "
+                       "credential_file_line to .git/parker-credentials with the "
+                       "Write tool (the stale file is already cleared; on older "
+                       "servers without that field, lift the token from "
+                       "authenticated_clone_url and write "
+                       "`https://x-access-token:<TOKEN>@github.com`) — never put "
+                       "the token inside a shell command; if the safety layer "
+                       "refuses the write, ask the user in plain words and retry "
+                       "(scheduled run with nobody to ask: commit local work, say "
+                       "the online save needs a human session, end cleanly)")
             if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
                 # Legacy layout: credentials embedded in origin shadow the store
                 # file, so rewriting the file alone changes nothing.
                 plain = "https://github.com" + origin_txt.split("@github.com", 1)[1]
-                fix = ("this clone still carries credentials inside the origin URL "
-                       "(the pre-v8 layout), and git reads those instead of the "
-                       f"credential file. First strip them: `git remote set-url origin "
-                       f"{plain}` (that command carries no secret), then wire the "
-                       "credential file once — `git config credential.helper \"\"` and "
-                       "`git config --add credential.helper \"store --file "
-                       ".git/parker-credentials\"` — then " + fix)
-            return ("PULL FAILED — the saved credentials have expired (they last about "
-                    "an hour; this is normal). First job of this session, before any "
-                    "other work: " + fix)
+                refresh = ("strip the pre-v8 tokenized origin first — `git remote "
+                           f"set-url origin {plain}` (that command carries no "
+                           "secret) — and wire the credential file once (`git "
+                           "config credential.helper \"\"` then `git config --add "
+                           "credential.helper \"store --file "
+                           ".git/parker-credentials\"`), then " + refresh)
+            return ("PULL FAILED — the saved credentials have expired (they last "
+                    "about an hour; this is normal, and NOT a reason to make the "
+                    "user wait). Your very first response runs TWO TRACKS as "
+                    "parallel tool calls in the same turn: (1) START THE USER'S "
+                    "ACTUAL REQUEST — the local reads and routing you would do "
+                    "anyway; this checkout is at most a little stale. (2) REFRESH "
+                    "— " + refresh + ". After the Write lands, run `git pull "
+                    "--rebase origin main && git submodule update --init "
+                    "--recursive` as one command; only the FINAL ANSWER waits for "
+                    "that pull — recheck anything it changed before answering. The "
+                    "user hears one plain line — \"I'll check for any new info "
+                    "first, then get you your answer\" — never tokens, "
+                    "credentials, git, or pulls. Full procedure: /save-brain.")
         detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
         return ("PULL FAILED — not an auth problem: "
                 + (detail[-1] if detail else "unknown error")
