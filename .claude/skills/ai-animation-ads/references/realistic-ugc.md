@@ -103,6 +103,14 @@ Generation produces takes; the EDIT makes the ad. After clips pass their gates, 
    **Platform-native chrome fidelity (owner law):** style the captions as the platform's own text tool renders them, not a generic box. TikTok classic style = PER-LINE background pills hugging each line's width, stacked with merged rounded junctions, bold geometric sans (TikTok Sans; closest system fallback Helvetica Neue Bold), tight padding, black-on-white. Viewers have the native chrome memorized — "a little different" reads AI, same discriminator logic as the pixel-perfect OS-UI rule.
    **End cards pass the art-direction gate** like any type-led static: designed brand field with depth (vignette/grain), display-set headline hierarchy, product INTEGRATED (large, shadowed, cropped at the frame edge), a real CTA element (button pill + domain) — never text floating on a flat color.
 4. **The edit gets its own review pass** judged on retention — "would a viewer stay through every second?" — separate from the correctness gates.
+   **The delivery QC checklist** (run on the assembled master, every item verified with evidence, not memory):
+   - Action-referent continuity: every spoken line that references an action ("smells fine") has its action VISIBLE — an aggressive cut that deletes a referenced beat breaks the ad's logic; ramp beats, don't delete them.
+   - Punch-in presence: no static take runs longer than ~2.5s without a zoom alternation (100% ↔ ~108% on phrase boundaries; ~110% for a close-up money beat).
+   - Loudness: normalize to −16 LUFS / −1.5 dBTP for social delivery; verify per-segment levels match within ~1 dB before concat.
+   - Caption safe zones: pill bottom edges clear the platform's bottom-chrome zone (~80% frame height) and stay off the right rail.
+   - Native resolution: deliver 1080x1920 — upscale generated 720p sources (UGC preset) before the edit; normalize SAR after upscaling.
+   - Cross-segment continuity: face crops compared side by side across segments (micro-drift adjudicated), audio levels metered, and a HUMAN listen for voice-timbre match — the one check automation cannot clear.
+
 
 ## Gates (same rig as every lane, one addition)
 
