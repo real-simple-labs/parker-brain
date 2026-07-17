@@ -99,6 +99,14 @@ When the user runs Flow themselves (or asks for the setup), deliver a paste-read
 
 The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch in one run and review voice match across clips; if a clip's voice drifts, either re-roll that clip or strip native audio and lay a single ElevenLabs VO across the cut (audio.md) — one voice per role is already the rule.
 
+## The ugly-ad aesthetic (owner law — Barry Hott doctrine)
+
+UGC must look like it was shot on a phone one morning, not in a studio. Polish reads as "ad"; lo-fi reads as "person." The premium look IS the AI tell.
+
+- **Plate prompts — BANNED:** "shallow depth of field", "background blurred", "bokeh", "soft/diffused daylight", "cinematic", "beautiful". **REQUIRED:** deep focus (phone front-camera optics — background as sharp as the subject), a genuinely cluttered lived-in space (dishes in the rack, cords, mail on the counter), mixed household lighting with slightly blown window highlights and mild white-balance drift, slightly off-center framing, visible sensor noise.
+- **The ugly finish pass** runs on every assembled master AFTER upscaling (the upscaler's denoise cleans in the wrong direction): sensor grain + slight phone-processing oversharpen + lifted blacks + a crf 27-28 compression crush. Side-by-side with the real reference, the AI clip should match its grubbiness.
+- Perceived "quality drop" and "too premium" are the same defect — AI smoothness. Texture restores both realness and perceived sharpness.
+
 ## The edit pass — attention is currency (owner law)
 
 Generation produces takes; the EDIT makes the ad. After clips pass their gates, before delivery:
