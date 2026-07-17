@@ -103,6 +103,7 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 6. **Polish-match the reference:** a photoreal AI clip cleaner than its real-UGC reference is a soft AI tell. The perfection kill applies to finishing, not just plates — the edit adds native compression crush and caption chrome until a side-by-side with the reference matches for grubbiness.
 7. **Native captions ship with the ad:** if the reference runs caption pills, the delivery carries native-style captions (edit layer — rendered pills overlaid per segment, synced to the spoken lines). A captionless clip is unfinished, not minimal.
 8. **Human-ear voice gate:** automated QA under-detects AI voice — an analyzer has called a voice "natural, perfect lip-sync" that the owner clocked instantly as AI. Route realism lanes through the strongest audio-native model, and a human listens before anything ships.
+9. **Per-clip product OCR + zero-typo proof (ship law):** the label gate runs on every rendered clip, not just the plate — rip frames per clip, zoom the pack, verify the label verbatim against the real packshot; reference-driven models can drift a label mid-motion from a verified plate. And every rendered text element added in the edit (caption pills, check rows, end card) is proofread letter by letter before overlay. Any drift or typo = kill and re-roll.
 
 ## Failure quick-list
 
