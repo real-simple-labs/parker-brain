@@ -4,12 +4,18 @@ The realism counterpart to the animation lanes: photorealistic creator-style tal
 
 ## RULE ZERO — the reference is the whole video, not its first frame
 
+## THE THREE REVIEWS (owner law — every UGC ad runs all three, as agent passes)
+
+1. **STRATEGY REVIEW** (pre-adaptation, on the reference pick + segment map): does this align with what OUR brand is trying to achieve? Is the reference's MECHANIC AVAILABLE to us — or is it built on attacking our own category position (a gummy brand's "powders taste like a lawn" slam cannot be transplanted INTO the powder brand's mouth)? Is every product, prop, and SKU in the map VERIFIED against the brand vault (never model memory — a hallucinated SKU is a killed ad)? How exactly does each beat adapt for our brand? Run the strategy reviewer agent; REVISE or KILL before any script work.
+2. **SCRIPT REVIEW** (pre-spend): voice, AI-isms, human-sounding register, presenter zone, claims — the creative-voice-review + ai-writing-tells pass already specified in gate 0.
+3. **EDIT REVIEW** (post-assembly, pre-delivery): the `ugc-edit-reviewer` agent on the assembled master + cut plan — cut integrity (no clipped words), gesture-word sync (a salute lands ON "Scout's honor", never before it), action-referent order, dead air, caption sync, retention pacing, delivery specs. Nothing ships on an unreviewed edit.
+
 Owner-graded lesson (a first-frame-only recreation earned a D-minus): recreating a winner from its first frame strips everything that made it win — the arc, the actions, the on-screen text, the length. Before any plate:
 
 1. **Pull the reference's full anatomy:** rip frames every ~2s and VIEW them; pull its script, storyboard, on-screen-text track, and length (the ad-library analysis when the ad is tracked).
 2. **Read the true camera grammar from the frames** (propped-static vs handheld vs selfie-arm) — never import a grammar the reference doesn't have; a misread thumbnail becomes a fake-looking foreground limb.
 3. **Build the segment map:** one row per scene — time range · shot · physical action · spoken line · on-screen caption.
-4. **Adapt segment by segment** with the scriptwriting/adaptation doctrine: keep each segment's MECHANIC, swap in the brand's truths, and run every adapted line through the claims gates (the reference's claims are not your brand's claims).
+4. **Adapt segment by segment** with the scriptwriting/adaptation doctrine: keep each segment's MECHANIC, swap in the brand's truths, and run every adapted line through the claims gates (the reference's claims are not your brand's claims). Two hard sub-rules: **mechanic availability** — a beat built on attacking our own category position is unavailable, full stop; and **vault-verified props** — every SKU/product/prop in the map is confirmed from the brand vault or live site, never from memory.
 5. **Every segment gets a physical product action** (grab, shake, open, scoop, pour, sip, show). A static talking head is a zoom call, not an ad.
 6. **One plate per segment** (HERO-referenced for identity continuity), one clip per segment, then captioned assembly. A single clip is a hook test, never a delivered ad; the ad's length is inherited from the segment map.
 
