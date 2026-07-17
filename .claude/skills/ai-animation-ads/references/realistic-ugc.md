@@ -107,6 +107,14 @@ UGC must look like it was shot on a phone one morning, not in a studio. Polish r
 - **The ugly finish pass** runs on every assembled master AFTER upscaling (the upscaler's denoise cleans in the wrong direction): sensor grain + slight phone-processing oversharpen + lifted blacks + a crf 27-28 compression crush. Side-by-side with the real reference, the AI clip should match its grubbiness.
 - Perceived "quality drop" and "too premium" are the same defect — AI smoothness. Texture restores both realness and perceived sharpness.
 
+## The ugly-ad aesthetic (owner law — Barry Hott doctrine, iPhone-2018 calibration)
+
+UGC must look like it was shot on a phone one morning — specifically a 2018-era phone (Snapchat-2017 vibes): still 1080 HD, but single-exposure camera behavior with none of the modern computational-photography advancements. Polish reads as "ad"; lo-fi reads as "person." The premium look IS the AI tell.
+
+- **Plate prompts — BANNED:** "shallow depth of field", "background blurred", "bokeh", "soft/diffused daylight", "cinematic", "beautiful". **REQUIRED:** deep focus (phone front-camera optics — background as sharp as the subject), a genuinely cluttered lived-in space (dishes in the rack, cords, mail on the counter), hard mixed household light with the window BLOWN OUT (clipped white, no HDR recovery), slight warm indoor white-balance cast, slightly off-center framing, fine sensor noise.
+- **The ugly finish pass** runs on every assembled master AFTER upscaling (the upscaler's denoise cleans in the wrong direction): fine luma noise + aggressive 2018-style edge sharpening (slight visible halos) + punchy single-exposure contrast (blacks slightly crushed, highlights clipped — NOT lifted-black modern flatness) + a subtle warm cast + Snapchat-grade recompression (~crf 26 at 1080). Side-by-side with the real reference, the AI clip should match its grubbiness.
+- Perceived "quality drop" and "too premium" are the same defect — AI smoothness. Texture restores both realness and perceived sharpness.
+
 ## The edit pass — attention is currency (owner law)
 
 Generation produces takes; the EDIT makes the ad. After clips pass their gates, before delivery:
