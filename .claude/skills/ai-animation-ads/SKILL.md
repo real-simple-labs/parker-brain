@@ -1,8 +1,8 @@
 ---
 name: ai-animation-ads
-description: "End-to-end system for producing winning AI ANIMATION ads — video and static — from brand research to finished creative. Stages: research brief → format + style pick (talking-object/villain confession, narrator explainer, character-follow, skeleton progression, song ads × Pixar-style 3D, claymation, paper, crochet, flat 2D) → direct-response script → voiceover/song → start frames with locked character consistency → animated clips → assembly, captions, QA. Executes through the Higgsfield MCP when connected (Parker MCP for research/swipes); otherwise delivers a paste-ready production kit. Use whenever the user wants ads MADE with AI: any mention of AI ads, animated/animation ads, Pixar/claymation/stop-motion/paper/crochet/skeleton ads, talking product or object ads, song/jingle/Suno ads, static ads or statics batches, Higgsfield ads, 'make an ad for X', 'animate this script', or paid-social creative. Trigger even on sub-pieces — image prompts, animation prompts, ad voiceover, ad song, storyboard."
+description: "End-to-end system for producing winning AI ANIMATION ads — video and static — from brand research to finished creative. Stages: research brief → format + style pick (talking-object/villain confession, narrator explainer, character-follow, skeleton progression, song ads × Pixar-style 3D, claymation, paper, crochet, flat 2D) → direct-response script → voiceover/song → start frames with locked character consistency → animated clips → assembly, captions, QA. Executes through the Higgsfield MCP when connected (Parker MCP for research/swipes); otherwise delivers a paste-ready production kit. Use whenever the user wants ads MADE with AI: any mention of AI ads, animated/animation ads, Pixar/claymation/stop-motion/paper/crochet/skeleton ads, talking product or object ads, song/jingle/Suno ads, static ads or statics batches, Higgsfield ads, realistic AI UGC or talking-head/testimonial-style AI video, Gemini Omni or Google Flow ads, 'make an ad for X', 'animate this script', or paid-social creative. Trigger even on sub-pieces — image prompts, animation prompts, ad voiceover, ad song, storyboard."
 metadata:
-  triggers: "make an ai ad · ai animation ad · animated ad · pixar/claymation/paper/crochet/skeleton ad · talking object ad · song/jingle/suno ad · static ad / statics batch · image or animation prompts for an ad · higgsfield ad · turn this script into an ad"
+  triggers: "make an ai ad · ai animation ad · animated ad · pixar/claymation/paper/crochet/skeleton ad · talking object ad · song/jingle/suno ad · static ad / statics batch · realistic ai ugc / talking-head ad · gemini omni / google flow ad · image or animation prompts for an ad · higgsfield ad · turn this script into an ad"
 ---
 
 # AI Animation Ads — Director
@@ -31,6 +31,7 @@ Produce very strong static and video ads in the AI animation family, end to end.
 | 5. Animation | Draft clips (cheap tier) → approved shots re-run on final tier | Motion approved on drafts first | video-prompting.md |
 | 6. Assembly + finish | Assembled MP4 (server-side assembler or CapCut kit), captions, upscale, aspect variants | Ship gates below + reviewer SHIP verdict | higgsfield-pipeline.md · review-gates.md |
 | S. Statics track | 2–4 statics per video concept + standalone static batches | Compliance gate | static-ads.md |
+| U. Realistic-UGC track | Photoreal creator-style talking-head clips: reference-anchored start frame → frame-to-video with native dialogue | Frame gate before video spend + testimonial-truth gate | realistic-ugc.md |
 
 **Stage 1 menu discipline:** show the style menu with visual references where they exist (paper styles: `![Paper styles](https://f.starpop.org/skill-refs/paper-animation-styles-v4.webp)` · skeleton looks: the style-guide image linked in formats.md §4), recommend the best fit in one line, and wait. Static-only requests skip to Stage S (statics still need Stages 0–2's brief, angle, and hook).
 
@@ -44,6 +45,7 @@ Produce very strong static and video ads in the AI animation family, end to end.
 - **audio.md** — ElevenLabs direction + tags, voice archetypes, Suno kits + genre map, licensing, music/SFX policy
 - **image-prompting.md** — prompt anatomy, 3-layer consistency system, model table, workflow discipline
 - **video-prompting.md** — Type A/B/C director decisions, lip-sync vs VO-only doctrine, movement vocabulary, per-model playbooks (Kling 3.0 / Veo 3.1 / Seedance / Hailuo / Wan), cost ladder
+- **realistic-ugc.md** — the photoreal UGC/talking-head lane: start-frame method (real reference → JSON extraction → fresh-context frame), frame-to-video over ingredients, Omni/Flow + veo3 execution routing, same-session voice consistency, likeness + testimonial-truth gates
 - **static-ads.md** — 11 static archetypes, one-shot text generation rules, Meta specs/safe zones, compliance, testing cadence
 - **higgsfield-pipeline.md** — exact tool-call sequences, job model, credit discipline, assembly, Kit Mode
 - **review-gates.md** — the SHIP / FIX / KILL quality rubric (copy + visual + audio, kill questions, output format); run it via the `ad-creative-reviewer` agent when agents are available, inline otherwise
