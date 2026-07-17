@@ -55,6 +55,7 @@ The prompt is simple — the frame already did the work:
 - **Dialogue budget ↔ duration:** too much dialogue in too short a clip and the character talks unnaturally fast. Conversational pace is ~2.3 words/sec: a 10s clip holds ~20–25 words, a 4s clip ~9. Time the script lines (scriptwriting.md pacing) before setting duration, not after.
 - 10s is the workhorse duration; shorter only when the line is genuinely short.
 - **The last second is sacrificial:** frame-to-video models love to invent a reach-to-camera end-recording gesture on selfie clips, smearing the product in the final ~0.5–1s. Never place payoff dialogue after T-1s; direct "finishes speaking with a beat to spare, holds the pose, no ending gesture"; plan the edit cut before the gesture — and any QA claim of "legible to the end" gets checked against the true final frames, not the contact sheet.
+- **Dialogue is unverified until transcribed:** prompt enhancers can silently strip the quoted line from the final model prompt on ANY roll (observed: the same prompt kept the dialogue on one roll and dropped it on the next — the model then improvises on-theme lines that can breach claims gates, e.g. an invented literal-completeness claim). Every clip gets transcript-verified word-for-word before it counts as done. On deviation: re-roll with prompt enhancement disabled (`enhance_prompt: false`) and frame the line as "She says exactly these words and nothing else: …".
 
 ### Execution routing (three paths)
 
@@ -99,3 +100,4 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 | Voice changes between clips | Same-session rule broken (Flow) / cross-batch drift (in-stack) — regenerate in one session/batch or unify with one VO in post |
 | Voice sounds robotic | Built-in character/avatar feature was used — rebuild via frame-to-video with own frames |
 | Generated person resembles the reference creator | Likeness gate failed at Step 2 — rewrite the JSON's identity block generic, regenerate; never ship a lookalike |
+| Spoken dialogue deviates from the script | The prompt enhancer stripped the quoted line — re-roll with enhancement disabled and "says exactly these words and nothing else"; transcript-verify again before delivery |
