@@ -2,6 +2,17 @@
 
 The realism counterpart to the animation lanes: photorealistic creator-style talking-head video (UGC, testimonial-style presenter, demo-to-camera). Source: practitioner guide (2026-07) on Gemini Omni UGC workflows, encoded near-verbatim; execution routing adapted to this stack. The animation lanes drop defenses with charm; this lane wins when the format itself IS the message — "a real person like you uses this." It pays for that realism with the heavier platform AI-disclosure label (SKILL.md hard rule on AI disclosure applies in full here).
 
+## RULE ZERO — the reference is the whole video, not its first frame
+
+Owner-graded lesson (a first-frame-only recreation earned a D-minus): recreating a winner from its first frame strips everything that made it win — the arc, the actions, the on-screen text, the length. Before any plate:
+
+1. **Pull the reference's full anatomy:** rip frames every ~2s and VIEW them; pull its script, storyboard, on-screen-text track, and length (the ad-library analysis when the ad is tracked).
+2. **Read the true camera grammar from the frames** (propped-static vs handheld vs selfie-arm) — never import a grammar the reference doesn't have; a misread thumbnail becomes a fake-looking foreground limb.
+3. **Build the segment map:** one row per scene — time range · shot · physical action · spoken line · on-screen caption.
+4. **Adapt segment by segment** with the scriptwriting/adaptation doctrine: keep each segment's MECHANIC, swap in the brand's truths, and run every adapted line through the claims gates (the reference's claims are not your brand's claims).
+5. **Every segment gets a physical product action** (grab, shake, open, scoop, pour, sip, show). A static talking head is a zoom call, not an ad.
+6. **One plate per segment** (HERO-referenced for identity continuity), one clip per segment, then captioned assembly. A single clip is a hook test, never a delivered ad; the ad's length is inherited from the segment map.
+
 ## The core doctrine: slop in, slop out
 
 **The starting frame is the foundation of everything.** If the starting frame looks like AI slop, the video will look like AI slop. If it looks real, the video has a real chance. Spend the iteration budget on the frame, not on video re-rolls — frames cost cents, video costs real credits. This is the same start-frame-first discipline as the animation pipeline (Stage 4 before Stage 5), applied to photorealism.
@@ -61,11 +72,11 @@ The prompt is simple — the frame already did the work:
 
 | Path | What it is | Constraints |
 |---|---|---|
-| **Higgsfield `veo3`** (in-stack) | Frame-to-video with native audio — takes a `start_image`, speaks the prompted dialogue | The frame-to-video method, executable end-to-end in this stack today; check `models_explore` for current variants/cost |
-| **Higgsfield `gemini_omni`** (in-stack) | Gemini Omni Flash — reference-driven (`image_references`/`video_references` roles, i.e. the **ingredients** method), native audio, 4–10s, 720p, 16:9/9:16 | No start_image role: expect product drift; anchor with ONE clean frame-style reference and OCR the product in review |
+| **Higgsfield `gemini_omni`** (in-stack, PRIMARY) | Gemini Omni — the realism pick (the source guide's core claim: beats Kling/Seedance for UGC, and native-audio voice quality is the reason). Reference-driven (`image_references` role), 4–10s, 9:16 | Run it frame-anchored by passing the segment's PLATE as the single image reference; OCR the product in review for drift |
+| **Higgsfield `veo3`** (fallback) | Frame-to-video with native audio via `start_image` | Use only when strict start-frame control outranks voice — its fast variant's voice failed a human ear; if used, best variant only (`veo-3-preview`) |
 | **Google Flow** (manual lane) | Full Gemini Omni — frame-to-video + ingredients + text-to-video at flow.google | Not MCP-connected: deliver the Kit (below) |
 
-Model catalogs move monthly — run `models_explore` before assuming this table is current.
+**Model tier is never a savings lever** (owner directive): best available model, variant, and resolution, always — draft tiers exist to test motion, not to cap quality. Model catalogs move monthly — run `models_explore` before assuming this table is current.
 
 ### Google Flow Kit Mode
 
@@ -89,6 +100,8 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 4. **Testimonial truth (the lane-specific gate):** a synthetic presenter must never voice a fabricated *personal experience* as if it were a real customer's ("I've been taking this for 6 months and…" from a person who does not exist). Script the lane as creator-style presenter/demo/announcer content — claims about the product, not fake first-person history. Real testimonial language belongs to real customers, quoted under the brand's testimonial rules. The allowed zone for synthetic first-person is the universal present-tense admission ("Me neither"); any product-usage history or personal-results claim ("I take this every morning and…") is over the line.
 5. **AI disclosure:** photorealistic AI content carries the full platform AI label. That is the cost of this lane — never strip it, and weigh it in the format pick (an obviously-animated ad wears the lighter label; a realistic UGC ad wears the heavy one and must be strong enough to survive it).
 6. **Polish-match the reference:** a photoreal AI clip cleaner than its real-UGC reference is a soft AI tell. The perfection kill applies to finishing, not just plates — the edit adds native compression crush and caption chrome until a side-by-side with the reference matches for grubbiness.
+7. **Native captions ship with the ad:** if the reference runs caption pills, the delivery carries native-style captions (edit layer — rendered pills overlaid per segment, synced to the spoken lines). A captionless clip is unfinished, not minimal.
+8. **Human-ear voice gate:** automated QA under-detects AI voice — an analyzer has called a voice "natural, perfect lip-sync" that the owner clocked instantly as AI. Route realism lanes through the strongest audio-native model, and a human listens before anything ships.
 
 ## Failure quick-list
 
@@ -101,3 +114,5 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 | Voice sounds robotic | Built-in character/avatar feature was used — rebuild via frame-to-video with own frames |
 | Generated person resembles the reference creator | Likeness gate failed at Step 2 — rewrite the JSON's identity block generic, regenerate; never ship a lookalike |
 | Spoken dialogue deviates from the script | The prompt enhancer stripped the quoted line — re-roll with the "says exactly these words and nothing else" framing (an enhance-off flag gets overridden); transcript-verify again before delivery |
+| A limb or device reads as a fake foreground mass | Camera grammar was imported, not read from the reference — re-read the reference frames, rebuild the plate with the reference's true grammar and a clean foreground |
+| Voice reads AI to a human ear | Automated QA passing is not clearance — switch to the strongest audio-native model (the Omni lane) and regenerate |
