@@ -28,7 +28,7 @@ Never script from memory. Build a 1–2 page brief, in this priority order of so
 **Hook → Agitation → The Turn (solution) → Proof → CTA.** ~110–160 words for 60s of VO; one idea per beat; each beat is one concrete visual moment. Deliver as two columns — VO text left, visual scene direction right — plus a numbered **VO line list** (one sentence per line; each line becomes one clip and one audio take).
 
 ### Hook rules
-- **Declarative statements, not questions** — with one deliberate exception: the skeleton progression format runs on curiosity-gap QUESTIONS ("What happens if you take creatine every day for a year?"). Everything else: state the hidden truth. "This is why your weight doesn't reflect your health." "You don't have dry scalp. You have fungus on your face."
+- **Declarative statements, not questions** — with two deliberate exceptions: (1) the skeleton progression format runs on curiosity-gap QUESTIONS ("What happens if you take creatine every day for a year?"); (2) the READER-IMPLICATING question when the brand's evidence validates it (an owner-graded exemplar or a tracked field winner running on the mechanic) — a question that makes the viewer audit THEMSELVES is a pattern interrupt, not a curiosity gap, and owner-graded evidence outranks this default. Everything else: state the hidden truth. "This is why your weight doesn't reflect your health." "You don't have dry scalp. You have fungus on your face."
 - Specific numbers beat adjectives ("98% DEXA accuracy," "3 million units," "$1.50 a day").
 - Write **5 hook variations** at the top of every script draft; the hook is also the text overlay + thumbnail frame, so it must work visually.
 - The verbal hook, visual hook, and text hook land together in seconds 0–3 (Parker's ad library tracks all three separately — design all three deliberately).
@@ -76,7 +76,7 @@ Never script from memory. Build a 1–2 page brief, in this priority order of so
 
 ## Script gate (all must pass before Stage 3)
 
-1. Hook is declarative (or a skeleton-format curiosity question), specific, and works as a silent text overlay.
+1. Hook is declarative (or a skeleton-format curiosity question, or an evidence-backed reader-implicating question), specific, and works as a silent text overlay.
 2. Read it aloud: 60s script lands 110–160 words; every line survives the 5-year-old test.
 3. One idea per beat; every beat has a concrete visual; escalation is real.
 4. The turn is one clean beat and the product answers the opened loop.

@@ -44,6 +44,7 @@ Upload the reference screenshot to a **thinking-enabled** vision model and use t
 - In-stack: run the JSON through the primary statics image model via the Higgsfield MCP (image-prompting.md model table; the technique is tool-agnostic — the source guide uses GPT Image 2, any letter-perfect photorealistic model works).
 - **Product placement:** prompt the product into the frame ("she holds the [product]") with the product packshot attached as reference media. The frame locks it; frame-to-video keeps it.
 - The frame passes the design/reality review (review-gates.md — reality pass, perfection kill, persona fit, label OCR at zoom) BEFORE any video credits are spent. A killed frame costs cents; a killed clip costs credits.
+- **Micro-print floor:** 2K plates garble label print below ~4px. Acceptable for VIDEO when sub-legible at delivery scale; for STATICS (pinch-zoomable) composite the real packshot label block onto the plate instead.
 
 ## Generating the video
 
@@ -53,6 +54,7 @@ The prompt is simple — the frame already did the work:
 
 - **Dialogue budget ↔ duration:** too much dialogue in too short a clip and the character talks unnaturally fast. Conversational pace is ~2.3 words/sec: a 10s clip holds ~20–25 words, a 4s clip ~9. Time the script lines (scriptwriting.md pacing) before setting duration, not after.
 - 10s is the workhorse duration; shorter only when the line is genuinely short.
+- **The last second is sacrificial:** frame-to-video models love to invent a reach-to-camera end-recording gesture on selfie clips, smearing the product in the final ~0.5–1s. Never place payoff dialogue after T-1s; direct "finishes speaking with a beat to spare, holds the pose, no ending gesture"; plan the edit cut before the gesture — and any QA claim of "legible to the end" gets checked against the true final frames, not the contact sheet.
 
 ### Execution routing (three paths)
 
@@ -83,8 +85,9 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 1. **Frame gate** before video spend: reality pass + perfection kill + persona fit + product-label OCR at zoom (review-gates.md; design reviewer when agents are available).
 2. **Script gate** on the dialogue: hooks, banned words, AI-isms, compliance (scriptwriting.md).
 3. **Ship gate** on final clips: ad-creative-reviewer / review-gates.md, then the critic.
-4. **Testimonial truth (the lane-specific gate):** a synthetic presenter must never voice a fabricated *personal experience* as if it were a real customer's ("I've been taking this for 6 months and…" from a person who does not exist). Script the lane as creator-style presenter/demo/announcer content — claims about the product, not fake first-person history. Real testimonial language belongs to real customers, quoted under the brand's testimonial rules.
+4. **Testimonial truth (the lane-specific gate):** a synthetic presenter must never voice a fabricated *personal experience* as if it were a real customer's ("I've been taking this for 6 months and…" from a person who does not exist). Script the lane as creator-style presenter/demo/announcer content — claims about the product, not fake first-person history. Real testimonial language belongs to real customers, quoted under the brand's testimonial rules. The allowed zone for synthetic first-person is the universal present-tense admission ("Me neither"); any product-usage history or personal-results claim ("I take this every morning and…") is over the line.
 5. **AI disclosure:** photorealistic AI content carries the full platform AI label. That is the cost of this lane — never strip it, and weigh it in the format pick (an obviously-animated ad wears the lighter label; a realistic UGC ad wears the heavy one and must be strong enough to survive it).
+6. **Polish-match the reference:** a photoreal AI clip cleaner than its real-UGC reference is a soft AI tell. The perfection kill applies to finishing, not just plates — the edit adds native compression crush and caption chrome until a side-by-side with the reference matches for grubbiness.
 
 ## Failure quick-list
 
