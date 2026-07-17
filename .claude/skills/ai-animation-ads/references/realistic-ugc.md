@@ -93,6 +93,15 @@ When the user runs Flow themselves (or asks for the setup), deliver a paste-read
 
 The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch in one run and review voice match across clips; if a clip's voice drifts, either re-roll that clip or strip native audio and lay a single ElevenLabs VO across the cut (audio.md) — one voice per role is already the rule.
 
+## The edit pass — attention is currency (owner law)
+
+Generation produces takes; the EDIT makes the ad. After clips pass their gates, before delivery:
+
+1. **Dead air is banned.** Measure speech spans (silencedetect); jump-cut every inter-phrase pause over ~0.25s, trim silent lead-ins and tails. Jump cuts are native UGC grammar — the reference winners are full of them.
+2. **Pace is edited, not just written.** Speech runs ~1.1x (pitch-preserved). Silent action beats speed-ramp 2–3x so the action reads without costing time; a reaction money-shot ramps gently (~1.5x). A raw generated clip is a TAKE, never the delivered pace.
+3. **Text on screen from frame one.** The caption layer is parallel copywriting and a hook device, not transcription — the first visible frame carries hook text. Alternative hook devices when captions don't fit the concept: comment-response sticker, poll sticker.
+4. **The edit gets its own review pass** judged on retention — "would a viewer stay through every second?" — separate from the correctness gates.
+
 ## Gates (same rig as every lane, one addition)
 
 0. **Script gate BEFORE ANY SPEND (owner law):** every spoken line passes the creative-voice-review agent AND the AI-writing-tells review before a single clip is generated. Hunt copywriting DNA wearing casual clothes: tricolon drumbeats, fragment-punch cadence ("that whole shelf? Gone."), spoken taglines ("one scoop, done"), performed-honesty tags ("not gonna lie"), self-answered setup-payoff ("Me neither"), repeated openers across segments. Casual word choice does not clear written rhythm.
