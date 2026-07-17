@@ -31,7 +31,7 @@ Produce very strong static and video ads in the AI animation family, end to end.
 | 5. Animation | Draft clips (cheap tier) → approved shots re-run on final tier | Motion approved on drafts first | video-prompting.md |
 | 6. Assembly + finish | Assembled MP4 (server-side assembler or CapCut kit), captions, upscale, aspect variants | Ship gates below + reviewer SHIP verdict | higgsfield-pipeline.md · review-gates.md |
 | S. Statics track | 2–4 statics per video concept + standalone static batches | Compliance gate | static-ads.md |
-| U. Realistic-UGC track | Photoreal creator-style UGC: whole-reference segment adaptation → plate per segment → Omni clips with native dialogue → captioned assembly | Frame gate + transcript gate + human-ear voice gate + testimonial-truth | realistic-ugc.md |
+| U. Realistic-UGC track | Photoreal creator-style UGC: whole-reference segment adaptation → plate per segment → Omni clips with native dialogue → captioned assembly | Script gate (voice + AI-tells reviewers) before any spend, then frame/transcript/human-ear-voice/testimonial-truth gates | realistic-ugc.md |
 
 **Stage 1 menu discipline:** show the style menu with visual references where they exist (paper styles: `![Paper styles](https://f.starpop.org/skill-refs/paper-animation-styles-v4.webp)` · skeleton looks: the style-guide image linked in formats.md §4), recommend the best fit in one line, and wait. Static-only requests skip to Stage S (statics still need Stages 0–2's brief, angle, and hook).
 

@@ -95,6 +95,7 @@ The same-session trick is a Flow behavior. In-stack: generate a multi-clip batch
 
 ## Gates (same rig as every lane, one addition)
 
+0. **Script gate BEFORE ANY SPEND (owner law):** every spoken line passes the creative-voice-review agent AND the AI-writing-tells review before a single clip is generated. Hunt copywriting DNA wearing casual clothes: tricolon drumbeats, fragment-punch cadence ("that whole shelf? Gone."), spoken taglines ("one scoop, done"), performed-honesty tags ("not gonna lie"), self-answered setup-payoff ("Me neither"), repeated openers across segments. Casual word choice does not clear written rhythm.
 1. **Frame gate** before video spend: reality pass + perfection kill + persona fit + product-label OCR at zoom (review-gates.md; design reviewer when agents are available).
 2. **Script gate** on the dialogue: hooks, banned words, AI-isms, compliance (scriptwriting.md).
 3. **Ship gate** on final clips: ad-creative-reviewer / review-gates.md, then the critic.
