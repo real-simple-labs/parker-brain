@@ -31,7 +31,9 @@
 # in each branch (currently: system/growing-the-brain.md, the research-loops and
 # update-brain skills and their schedule recipes, and the creative review gates —
 # creative-strategy-context/ai-writing-tells.md, .claude/agents/creative-voice-review.md
-# + context-grounding-review.md, and scripts/voice-lint.py + grounding-check.py).
+# + context-grounding-review.md, and scripts/voice-lint.py + grounding-check.py — and the
+# product-launch craft skill with its method doc,
+# creative-strategy-context/new-product-launch-creative.md).
 # Add new ones there when the runtime ship list grows.
 #   (legacy flat brains do not carry factory prompts/ or templates/, so those are skipped;
 #    shipped system docs get their creative-strategy-context/ refs rewritten
@@ -139,6 +141,11 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # The product-launch craft skill and the method doc it loads by name. They ship as a
+    # pair: the skill references new-product-launch-creative.md as its reasoning layer,
+    # so a brain that gains one without the other has a skill pointing at nothing.
+    [ -d "$dir/.claude/skills/product-launch" ] || cp -R "$FACTORY/.claude/skills/product-launch" "$dir/.claude/skills/"
+    cp -n "$FACTORY/creative-strategy-context/new-product-launch-creative.md" "$ps/creative-strategy-context/" 2>/dev/null || true
     # The old-ads corpus (harvest v2): a new directory --existing never creates, and
     # whose entries/ grows at the factory — seed it whole if missing, else add the
     # new entry files (README/INDEX refresh via the --existing sweep above).
@@ -188,6 +195,9 @@ for repo in "${REPOS[@]}"; do
     cp -n "$FACTORY/.claude/agents/context-grounding-review.md" "$dir/.claude/agents/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/voice-lint.py" "$dir/scripts/" 2>/dev/null || true
     cp -n "$FACTORY/scripts/grounding-check.py" "$dir/scripts/" 2>/dev/null || true
+    # The product-launch craft skill and its method doc (see the nested branch's note).
+    [ -d "$dir/.claude/skills/product-launch" ] || cp -R "$FACTORY/.claude/skills/product-launch" "$dir/.claude/skills/"
+    cp -n "$FACTORY/creative-strategy-context/new-product-launch-creative.md" "$dir/creative-strategy-context/" 2>/dev/null || true
     # The old-ads corpus (harvest v2) — same seed-or-add as the nested branch.
     if [ -d "$dir/creative-strategy-context/old-ads" ]; then
       mkdir -p "$dir/creative-strategy-context/old-ads/entries"

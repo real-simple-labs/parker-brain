@@ -37,6 +37,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `killer-performance-ads.md` | What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against. |
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
 | `lifestyle-video-ad-formats.md` | The library of video ad formats for lifestyle-positioned brands. |
+| `new-product-launch-creative.md` | Why launching a new product or SKU is a different creative brief than routine performance work — the newness taxonomy, the three launch scenarios, how brand authority transfers (and doesn't), and honest proof when the SKU has none yet. |
 | `organic-social-analysis.md` | How to analyze organic social through a creative-strategy lens. |
 | `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
