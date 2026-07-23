@@ -24,11 +24,13 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `ad-account-analysis.md` | How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. |
 | `adapting-scripts.md` | The method for adapting an existing video or script (such as a breakout organic) into a new ad. |
 | `ai-static-ad-generation.md` | How to generate AI static image ads — prompt construction for static creative. |
+| `ai-video-ad-structure.md` | How AI video ads are structured and paced — runtime selection across the full 10-second-to-VSL-length span, the story architectures, shot-list building, cut cadence, the natural product handoff, continuity across generations, and the clip plan that maps a full ad onto 8-second AI generations. Grounded in a 231-creative, 20-brand AI Animation corpus study (July 2026). |
 | `ai-writing-tells.md` | The written AI-slop signs — vocabulary, rhetoric, and formatting tells that mark generated copy — and the lint-then-judge review every creative deliverable passes before it ships. |
 | `analyzing-public-ad-accounts.md` | How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
 | `customer-review-mining-method.md` | How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates. |
+| `design-psychology.md` | Design psychology for static ads: visual hierarchy, the one-second test, the one-channel rule, stop-scroll mechanisms, text presentation, clarity over cleverness, strategic color. The design half that copy docs assume. |
 | `emotional-delivery-and-timing.md` | The emotional landing state beneath hooks — valence/intensity and the TEEP buying phase (Trigger, Exploration, Evaluation, Purchase). |
 | `hook-psychology.md` | The cognitive science beneath hooks — the mechanisms (notice, qualify, intrigue, reassure, move, transport) that explain why a hook works. The why-layer under the format taxonomy. |
 | `hooks.md` | The reference taxonomy of hook formats with real examples — the named formats and what each one is. |
@@ -38,6 +40,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
 | `lifestyle-video-ad-formats.md` | The library of video ad formats for lifestyle-positioned brands. |
 | `organic-social-analysis.md` | How to analyze organic social through a creative-strategy lens. |
+| `owner-feedback-model.md` | The owner-preference model (RLHF corpus) TEMPLATE: how each brand brain learns its owner's taste. Every graded feedback event from the brand's owner gets appended same-session; the creative-critic agent reads this file to predict the owner's grade BEFORE delivery. Ships empty of brand data; seeds itself from the first real feedback. |
 | `persona-research-and-creative-strategy-process.md` | The identity-first persona process — served-vs-buyer, the diagnosis, confidence scaled to the data available, the persona-vs-overlay distinction, and the non-linear buyer journey; how persona research drives creative strategy. |
 | `problem-solution-headline-writer.md` | How to write effective problem/solution headlines. |
 | `problem-solution-video-ad-formats.md` | The library of video ad formats for problem-solution-positioned brands. |

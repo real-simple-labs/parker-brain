@@ -13,11 +13,14 @@ This document picks which generation process to run based on what the user is as
 
 ### Video processes (Veo 3)
 
+#### ai-video-ad-build
+The default for any ad-shaped video ask. A full ad — story architecture, beat map, audio spine, shot list — broken into multiple generations stitched in the edit. The craft source is `parker-system/creative-strategy-context/ai-video-ad-structure.md`; an 8-second cap is a generation constraint, not an ad length.
+
 #### video-single-shot
-User wants one Veo prompt for a single 8-second clip. Single moment, single camera setup. Most common video ask.
+User explicitly wants one clip — a hook test, a single moment, one asset to iterate. A deliberate choice, never the silent default for an ad ask.
 
 #### video-multi-shot-sequence
-User wants a sequence of distinct shots within a longer composition, with character consistency or narrative flow across cuts. Uses timestamp notation.
+User wants a sequence of distinct shots inside a single generation (8 seconds or less), using timestamp notation. A full-length ad routes to ai-video-ad-build, whose clips can carry timestamp sub-cuts internally.
 
 #### video-image-to-video
 User has a static image they want animated into motion.
@@ -42,12 +45,12 @@ Run through these decisions in order. Stop at the first match.
 
 1. **User shared a competitor or inspo static and wants the brand's version?** → static-recreation.
 2. **User wants a static and has not shared a reference?** → static-generation.
-3. **User has an image as input for video?** → video-image-to-video (one image) or video-first-last-frame (two images).
-4. **User describes dialogue as the primary content of the scene?** → video-dialogue-scene.
-5. **User asks for a sequence, story, or multiple shots?** → video-multi-shot-sequence.
-6. **Default for video asks** → video-single-shot.
+3. **User has an image as input for video?** → video-image-to-video (one image) or video-first-last-frame (two images) — each usually produces one clip inside a larger ad build.
+4. **User explicitly wants a single clip — a hook test, one moment, one scene?** → video-single-shot (or video-dialogue-scene when spoken dialogue is that clip's content). Name the single-clip choice in the output.
+5. **User wants cuts inside one generation (8 seconds or less)?** → video-multi-shot-sequence.
+6. **Default for ad-shaped video asks — an ad, a script to turn into video, a concept to produce** → ai-video-ad-build.
 
-A multi-shot sequence is also correct when the user describes a single scene that obviously cannot fit in 8 seconds.
+When in doubt between one clip and an ad: an ad is a story with a runtime chosen from the message, and it is never one 8-second clip by default.
 
 ## Shared discipline across all processes
 
@@ -73,7 +76,7 @@ Where copy is in the prompt — dialogue, headlines, supporting copy — it must
 
 ## Video-specific decisions
 
-The source of truth for everything in this section is `parker-system/creative-strategy-context/veo3-video-prompting.md` — the canonical Veo method, with the full camera-language reference, the worked prompt examples by use case, and the iteration process. What follows is the working recap for picking and running a process; when the two ever diverge, the canonical doc wins, and the deeper craft references live there.
+Two canonical sources govern this section: `parker-system/creative-strategy-context/ai-video-ad-structure.md` — the ad-level doctrine (runtime selection, story architectures, the natural product handoff, pacing laws, clip-length derivation, audio spine, continuity across generations) — and `parker-system/creative-strategy-context/veo3-video-prompting.md` — the per-clip craft (camera language, the five-part formula, worked examples, iteration). What follows is the working recap for picking and running a process; when this recap ever diverges from those docs, the canonical docs win.
 
 ### The five-part formula
 Every Veo prompt is built from these five components:
@@ -138,6 +141,9 @@ The recreation method is canonical at `parker-system/creative-strategy-context/s
 
 ## Common mistakes the strategy must avoid
 
+- Defaulting an ad ask to a single 8-second clip instead of the ai-video-ad-build clip plan.
+- Cutting on a metronome — uniform shot lengths read as machine-made.
+- Pasting the product over the story instead of handing it over inside the fiction once the problem is earned.
 - Vague action verbs that produce generic motion.
 - Mixing subject motion and camera motion in one description.
 - Describing details outside the frame for the shot type.
@@ -152,6 +158,7 @@ The recreation method is canonical at `parker-system/creative-strategy-context/s
 ## Final quality audit before output
 
 - For video: all five formula parts present, subject and camera motion separated, audio direction included if relevant, multi-shot character anchors repeated, aspect ratio matches placement.
+- For an ad build: clip plan present with used lengths that visibly vary, audio spine decided before the prompts, anchors identical across clips, product handed over inside the story, and any single-clip delivery named as deliberate.
 - For static generation: format chosen matches the brand's situation, bracketed fields filled with brand-specific values, customer voice sourced from real reviews where copy appears, brand reference images instructed.
 - For recreation: every word rewritten, word count matches original, copy mechanics preserved, no new elements added, layout intact.
 - Across all: brand context applied, compliance respected, no fabricated claims, marketing voice avoided. Where a visual vocabulary doc exists, the prompt grounds in the brand's in-play shots and any out-of-play visual invention is flagged.

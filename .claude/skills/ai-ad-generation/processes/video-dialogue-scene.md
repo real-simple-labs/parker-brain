@@ -1,6 +1,6 @@
 # Process — Video Dialogue Scene
 
-A Veo prompt where spoken dialogue is the primary content — testimonial, founder note, character speaking to camera, conversational reaction. The dialogue is the asset; the visuals support it.
+A Veo prompt where spoken dialogue is the primary content — testimonial, founder note, character speaking to camera, conversational reaction. The dialogue is the asset; the visuals support it. A dialogue ad longer than one clip runs through ai-video-ad-build, with this process governing each spoken clip.
 
 ## Required inputs
 

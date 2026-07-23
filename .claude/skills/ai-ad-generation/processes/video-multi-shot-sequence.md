@@ -1,6 +1,6 @@
 # Process — Multi-Shot Sequence
 
-A sequence of distinct shots within a longer composition, using timestamp notation. Picked when the user wants a story, a storyboard-to-prompt translation, or a longer scene that cannot fit in 8 seconds.
+A sequence of distinct shots inside a single generation (8 seconds or less), using timestamp notation. Picked for cuts within one clip — a montage beat, a quick shot-reverse-shot exchange. A full-length ad routes to ai-video-ad-build, whose clips use this technique internally when several sub-2-second shots share one generation.
 
 ## Required inputs
 

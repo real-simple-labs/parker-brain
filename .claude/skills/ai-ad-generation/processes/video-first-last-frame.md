@@ -20,7 +20,7 @@ Direct Veo to interpolate the camera move or transformation between two static i
 
 4. **Direct audio across the transition.** Music often carries across; SFX punctuates moments within the move; dialogue (if any) belongs to a specific moment.
 
-5. **Keep the transition single-arc.** One transformation per 8-second clip. Multiple simultaneous transitions produce jumbled output.
+5. **Keep the transition single-arc.** One transformation per 8-second clip. Multiple simultaneous transitions produce jumbled output. First/last-frame chaining is also the continuity tool inside ai-video-ad-build when consecutive clips must read as one continuous take.
 
 ## Output
 

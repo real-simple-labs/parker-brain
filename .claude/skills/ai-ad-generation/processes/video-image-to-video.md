@@ -19,7 +19,7 @@ Bring a static starting image to life with motion, sound, and atmosphere. Picked
 
 4. **Add atmospheric and sound layers.** Even subtle ambient sound and SFX add reality. Rustling grass, distant traffic, soft footsteps. Where the image suggests an environment, the audio should match it.
 
-5. **Keep the motion brief and singular.** One main motion arc per 8-second clip. Multiple simultaneous motions confuse the model and look unnatural.
+5. **Keep the motion brief and singular.** One main motion arc per 8-second clip. Multiple simultaneous motions confuse the model and look unnatural. An image-to-video result is usually one clip inside a larger ai-video-ad-build, not a finished ad by itself.
 
 ## Output
 

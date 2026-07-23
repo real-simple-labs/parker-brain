@@ -1,6 +1,6 @@
 # Process — Single-Shot Prompt
 
-One 8-second Veo prompt, one moment, one camera setup. The default process when the user describes a single scene without indicating cuts or sequence.
+One 8-second Veo prompt, one moment, one camera setup. Chosen when a single clip is explicitly the deliverable — a hook test, one moment, one asset to iterate — and the output names that choice. An ad-shaped ask routes to ai-video-ad-build instead; this process also writes the individual clips inside those builds.
 
 ## Required inputs
 

@@ -30,13 +30,14 @@ This skill produces prompt text. It does not generate the final asset, evaluate 
 
 ## What this skill covers
 
-- **Veo 3 video prompts.** Single shots, multi-shot sequences, image-to-video animations, first-and-last-frame transitions, dialogue-driven scenes.
+- **AI video ad builds.** The default for ad-shaped asks: a full ad — story architecture, beat map, audio spine, shot list — broken into multiple Veo generations stitched in the edit, per `ai-video-ad-structure.md`. Real AI video ads run seconds to minutes; one 8-second clip is never the silent default.
+- **Veo 3 clip prompts.** Single shots, multi-shot sequences inside one generation, image-to-video animations, first-and-last-frame transitions, dialogue-driven scenes — as deliberate single-clip deliverables or as the clips inside an ad build.
 - **AI static ad prompts.** Brand-context-grounded prompts for image models. Covers the standard format families — social proof, comparison, product hero, editorial, UGC, copy-led, lifestyle, offer.
 - **Static recreation.** Recreating a competitor or inspo static for the user's brand, preserving the story while rewriting every word and adapting every brand-specific visual.
 
 ## What you are working from
 
-The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `veo3-video-prompting.md` for video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `parker-system/system/parker-tools.md`.
+The generation methods this skill runs on are canonical, not improvised. Before writing a prompt, load what `parker-system/creative-strategy-context/expertise-routing.md` names for creative generation: `ai-video-ad-structure.md` for the ad-level doctrine (runtime, architectures, handoff, pacing, continuity) plus `veo3-video-prompting.md` for per-clip craft on video, `ai-static-ad-generation.md` for statics, `static-ad-recreation.md` for a recreation, and `visual-vocabulary-method.md` so the frame sources from the brand's own in-play, adjacent, and out-of-play visual language rather than the model's default guess. The Parker tools that pull brand reference and creative data are inventoried in `parker-system/system/parker-tools.md`.
 
 ## Background that loads up front
 
@@ -67,7 +68,17 @@ Two pieces of context every AI-generation prompt depends on:
 
 ## Output structure
 
-### For Veo 3 video prompts
+### For AI video ad builds (the default for ad asks)
+
+Lean — the user wants the ad, not paperwork:
+
+**THE PLAN** — a short header: architecture and runtime with the one-line reason, audio spine, continuity anchors, and one line on what brand context grounded it.
+**THE CLIPS** — in stitch order, one block per generation: beat, used length (with generation length when they differ), the line or action, and the complete paste-ready prompt.
+**EDIT NOTES** — a few lines: trims, caption cadence, cards, compliance overlay if needed, end card.
+
+When a connected generation tool is available (Higgsfield or similar), offer to run the generations and deliver the actual clips.
+
+### For single Veo 3 clip prompts (deliberate single-clip asks)
 
 **SHOT BRIEF** — Shot type, camera movement, subject, core action, mood/style, audio elements, aspect ratio, duration.
 **THE PROMPT** — The complete, self-contained text the user pastes into Veo.
@@ -87,7 +98,7 @@ Two pieces of context every AI-generation prompt depends on:
 
 ### Brand Context Applied
 
-Append to every output:
+Ad builds carry this as the one-line grounding note inside THE PLAN — the lean output stays lean. Every other output appends the full block:
 - **What I used:** which parts of brand context shaped the prompt.
 - **What I avoided:** compliance walls, forbidden terms, off-brand language that shaped the language. If the user request would have violated compliance, state what was flagged and what was offered instead.
 - **Why this fits:** two-to-four sentences connecting the output to the brand's current creative challenges, what is working, what they want to test, or an upcoming calendar moment.
@@ -104,6 +115,8 @@ The gate's receipt, required whenever the prompt carries customer-facing copy �
 
 ### For video prompts
 
+- **An ad ask defaults to the ai-video-ad-build clip plan.** The 8-second cap is a generation constraint, not an ad length. A single-clip deliverable is a deliberate choice the output names.
+- **Story invention is the craft; fact invention is fabrication.** AI animation is Disney-style storytelling — invent characters, worlds, and scenarios freely and specifically. Numbers, claims, prices, and anything presented as a real customer or result stay verified or flagged, even in a cartoon character's mouth.
 - **Describe what the camera sees and hears.** Not what happened before, not what is off-screen, not what the character is thinking.
 - **Match description detail to shot type.** Close-ups get facial details. Wide shots get posture and silhouette.
 - **Use precise action verbs.** Weak verbs produce generic motion.
@@ -130,7 +143,7 @@ The gate's receipt, required whenever the prompt carries customer-facing copy �
 ### Compliance and data integrity (all process types)
 
 - **Compliance is a wall, not a guideline.** Forbidden terms are forbidden, even if the user asks. Push back, explain, offer a compliant alternative with the same strategic intent.
-- **No fabricated stats, percentages, or claims.** Every factual element traces to brand context, reviews, ad comments, or user-provided data. If no verified source exists, mark `[STAT NEEDED — verify before publishing]` and leave the gap.
+- **No fabricated stats, percentages, or claims.** Every factual element traces to brand context, reviews, ad comments, or user-provided data. If no verified source exists, mark `[STAT NEEDED — verify before publishing]` and leave the gap. This is the fact layer only — invented characters, worlds, and scenarios are the storytelling craft, not fabrication.
 - **Match brand voice.** The brand's actual tone governs how the dialogue sounds, how the headlines read, how the copy is structured. If the brand would never say something a certain way, neither does the prompt.
 - **No prompt ships bounced.** The independent `context-grounding-review` agent verifies the prompt was built from the brand's visual vocabulary, verified data, and traced customer language — an invented quote or an unresolved cited source is an automatic bounce. Its verdict appears in the Grounding Review block.
 - **Check facts, not flavor.** The grounding gate verifies facts — numbers, sizes, specs, prices, claims must be real and trace. It does not hunt the exact source of every customer-voice line; a review-, comment-, or thread-sounding line that reads authentic and fits the brand register is fine unpulled, labeled illustrative in one line so no made-up quote runs as a real testimonial. Bounce for a wrong fact, never for an untraceable voice line.

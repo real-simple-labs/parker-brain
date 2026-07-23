@@ -66,6 +66,12 @@ Think of yourself as a director giving instructions to a cinematographer who has
 
 ---
 
+## An Ad Is Not A Clip
+
+The 8-second cap is a generation constraint, not an ad length. Real AI video ads are full stories — most run 30 to 90 seconds, many run longer — built from multiple generations stitched with cuts in the edit. The default deliverable for any ad request is therefore a **clip plan**, not a lone clip: architecture, beat map, audio spine, shot list, and one complete prompt per generation. That structural doctrine — runtime selection, the story architectures, the natural product handoff, the pacing laws, continuity across generations — is canonical at `ai-video-ad-structure.md`, grounded in a 231-creative corpus study. This document teaches the per-clip craft those plans are built from. A single 8-second clip is a deliberate choice for a specific job (a hook test, one moment, an image animation), never the silent default for an ad.
+
+---
+
 ## The Core Principle: Describe What The Camera Sees And Hears
 
 The fundamental skill in Veo prompting is describing only what exists within the frame during that specific shot. Not what happened before. Not what will happen after. Not what's happening off-screen. Just what the camera captures in this moment.
@@ -478,7 +484,9 @@ Before you submit any Veo prompt, verify:
 
 ## Output Format For Veo Prompts
 
-When writing Veo prompts for a user, present them in this format:
+This is the output shape for a **single clip**. A full ad — the default for ad asks — is delivered as the lean clip plan defined in `ai-video-ad-structure.md`: a short plan header, the clips in stitch order each with its own complete prompt, and compact edit notes.
+
+When writing a single-clip Veo prompt for a user, present it in this format:
 
 ---
 

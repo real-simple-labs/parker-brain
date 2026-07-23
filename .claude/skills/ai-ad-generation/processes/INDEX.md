@@ -2,8 +2,9 @@
 
 ## Video processes (Veo 3)
 
-- **video-single-shot** — One 8-second clip, single moment, single camera setup. The default for video asks.
-- **video-multi-shot-sequence** — Multiple distinct shots within a longer composition, with character consistency across cuts. Uses timestamp notation.
+- **ai-video-ad-build** — The default for ad-shaped asks. A full ad designed first (architecture, beats, audio spine, shot list per `ai-video-ad-structure.md`), then broken into multiple generations stitched in the edit.
+- **video-single-shot** — One 8-second clip when a single clip is explicitly the ask: a hook test, one moment, one asset. A deliberate choice, not the default for ads.
+- **video-multi-shot-sequence** — Multiple distinct shots inside one generation (8 seconds or less), timestamp notation. Full ads route to ai-video-ad-build.
 - **video-image-to-video** — Animate a static starting image into motion.
 - **video-first-last-frame** — Interpolate camera move or transformation between two static images.
 - **video-dialogue-scene** — Scene where spoken dialogue is the primary content. One speaker per shot, short lines, delivery direction.
