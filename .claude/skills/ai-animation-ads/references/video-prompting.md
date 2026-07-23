@@ -2,6 +2,8 @@
 
 Each approved image becomes the start frame of one clip. The image already carries the full visual style, so video prompts describe ONLY motion, camera, dialogue/audio, and any state change. Short prompts animate cleaner than long ones. If a clip fails twice, simplify: cut background animation, reduce to one movement, shorten the dialogue.
 
+**The ad's structure is decided before this doc opens.** Runtime, story architecture, beat map, the natural product handoff, cut cadence (fast–slow–fast, no metronome, one proof hold), layer-two pacing, and the audio spine all come from the canonical structure doctrine at `creative-strategy-context/ai-video-ad-structure.md` — grounded in the 231-creative AI Animation corpus study. This reference governs per-clip animation only: it animates a shot list that already exists. An 8-second generation cap is never the ad length.
+
 ## The director's decision — how many frames does each scene need? (run per shot)
 
 - **Type A — start frame only, self-contained motion.** The action happens and resolves within the clip (vapor drifts and fades, character delivers a line and settles). Scene ends in the same visual state. → one image + a motion-arc prompt. **Default when unsure** — modern I2V handles full arcs from one keyframe.
