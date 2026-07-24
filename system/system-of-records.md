@@ -33,6 +33,7 @@ These live in `parker-v2/` and are copied into the three vault `parker-system/` 
 - **The generator prompts** — everything under `prompts/`.
 - **The skills** — `.claude/skills/` (the directory Claude Code loads skills from, so they register on clone).
 - **The templates** — `templates/` (the brand-brain CLAUDE template, the missing-context, refresh-schedule, brand-rules, and success-definition templates, the brand-notes-from-org and brand-lens templates, the persona and VoC templates, and the brand-routines bundle with its `claude/hooks/craft-context.py` context hook (the UserPromptSubmit hook that injects the craft catalog every turn; no relation to ad hooks) and `claude/settings.json`).
+- **The Parker output style** — `.claude/output-styles/parker.md`, the chat-voice system-prompt layer, hand-mirrored from `prompts/_parker-voice-block.md` (a system prompt can't reference other files at runtime, so the style file restates the block's voice sections plus the conversational-shape rules — deliberately not byte-identical, so the audit compares substance, not text: a voice rule present in the block and absent or contradicted in the style file is the drift). Activated by `"outputStyle": "Parker"` in `.claude/settings.json`. Downstream shipping is mechanical, not hand-done: the onboarding runner stamps it at build and `scripts/propagate-to-brand-brains.sh` rsyncs it unconditionally, so brains never drift from the factory copy on a propagate run.
 
 ## Reference sources (one source, pointed at, never copied inline)
 

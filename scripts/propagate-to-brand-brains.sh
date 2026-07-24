@@ -18,6 +18,8 @@
 #   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (added if missing,
 #                                          not update-only: the context hook is factory-owned
 #                                          machinery and settings.json requires the script)
+#   .claude/output-styles/ -> .claude/output-styles/  (the Parker voice layer; factory-owned,
+#                                          added and refreshed unconditionally like the hook)
 #
 # FLAT standalone brains (legacy layout, craft + system at root, no factory prompts):
 #   creative-strategy-context/ -> creative-strategy-context/
@@ -25,6 +27,7 @@
 #                                          never adds the factory-internal docs)
 #   templates/brand-routines/claude/skills/ -> .claude/skills/
 #   templates/brand-routines/claude/{hooks/,settings.json} -> .claude/  (same as nested)
+#   .claude/output-styles/ -> .claude/output-styles/  (same as nested)
 #
 # DELIBERATE ADDS: --existing never adds files, so genuinely-new runtime system docs,
 # routine skills, and schedule recipes a standing brain should gain are named explicitly
@@ -117,6 +120,11 @@ for repo in "${REPOS[@]}"; do
     mkdir -p "$dir/.claude/hooks"
     rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
     rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # The Parker voice layer: parker.md as a Claude Code output style, injected into
+    # the system prompt (the stamped settings.json above carries the outputStyle
+    # switch). Factory-owned like the hook, so added and refreshed unconditionally.
+    mkdir -p "$dir/.claude/output-styles"
+    rsync -a "$FACTORY/.claude/output-styles/" "$dir/.claude/output-styles/"
     # Deliberate adds: genuinely-new runtime docs and routine skills a standing brain
     # SHOULD gain. --existing above never adds files, so each is named here once.
     cp -n "$FACTORY/system/growing-the-brain.md" "$ps/system/" 2>/dev/null || true
@@ -169,6 +177,10 @@ for repo in "${REPOS[@]}"; do
     mkdir -p "$dir/.claude/hooks"
     rsync -a "$FACTORY/templates/brand-routines/claude/hooks/"    "$dir/.claude/hooks/"
     rsync -a "$FACTORY/templates/brand-routines/claude/settings.json" "$dir/.claude/settings.json"
+    # The Parker voice layer (see the nested branch's note): added and refreshed
+    # unconditionally, activated by the stamped settings.json above.
+    mkdir -p "$dir/.claude/output-styles"
+    rsync -a "$FACTORY/.claude/output-styles/" "$dir/.claude/output-styles/"
     # Deliberate adds (same list as the nested branch). Flat path normalization below
     # rewrites the system docs' nested-layout references.
     cp -n "$FACTORY/system/growing-the-brain.md" "$dir/system/" 2>/dev/null || true

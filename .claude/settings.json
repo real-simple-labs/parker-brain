@@ -1,0 +1,4 @@
+{
+  "$comment": "Committed factory config. outputStyle switches on the Parker voice layer at .claude/output-styles/parker.md — the same system-prompt layer every shipped brand brain gets — so sessions in this repo talk plain and warm too. Personal overrides live in .claude/settings.local.json (gitignored).",
+  "outputStyle": "Parker"
+}

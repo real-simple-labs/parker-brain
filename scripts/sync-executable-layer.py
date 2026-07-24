@@ -101,9 +101,10 @@ def safe_dest(dest: str) -> bool:
 def bundle_map(factory: dict[str, str]) -> dict[str, str]:
     """factory source path -> brand destination path, for one tag's tree.
 
-    Mirrors onboarding-runner Phase 0 step 5: craft skills and review-gate agents
-    from the factory's .claude/, the routine bundle from templates/brand-routines/
-    (claude/ -> .claude/, schedules/ -> schedules/), and the two checker scripts.
+    Mirrors onboarding-runner Phase 0 step 5: craft skills, review-gate agents, and
+    the voice output style from the factory's .claude/, the routine bundle from
+    templates/brand-routines/ (claude/ -> .claude/, schedules/ -> schedules/), and
+    the two checker scripts.
     On a skill name collision the routine bundle wins (the `dream` rule).
     """
     routine_prefix = "templates/brand-routines/claude/"
@@ -126,6 +127,8 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
             if name not in routine_skills:  # routine bundle wins the name
                 mapping[path] = path
         elif path.startswith(".claude/agents/"):
+            mapping[path] = path
+        elif path.startswith(".claude/output-styles/"):
             mapping[path] = path
         elif path in ("scripts/voice-lint.py", "scripts/grounding-check.py"):
             mapping[path] = path
