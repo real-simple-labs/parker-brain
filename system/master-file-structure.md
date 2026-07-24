@@ -122,7 +122,8 @@ parker/
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
 │       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
-│       │   ├── settings.json                        ← wires the hooks below + the deny rules that keep the mount read-only
+│       │   ├── settings.json                        ← wires the hooks below + "outputStyle": "Parker" (switches on the voice layer) + the deny rules that keep the mount read-only
+│       │   ├── output-styles/parker.md              ← Parker's voice as a Claude Code output style — the system-prompt layer; copied out of the mount's .claude/output-styles/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
 │       │   ├── README.md
@@ -391,6 +392,10 @@ parker/
 ├── .claude/agents/                                 ← Subagent definitions Claude Code loads on clone (not skills — independent reviewer contexts the skills spawn)
 │   ├── context-grounding-review.md                 ← The grounding gate, runs FIRST: verifies the output was built from the right method docs, brand vault docs, and tool pulls — runs scripts/grounding-check.py (verbatims trace, cited sources exist), derives the right context independently from the routing catalog, diffs against the output's vocabulary evidence. Bounced = re-pull and regenerate.
 │   └── creative-voice-review.md                    ← The voice gate, runs SECOND: runs scripts/voice-lint.py, judges per creative-strategy-context/ai-writing-tells.md, returns per-line verdicts. Both spawned by the creative skills' ship gates; ship to brand brains with their checkers and doctrine as one bundle.
+│
+├── .claude/settings.json                           ← Committed factory config: "outputStyle": "Parker" activates the voice layer for every session in this repo
+├── .claude/output-styles/                          ← The chat-voice layer (not an agent, not a skill)
+│   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the onboarding runner and the propagate script.
 │
 ├── references/                                     ← Global knowledge, namespaced by team
 │   └── knowledge/

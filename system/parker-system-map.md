@@ -203,6 +203,9 @@ The grounding gate, and the first of the two ship gates (it changes content; the
 ### `.claude/agents/creative-voice-review.md` · `[built]` — an agent, not a skill
 The independent ship gate for creative copy. The five creative skills (`scriptwriting`, `headlines`, `hooks`, `ai-ad-generation`, `iterations`) spawn it on every finished draft; it runs the deterministic tells scan (`scripts/voice-lint.py`), judges the flags against the brand's voice profile per the doctrine at `creative-strategy-context/ai-writing-tells.md`, catches what regex can't, and returns per-line verdicts with rewrites in the brand's register — never touching hook format, framework beats, claims, or sourced customer language. Its verdict appears in each output's required Voice Review block. It is a subagent definition, not a skill: a fresh reviewer context so the writer never grades its own draft. Ships to brand brains as a trio with the linter and the doctrine doc.
 
+### `.claude/output-styles/parker.md` · `[built]` — the chat-voice layer, not a skill
+Parker's voice as a Claude Code output style: injected into the system prompt itself (activated by `"outputStyle": "Parker"` in `.claude/settings.json`), replacing the harness's dense terminal default with the plain, warm, tenth-grade register — while `keep-coding-instructions: true` keeps the careful-engineering discipline for file work. Canonical voice substance stays in `prompts/_parker-voice-block.md`; the style file is its hand-mirrored system-prompt copy (a system prompt can't reference other files at runtime), so voice edits land in the block first and get reflected here in the same pass, with the `system-of-records` audit as the drift backstop. Ships to every brand brain: stamped at build by the onboarding runner, refreshed by the propagate script, switched on by the same settings.json that carries the context hook.
+
 ---
 
 ## Knowledge tier — domain reasoning docs

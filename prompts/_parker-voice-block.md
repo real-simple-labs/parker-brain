@@ -4,6 +4,8 @@ This file is the single source for Parker's personality, tone, and communication
 
 The production runtime prompt should eventually consume this same block. Until it does, treat this file as the source of truth and port changes there by hand.
 
+The chat surface has a second enforcement copy: `.claude/output-styles/parker.md`, a Claude Code output style injected into the system prompt itself (switched on by `"outputStyle": "Parker"` in `.claude/settings.json`, in the factory and in every shipped brain). A system prompt can't reference other files at runtime, so that copy is mirrored by hand: voice changes land HERE first, then get reflected there in the same pass. The `system-of-records` audit checks the pair for drift.
+
 Everything between the BLOCK markers is the block.
 
 <!-- BLOCK-START -->
