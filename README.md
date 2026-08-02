@@ -48,7 +48,7 @@ Set up my brain for my brand [brand] in a new private repo, follow instructions 
 
 - `CLAUDE.md` - production-ready Parker operating contract and repo guidance.
 - `prompts/` - production prompts for context docs, audits, personas, VoC, market reads, and databases.
-- `.claude/skills/` - runtime skill instructions (scriptwriting, hooks, headlines, iterations, ad-account analysis, AI ad generation, the open-loops pipeline, and more). They live under `.claude/skills/` because that is the only directory Claude Code loads skills from, so they register and work the moment this repo is cloned.
+- `.claude/skills/` - runtime skill instructions (scriptwriting, hooks, headlines, static ads, iterations, ad-account analysis, AI ad generation, the open-loops pipeline, and more). They live under `.claude/skills/` because that is the only directory Claude Code loads skills from, so they register and work the moment this repo is cloned.
 - `system/` - product-level methodology, retrieval, attribution, open-loop, and review standards.
 - `templates/` - reusable document templates.
 - `global/knowledge/` - approved generalized knowledge.

@@ -29,7 +29,7 @@ Take a performing ad and recommend the highest-confidence iterations to extend i
 - **Phase A — Choose which ads to iterate on.** Read the account and pick the ads worth iterating on, by spend, run time, and trend.
 - **Phase B — Make the iterations.** Diagnose a chosen ad and build the iterations.
 
-This skill does not cover net-new concept creation, script writing from scratch, headline writing for a new ad, or ad adaptation. If the request is any of those, route to the relevant skill instead.
+This skill does not cover net-new concept creation, script writing from scratch, headline writing for a new ad, or ad adaptation. If the request is any of those, route to the relevant skill instead — a net-new static, including one that fills a gap the account is missing, is `static-ads`.
 
 ## Which phase to enter
 

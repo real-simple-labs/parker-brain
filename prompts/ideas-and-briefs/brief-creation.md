@@ -72,7 +72,7 @@ The routing, by output:
 
 - **Script / spoken words** → the **scriptwriting** skill, which loads `spoken-script-voice.md` (the human-voice doctrine and AI-tells audit), `scriptwriting.md`, `adapting-scripts.md`, and `visual-vocabulary-method.md` for per-beat visual direction.
 - **Hooks / the first seconds** → the **hooks** skill, which loads `hooks.md` (the format taxonomy and examples) and `hook-psychology.md` (the why — pick the format from the mechanism the brief's angle needs).
-- **Statics / headlines** → the **headlines** and **static-generation** skills, which load `visual-vocabulary-method.md`, the headline generator matched to the brand's positioning, and `ai-static-ad-generation.md`.
+- **Statics** → the **static-ads** skill, which owns the whole static flow and loads `static-ads.md` (the doctrine — formats, the acquisition-static test, the clarity/curiosity call, visual hierarchy), `visual-vocabulary-method.md`, and `customer-review-mining-method.md`. It calls **headlines** for the line, against the generator matched to the brand's positioning, and **ai-ad-generation** for prompt construction against `ai-static-ad-generation.md`.
 - **Video generation** → the **ai-ad-generation** skill, which grounds visual and hook elements in the docs above.
 
 Per `parker-system/creative-strategy-context/expertise-routing.md`, each of these doc-types has its own mandatory reads. The brief names which execution skill each variation hands to; the skill does the craft.
@@ -151,7 +151,7 @@ status: [drafted, in-production, shipped, or shelved]
 ## Appendix - Parker media links
 ```
 
-In **From brief to execution**, name — per variation — which execution skill produces each piece of creative and the knowledge docs it must load: the script through the scriptwriting skill (`spoken-script-voice.md`, `scriptwriting.md`, `adapting-scripts.md`, `visual-vocabulary-method.md`), the opener through the hooks skill (`hooks.md`, `hook-psychology.md`), statics through the headlines/static-generation skills (`visual-vocabulary-method.md`, the matched headline generator, `ai-static-ad-generation.md`). This is the handoff that stops the brief from being mistaken for the finished creative — anyone or any model picking up this brief writes the actual script or static through those skills, not off the brief.
+In **From brief to execution**, name — per variation — which execution skill produces each piece of creative and the knowledge docs it must load: the script through the scriptwriting skill (`spoken-script-voice.md`, `scriptwriting.md`, `adapting-scripts.md`, `visual-vocabulary-method.md`), the opener through the hooks skill (`hooks.md`, `hook-psychology.md`), statics through the static-ads skill (`static-ads.md`, `visual-vocabulary-method.md`, `customer-review-mining-method.md`, and the matched headline generator and `ai-static-ad-generation.md` by way of the skills it calls). This is the handoff that stops the brief from being mistaken for the finished creative — anyone or any model picking up this brief writes the actual script or static through those skills, not off the brief.
 
 Present the brief as drafted, ready for the team to take to production, and mark its confidence honestly. The brief is the concept and the bet; it is not the script, the hooks, or the statics — those are made by the execution skills it routes to.
 

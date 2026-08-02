@@ -20,7 +20,7 @@ triggers:
 
 Read what the Meta data is actually saying about the account, an ad, or a slice of the audience. Account data tells two intertwined stories — whether ads are scaling profitably, and how the ads are behaving in the Meta ecosystem in terms of attention and audience reach. The skill reads both stories, decides which one the user needs, and delivers a diagnosis with specific actions.
 
-This skill does not write ads, generate iterations, or build briefs. If the user wants iteration recommendations off the analysis, route to the iterations skill. If they want a script or static built from a diagnosis, route to the scriptwriting or static-ads skill.
+This skill does not write ads, generate iterations, or build briefs. If the user wants iteration recommendations off the analysis, route to the iterations skill. If they want a script or static built from a diagnosis, route to the `scriptwriting` or `static-ads` skill.
 
 ## What you are working from
 

@@ -26,7 +26,9 @@ triggers:
 
 Produce the prompt text that goes into an AI generation tool — Veo 3 for video, image models for static — so the output matches the brand's voice, compliance, and visual language. Whatever the model fills in by default is the model's interpretation of the brand, which is almost never what the brand actually is. The skill's job is to remove that gap by being forensically specific about everything in the frame, on the soundtrack, in the copy, and in the visual identity.
 
-This skill produces prompt text. It does not generate the final asset, evaluate the asset's performance, or iterate on a winning asset — those are different skills (ad-account-analysis, iterations).
+This skill produces prompt text. It does not evaluate the asset's performance or iterate on a winning asset — those are different skills (`ad-account-analysis`, `iterations`).
+
+It also does not decide *which* static is worth making. That is `static-ads`, which owns the full flow — the white-space read, the message, the visual hierarchy, and production — and calls this skill for prompt construction. A request that starts at "give me a prompt for X" belongs here; one that starts at "what statics should we make" belongs there. When `static-ads` runs the production step, it renders through a connected image-generation MCP if the workspace has one, using the prompt this skill builds.
 
 ## What this skill covers
 

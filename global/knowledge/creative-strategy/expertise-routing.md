@@ -45,6 +45,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `selecting-ads-to-iterate-on.md` | The method for choosing which ads are worth iterating on — spend-in-context, run time, the breakdown effect, slow-burners vs high-risers, 60-day trends. |
 | `spoken-script-voice.md` | The doctrine of human-sounding ad scripts and the brand voice-profile method, plus the AI-tells audit run on every draft. |
 | `static-ad-recreation.md` | How to recreate or adapt an existing static ad. |
+| `static-ads.md` | The doctrine for static ads — the proven format set, the acquisition-static messaging test, the clarity/curiosity call, and the visual-hierarchy design principles. |
 | `veo3-video-prompting.md` | How to prompt AI video generation (Veo 3). |
 | `visual-vocabulary-method.md` | The method behind a brand's visual vocabulary — in-play / adjacent / out-of-play shot classification, the script-congruence and format-dependence rules. |
 

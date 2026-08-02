@@ -22,7 +22,9 @@ triggers:
 
 Write headlines that earn attention and convert it. A headline carries the weight of the entire argument in one line — it has to land instantly for cold scrollers, sound like the brand's actual customers, and follow a structural pattern that fits the brand type.
 
-This skill writes headlines for static ads, video text overlays, landing page heroes, and paid social. It does not write full scripts (route to scriptwriting), full statics with layouts (route to ai-ad-generation), or iterate on existing winning headlines (route to iterations).
+This skill writes headlines for static ads, video text overlays, landing page heroes, and paid social. It does not write full scripts (route to `scriptwriting`), build a whole static — the gap it fills, its layout, and its production (route to `static-ads`, which calls back here for the line), construct image-model prompts (route to `ai-ad-generation`), or iterate on existing winning headlines (route to `iterations`).
+
+One boundary worth naming: the under-ten-words cap below governs headline-led formats. When a verbatim customer quote is the ad — a testimonial or comment-response static — `static-ads` carries it at the customer's length, because trimming a quote to fit a word cap is paraphrasing it.
 
 ## What you are working from
 

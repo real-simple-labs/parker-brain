@@ -170,6 +170,9 @@ Writes opening lines, first frames, and on-screen text for hooks. Loads brand vo
 ### `headlines/`
 Writes headlines for statics. Loads brand context, runs the lifestyle or problem-solution headline process based on the static type.
 
+### `static-ads/`
+The full flow for making a static, in three phases: find the white space in the account (format, persona, awareness, and the demographic-versus-creative read), write the message from real customer language, then design the visual hierarchy and produce the asset. Owns production — it renders through whatever image-generation MCP is connected and degrades to prompt text when none is, then grades the finished image rather than the spec. Calls `headlines` for the line and `ai-ad-generation` for prompt construction rather than re-implementing either. Doctrine is `static-ads.md`.
+
 ### `iterations/`
 Recommends high-confidence iterations on a performing ad. Five processes — audience iteration, edit-pacing iteration, hook iteration, messaging-angle iteration, static-headline iteration. Loads brand context plus the ad's performance data plus the iteration history.
 
