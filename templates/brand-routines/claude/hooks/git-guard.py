@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """PreToolUse guard for git operations in a Parker Brain repo.
 
-A brain that lives in Parker's own GitHub org must sync with the short-lived
-credentials the setup_parker_brain tool (Parker MCP) mints — never the user's
-personal login, never `gh`. This hook enforces that at the moment of the
-mistake: it inspects each Bash command before it runs and blocks the wrong
-move with a message that teaches the right one. A brain hosted anywhere else
-(the rare self-hosted exception) is untouched — the guard only speaks up when
-the repo's origin (or the command itself) points at the parker-brain org.
+A brain that lives in Parker's own GitHub org syncs through the machine-level
+Parker sync helper (installed once by `npx @heyparker/sync setup`), which mints
+short-lived credentials per git operation — never the user's personal login,
+never `gh`, never a token handled by hand. This hook enforces that at the
+moment of the mistake: it inspects each Bash command before it runs and blocks
+the wrong move with a message that teaches the right one. A brain hosted
+anywhere else (the rare self-hosted exception) is untouched — the guard only
+speaks up when the repo's origin (or the command itself) points at the
+parker-brain org.
 
 Runtime procedure: .claude/skills/save-brain/ (/save-brain).
 Design and rationale: parker-system/system/brain-git-sync.md.
@@ -28,18 +30,14 @@ TOKEN_MARK = "x-access-token:"
 CRED_FILE = Path(".git/parker-credentials")
 
 HOW = (
-    "Get fresh 1-hour credentials with the setup_parker_brain tool (Parker MCP; its "
-    "brand_id is in parker_config.json at the repo root — read it, don't guess; if "
-    "that file is missing, call get_available_brands and use the exact brand_id it "
-    "returns for this brand), lift "
-    "the token out of its authenticated_clone_url, run `rm -f .git/parker-credentials` "
-    "(the Write tool won't overwrite an unread file), and use the Write tool to save "
-    "this single line to .git/parker-credentials:\n"
-    "  https://x-access-token:<TOKEN>@github.com\n"
-    "with origin on the plain URL and the one-time repo wiring in place "
-    "(`git config credential.helper \"\"` then `git config --add credential.helper "
-    "\"store --file .git/parker-credentials\"` — the blank entry shuts out the user's "
-    "own helpers), then retry (always `git push origin main`, never a bare `git push`). "
+    "Auth here is the machine-level Parker sync helper — no tokens, no credential "
+    "files, nothing for you to write. If ~/.parker/bin/parker-credential is missing, "
+    "run the one-time `npx @heyparker/sync setup` with the user present (it opens a "
+    "browser sign-in to Parker). If this repo still carries the retired per-repo "
+    "wiring, clean it first: `git config --local --unset-all credential.helper` and "
+    "`rm -f .git/parker-credentials` (neither command carries a secret), and strip a "
+    "tokenized origin with `git remote set-url origin <plain https URL>`. Then retry "
+    "(always `git push origin main`, never a bare `git push`). "
     "Full procedure: /save-brain (or parker-system/system/brain-git-sync.md)."
 )
 
@@ -60,12 +58,11 @@ BLOCK_TOKEN = (
     "carrying a live token, and the credential file makes it unnecessary. " + HOW
 )
 BLOCK_CLONE_CREDS = (
-    "Cloning a managed Parker Brain needs Parker's credentials, supplied without the "
-    "token ever entering the command: Write the credential line to a temp file first, "
-    "then `git -c credential.helper= -c credential.helper=\"store --file <temp file>\" "
-    "clone --recurse-submodules <plain https URL> <folder>` (the empty first -c shuts "
-    "out the user's own helpers), and after the clone move the file to "
-    ".git/parker-credentials inside it. Full procedure: /save-brain (or "
+    "Cloning a managed Parker Brain needs the machine-level Parker sync helper, and "
+    "this machine doesn't have it yet. Run the one-time `npx @heyparker/sync setup` "
+    "with the user present (browser sign-in to Parker), then clone plainly: `git "
+    "clone --recurse-submodules <plain https URL> <folder>` — no flags, no tokens, "
+    "no credential files. Full procedure: /save-brain (or "
     "parker-system/system/brain-git-sync.md)."
 )
 BLOCK_FORCE = (
@@ -90,6 +87,21 @@ def origin_url() -> str:
         return ""
 
 
+def helper_configured() -> bool:
+    """True when the machine-level Parker sync helper is wired for the managed org."""
+    if (Path.home() / ".parker" / "bin" / "parker-credential").is_file():
+        return True
+    try:
+        r = subprocess.run(
+            ["git", "config", "--global", "--get-all",
+             "credential.https://github.com/parker-brain/.helper"],
+            capture_output=True, text=True, timeout=5,
+        )
+        return "parker-credential" in r.stdout
+    except Exception:
+        return False
+
+
 def main() -> int:
     data = json.load(sys.stdin)
     if data.get("tool_name") != "Bash":
@@ -102,11 +114,16 @@ def main() -> int:
     managed = bool(MANAGED_ORG.search(origin)) or bool(MANAGED_ORG.search(cmd))
     if not managed:
         return 0
-    try:
-        has_creds = CRED_FILE.is_file() and CRED_FILE.stat().st_size > 0
-    except OSError:
-        has_creds = False
-    has_creds = has_creds or TOKEN_MARK in origin  # legacy token-in-remote, pre-v8
+    auth_ready = helper_configured()
+    if not auth_ready:
+        # Legacy layouts still work until their token dies: the pre-v15
+        # store file, or a pre-v8 token-in-remote. Accept them so a
+        # not-yet-migrated brain isn't bricked mid-transition.
+        try:
+            auth_ready = CRED_FILE.is_file() and CRED_FILE.stat().st_size > 0
+        except OSError:
+            auth_ready = False
+        auth_ready = auth_ready or TOKEN_MARK in origin
 
     if TOKEN_MARK in cmd:
         print(BLOCK_TOKEN, file=sys.stderr)
@@ -133,11 +150,11 @@ def main() -> int:
         if "--recurse-submodules" not in cmd:
             print(BLOCK_CLONE, file=sys.stderr)
             return 2
-        # Both entries required: the blank reset (shuts out the user's own
-        # helpers, e.g. the macOS keychain) AND the store helper.
-        blank_reset = re.search(r"credential\.helper=([\"']\s*[\"'])?(\s|$)", cmd)
-        store_helper = re.search(r"credential\.helper=[\"']?store\b", cmd)
-        if not (blank_reset and store_helper):
+        # Plain clone is the standard — the machine-level helper authenticates
+        # it. Block only when this machine has no helper at all (a legacy
+        # -c store clone still passes mid-transition).
+        legacy_clone = re.search(r"credential\.helper=[\"']?store\b", cmd)
+        if not helper_configured() and not legacy_clone:
             print(BLOCK_CLONE_CREDS, file=sys.stderr)
             return 2
 
@@ -146,7 +163,7 @@ def main() -> int:
         return 2
 
     network = re.search(r"\bgit\b[^;&|]*\b(push|pull|fetch)\b", cmd)
-    if network and "-C parker-system" not in cmd and not has_creds:
+    if network and "-C parker-system" not in cmd and not auth_ready:
         print(BLOCK_AUTH, file=sys.stderr)
         return 2
 

@@ -61,8 +61,8 @@ def attempt_pull() -> str:
                     "finish that update instead), then `git add -A && git commit`, "
                     "`git pull --rebase origin "
                     "main`, `git submodule update --init --recursive`, `git push origin "
-                    "main` — refreshing credentials via setup_parker_brain if a step "
-                    "hits an auth error.")
+                    "main` — fixing sync auth per /save-brain if a step hits an "
+                    "auth error.")
         pulled = git("pull", "--rebase", "origin", "main")
         if pulled.returncode == 0:
             sub = git("submodule", "update", "--init", "--recursive", timeout=60)
@@ -89,56 +89,63 @@ def attempt_pull() -> str:
                         "helper, their login) and rerun `git pull --rebase origin "
                         "main`; the managed-credential rules in /save-brain don't "
                         "apply here.")
-            # The stale credential is dead anyway; clearing it here saves the
-            # agent a step (and the Write tool's refusal to overwrite a file
-            # it hasn't read).
+            # Retired per-repo wiring (pre-v15) shadows the machine-level
+            # Parker sync helper and is the most common auth failure on an
+            # older brain. Cleaning it is deterministic and carries no
+            # secrets, so do it here and retry the pull once.
+            cleaned = git("config", "--local", "--unset-all",
+                          "credential.helper", timeout=5).returncode == 0
             try:
-                Path(".git/parker-credentials").unlink(missing_ok=True)
+                p = Path(".git/parker-credentials")
+                if p.exists():
+                    p.unlink()
+                    cleaned = True
             except OSError:
                 pass
-            try:
-                brand_id = json.loads(
-                    Path("parker_config.json").read_text(encoding="utf-8")
-                ).get("brand_id", "")
-            except Exception:
-                brand_id = ""
-            brand = (f' with brand_id "{brand_id}"' if brand_id else
-                     " (parker_config.json is missing or unreadable here, so call "
-                     "get_available_brands first and use the exact brand_id it "
-                     "returns for this brand — never guess it from the repo name)")
-            refresh = (f"call setup_parker_brain (Parker MCP){brand} and save its "
-                       "credential_file_line to .git/parker-credentials with the "
-                       "Write tool (the stale file is already cleared; on older "
-                       "servers without that field, lift the token from "
-                       "authenticated_clone_url and write "
-                       "`https://x-access-token:<TOKEN>@github.com`) — never put "
-                       "the token inside a shell command; if the safety layer "
-                       "refuses the write, ask the user in plain words and retry "
-                       "(scheduled run with nobody to ask: commit local work, say "
-                       "the online save needs a human session, end cleanly)")
             if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
-                # Legacy layout: credentials embedded in origin shadow the store
-                # file, so rewriting the file alone changes nothing.
                 plain = "https://github.com" + origin_txt.split("@github.com", 1)[1]
-                refresh = ("strip the pre-v8 tokenized origin first — `git remote "
-                           f"set-url origin {plain}` (that command carries no "
-                           "secret) — and wire the credential file once (`git "
-                           "config credential.helper \"\"` then `git config --add "
-                           "credential.helper \"store --file "
-                           ".git/parker-credentials\"`), then " + refresh)
-            return ("PULL FAILED — the saved credentials have expired (they last "
-                    "about an hour; this is normal, and NOT a reason to make the "
-                    "user wait). Your very first response runs TWO TRACKS as "
-                    "parallel tool calls in the same turn: (1) START THE USER'S "
-                    "ACTUAL REQUEST — the local reads and routing you would do "
-                    "anyway; this checkout is at most a little stale. (2) REFRESH "
-                    "— " + refresh + ". After the Write lands, run `git pull "
+                git("remote", "set-url", "origin", plain, timeout=5)
+                cleaned = True
+            if cleaned:
+                retry = git("pull", "--rebase", "origin", "main")
+                if retry.returncode == 0:
+                    git("submodule", "update", "--init", "--recursive", timeout=60)
+                    tail = (retry.stdout or "").strip().splitlines()
+                    return ("Pulled the latest before starting (this repo's retired "
+                            "credential wiring was cleared first — pre-v15 layout): "
+                            + (tail[-1] if tail else "done") + ".")
+            helper_missing = not (Path.home() / ".parker" / "bin"
+                                  / "parker-credential").is_file()
+            if helper_missing:
+                fix = ("this machine doesn't have the Parker sync helper, so git "
+                       "can't reach the brain's private repo. The fix is the "
+                       "one-time `npx @heyparker/sync setup` — it opens a browser "
+                       "sign-in to Parker, so it needs the user present. Ask them "
+                       "in plain words (\"I need you to sign in to Parker once so "
+                       "I can sync your brain — a browser window will open\"); in "
+                       "a scheduled run with nobody to ask, commit local work, "
+                       "say the online sync needs a one-time setup in a human "
+                       "session, and end cleanly")
+            else:
+                fix = ("the Parker sync helper is installed but the pull was "
+                       "still refused. Re-run the failing pull and read the "
+                       "helper's stderr: a lapsed Parker sign-in is fixed by "
+                       "re-running `npx @heyparker/sync setup` (user present — "
+                       "browser sign-in); \"no access to this repository\" means "
+                       "this user's brand access was revoked or never granted — "
+                       "tell the user plainly and stop")
+            return ("PULL FAILED — " + fix + ". This is NOT a reason to make the "
+                    "user wait: your very first response runs TWO TRACKS as "
+                    "parallel tool calls in the same turn — (1) START THE USER'S "
+                    "ACTUAL REQUEST with the local reads and routing you would do "
+                    "anyway (this checkout is at most a little stale), (2) FIX THE "
+                    "SYNC per the ladder above. Once the pull lands, run `git pull "
                     "--rebase origin main && git submodule update --init "
-                    "--recursive` as one command; only the FINAL ANSWER waits for "
-                    "that pull — recheck anything it changed before answering. The "
-                    "user hears one plain line — \"I'll check for any new info "
-                    "first, then get you your answer\" — never tokens, "
-                    "credentials, git, or pulls. Full procedure: /save-brain.")
+                    "--recursive` and recheck anything it changed before "
+                    "answering. The user hears one plain line — \"I'll check for "
+                    "any new info first, then get you your answer\" — never "
+                    "helpers, credentials, git, or pulls, unless you genuinely "
+                    "need them to sign in. Full procedure: /save-brain.")
         detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
         return ("PULL FAILED — not an auth problem: "
                 + (detail[-1] if detail else "unknown error")
