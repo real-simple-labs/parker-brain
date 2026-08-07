@@ -1,5 +1,5 @@
 ---
-summary: "The method for adapting an existing video or script (such as a breakout organic) into a new ad."
+summary: "The method for adapting an existing video or script (such as a breakout organic) into a new ad — the why-viral comment check and seamless product-slot test that gate the choice, then the segment-faithful structural recreation process."
 ---
 
 # Adapting Scripts
@@ -48,6 +48,8 @@ You usually won't be selecting the inspiration but I'm including it to better un
 All three are valid, especially when you have validation of the concept working (like a number of organic views on a TikTok or engagement on a competitors' paid ad).
 
 **IMPORTANT:** The decision of which piece of content to rewrite as an ad script for our brand comes down to how easily we believe our solution (and sometimes problem) slots into the script and or concept idea.
+
+**Before the slot test, run the why-viral check — in the comments, not the view count.** A viral organic piece proves it can grab and hold your audience's attention, but the *reason* it went viral has to transfer to the product, and the comments are where that reason is visible (Harry Delmege, March 2026 interview — an independent second operator on the comments-carry-the-signal read the June 2026 Tonic Health signal also made). Read what people are actually reacting to. The cautionary example from the source: "I found this perfume in my boyfriend's bathroom — is he cheating on me?" went hugely viral, and every comment was about the boyfriend; nobody was thinking about the perfume, and anyone who was had the wrong association. Engagement metrics on an adaptation of that video would look great and conversion would not follow, because the viral mechanism (relationship drama) never attached to the product. The positive case is the mirror image: when a story goes viral *and* the product slots seamlessly into that story's arc — a problem-solution shape where your solution substitutes cleanly — that is the adaptation that performs. Story-led content (yapper-style riffs, Reddit-thread narratives) tends to pass this check most often, because the story is the mechanism and a product can usually be introduced inside a story without breaking it. If the mechanism doesn't transfer, don't shoehorn it; no amount of structural fidelity rescues a borrowed mechanism that points away from the product. And when the source is organic, direct-responsify gently — soft CTAs woven into the arc rather than a hard pitch bolted on, so the adaptation keeps the native feel that made the original work.
 
 For example, say you sell a fitness belt and the inspo video sourced, scraped or provided is a Dumbbell Hip Thrust Tutorial with the hook text overlay "How to grow a big booty 101": this would be a STRONG CHOICE because:
 

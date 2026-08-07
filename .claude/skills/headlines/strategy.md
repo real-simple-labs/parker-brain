@@ -116,7 +116,7 @@ Every headline must pass these before output.
 - Is the structure different from the current ad's structure (if iterating)?
 - For lifestyle brands: does it signal identity or tribe?
 - For problem/solution brands: does it hit Level 2 or Level 3 emotional depth?
-- Does it avoid the testimonial trap?
+- Does it avoid the testimonial trap — praise of the product rather than a signal about the person? (A verbatim carrying identity, a vivid image, or real emotional charge is the exception; lift it in her register.)
 - Would a fifth grader understand it?
 
 If any fails, rewrite or drop.

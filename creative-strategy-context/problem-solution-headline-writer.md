@@ -252,6 +252,10 @@ You should have variety like:
 
 If two or more headlines feel too similar in structure, go back to the context doc, find a different structure you haven't used, and rewrite one of them.
 
+Then widen the check past this batch. A construction that works once tends to become the house template — it gets reached for next round because it worked last round, and a few rounds later every headline the brand ships is the same shape wearing different words. "Got this? Do this." is one such shape, and it is an instance rather than the rule; the shape that goes stale on any given account is whichever one that account has been leaning on. The failure is invisible inside a single batch, because five headlines can each use a different structure from the doc and still be the fifth consecutive round built on the same one.
+
+So look at what the brand has already run. If the last several rounds share a construction, the pattern is what is being tested, not the message, and the read on which headline won is worth less than it looks. Deliberately break the shape on at least one option, even where the tired construction is the one with the results behind it.
+
 ---
 
 ## Final Output Format
@@ -318,6 +322,7 @@ This is your process. Follow it every single time for problem/solution brands.
 - Acquisition statics should serve cold audiences first — they'll work for warm audiences too.
 - If your ad only converts warm audiences, it will never scale.
 - Cold-audience-focused ads can work for both cold and warm traffic; warm-focused ads can't scale.
+- **The exception is the offer-based ad.** When the concept is the deal — BOGO, a percentage off, a free gift, a limited window — the offer is the hook, and it is aimed at people who already know the brand. A "buy one get one free" headline is not failing the no-context test; it is not taking it. Judge those on whether the offer is clear and urgent, not on whether a stranger could infer the product from the headline. Everything else on the account still gets the cold-audience bar.
 
 ### Be Clear, Not Clever
 
@@ -329,6 +334,8 @@ This is your process. Follow it every single time for problem/solution brands.
   - Bad: "Scientifically engineered to fight scalp flakiness"
   - Good: "My secret weapon against dandruff"
 - Concise copy wins. Headlines should be short and strong. Every word matters.
+
+**Clarity is one end of a deliberate choice, not a universal.** Before writing, settle where the selling happens. If it happens *on the ad* — the ordinary top-of-funnel static — the headline states plainly what this is, who it's for, and why it matters, and everything above applies. If it happens *after the click* — a native or advertorial static feeding a long-form page that does the convincing — the ad's job is to open a gap worth clicking, and a headline that resolves everything up front removes the reason to click at all. Both work. What fails is the middle: a headline too vague to land on its own and too explanatory to leave any curiosity, which is the most common way a static ends up in no man's land. Pick the end, then write to it. (This is the ad-architecture call. The separate sentence-level resolution — effortless to read, hard to predict — is `hook-psychology.md` #7.)
 
 ## Copywriting Best Practices
 

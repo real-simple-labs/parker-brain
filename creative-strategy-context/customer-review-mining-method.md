@@ -1,5 +1,5 @@
 ---
-summary: "How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates."
+summary: "How to mine customer reviews and comments for creative material — golden nuggets, denominators, theme rates, the qualifying signals (metaphors, insider if-you-know-you-know phrases, trigger events, transformations), and the whole-review concept including the review-as-primary-text play."
 ---
 
 # Customer review mining — method
@@ -44,6 +44,8 @@ A review-mining pass runs three parallel detectors, not one. They should not be 
 
 **The whole-review concept.** A review whose entire structure — skepticism, a specific number, a multi-product pairing, a sensory descriptor, a transformation — maps to a producible ad. The whole arc is the asset. These are rare and high-leverage.
 
+The most direct production form this takes: the review runs nearly verbatim as the ad's **primary text**, over a deliberately simple native image — no video, no design. The reference case (Harry Delmege, March 2026, stated from a client account): a 50-plus women's product whose unbeaten top ad for two years was a headshot of a woman smiling with a long customer story as the primary text; the story was the ad. The practical hunting move that surfaces these: sort the corpus by longest reviews and read those in full — length is where narrative arcs live, and it's exactly the slice sentiment summaries skip. Works hardest for older audiences (see `advertising-to-older-audiences.md`), and often strongest run through whitelisting or a non-brand page, where a long first-person story reads native.
+
 A strategist mining a corpus is doing all three jobs at once, which is why standard sentiment-summary prompts cannot reproduce the work. A prompt designed for one detector at a time misses what the other two surface.
 
 ## Qualifying signals — what makes a phrase or a review a candidate
@@ -58,13 +60,17 @@ Each signal below increases the chance that what is in front of you is usable. A
 
 **Vivid storytelling that paints a clear scene.** A use case, a moment, an environment an ad can be built around.
 
+**The trigger event — the moment the problem became undeniable.** A narrower and higher-value cut of the signal above, and one most mining passes walk straight past because it reads as background to the review rather than its point. Customers routinely volunteer the specific second the problem stopped being private, almost always because another person registered it: a child's question, a comment from a relative, a partner's reaction, a photo someone else took, a colleague's glance. It is the moment, not the condition — "I'd had it for years" is the condition; "my daughter asked why I never take my hat off" is the trigger event. Hunt for it explicitly, because the phrasing rarely announces itself: look for a named other person, a specific place or occasion, and a time-stamped beat inside an otherwise general review. These are the highest-leverage nuggets the method produces, since one of them can carry an entire ad — the format that consumes them is the trigger-event hook in `hooks.md` #22. Capture the scene and the verbatim line together; a summarized trigger event loses the thing that made it usable. Two governors apply harder than usual here: a single striking moment is not a pattern until the same *kind* of moment recurs across customers, and a moment involving a health, body, or appearance condition carries claims and personal-attribute constraints downstream, so flag it rather than promoting it silently.
+
 **Word-of-mouth and referral language.** "My friend told me," "my mom said I had to try." These map directly to ads that mirror the actual buyer journey, which most brands fail to do.
 
 **Unexpected or outlandish claims, unusual use cases.** Outliers rarely become headlines but surface use-case gaps the brand is not yet running against. They go in the use-case bucket even when not headline-ready.
 
 **Short, punchy sentences.** Lines that already sound like a hook.
 
-**Metaphors and similes.** Customers calling the product something other than what it is, explaining one thing by likening it to another. This is one of the two highest-priority signals and most review-mining prompts pass over it.
+**Metaphors and similes.** Customers calling the product something other than what it is, explaining one thing by likening it to another. This is one of the two highest-priority signals and most review-mining prompts pass over it. The reason it ranks so high: a customer's metaphor makes an abstract mechanism visible in one image, and swapping the brand's jargon for it has flipped losing ads into winners — the operator case (Aug 2025 what's-working conversation, stated): a joint-pain ad that failed reading "talking about joint pain" and ripped rewritten as "my knees used to go snap, crackle and pop like Rice Krispies."
+
+**Insider phrases — if-you-know-you-know language.** The community's own vocabulary: nicknames, inside jokes, coded shorthand that only people living the problem would recognize. Distinct from a metaphor — the value isn't the image, it's the tribal recognition. An ad that uses the community's own phrase makes the viewer stop and think "there's no way they're not one of us — how else would they know that?", and that recognition is trust no claim can buy. The widely-cited example among operators (stated, Aug 2025 conversation): Obvi's "food killer" ad, built on their community's phrase. Hunt for these explicitly — prompt for repeated in-group phrases and jokes, not just descriptors — and expect them to trip the voice-check governor more often than average; an insider phrase in the wrong register is still off-voice, but the observation underneath usually survives as concept fuel.
 
 **Alliteration.** Natural phonetic rhythm in how the customer describes the product or the outcome. The other of the two highest-priority signals most prompts miss. Alliterative phrases often live inside or alongside metaphors, because both indicate the customer is reaching for a vivid image rather than describing the thing literally.
 

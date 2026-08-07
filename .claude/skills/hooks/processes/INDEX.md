@@ -25,3 +25,4 @@ Each process is a family of hook formats grounded in a specific psychological fr
 - **reaction** — Lead with a held, authentic emotional reaction that demands explanation. Best for products with dramatic results, gifting seasons, beauty.
 - **comparison** — Set up a direct side-by-side between two options, methods, or eras. Best for solution-aware audiences weighing alternatives.
 - **multi-hook-stacking** — Stack two or three hooks back-to-back. Best for VSL-style ads or improving existing high-performers.
+- **trigger-event** — Open on the single moment the problem became undeniable, usually because someone else saw it. Best for problem-aware audiences tolerating a socially-costly problem, and for animation formats that can stage the moment.

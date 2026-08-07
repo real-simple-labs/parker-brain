@@ -46,6 +46,31 @@ Do not scaffold empty folders for domains nobody has connected and nobody asks a
 
 **6. Tell the user what grew.** A new surface is a real change to what the brain is. Name it plainly when it happens: what got created, what feeds it, what it will be watched for. The team should always be able to answer "what does our brain cover now?" from the map alone.
 
+## Growing a skill, not just a surface
+
+Everything above grows the brain sideways — new domains, new surfaces, new kinds of truth. A brain also grows *downward*, into how well it does the craft it already does. That happens when the team has a real body of their own work and the factory method never sees it.
+
+The factory craft skills are deliberately general. They carry the method — how a hook earns attention, how a script sounds spoken, how an iteration is chosen — and they are written to work for a brand the factory has never met. A team that has produced three hundred scripts for one brand holds something the method cannot: the actual answer to "how do *we* write this." That corpus usually lives outside the brain, in Notion, Airtable, a Drive folder, a spreadsheet, or in Parker itself, which holds every script from every ad the brand has run.
+
+**A fine-tuned skill is a brand-authored sibling of a factory skill, built from that corpus.** It does not replace the factory method; it specializes it. Build one when three things are true: the team has a real corpus (dozens of pieces, not a handful), the craft is one they have a distinct house style in, and the generic output keeps needing the same corrections.
+
+**How to build one.**
+
+1. **Read the whole corpus, not a sample.** Reach it through whatever tool holds it — the Notion or Airtable connection, the ad account through Parker MCP, the brain's own `sprints/`. Say how many pieces you read and where they came from; a fine-tune built on twelve scripts is a different object from one built on three hundred, and the doc should be honest about which it is.
+2. **Extract the profile docs first, the skill second.** What comes out of a corpus read is usually a script-voice profile (the sound: cadence, sentence length, how the brand opens, what it never says) and a visual vocabulary (what the brand has actually filmed and can film again, per `creative-strategy-context/visual-vocabulary-method.md`). Those are brand docs and belong in the vault. The fine-tuned skill sits on top of them and encodes the *process* differences — the beats this team uses, the structures they return to, the moves they have rejected.
+3. **Write it as a delta, not a fork.** The fine-tuned skill references the factory skill and states what is different for this brand. A full copy of the factory method with a few lines changed is the drift anti-pattern: the copy stops receiving factory improvements and nobody can see what was actually brand-specific.
+4. **Keep the provenance.** Every rule in it carries what it was derived from — how many pieces, from which surface, over what window — per `system/attribution-principle.md`. A fine-tuned rule with no corpus behind it is just an opinion that outranks the method.
+
+**Where it lives, and why that matters.** The fine-tuned skill goes in the brain's own `.claude/skills/`, alongside the copied factory skills but **under a distinct name** — `<brand>-scriptwriting`, not `scriptwriting`. This is not cosmetic. `scripts/sync-executable-layer.py` refreshes the copied executable layer on every pin bump against a bundle map of factory skill names; a brand-authored skill whose name is not in that map is invisible to the sync and survives every update untouched. A name that collides puts the team's work in the path of the refresh. Nothing is ever deleted by the sync, but a distinct name is what keeps a fine-tune permanently the team's own.
+
+This is also why a fine-tuned sibling beats the alternative. Editing a copied factory skill in place works, but that file is then frozen at the team's version while the factory's moves on. A separately-named sibling takes factory updates through the skill it references *and* keeps the brand specialization. It is the third and best option on the adaptation ladder: put the adaptation in brand docs when it fits there, build a fine-tuned sibling when it is a real process difference backed by a corpus, and edit a copy in place only when neither works.
+
+**Precedence.** Once a fine-tuned skill exists for a craft, it is the default for that craft, and the factory skill is the fallback and the underlying method it builds on. Register it in the brain's root `CLAUDE.md` — its "## The map" entry for `.claude/skills/`, and the execution-routing rule — so the planning pass routes to it rather than rediscovering it. A fine-tuned skill nobody routes to is the same as no fine-tune at all.
+
+**Keep it current, or retire it.** A corpus grows. Put the refresh on the brain's own cadence — re-read the window since the last run, fold in what changed, re-stamp the dates, and add the doc to `running-notes/refresh-schedule.md` like any other standing surface. A fine-tune built on last year's work quietly teaches the brain to write like the brand used to.
+
+**The same pattern generalizes past scripts.** Any craft the team has a real body of work in can carry one: the iterations they have run, the statics they have designed, the briefs they have written, the feedback they have given. And the corpus does not have to be finished work — a client channel's full feedback history, or every note a creative director has left, is a corpus about taste rather than output, and it fine-tunes the same way.
+
 ## Beyond marketing
 
 Nothing above is scoped to marketing. A team that connects the org's whole stack — the CRM, the support desk, the product roadmap, the hiring pipeline — can grow the brain into a genuinely org-wide intelligence, one surface at a time, and the marketing core stays intact as the first and deepest region rather than the boundary. The constraint is never the folder tree. It is only whether real data has arrived and whether each new surface keeps the standards that make the brain worth trusting.

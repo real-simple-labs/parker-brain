@@ -151,6 +151,22 @@ And honestly? It's worth it. It costs what it costs because Parker is doing a re
 
 Make this a gate, not a footnote: say the above in your own warm words, then **ask the user to confirm they want to kick off the full build now — through the popup question form, per the standing rule.** If they'd rather wait, switch plans first, or start smaller, that's a perfectly fine answer — offer to pick it back up whenever. Do not start Phase 0 until they've said go.
 
+## Then, before Phase 0 — get their own tools connected
+
+One more thing between the go-ahead and the build, and it takes two minutes. **Ask what tools the team already works in, and get them connected as MCPs before the build starts, not after.**
+
+The reason is ordering, and it is worth saying out loud so it doesn't read as busywork: this build is the single heaviest read Parker will ever run on this brand. A tool that is live while it runs gets read *into* the foundation — the briefs in their Notion shape the brief templates, the client channel in Slack shapes what the brain knows about their taste, the calendar shapes what it knows is coming. A tool connected after the build has to be reconciled against a V0 that was already written without it. Both work. The first is strictly better and costs nothing but doing it now. (`stated` — Alex, 2026-07-02 monthly webinar.)
+
+Ask it plainly and concretely — where do the briefs live, where does the team talk, where do the ideas sit, what do they design and generate in — rather than reciting a list of integrations. Name a few to prime it: Notion, Airtable, Google Drive, Slack, Gmail and calendar, a design tool, a generation tool, a deck tool. Then point them at their connector settings and wait while they wire up the ones they name.
+
+Three rules on this:
+
+- **It is not a gate.** The Parker MCP is the one connection the build genuinely needs (Phase 0 step 1 handles that, and it *is* a gate). Everything here is upside. If they'd rather just start, start — `/get-started` covers connecting tools at the end, and anything added later still folds in.
+- **Ask, don't assume.** Do not guess which tools they use from the category or the brand size. The question is short and the answer changes what the build can see.
+- **Note what they connected**, so the prompts that follow know to reach for it, and note what they said they use but didn't connect in `running-notes/missing-context.md`.
+
+The full standing behavior for connected tools — treating them as live first-class sources and keeping the brain in sync with them — is `system/parker-tools.md`.
+
 ## Setup Status Tracking
 
 Use the `update_parker_brain_setup_status` tool (Parker MCP) at every phase boundary. This is the **product-side telemetry** — it powers the team's monitoring page, so the user can see build progress without watching the terminal. It complements, never replaces, the `BUILD-STATUS.md` file below: the status file is the in-repo user-facing ledger and the resume checkpoint; this tool is the hosted view of the same journey. On a resume, the two anchors work together — `parker_config.json` carries the `run_id` for the start call, and the status file's ledger says exactly which prompts are done.
@@ -287,6 +303,8 @@ Do all of this before running a single content prompt.
    **Then one build logistics question, so the build never has to stop and wait for them:** partway through, Parker drafts the strategic roadmap — the direction everything after it builds on. Do they want to pause there and review it before the build continues, or should the build keep going and present the roadmap for their review at the end? Default to reviewing at the end: the pause is the right call only for someone who plans to watch the build live, and most people will not. Record the answer in `BUILD-STATUS.md`; the Phase 2 gate honors it.
 
    **Last, the gap question** — once the structured set is done: based on everything they told you, what do they still feel you're missing, and what is the one thing a smart outsider always gets wrong about this brand. → `running-notes/missing-context.md`
+
+   **Give them a yardstick for how much to say here, because "anything else?" reliably gets a one-line answer.** The framing that works, and it's worth saying in the ask itself: *if you're a brand, tell me everything you'd want an agency you just hired to know. If you're an agency, tell me everything you'd tell a new strategist joining this account* — the process, the tools, the data sources, where the ideas live, what the asset statuses mean, who decides what, the things everyone internally already knows and would never think to write down. Encourage them to **voice dictate it** and to be long rather than tidy; the model takes what's relevant and drops the rest, so self-editing here only loses information. If they've just connected tools per the step before the build, this is the moment to say what's in each one and what it's for. (`stated` — Jimmy, 2026-07-02 monthly webinar.)
 
    Whatever is captured is *stated* brand input, not verified fact. The targeted generating prompts carry the `brand-intake` block, which tells them to honor the brand's intent and definitions, treat descriptive claims as stated until the data confirms them, and surface conflicts rather than swallowing them. Anything skipped stays an open question in `missing-context.md`, never a blocker.
 5. **Mount the factory method at `parker-system/` and ship the executables into `.claude/`.** No prompt does this; the runner does. Three moves:

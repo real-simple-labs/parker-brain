@@ -68,3 +68,5 @@ It should not rewrite canonical organic method from one self-reported, self-inte
 ## Status
 
 Candidate created. No canonical context doc or swipe file has been rewritten from this source alone. One source, mixed confidence, reach and paid-translation claims unverified — promote on corroboration or Jimmy's approval.
+
+> **2026-08-07 — adjacent corroboration landed; candidates 1–6 remain open.** During the YouTube-teaching intake (Harry Delmege interview, 2026-03-27, applied on Alex's authorization), `adapting-scripts.md` gained a *why-viral comment check* before the slot test: read the comments to see whether the viral mechanism attaches to the product at all. That is an independent second operator on the same underlying read this source made — the comments carry the real signal — but it is a different move than any single candidate here: #4 (comment wave as VoC/NPD research) and #5 (organic-to-paid as an expiring translation) are still awaiting their own corroboration and were not applied. Nothing in this file's proposals 1–6 has been promoted by that edit.
