@@ -74,6 +74,8 @@ Every buyer claim needs customer language behind it. If the evidence is not in t
 
 The gap between the served-audience read and the actual-buyer read is usually the opportunity. The brand may be over-serving the customer it already knows, ignoring a frequent buyer, missing an emotionally intense buyer, or spending against a message that does not match what customers say actually moves them.
 
+Two real cases of how hard this gap pays when it's found (both stated by the operators involved, 2026 interviews on Alex Cooper's channel). Harry Delmege, on a long-running account: reviews, post-purchase surveys, and support tickets showed older men buying, yet the account had almost no creative for them — deliberately plain statics aimed at that persona became three of the account's top four ads, on production nobody would call impressive. A Parker beta brand: one persona appeared in roughly one of every two reviews but only about a tenth of the ads — creative made for that persona went on to perform. The lesson both carry: when the persona is genuinely underserved, execution polish is not the lever; coverage is. A plain ad aimed at an unserved buyer beats a beautiful ad aimed at the saturated one.
+
 Do not assume every gap should become a new paid creative lane. Some gaps point to lifecycle, wholesale, product education, creator selection, landing pages, retailer presence, or research. The response should fit the gap.
 
 ### Step 5 - Read awareness and sophistication
@@ -143,6 +145,10 @@ A good roadmap has four operating surfaces.
 **Quarterly plan.** Map the next ninety days against the diagnosis, seasonality, launches, holidays, product priorities, persona stagger, and business-as-usual cadence. Not every persona needs to be tested at once.
 
 **Monthly creative roadmap.** For each priority persona, define the creative idea, hook or message variants, production tier, evidence base, owner, target ship date, and lifecycle stage served.
+
+**The persona lane can run past the ad.** The version of this that larger accounts are increasingly running builds the whole path for one persona, not just the creative: an ad written for her, a landing page that answers her specific objection, and only then the product page. One supplements brand runs several of these in parallel — separate lanes for weight loss, perimenopause, menopause, male fertility, and general gut health — each with its own ads and its own page, so a buyer never lands somewhere written for someone else. Read as an inference rather than a proven law: it is a pattern observed across accounts, not a tested result, and it costs real production to stand up. But it names the ceiling on persona work that stops at the ad — a hyper-specific ad pointing at a generic page throws away most of what the specificity bought.
+
+The instinct it has to overcome is the pull toward broad relevance — writing so nobody is excluded, on the theory that a wider ad reaches a wider market. In a feed that is already personalized, speaking to one person is what earns the stop, and the personas an ad excludes are not lost, because they get their own ads. Narrowing is only a real cost when the brand can afford exactly one lane.
 
 ## Creative tiers
 

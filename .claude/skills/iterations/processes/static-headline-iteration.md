@@ -113,7 +113,7 @@ Every iteration must pass all of these.
 - Is the structure different from the current ad's structure? If it is the same structure with different words, it is not an iteration.
 - For lifestyle brands: does it signal identity or tribe? Would someone feel "this is for me" or feel excluded?
 - For problem/solution brands: does it hit Level 2 or Level 3 emotional depth?
-- Does it avoid the testimonial trap? "Best ever," "so good," "worth it," "love it," "can't believe how [adjective]," "whole family loves" — these are reviews, not headlines.
+- Does it avoid the testimonial trap? "Best ever," "so good," "worth it," "love it," "can't believe how [adjective]," "whole family loves" — these are reviews, not headlines. The trap is *praise*, not the customer's words: a verbatim carrying identity, a vivid physical image, or real emotional charge is the exception, and it gets lifted in her register rather than sanded into brand voice.
 - Would a fifth grader understand it?
 
 ## Output content for this iteration

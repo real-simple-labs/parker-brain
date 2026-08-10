@@ -1,5 +1,5 @@
 ---
-summary: "How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions."
+summary: "How to read own ad-account data — the two kinds of metrics and what the numbers actually mean for creative decisions. Includes the breakdown effect, attribution settings with dated 2026 platform changes (link-click-only click attribution, incremental attribution + cost caps), when spend deserves trust as the primary signal, and the outside-account 'what changed?' diagnostic for sudden performance swings."
 ---
 
 # Analyzing Ad Account Data
@@ -91,6 +91,7 @@ The standard attribution setting allows advertisers to choose whether to credit 
 You can choose your attribution setting at the ad set level when you create a campaign in Meta Ads Manager. The standard attribution settings that we support currently are:
 
 - **Click-through:** Counts results after any click occurs on your ad within one day or seven days of an optimised conversion. Clicks may include interactions such as likes, shares and saves.
+  - **Update, late March 2026 (stated by Barry Hott, April 2026 interview — verify against current Meta documentation before relying on it):** Meta changed click attribution to count **link clicks only**. A like, comment-section tap, or pause no longer qualifies a conversion as click-attributed. Two practical consequences: in-platform metrics move closer to third-party attribution tools, and ads that were harvesting cheap non-link clicks — comment-bait, fake-button statics, images people tap to enlarge — should lose spend after the change. When reading an account across that boundary, expect some pre-March "winners" to deflate for exactly that reason; it says the old measurement flattered them, not that creative quality fell.
 - **View-through:** Counts results after an ad impression was counted within one day of an optimised conversion.
 - **Engaged view:** Counts results after a video is played for at least ten seconds within one day of an optimised conversion.
 - **Standard attribution:** Optimise delivery for a selected time window and either click or view behaviour, such as 7-day click or 1-day view.
@@ -105,6 +106,8 @@ Incremental attribution is an attribution setting that optimises ad delivery for
 
 With incremental attribution, you can: focus campaigns on outcomes that are more likely to be directly driven by an ad and potentially drive more incremental conversions compared to your existing campaigns.
 
+Practitioner note (stated by Barry Hott, April 2026 interview): incremental attribution shipped mid-2025 without cost-cap support, which kept many buyers off it; cost caps were quietly enabled for it around December 2025. His read as of April 2026 — most larger advertisers, especially multi-channel brands with real existing awareness, should benefit from it, because it optimizes toward conversions the ad caused rather than conversions Meta can merely claim. Treat as one experienced operator's position, dated, not settled doctrine.
+
 ---
 
 ## Ad Account Analysis
@@ -114,6 +117,8 @@ Now that you understand attribution and breakdown effect, we are going to focus 
 ### 1. Determine which creative is taking up most of the spend in the account
 
 You are looking for a TOP SPENDING AD. It's easily detectable. We focus on spend because Meta's own system predicted the highest spending ad is the most potent ad in the account at any given time — this is also easily explained in the breakdown effect section.
+
+Spend deserves this trust only in proportion to how well the account's optimization mirrors the real business goal. When the optimization event, attribution setting, and exclusions line up with what the brand actually wants (new-customer purchases, say), spend is the system's honest verdict and per-ad ROAS/CPA second-guessing mostly misreads the breakdown effect. When they don't line up — wrong optimization event, stale exclusions, a proxy goal — spend can be confidently wrong. Check the alignment before leaning on the signal. The expensive version of this mistake, seen repeatedly in real accounts: a client turns off the account's top-spending ad because its per-ad CPA misses a benchmark, and the account scales down in the following period. Meta was allocating there because it predicted incremental results; killing it didn't reallocate that performance, it removed it.
 
 ### 2. Determine if the creative with the highest spend is optimizing for and hitting our KPIs
 
@@ -237,7 +242,16 @@ A few practical reads that follow from this:
 
 None of this means BOF ads are bad — demand capture is real and profitable. It means a fair read groups ads by the job they're doing before it judges them against each other.
 
-## Understanding Breakdowns
+## When Performance Suddenly Changes, Ask "What Changed?" — And Look Outside the Account First
+
+A sudden performance swing — good or bad — is rarely caused by the media buying, and often not by the creative either. The reflex has to be diagnostic: *what changed?* — and the checklist runs wider than Ads Manager (Barry Hott, April 2026 interview; his standing practice across client accounts):
+
+- **The account's own change history.** Did someone touch budgets, structure, or settings? A change someone made *is* the most common in-account cause.
+- **The website.** Landing pages, product pages, the homepage, checkout. Real case from the interview: a client demanded to know whether they needed better ads or better buying; the actual cause was a site change a developer had pushed early, which nobody in the company knew had gone live. Page-level changes routinely ship without the marketing team hearing about it — the Wayback Machine or a page-screenshot habit is how you check what a page looked like on the day performance moved.
+- **What people see when they Google the brand.** Organic results, paid search results, and especially a new prominent review — a fresh Reddit thread ranking for "[brand] reviews" moves conversion for every channel at once, in either direction.
+- **The world.** Seasonality, news, competitor launches, supply issues.
+
+Two disciplines follow. First, when performance is *good*, apply the same skepticism — "it was the ads" deserves the same burden of proof as "it was the algorithm." Second, the hardest and most valuable media-buying skill is knowing when to change nothing: when the cause is outside the account, in-account surgery makes it worse. Diagnose before touching anything.
 
 We use breakdowns to further get information about our prospects and our audience who is seeing the ads. You can use several types of breakdowns, such as:
 

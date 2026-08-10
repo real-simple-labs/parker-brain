@@ -1,5 +1,5 @@
 ---
-summary: "How creative strategy shifts with brand spend level — the different priorities and plays at roughly $10k, $50k, and $1m per month: getting shots on goal and finding angles at the low end, founder ads and new-audience reach in the middle, and big net-new creative swings and new-persona unlocks at scale."
+summary: "How creative strategy shifts with brand spend level — the different priorities and plays at roughly $10k, $50k, and $1m per month: getting shots on goal and finding angles at the low end, founder ads and new-audience reach in the middle, and big net-new creative swings and new-persona unlocks at scale. Also who should be making the ads at each level — founder-first, when to hire a part-time strategist vs an agency, and diversifying creative sources ('rivers') at scale."
 doc: creative-strategy-by-brand-size
 status: drafted
 source: internal creative-strategy doc
@@ -35,6 +35,15 @@ Big brands often want "big creative swings" — creativity for its own sake. Som
 - **Unlocking new personas is the huge unlock.** For a brand already spending a lot, opening a new audience is where the next leg of growth is — for example, an established denim brand starting to advertise to older audiences (see `advertising-to-older-audiences.md` for that specific play). This is the swing most worth making.
 - **Controversial hooks work better here.** They tend to land for big brands and for brands carrying a lot of negative reviews — exposing a category leader, deinfluencing angles, "is this well-known product even worth it?" You're playing on the awareness the brand already has; the size is what makes the controversy land.
 - **Net-new over iterative.** At this scale the appetite is for net-new concepts rather than iterating existing ones, and the volume supports pushing for wilder creative swings.
+
+## Who makes the ads at each level
+
+A second axis that moves with spend: whose hands are on the creative. The guidance below is Adcrate's operator doctrine (team-building video, June 2026; Barry Hott interview, April 2026 — thresholds stated, not laws):
+
+- **At the start, the founder makes the ads.** Founder ads are free to make — pick up the phone, walk down the street, talk about why the product exists — and they are sometimes the best-performing assets an account ever gets. Just as important: doing it yourself first is how you learn what good looks like, and without that you can't judge the strategists, freelancers, and agencies you'll hire later. The market is full of average ones.
+- **Get help when ads eat your time and you still need more ads.** That point usually lands somewhere between roughly $10k and $50k a month of spend. The first hire is a part-time strategist at a couple thousand a month, not an agency: at $10k/month spend, $2k of strategist plus $8k of extra media beats $10k of agency fee.
+- **An agency belongs at roughly $50k a month and up** — Adcrate's own working floor is around $100k. Below that, the fee is better spent on media and freelancers.
+- **At scale, diversify the sources of creative — "rivers into the account."** The metaphor a Meta employee gave Alex (stated): internal team, agency, freelancers, creators, customers filming — each is a river feeding the account, and the account wants quality, quantity, *and* diversity. One internal team, however good, is one locked perspective with house rules nobody is incentivized to challenge — Barry's example: a brand whose every ad opened with the brand name in the top line, a self-imposed rule no one questioned until an outside voice did. The most successful large accounts run several rivers at once, and teams that take everything in-house at scale tend to come back for outside perspective.
 
 ## Related
 

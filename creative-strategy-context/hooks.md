@@ -581,6 +581,7 @@ ALL HOOK FORMATS (NO PARTICULAR ORDER)
 - Call out the tradition directly in hook
 - Use phrases like: "STOP using [X]," "If you're doing [X] you're f*cked," "NEVER do [X]"
 - Frame as exposing truth or industry secret
+- The self-expose variant: point the exposé *at the brand being sold* — "Might get in trouble for this, but let me show you a secret [brand] may not want you to know" — and resolve the "secret" into the product's actual mechanism and pitch. Works because nobody expects an ad to open by seemingly turning on its own brand; strongest when the brand is known (exposing a name people recognize is inherently interesting) but observed working for unknown brands too (Laura Geller terracotta-tile ad, June 2026 "$1B adspend" read — top of their library by impressions)
 - Use words like "controversy" explicitly
 - Great for products challenging a norm
 - Drives comments and shares (boosts algorithmic distribution)
@@ -923,6 +924,46 @@ ALL HOOK FORMATS (NO PARTICULAR ORDER)
 - Example 1 (clean hair color): Voiceover, warm and unhurried — "You're allowed to want your color and your health. You don't have to choose." Show the salon chair, the cape, the smell that hits before the bowl is even open; she just sits there and waits for it to be over. Voiceover bridges: "I didn't want to stop coloring. I just didn't want to keep doing it like this. What should I do?" Calm open → a micro-moment she knows by heart → an open loop that makes the next frame feel like relief, not a pitch.
 - Example 2 (supplement, older audience): "You've done enough hard things this year. This one's easy." Creator calm at a kitchen table, no urgency, no countdown.
 - Example 3 (two-voice): Female peer opens — "we all somehow decided this was just how it had to be… it's not" — then a kind expert steps in to grant the permission and explain the gentler way.
+
+### 22. TRIGGER-EVENT HOOKS (THE MOMENT IT BECAME UNDENIABLE)
+
+**Description:** Open on the single concrete moment when the problem stopped being private and became undeniable — usually because another person saw it. Not the condition, not the journey, and not a trigger *word* (that is #14, which is about charged vocabulary). This is one specific scene: a kid asking "is that your dad?", a mother-in-law's comment across the dinner table, a partner who doesn't look at you the same way, a photo someone else posted. The problem existed for years; the trigger event is the second it became real.
+
+The distinction from **#18 Storytelling** matters and is easy to blur. A storytelling hook opens a journey and promises resolution — "5 years ago my doctor told me I'd never run again" — and the arc is the payoff. A trigger-event hook detonates in a single beat and does not promise a journey; it lands a moment the viewer has either lived or dreads living, and the recognition is the payoff. Storytelling earns attention with narrative pull. This earns it with exposure.
+
+**Best For:**
+- Problem-aware audiences who have been tolerating the problem and haven't acted
+- Categories where the real cost is social and relational rather than functional — appearance, odor, hair, skin, weight, hearing, teeth, home condition, pet health
+- Products whose honest benefit is dignity rather than performance
+- Animation, motion, and song formats especially, where a rendered scene can stage a moment a creator can't credibly perform (see `ad-formats/video/index.md` and `ai-animation-prompting.md`)
+- Longer-form problem-solution builds where the moment sets up an extended middle
+
+**Psychological Basis:**
+- Self-perception through another's eyes: the problem becomes real when someone else registers it, which is why the witness in the scene does more work than the condition
+- Recognition over persuasion: the viewer isn't being told they have a problem, they're being shown a moment they have already had
+- Anticipated shame: for viewers who haven't had the moment yet, the hook works as a near-miss they want to prevent
+- Specificity as proof: an oddly specific moment reads as lived rather than written, and generic versions of the same beat do not land
+- Compressed stakes: one scene carries the emotional weight a minute of problem-explanation would take
+
+**Best Practices:**
+- **Source the moment from customers, never invent it.** These come out of reviews, surveys, comments, and community threads, where people volunteer the moment unprompted. Mine for it deliberately per `customer-review-mining-method.md` — it is a named qualifying signal there.
+- Stage one moment, not a montage. The power is in a single scene held long enough to land.
+- Put a witness in it. The moment works because someone else saw; a person alone noticing their own problem is a different, weaker hook.
+- Keep the line the customer's, not the brand's. The overlay or spoken line should be the sentence a real person said or thought in that second.
+- Let the viewer arrive at the problem. Naming the condition in the hook collapses it back into a standard problem-aware opener.
+- Resolve it. A trigger event that opens hard and doesn't pay off reads as cruelty; the body has to earn the discomfort back.
+
+**Specific Considerations — where this format goes wrong:**
+- **Escalating to humiliation.** There is a real DR tradition of running this to its most aggressive end ("my wife left me"). It converts for some brands and it is a brand-level decision, not a default — most brands should stage the moment of being *seen*, not abandoned. Check `brand-lens.md` and the brand's claims constraints before writing to the aggressive end.
+- **Punching at the viewer instead of the moment.** The scene is about a situation, never an accusation. "You're disgusting" is not this format.
+- **Inventing the moment.** A fabricated trigger event is the most conspicuous kind of fake in the whole taxonomy, because anyone who has lived the real one can tell instantly.
+- **Protected-attribute and sensitive-category limits.** Health, body, and appearance moments run into ad-policy personal-attribute rules — the scene may not imply knowledge of the viewer's condition. The compliance layer is in the owning skill.
+- Weak fit for genuinely unaware audiences with no lived moment to recognize, and for low-consideration impulse products where the emotional stakes aren't real.
+
+**Visual Examples:**
+- Example 1 (hair loss, animation): A kid at a family barbecue looks at the man in the frame, then at the photo on the fridge, and asks the woman beside him "is that your dad?" Beat holds on his face. The condition is never named.
+- Example 2 (odor / grooming): Dinner table, mid-conversation, the mother-in-law pauses and says something small and polite that is unmistakably about the smell. Cut to the character's face registering that everyone at the table already knew.
+- Example 3 (appearance, near-miss framing): A woman scrolling tagged photos from a party she remembers enjoying, stopping on one, and the voiceover lands the line she actually thought: "how did I let it get this bad?"
 
 ---
 

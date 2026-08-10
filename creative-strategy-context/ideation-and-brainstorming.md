@@ -64,7 +64,13 @@ The sources rank roughly, and the ranking shifts depending on whether Parker is 
 
 **Organic on TikTok and Instagram.** Roughly thirty percent of the time an organic video is a full concept worth adapting one to one; the rest of the time you are mining for the high-level idea, the messaging, the hook, or the format. Build an avatar account to see what the target customer actually sees. Sometimes the find is a hook that stops the scroll even when the rest of the video is irrelevant. Sometimes it is a format worth borrowing, like a yapper ad with floating topics around the speaker's head, where the format gets logged and not the content.
 
+**TikTok Shop, as its own lane inside organic.** Shop creators are paid on conversion, so their content is pre-validated selling, not just pre-validated attention — the closest thing organic offers to a performance-tested ad. The top Shop creators and top Shop videos in the brand's category are a standing source; one operator team runs it as a pipeline (Hamby/Hudson, Aug 2025, stated): top Shop spenders get downloaded, framework-extracted, and banked in a database as an always-on inspiration pool.
+
+**YouTube show formats.** Structured, repeatable show mechanics — the two-rivals-debate, the panel that votes, the elimination circle — translate into ad formats that feel fresh on Meta because the audience knows the shape from YouTube but has never seen it sell. The evidence case (Hamby/Hudson, Aug 2025, stated): Sports Bible's "Agree to Disagree" two-fans-battle format rebuilt around a brand's real objections became a top spender. Thumbnails are a sub-lane: heavily-tested YouTube thumbnails recreated as statics with the product and headline swapped in (stated working in SaaS/lead-gen). The far-transfer logic applies here as everywhere: the win is being the *first to bring a mechanism to your audience* — a format your category has never seen beats another lap of what every competitor already runs.
+
 **Text sources.** Reddit and threads for concept ideation, and customer reviews for the exact language customers use.
+
+**A caution on Twitter and LinkedIn as sources.** Operator posts are a real idea surface and worth monitoring, but the selection pressure is backwards: what spreads there is what impresses marketers, and marketers are not the customer. The working heuristic named by multiple operators (Aug 2025 conversation): there's an inverse correlation between an ad's likes on Twitter and its performance in the account, and almost nobody posting attaches real metrics. Take ideas from there on their mechanism, never on their reception.
 
 ## The qualifier question: what makes an idea worth keeping
 
