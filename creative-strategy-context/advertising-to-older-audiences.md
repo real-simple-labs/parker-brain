@@ -80,6 +80,7 @@ From the research, roughly in order of strength — again, defaults to reason fr
 4. **Split-screen before/after** — the transformation shown side by side.
 5. **Authority-led explainer** — a doctor, esthetician, or coach walking through why it works.
 6. **Slower-paced product walkthrough with voiceover** — calm, clear, unhurried.
+7. **Simple native photo with the story in the primary text** — a plain, human image (a headshot of someone their age smiling; a phone-quality product photo) with a long first-person customer story carried entirely in the primary text. The image earns the stop; the story does the selling. The evidence case (Harry Delmege, March 2026 interview, stated): a 50-plus women's intimacy product whose top ad went unbeaten for roughly two years — just a woman smiling and a long testimonial in the primary text. Older audiences still read; this format trusts them to. Strongest when the story is a real review (see `customer-review-mining-method.md`, the whole-review concept), and often run whitelisted or through a non-brand page so it reads as a person talking, not a brand.
 
 These are strong starting points. Pick against the brand, product, and persona rather than defaulting to the top of the list every time.
 

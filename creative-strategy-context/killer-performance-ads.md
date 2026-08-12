@@ -1,5 +1,5 @@
 ---
-summary: "What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against."
+summary: "What a genuinely great performance ad looks like — the bar that creative and opportunities get graded against. Carries the full ugly-ads doctrine: what ugly actually means (mimicking the customer's organic feed), the fake-ugly tells, first-frame believability and setting-as-relevance, the barbell rule (super ugly or super obvious ad — the middle dies), and the AI-replication moat."
 ---
 
 # How to Make Killer Performance Ads (For Editors and Strategists) — Volume 1
@@ -153,15 +153,49 @@ Ugly ads aren't about making content that looks shit. It's about creating conten
 
 When we are editing, I am not looking for something that looks like it's from the TV. That is far too polished (sometimes polished content is good, though). I want it to look like it's from social media.
 
-(But I want 99% of our clips to include great lighting — this is a MUST.)
+(But I want 99% of our clips to include great lighting — this is a MUST. Ugly is not about ruining the lighting or shooting in the worst environment.)
 
 I want our ads to look NATIVE to the platform.
 
+### What "ugly" actually means
+
+Ugly means mimicking the experience the customer is already consuming on their organic feed. Not "raw for raw's sake" — believable as something that belongs in the feed. The rationale has an authority stamp on it: the head of Instagram has said (stated, quoted in Adcrate's March 2026 ugly-ads masterclass) that as authenticity becomes infinitely reproducible with AI, polish becomes cheap and a raw, imperfect aesthetic becomes a credibility signal. If your ads don't feel raw and imperfect, you are not signaling trust.
+
+The failure mode is content teams *thinking* they make ugly ads while shipping traditional UGC. The tells that expose a fake ugly ad, each one a signal no organic creator would emit:
+
+- A tripod or perfectly still framed shot where a real person would prop the phone against something or hold it
+- Sound effects, emojis, and a backing soundtrack layered over the edit
+- Every word captioned in platform-style captions, when much of the organic feed now runs no captions or one static headline that holds for the whole video
+- Transitions and an over-engineered edit — real organic content often has almost no cuts
+- A setting where nobody would actually talk about this product
+
+That last one is the highest-order tell. **The first frame has to be believable before anyone speaks** — the scroll-past decision happens before the creator opens their mouth. Ask: where would a real person talk about this product? Makeup gets discussed in a get-ready-with-me at the bathroom mirror. A protein bar gets eaten in the car after the gym. A pillowcase gets shown from bed. If the setting is wrong, the ad reads as staged and dies regardless of the script.
+
+Barry Hott's sharper version of the same point (April 2026 interview): the setting *is* the relevance signal — what's in the background beams "this is for me" or "this is not for me" straight into the viewer, mostly subconsciously, and most ads fail right there in the first frame. An office, a doctor's office, an airplane economy seat, and a business-class seat each speak to different people — and not literally (business class can be aspirational to the economy flyer). It can be worth ten versions of a video in ten settings to be relevant to ten kinds of people. Meta compounds the effect: when nobody engages with the first second, the system stops serving the ad at all, so a failed first frame doesn't just lose the viewer, it loses delivery.
+
 ### How do you make ads that look native?
 
-You must study ads on the platform. I know it sounds obvious, but you would be surprised how little people do this.
+You must study what your customers actually consume — their organic feed, not just other ads. Spend at least 10 minutes a day watching ads and taking notes on how they hook the audience, the cuts they make, and how they layer the video. **To make great ads, you must consume great ads.** But the sharper move is studying the organic content your customer's feed serves them, because that's what your ad sits between. Build a burner account that consumes what your customer consumes and study what shows up: who the creators are, how they film, whether they caption, where they sit. The full per-persona method for this is `creative-consumption-analysis.md`.
 
-Spend at least 10 minutes a day watching ads and taking notes on how they hook the audience, the cuts they make, and how they layer the video. It will give you tons of inspo and make you a better editor or strategist. **To make great ads, you must consume great ads.**
+Two especially dense study pools, both from the March 2026 masterclass:
+
+- **TikTok Shop creators.** They get paid only when content sells, so their format choices are performance-tested daily. The top ten TikTok Shop creators in your niche are a live curriculum in selling without feeling like selling.
+- **Yappers — people who can talk on camera and hold you.** Comedians are among the best at this even when they sell nothing. Anyone whose two-minute story you finish without noticing is demonstrating exactly the skill an ugly ad needs.
+
+### The barbell rule
+
+Ads that win now sit at one of two poles (stated as doctrine in the masterclass, repeated to the team in the March 2026 Harry Delmege conversation):
+
+1. **Super ugly and organic** — fully native, indistinguishable from the feed, believable first frame, minimal edit.
+2. **Super obviously an ad** — no disguise, but direct-response copy and visuals so strong that people don't care. A scripted AI-voiceover B-roll ad with ruthless copy belongs here, undisguised.
+
+**The middle ground is where ads go to die** — and the middle is where most brands' ads actually sit: meant to be ugly but carrying a soundtrack, a caption track, a staged setup that gets them sniffed out in half a second. Pick a pole and lean all the way in. One practical consequence: the editing rules earlier in this doc (cuts every 2-3 seconds, layered engagement editing) belong to the produced pole. A genuine ugly ad deliberately breaks them, because the organic content it imitates breaks them.
+
+### The AI-replication moat
+
+A ranking principle for choosing which ugly ads to make: prefer the ones AI can't yet fake, because the feed is filling with AI content and real human moments are gaining scarcity value. Multiple real people riffing off each other (a group taste test), a real podcast clip with genuine back-and-forth, a founder calling a real customer live — these are currently very hard to synthesize convincingly, and they carry proof-of-humanity that a solo talking head no longer does. The reference example: Brez's founder-calls-a-top-customer ad, where the customer sells the product unprompted — stated by the brand's team on Twitter to have spent over $1M as a top performer across a year. When AI catches up, this list shrinks; re-evaluate it rather than treating it as permanent.
+
+*Sources: Adcrate ugly-ads masterclass (Alex Cooper, YouTube, 2026-03-05), Barry Hott interview (2026-04-07), Harry Delmege interview (2026-03-27), "$1B adspend" formats video (2026-06-30). Operator doctrine from Adcrate's client accounts; spend figures are stated, not independently verified.*
 
 ## Awareness Levels
 

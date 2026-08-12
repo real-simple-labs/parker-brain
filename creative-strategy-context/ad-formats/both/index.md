@@ -82,6 +82,14 @@ The hook directly addresses a specific demographic, audience segment, identity, 
 
 The ad looks like something the viewer can tap, select, swipe, choose, answer, or interact with, even though the actual creative is not interactive. It uses buttons, quizzes, decision paths, tappable-looking elements, or engagement-bait UI.
 
+### Testimonial
+
+A customer's own words are the creative. A quote, review, or rating from a named or verified buyer is the dominant element, presented as the customer said it rather than rewritten into brand copy. The quote may be set as a pull-quote, a review card, a screenshot of the review, or a star rating with the text beneath. Distinct from `Authority Figure`, where the credibility comes from an expert's credentials rather than a buyer's experience.
+
+### Apology
+
+The ad is framed as the brand apologizing, confessing, or owning a mistake — a "we're sorry," a correction, an admission that something was missed or oversold. The apology framing is the concept, and it usually resolves into the thing the brand wants to say anyway.
+
 ### Other
 
 The format that applies when no defined format can be confidently assigned.

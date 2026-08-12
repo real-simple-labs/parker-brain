@@ -36,7 +36,7 @@ Some products straddle. Match the hook approach to the specific product and audi
 The audience's awareness stage shapes which formats fit.
 
 - **Unaware.** Does not know the problem exists. Storytelling, educational, authority hooks.
-- **Problem-aware.** Knows something is wrong but does not know solutions exist. Educational, myth-busting, investment, "how do I know if" hooks.
+- **Problem-aware.** Knows something is wrong but does not know solutions exist. Educational, myth-busting, investment, "how do I know if," trigger-event hooks.
 - **Solution-aware.** Has tried other solutions that failed. Comment-response, scam, investment, comparison, myth-busting hooks.
 - **Product-aware / most-aware.** Knows the product, considering it. Authority, social proof, viral product, direct CTA hooks.
 
@@ -48,6 +48,7 @@ The dominant emotion driving the purchase shapes which formats hit hardest.
 - **Aspiration-based** (wanting to be better, transformation) → POV, viral product, speed-and-transformation, authority hooks.
 - **Exhaustion or frustration-based** (tried everything, fed up) → investment, comment-response, myth-busting hooks.
 - **Exhausted, overwhelmed, or wary on a cold audience** (especially women 45+) → permission / Zone 1 hooks — release rather than activate; calm converts where pressure makes her scroll. See the valence×intensity / headspace mechanism in `hook-psychology.md` #11.
+- **Shame or social-cost-based** (the problem is visible to other people, and dignity rather than function is the real stakes) → trigger-event, POV, demographic hooks. The moment someone else registered the problem is what this driver opens on; see `hooks.md` #22.
 - **Tribal identity-based** (defining who I am) → demographic, POV, conversational hooks.
 - **Curiosity-based** (intrigue, wanting to know) → question, controversy, storytelling, "how do I know if" hooks.
 
@@ -77,6 +78,7 @@ Each process below holds the writing playbook for a family of hooks. Strategy pi
 - **comparison** — Set up a direct side-by-side between two options, methods, or eras. Best for solution-aware audiences weighing alternatives.
 - **multi-hook-stacking** — Stack two or three hooks back-to-back before the existing body. Best for VSL-style ads or improving existing high-performers.
 - **permission / Zone 1** (`hooks.md` #21, no standalone process yet) — A calm, high-valence opener that releases rather than activates ("You don't have to…", "You're allowed to stop…"). Best for cold audiences, exhausted/saturated categories, and women 45+. Write it from `hooks.md` #21 and `hook-psychology.md` #11 directly.
+- **trigger-event** — Open on the single moment the problem became undeniable, usually because someone else registered it. Best for problem-aware audiences who have been tolerating a socially-costly problem, and for animation formats that can stage a moment a creator cannot credibly perform. High-intensity open — read the zone-and-headspace caution above before defaulting to it on cold.
 
 Trigger Word (`hooks.md` #14) has no process and stays that way — it is an amplifier, not a standalone format. It is a layer of high-charge words ("scam," "secret," "obsessed," "never") applied inside whatever opener is already chosen, with no opening shape of its own. When the diagnosis calls for trigger-word intensity, reach for it from `hooks.md` directly inside the recommended format — never recommend it as a hook on its own.
 

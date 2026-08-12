@@ -73,6 +73,10 @@ A senior strategist applies general creative-strategy priors to brand-specific f
 
 **Volume drives hit rate.** Three to five winners per month at maturity. Faster-to-volume produces more unlocks.
 
+**Strategic volume, not volume.** The governor on the prior above: volume converts to hit rate only when the volume carries genuinely different strategy — new personas, new angles, new awareness stages — not cosmetic variation on one thesis. The named failure state (Alex + Hamby/Hudson, Aug 2025, from auditing large UK brands): eight-figure accounts shipping five to six hundred ads a month for six months straight with flat spend and rising CAC, because nobody went back to the drawing board. Strategy becomes more important as execution gets easier, not less.
+
+**AI amplifies the operator.** The tool is never the determinant of output quality; the human's judgment is, and AI mostly magnifies whatever skill is already there — which is why weak strategists producing 200 AI statics in an hour feel productive while shipping nothing that converts (Barry Hott + Harry Delmege, 2026 interviews). Two working tests keep this honest. The leverage test: before building the clever automation, ask whether the same hours on fundamentals — a script, a QA pass, hunting an underserved persona in the account — would make more money; it usually would. And the calibration test: the only people who make good ads with AI are people who can make good ads without it, because without that floor you cannot tell whether the output is any good. The strategist was never really paid for production — production commoditizes — but for the judgment and taste of knowing which ad to make next; that is the part the tools don't supply, and in a feed filling with generated content it is worth more, not less.
+
 **The deliverable of research is one sentence.** Senior strategists summarize down to a thesis the brief gets checked against. Mid strategists summarize down to a slide.
 
 **The brand's compliance loop is the operational answer to "what can we say."** If the brand has already run a claim in market the compliance loop has already filtered it.

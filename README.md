@@ -73,6 +73,7 @@ This repo is not the private OS/lab. Raw prompt experiments, test brand outputs,
 - `system/` - product-level methodology, retrieval, attribution, open-loop, and review standards.
 - `templates/` - reusable document templates.
 - `global/knowledge/` - approved generalized knowledge.
+- `global/knowledge/webinars/` - transcripts of Parker's own monthly customer webinars, each with a digest on top, so a user can ask what was announced or demoed on a given call. First-party product sessions only.
 - `self-improvement/` - product methodology for feedback, dreaming, and promotion behavior, not raw traces.
 - `open-loops-training/` - training and rubric material used by the open-loops system.
 - `fixtures/` - sanitized examples only.
@@ -84,7 +85,7 @@ This repo is not the private OS/lab. Raw prompt experiments, test brand outputs,
 - Raw customer or brand outputs.
 - Private test brands.
 - Planning docs and build trackers.
-- Raw transcripts and reasoning-layer notes.
+- Raw transcripts and reasoning-layer notes. The one carve-out is `global/knowledge/webinars/`: Parker's own customer webinars are first-party product sessions delivered publicly, and users need to be able to query them. Third-party transcripts still route through `expert-insights/` and get promoted as generalized method, not stored raw.
 - Raw expert-signal inboxes.
 - Prompt-review scratch audits.
 - Personal working preferences that are not product rules.

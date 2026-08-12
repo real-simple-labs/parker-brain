@@ -83,6 +83,10 @@ Every headline you generate must have an ICP AND an emotion. Trying to write hea
 
 Lifestyle brand reviews tend to be generic ("best ever!", "so good!", "love it!"). You are NOT pulling exact phrases from reviews to use as headlines. That creates weak, testimonial-style copy that doesn't scale.
 
+Know precisely what that rule is aimed at, because it is not a ban on the customer's words. What does not scale is *praise* — a line whose whole content is that the customer liked the product, which reads as an endorsement and signals nothing about who the buyer is. What does scale is a line that carries an identity, a vivid physical image, or a real emotional charge, and those occasionally arrive in a review already finished. An apparel brand's review reading "hubby looks freaking hot in these" is not praise of a product; it is an outcome, a relationship, and a register, all in six words.
+
+When a line like that turns up, the mistake is sanding it. "My husband looks great wearing these jeans" says the same thing and throws away everything that made it work — the slang, the bluntness, the sound of a specific person. Lift it in her register or leave it alone. But treat this as the exception it is: most lifestyle reviews really are generic, and the default remains reading them to understand the customer rather than mining them for copy.
+
 You're reading reviews to understand:
 
 - WHO the customer is
@@ -266,7 +270,7 @@ Go back to the context doc section with BAD EXAMPLES.
 
 **YOUR TASK:** For EACH headline you wrote, ask:
 
-1. "Does this sound like a testimonial quote?" (If yes, REWRITE)
+1. "Does this sound like a testimonial quote — praise of the product rather than a signal about the person?" (If yes, REWRITE. A customer verbatim carrying identity, a vivid physical image, or real emotional charge is the exception, and it gets lifted in her register rather than rewritten. See the reviews rule above.)
 2. "Could this headline be about any brand in this category?" (If yes, REWRITE)
 3. "Am I just saying it's 'good' or 'best' without identity/tribe signal?" (If yes, REWRITE)
 4. "Does this have a clear structure from the context doc?" (If no, REWRITE)
@@ -401,6 +405,7 @@ Avoid weak headlines that assume familiarity with the product or brand. Acquisit
 
 - If your ad only converts warm audiences, it will never scale
 - Cold-audience-focused ads can work for both cold and warm traffic; warm-focused ads can't scale
+- **The exception is the offer-based ad.** When the deal is the concept — BOGO, a percentage off, a free gift, a limited window — the offer is the hook and the ad is aimed at people who already know the brand. It is not failing the no-context test, it is not taking it. Judge it on whether the offer is clear and urgent instead. Everything else on the account still gets the cold-audience bar
 
 ### Be Clear, Not Clever
 
@@ -410,6 +415,8 @@ Clear > clever; clarity drives conversions.
 - Don't make the user guess — state the identity or benefit directly
 - Avoid vague or "marketer for marketers" copy
 - Write headlines that anyone can easily understand in a glance
+
+**Clarity is one end of a deliberate choice, not a universal.** Settle where the selling happens before writing. If it happens *on the ad* — the ordinary top-of-funnel static — everything above applies and the headline states plainly what this is and who it's for. If it happens *after the click* — a native or advertorial static feeding a page that does the convincing — the ad's job is to open a gap worth clicking, and resolving everything up front removes the reason to click. Both work. The middle fails: too vague to land alone, too explanatory to leave any curiosity. Pick the end, then write to it. (The sentence-level version of this trade — effortless to read, hard to predict — is `hook-psychology.md` #7.)
 
 Be specific, direct, and frictionless to understand. Concise copy wins. Headlines should be short and strong. Every word matters.
 
