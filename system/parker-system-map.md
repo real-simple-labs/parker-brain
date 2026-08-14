@@ -176,6 +176,9 @@ Recommends high-confidence iterations on a performing ad. Five processes — aud
 ### `ad-account-analysis/`
 Reads what the Meta data is actually saying — account audit, single-ad diagnosis, placement read, demographic breakdown, fatigue check. Routes to a process based on the question shape.
 
+### `congruence/`
+Audits one exact paid-social path from ad through Meta delivery to landing page. Requires the full creative, exact ad-level age-and-gender delivery with outcomes, and the rendered destination before issuing a fixed-weight score from 1 to 10. Prefers Parker MCP, then another authorized source, then a complete direct evidence packet. When the page is the break, builds and visually verifies a brand-faithful local mockup without touching the live site.
+
 ### `ai-ad-generation/`
 Generates AI-assisted ad creative. Static and video.
 
@@ -340,6 +343,7 @@ The map's job is to stay current. The thinking step's job is to reason against i
 
 | Date | Change |
 |---|---|
+| 2026-08-14 | **Congruence skill (v16).** Added the Parker-first, evidence-gated audit that joins one ad's message and person, actual age-and-gender delivery, and exact landing-page experience. Four seams produce a fixed weighted score from 1 to 10; missing creative, ad-level delivery, or a rendered destination blocks the score instead of inviting a guess. A page seam at 6 or below now requires a brand-faithful local mockup with mobile and desktop verification; the live site stays untouched. |
 | 2026-06-02 | Initial draft. Names the memory tier, the brand surface library, the skill library, the open-loops and hypotheses and validations pipeline, the system-level references, the thinking step, and the maintenance discipline. |
 | 2026-06-02 | Added the team tier, the knowledge tier, and the tools tier. The map now spans every layer Parker can reach across, from memory through brand surfaces through team surfaces through skills through domain knowledge through tools through prompts through system-level references. Maintenance triggers expanded to cover the three new tiers. |
 | 2026-06-02 | Future-pass note: the map currently lists tool categories rather than enumerated tools, and teams beyond creative strategy as the planned shape rather than as live surfaces. As tools register and teams come online, those sections need to deepen from category descriptions into named entries. |
