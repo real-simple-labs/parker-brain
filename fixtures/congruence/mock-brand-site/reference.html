@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Restwell &amp; Co. brand reference</title>
+    <style>
+      :root {
+        --ink: #18312f;
+        --cream: #f4efe5;
+        --paper: #fffdf8;
+        --rust: #b84f35;
+        --line: #c8c0b2;
+        --serif: Georgia, "Times New Roman", serif;
+        --sans: Arial, Helvetica, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); }
+      .notice { padding: 10px 24px; text-align: center; color: var(--paper); background: var(--ink); font-size: 13px; letter-spacing: .03em; }
+      header { display: flex; align-items: center; justify-content: space-between; padding: 22px 5vw; border-bottom: 1px solid var(--line); }
+      .logo { width: 178px; height: auto; }
+      nav { display: flex; gap: 28px; font-size: 14px; }
+      main { max-width: 1180px; margin: 0 auto; padding: 72px 5vw 96px; }
+      .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; }
+      h1 { max-width: 650px; margin: 0 0 22px; font-family: var(--serif); font-size: clamp(48px, 6vw, 82px); font-weight: 400; line-height: .98; letter-spacing: -.035em; }
+      p { max-width: 570px; font-size: 18px; line-height: 1.6; }
+      .eyebrow { margin-bottom: 18px; color: var(--rust); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+      .button { display: inline-block; margin-top: 20px; min-height: 48px; padding: 15px 24px; color: var(--paper); background: var(--rust); border: 1px solid var(--rust); border-radius: 2px; font-size: 14px; font-weight: 700; text-decoration: none; }
+      .product { width: 100%; border: 1px solid var(--line); border-radius: 2px; background: var(--cream); }
+      .rule { margin-top: 74px; padding-top: 28px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+      .rule strong { display: block; margin-bottom: 8px; font-family: var(--serif); font-size: 24px; font-weight: 400; }
+      @media (max-width: 760px) {
+        nav { display: none; }
+        header { padding: 18px 20px; }
+        main { padding: 42px 20px 72px; }
+        .hero { grid-template-columns: 1fr; gap: 32px; }
+        h1 { font-size: 48px; }
+        p { font-size: 16px; }
+        .rule { grid-template-columns: 1fr; gap: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notice">Complimentary delivery on every mattress</div>
+    <header>
+      <img class="logo" src="assets/wordmark.svg" alt="Restwell and Co.">
+      <nav aria-label="Primary"><span>Mattresses</span><span>Bedding</span><span>Our materials</span><span>Journal</span></nav>
+      <span>Bag (0)</span>
+    </header>
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Thoughtful sleep, made slowly</div>
+          <h1>A quieter kind of comfort.</h1>
+          <p>Natural materials, supportive construction, and an understated bedroom made for a longer night's rest.</p>
+          <a class="button" href="#details">Explore mattresses</a>
+        </div>
+        <img class="product" src="assets/mattress-room.svg" alt="Tall mattress in a warm, quiet bedroom">
+      </section>
+      <section class="rule" id="details">
+        <div><strong>Natural layers</strong><span>Wool, cotton, and responsive support.</span></div>
+        <div><strong>Made to last</strong><span>Thoughtful construction without visual noise.</span></div>
+        <div><strong>100 nights</strong><span>Time to decide in your own bedroom.</span></div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 920" role="img" aria-labelledby="title desc">
+  <title id="title">Tall mattress in a warm bedroom</title>
+  <desc id="desc">A simplified fixture illustration supplied for the Congruence forward test.</desc>
+  <rect width="800" height="920" fill="#e9dfce"/>
+  <rect y="650" width="800" height="270" fill="#c9b69b"/>
+  <rect x="90" y="190" width="250" height="310" fill="#fffaf0" stroke="#b9aa94" stroke-width="10"/>
+  <circle cx="215" cy="345" r="82" fill="#d8b07f"/>
+  <path d="M160 365c20-48 89-50 111-2v137H160z" fill="#b84f35"/>
+  <rect x="325" y="395" width="405" height="245" rx="4" fill="#18312f"/>
+  <rect x="300" y="330" width="455" height="235" rx="8" fill="#fffdf8" stroke="#c8c0b2" stroke-width="10"/>
+  <path d="M325 380h405M325 430h405M325 480h405" stroke="#ded6c9" stroke-width="4"/>
+  <rect x="340" y="278" width="160" height="72" rx="10" fill="#f4efe5"/>
+  <rect x="520" y="278" width="160" height="72" rx="10" fill="#f4efe5"/>
+  <rect x="72" y="640" width="700" height="18" fill="#8f7659"/>
+</svg>

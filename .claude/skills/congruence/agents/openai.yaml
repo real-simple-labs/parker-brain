@@ -1,0 +1,4 @@
+interface:
+  display_name: "Congruence"
+  short_description: "Score and repair ad-to-page alignment"
+  default_prompt: "Use $congruence to audit one Meta ad from creative through delivery and landing page, then build a brand-matched local mockup if the page is the break."

@@ -32,6 +32,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `algospeak.md` | Algospeak and platform content policy — the coded language creators use to get sensitive topics past moderation, how enforcement differs across TikTok and Meta, category playbooks for cannabis/CBD, adult wellness, harm reduction and mental health, crypto, and body image / sex ed, and the compliance guardrails that keep a brand's account alive. |
 | `analyzing-public-ad-accounts.md` | How to analyze public ad accounts — impression-rank as a proxy, volume/recency/variant reading, and the library-vs-live-spend distinction. |
 | `andromeda-v2.md` | How Meta's 2026 delivery and creative-diversity system (Andromeda v2) behaves, so delivery patterns read as auction mechanics rather than mysteries. |
+| `congruence.md` | The end-to-end Congruence method for one paid-social journey: infer who an ad's message and on-screen person appear built for, compare that intention with actual age-and-gender delivery and outcomes, inspect whether the exact landing page continues the same promise and audience experience, calculate a fixed-weight score from 1 to 10 without hiding missing evidence, and build a brand-faithful local page mockup when the destination is the break. |
 | `creative-consumption-analysis.md` | The per-persona method for characterizing the organic content a persona already watches — creator type, production level, setting, delivery, format — then reverse-engineering that native aesthetic into a casting and production brief so ads blend in to stand out. |
 | `creative-strategy-by-brand-size.md` | How creative strategy shifts with brand spend level — the different priorities and plays at roughly $10k, $50k, and $1m per month: getting shots on goal and finding angles at the low end, founder ads and new-audience reach in the middle, and big net-new creative swings and new-persona unlocks at scale. Also who should be making the ads at each level — founder-first, when to hire a part-time strategist vs an agency, and diversifying creative sources ('rivers') at scale. |
 | `creative-strategy-fundamentals.md` | The senior-strategist priors — confidence before speed, the kill-list discipline, where curiosity tends to land, the trying-too-hard failure modes. |
@@ -64,6 +65,15 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `visuals.md` | The why-layer of the visual craft — how the visual carries the message alone (sound off, copy skimmed) and the eight principles that decide whether an ad is even seen: half-second clarity, visual hierarchy, pattern interruption, human presence, emotional specificity, native context over polish, click pre-qualification, and cognitive ease. |
 
 <!-- DOC-MAP:END -->
+
+## Congruence audits
+
+One-ad audits that join the creative, actual Meta delivery, and the exact landing-page experience:
+- `congruence.md` — the lead method: lock one exact path, require all three evidence groups, score the four seams, and find the largest weighted leak
+- `ad-account-analysis.md` — the own-account delivery method, including breakdown and attribution cautions
+- `static-ad-design.md` — the visual hierarchy and message-image read for static creative
+- `visuals.md` — the visual why-layer for any creative and the rendered page
+- `persona-research-and-creative-strategy-process.md` — the audience diagnosis when stated, implied, and delivered audiences do not match
 
 ## Own ad-account reads
 
