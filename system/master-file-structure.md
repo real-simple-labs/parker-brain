@@ -129,6 +129,12 @@ parker/
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
+│       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; STAMPED from templates/brand-routines/codex/ (system/codex-support.md is the contract)
+│       │   ├── config.toml                          ← wires the same hooks for Codex + a mount-guard PreToolUse hook standing in for the deny rules
+│       │   └── README.md
+│       ├── .agents/skills                          ← symlink → .claude/skills — how Codex discovers the same skills (created by the runner; can't travel through the sync)
+│       ├── AGENTS.md                               ← Codex's entry point: routes to CLAUDE.md, carries the Parker voice (no output-style layer in Codex); synced from templates/brand-routines/AGENTS.md
+│       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
 │       │   ├── persona-voice-library.md            ← Emotional language companion with verbatim evidence
@@ -394,6 +400,7 @@ parker/
 │   └── creative-voice-review.md                    ← The voice gate, runs SECOND: runs scripts/voice-lint.py, judges per creative-strategy-context/ai-writing-tells.md, returns per-line verdicts. Both spawned by the creative skills' ship gates; ship to brand brains with their checkers and doctrine as one bundle.
 │
 ├── .claude/settings.json                           ← Committed factory config: "outputStyle": "Parker" activates the voice layer for every session in this repo
+├── .agents/skills                                  ← symlink → .claude/skills, so OpenAI Codex discovers the factory's skills too (AGENTS.md carries the Codex entry; system/codex-support.md is the contract)
 ├── .claude/output-styles/                          ← The chat-voice layer (not an agent, not a skill)
 │   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the onboarding runner and the propagate script.
 │
