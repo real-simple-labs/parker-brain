@@ -190,6 +190,11 @@ def away_digest() -> str:
         if (time.time() - then) < AWAY_HOURS * 3600:
             return ""
         hours = int((time.time() - then) / 3600)
+        # Rewritten history (a force-push, a rebase) makes old..head walk
+        # unrelated commits; brains never rewrite by procedure, but if one
+        # did, stay silent rather than recap the wrong span.
+        if git("merge-base", "--is-ancestor", old, head, timeout=5).returncode != 0:
+            return ""
         log = git("log", "--no-merges", "--date=relative",
                   "--pretty=format:%an%x09%ae%x09%ad%x09%s", f"{old}..{head}",
                   timeout=10)
@@ -207,11 +212,10 @@ def away_digest() -> str:
             return ""
         extra = (f"\n…and {len(others) - DIGEST_CAP} more commits."
                  if len(others) > DIGEST_CAP else "")
-        stat = git("diff", "--shortstat", f"{old}..{head}", timeout=10).stdout.strip()
         return (
             f"AWAY DIGEST — the user is back after roughly {hours} hours, and while "
             "they were gone others (teammates or scheduled routines) changed this "
-            "brain" + (f" ({stat})" if stat else "") + ":\n"
+            "brain:\n"
             + "\n".join(others[:DIGEST_CAP]) + extra +
             "\nBefore getting into their request, open with a short recap — a couple "
             "of plain sentences on what changed and why it matters to them, no "
@@ -290,17 +294,25 @@ elif state == "ok" and not is_submodule:
 elif state == "ok":
     tag = pinned_tag()
     pin = f" (pinned to factory release {tag})" if tag else ""
+    pull_story = attempt_pull()
     context = (
         f"Session start check: the parker-system/ method mount is initialized{pin}. "
-        + attempt_pull() +
+        + pull_story +
         " parker-system/ itself is read-only; factory updates arrive only through "
         "/update-brain moving the pin. Standing rule: every change this session makes "
         "gets committed and pushed immediately per /save-brain — never left local, "
         "never held for a 'should I save?' question."
     )
-    digest = away_digest()
-    if digest:
-        context += "\n\n" + digest
+    # The digest rides a successful pull only — attempt_pull's one success
+    # story starts with "Pulled the latest" (every failure story starts with
+    # PULL SKIPPED / PULL FAILED or the no-origin note; keep that pairing if
+    # either string changes). On a failed or skipped pull the stamp stays put
+    # too, so the whole span gets digested once the pull works again instead
+    # of being stamped over while the checkout is stale.
+    if pull_story.startswith("Pulled the latest"):
+        digest = away_digest()
+        if digest:
+            context += "\n\n" + digest
 else:
     context = (
         "Session start check: the parker-system/ method mount is "
