@@ -14,14 +14,27 @@ only a reminder. A dirty tree, an expired credential, or any other failure is ne
 papered over: the hook reports it loudly and makes fixing it the session's first
 job. Non-interactive throughout (GIT_TERMINAL_PROMPT=0), so it can never hang
 waiting for a password.
+
+On the standard layout it also keeps a small stamp file (.git/parker-last-session
+— per-clone, inside .git/, never committed) recording when the last session
+started and the commit it saw. When a session starts after a 12+ hour break, the
+gap becomes an away digest: the commits teammates and scheduled routines landed
+in this brain since the user was last here, handed to the model to relay in a
+couple of plain sentences before the work starts. The user's own commits (this
+clone's git identity) never make the digest, and the model is told to drop a
+digest of pure housekeeping rather than recite it.
 """
 
 import json
 import os
 import subprocess
+import time
 from pathlib import Path
 
 MOUNT = Path("parker-system")
+STAMP = Path(".git/parker-last-session")
+AWAY_HOURS = 12
+DIGEST_CAP = 20
 TOKEN_MARK = "x-access-token:"
 AUTH_SIGNS = ("authentication failed", "403", "401", "could not read username",
               "terminal prompts disabled", "invalid username or token")
@@ -148,6 +161,70 @@ def attempt_pull() -> str:
         return f"PULL SKIPPED — the automatic pull hit an unexpected error ({exc}); run it by hand per /save-brain."
 
 
+def away_digest() -> str:
+    """After a 12h+ break, what others changed since the user's last session.
+
+    Reads and re-stamps .git/parker-last-session (start time + HEAD of the last
+    session), then builds the digest from the commit range. Mechanical filters
+    live here — the gap, the range, the user's own commits dropped by this
+    clone's git identity — and the judgment call on whether the rest deserves a
+    recap stays with the model, which gets the digest with instructions rather
+    than a verdict. Returns '' whenever there is nothing worth handing over.
+    """
+    try:
+        head = git("rev-parse", "HEAD", timeout=5).stdout.strip()
+        if not head:
+            return ""
+        try:
+            prev = json.loads(STAMP.read_text(encoding="utf-8"))
+        except Exception:
+            prev = {}
+        try:
+            STAMP.write_text(json.dumps({"time": int(time.time()), "head": head}),
+                             encoding="utf-8")
+        except OSError:
+            pass
+        then, old = prev.get("time"), prev.get("head")
+        if not then or not old or old == head:
+            return ""
+        if (time.time() - then) < AWAY_HOURS * 3600:
+            return ""
+        hours = int((time.time() - then) / 3600)
+        log = git("log", "--no-merges", "--date=relative",
+                  "--pretty=format:%an%x09%ae%x09%ad%x09%s", f"{old}..{head}",
+                  timeout=10)
+        if log.returncode != 0 or not log.stdout.strip():
+            return ""
+        me_name = git("config", "user.name", timeout=5).stdout.strip()
+        me_email = git("config", "user.email", timeout=5).stdout.strip()
+        others = []
+        for line in log.stdout.strip().splitlines():
+            name, email, when, subject = (line.split("\t", 3) + [""] * 4)[:4]
+            if (me_email and email == me_email) or (me_name and name == me_name):
+                continue
+            others.append(f"- {name} ({when}): {subject}")
+        if not others:
+            return ""
+        extra = (f"\n…and {len(others) - DIGEST_CAP} more commits."
+                 if len(others) > DIGEST_CAP else "")
+        stat = git("diff", "--shortstat", f"{old}..{head}", timeout=10).stdout.strip()
+        return (
+            f"AWAY DIGEST — the user is back after roughly {hours} hours, and while "
+            "they were gone others (teammates or scheduled routines) changed this "
+            "brain" + (f" ({stat})" if stat else "") + ":\n"
+            + "\n".join(others[:DIGEST_CAP]) + extra +
+            "\nBefore getting into their request, open with a short recap — a couple "
+            "of plain sentences on what changed and why it matters to them, no "
+            "commit hashes or git talk; read the changed files first when a subject "
+            "line alone isn't enough to say something true. If everything above is "
+            "mechanical housekeeping — log stamps, syncs, formatting, pin bumps "
+            "with nothing behind them — skip the recap entirely and just answer: a "
+            "recap of nothing is noise."
+        )
+    except Exception:  # noqa: BLE001 — the digest is a nicety, never a blocker
+        return ""
+
+
 def mount_state() -> str:
     """'ok', 'empty' (gitlink present but never initialized), or 'absent'."""
     if not MOUNT.exists():
@@ -221,6 +298,9 @@ elif state == "ok":
         "gets committed and pushed immediately per /save-brain — never left local, "
         "never held for a 'should I save?' question."
     )
+    digest = away_digest()
+    if digest:
+        context += "\n\n" + digest
 else:
     context = (
         "Session start check: the parker-system/ method mount is "
