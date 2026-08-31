@@ -26,11 +26,11 @@ Then ask which of the two shapes they want (popup question form, one question):
 2. Repoint the submodule: edit the URL in `.gitmodules` to their copy, then `git submodule sync parker-system` and verify `git -C parker-system remote -v`.
 3. Update `running-notes/standard-sync.md`: posture `own-factory`, their remote, the release currently pinned, and a line recording the decoupling date and reason.
 4. Keep the deny rules **removed only if they ask** — under option 1 many teams still want the mount read-only in the brain and do their method editing in the factory copy itself. Ask; default is keep the rules.
-5. Commit as one commit: `Decouple: repoint method at team factory copy`.
+5. Done — the changed files save like any other change (Parker Desktop syncs them; on a self-managed brain, the team commits them as one commit).
 
 ## Option 2 — full absorb
 
-All of this lands as **one commit**, so it is one `git revert` away from undone:
+Do all of this in **one pass**, so the sync captures it as one coherent change:
 
 1. Capture the pinned state first: note the release tag from `git -C parker-system describe --tags` into the ledger — after the absorb, that line is the only record of which factory version the method forked from.
 2. Dissolve the submodule but keep the files in place:
@@ -41,7 +41,7 @@ All of this lands as **one commit**, so it is one `git revert` away from undone:
    - `git add parker-system/ .gitmodules` — the method files are now plain tracked content
 3. Remove the four `parker-system` deny rules from `.claude/settings.json` — the method is editable now, that's the point.
 4. Update `running-notes/standard-sync.md`: posture `independent` (or `own-factory` in spirit if they say they still want offers), the fork-point release, date, reason.
-5. Commit: `Decouple: absorb factory <tag> into the brain`.
+5. Done — the absorbed files save like any other change (Parker Desktop syncs them; on a self-managed brain, the team commits them as `Decouple: absorb factory <tag> into the brain`).
 
 ## After either path
 
@@ -52,5 +52,5 @@ All of this lands as **one commit**, so it is one `git revert` away from undone:
 ## Hard rules
 
 - Never run without the explicit confirmation. "Can we edit the prompts?" is a question about this skill, not an instruction to run it — explain first, offer, wait.
-- One commit per decoupling, so it reverts clean.
+- One pass per decoupling — never spread it across sessions, so the history stays clean to walk back.
 - Never decouple as a side effect of some other task hitting the read-only wall. If an edit inside `parker-system/` gets denied, the answer is to surface *why* it's read-only and mention this skill exists — not to run it.

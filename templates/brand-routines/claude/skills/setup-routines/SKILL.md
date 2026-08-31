@@ -5,7 +5,7 @@ description: Arms the brand brain's standing routines (refresh-context, dream, h
 
 # Setup routines — arm the schedules
 
-The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them for this instance.
+The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live wherever the folder lands. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't travel with the folder. This skill registers them for this instance.
 
 ## How it works
 

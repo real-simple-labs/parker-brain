@@ -125,7 +125,7 @@ parker/
 │       │   ├── settings.json                        ← wires the hooks below + "outputStyle": "Parker" (switches on the voice layer) + the deny rules that keep the mount read-only
 │       │   ├── output-styles/parker.md              ← Parker's voice as a Claude Code output style — the system-prompt layer; copied out of the mount's .claude/output-styles/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
-│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
+│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: on parker-brain-org repos blocks git and gh aimed at the brand repo (Parker Desktop owns the sync, per save-brain); mount operations pass
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │

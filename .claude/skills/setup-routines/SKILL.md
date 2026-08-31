@@ -5,7 +5,7 @@ description: One-time setup for a fresh brand brain instance. Registers the stan
 
 # Setup routines — arm the schedules (run once per instance)
 
-The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live the moment it's cloned. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't be committed to git. This skill registers them once for this instance.
+The routine *jobs* (`/refresh-context`, `/dream`, `/harvest-ideas`, `/evaluate-ideas`, `/research-loops`, `/update-brain`, `/self-improve`) already travel with this repo and are live wherever the folder lands. What does **not** travel is the *schedule* — cron cloud agents are bound to an individual account and can't travel with the folder. This skill registers them once for this instance.
 
 ## How it works
 

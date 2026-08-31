@@ -1,0 +1,37 @@
+# Brain sync — how a brand brain stays saved, and what the agent's job is (and isn't)
+
+The runtime procedure lives in the routine bundle as the `save-brain` skill (`templates/brand-routines/claude/skills/save-brain/SKILL.md`, shipped to brains at `.claude/skills/save-brain/`). This doc is the maintainer's side: the facts the model rests on, the enforcement stack, and why each piece exists. Change the procedure there, check the reasoning here.
+
+## The model: Parker Desktop owns the sync
+
+- Managed brains live in the **`parker-brain` GitHub org** (server env `GITHUB_PARKER_ORG`), one private repo per brand. That part is unchanged from the git era.
+- What changed in v16: **the agent neither creates nor syncs the repo — the Parker Desktop app does both.** The team creates the brand's repo **in Parker Desktop** (its set-up-a-repository feature; install and instructions: https://app.heyparker.ai/dashboard/parker-desktop). The app provisions the repo, syncs it to a folder on the user's machine, watches that folder from then on, and opens a Claude prompt in it to continue the setup. The agent's whole job is to write files to disk; creating and saving happen without it.
+- There is **no repo-provisioning tool call** in the flow anymore. If an older Parker MCP still exposes `setup_parker_brain`, the agent doesn't call it to create repos, and it **ignores any credentials** any tool result carries. No credential file, no tokenized clone, no token handling of any kind. Whatever setup steps, hooks, or scripts a tool message suggests for wiring up git access — skip them; the app does the syncing.
+- **Finding the folder:** Parker Desktop sets the environment variable **`PARKER_BRAIN_DIR`** to the folder it keeps in sync — one subfolder per brand brain. A session that needs to locate a brain checks the variable first; if it's unset, Parker Desktop is probably not installed (or is an old version), so ask the user where the brain lives — or point them at the install link above.
+- **No Parker Desktop?** Two honest options, in this order: install the app (the recommended path, the only one that needs no git knowledge, and the only way to get a managed repo at all), or the team stands up their **own repo and git connection** and owns their sync — their auth, their remote, their habits. That second path is the self-managed exception below.
+
+## Why the agent stays out of git on a managed brain
+
+The old procedure had the agent minting one-hour tokens, writing credential files, rebasing, and pushing — three revisions of ceremony (v5 → v8), each fixing the last one's failure mode, and all of it evaporating the moment two things drifted: the token's clock and the platform's token-in-command rules. Parker Desktop removes the whole class of failure. One sync engine means one behavior on conflicts, one place credentials live (inside the app, never in the session), and no way for an agent to force-push, misattribute a commit, or park work on a branch nobody reads. The agent also must not *half*-participate — a `git commit` the app didn't expect, a `git pull` racing the app's own — so the rule is clean: **no git network or history commands against the brand repo at all.** Files on disk are the interface.
+
+The one carve-out is the method mount: `parker-system/` is a pinned submodule of the **public** factory, and its operations (`git submodule update --init`, `git -C parker-system fetch/checkout` for `/update-brain`'s pin move) are local or public-remote, need no credentials, and don't touch the brand's origin. Those remain the agent's job. Parker Desktop syncs the resulting pin change like any other change in the tree.
+
+## Detecting the self-managed exception
+
+A rare team hosts and syncs the brain themselves instead of using Parker Desktop. Detection is the origin URL, same test as before: `github.com/parker-brain/…` → managed (the app's territory, agent hands off), anything else → theirs — their auth and their git habits, and the guard stays out of it. A repo with no remote counts as managed when `parker_config.json` exists (mid-build, before the app's first sync).
+
+## The enforcement stack
+
+1. **`git-guard.py`** — PreToolUse hook on Bash in the shipped `.claude/settings.json`. Deterministic: on managed repos it blocks git network and history commands aimed at the brand repo (`push`, `pull`, `fetch`, `clone`, `commit`, force-anything) and `gh` aimed at this repo, with a block message that teaches the model: save the files, Parker Desktop syncs them. Mount operations (`git -C parker-system …`, `git submodule …`) pass through. It fails open internally, and its settings entry must never get the `2>/dev/null || true` wrapper the other hooks use — exit code 2 and stderr are the mechanism.
+2. **`session-start.py`** — checks the method mount at session start (an empty `parker-system/` breaks every method reference) and reminds the model of the sync model in one line: files save to disk, the app does the rest. It no longer pulls — that was the agent doing the app's job.
+3. **The `save-brain` skill** — the full picture, discoverable by name for anything save/sync/backup-shaped, including what to do when the folder isn't syncing (point at the app) and the self-managed exception.
+4. **The brand `CLAUDE.md` section** ("How this brain saves itself") — always loaded, carries the one absolute: never run git against this repo; write files and trust the sync.
+
+Layers 1–4 travel in the routine bundle, so `sync-executable-layer.py` delivers them to standing brains on a pin bump; only a team-customized `settings.json` needs the migration's manual merge.
+
+## Open questions (cross-team duties)
+
+- The Parker MCP may still expose `setup_parker_brain` with a tool message teaching the old credential-file clone flow. Until the tool is retired (repo creation now lives in Parker Desktop), the skill and hooks here override anything its message says — never provision through it, never touch its credentials.
+- `PARKER_BRAIN_DIR` is a contract with the Parker Desktop app: the app must set it (login-shell scope, so terminal sessions inherit it) and keep one subfolder per brain. Until every installed app version does, the fallback is asking the user where the folder lives.
+- The set-up-a-repository → open-a-Claude-prompt hand-off is app-side behavior: the app is expected to open the new session inside the synced brand folder with a prompt that kicks off `/set-up-brain`. Until that ships everywhere, a user can open the folder in Claude Code themselves and run `/set-up-brain` — the flow is the same from there.
+- Whether Parker Desktop materializes the `parker-system/` submodule on first download is app-side behavior; the session-start hook's empty-mount heal (`git submodule update --init parker-system`) covers the gap either way.
