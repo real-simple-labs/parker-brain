@@ -22,7 +22,7 @@ Then ask which of the two shapes they want (popup question form, one question):
 
 ## Option 1 — repoint at their own factory copy
 
-1. They need a private copy of the public factory under their own control. A GitHub fork of the public repo cannot be made private, so it's a duplicate: bare-clone the public factory, push it to a new private repo they own. Walk them through it or do it with their credentials.
+1. They need a private copy of the public factory under their own control. A GitHub fork of the public repo cannot be made private, so it's a duplicate: bare-clone the public factory and push it to a new private repo they own. Walk them through doing it themselves — it's their own account and their own repo, outside Parker's managed storage, and their credentials stay theirs to handle.
 2. Repoint the submodule: edit the URL in `.gitmodules` to their copy, then `git submodule sync parker-system` and verify `git -C parker-system remote -v`.
 3. Update `running-notes/standard-sync.md`: posture `own-factory`, their remote, the release currently pinned, and a line recording the decoupling date and reason.
 4. Keep the deny rules **removed only if they ask** — under option 1 many teams still want the mount read-only in the brain and do their method editing in the factory copy itself. Ask; default is keep the rules.

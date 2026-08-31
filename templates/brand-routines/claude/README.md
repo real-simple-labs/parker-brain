@@ -1,6 +1,6 @@
 # `.claude/` — the brand brain's routines and config
 
-This directory makes the brand brain **self-running**. Clone this repo into a Claude Code cloud instance and everything here is live immediately — the context hook (which loads the craft catalog every turn), and the standing **routines** (the recurring jobs that keep the brain fresh without being asked each time).
+This directory makes the brand brain **self-running**. Open the brain's folder in Claude Code — wherever Parker Desktop has synced it — and everything here is live immediately — the context hook (which loads the craft catalog every turn), and the standing **routines** (the recurring jobs that keep the brain fresh without being asked each time).
 
 ## The two layers of a routine
 
@@ -29,7 +29,7 @@ So the work is fully pre-built and version-controlled; the clock gets armed **pe
   - `evaluate-ideas` — ranks the idea bank against the strategic roadmap.
   - `research-loops` — the weekly research cycle: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with what was found.
   - `self-improve` — weekly curation; governs dreaming and research proposals with the human in the loop.
-  - `save-brain` — how the brain saves itself: the Parker Desktop app syncs the folder both ways, so writing files to disk is the whole job. No git against the brand repo, ever — repos are created in Parker Desktop, any tool-returned credentials are ignored, and mount operations inside `parker-system/` are the one carve-out. Also covers finding the brain folder (the `PARKER_BRAIN_DIR` environment variable the app sets), what to do when the folder isn't syncing (point the user at the app, or let a technical team wire their own git), and the self-managed exception detected from the origin URL. On-demand, not scheduled.
+  - `save-brain` — how the brain saves itself: the Parker Desktop app syncs the folder both ways, so writing files to disk is the whole job. No git against the brand repo, ever — repos are created in Parker Desktop, any tool-returned credentials are ignored, and mount operations inside `parker-system/` are the one carve-out. Also covers finding the brain folder (via `~/.parker/workspace.json`, the pointer file the app maintains), what to do when the folder isn't syncing (point the user at the app, or let a technical team wire their own git), and the self-managed exception detected from the origin URL. On-demand, not scheduled.
   - `setup-routines` — registers the cron schedules; run automatically by the build, by hand on a fresh clone, or any time to change a cadence.
   - `get-started` — the first-run walkthrough: teaches a new user what the brain knows, how to use it (you just talk to it), and the one best first move, grounded in the brand's own data. On-demand, re-runnable, and offered proactively on a fresh brain. Not a scheduled routine.
 - **`settings.local.json`** (gitignored, you create it) — instance-specific overrides: MCP server connections, model, theme. **Do not commit secrets or MCP connections** — those are per-instance.

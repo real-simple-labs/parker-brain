@@ -19,11 +19,17 @@ The repo itself was created **in Parker Desktop** — the app's set-up-a-reposit
 
 ## Finding the brain folder
 
-Parker Desktop sets the environment variable **`PARKER_BRAIN_DIR`** to the folder it syncs — one subfolder per brand brain. When a session needs to locate a brain (or confirm this folder is the synced one), check that variable first. If it's unset, the app probably isn't installed or is out of date: ask the user where the brain lives, and point them at the app if they don't have it.
+Parker Desktop writes a pointer file at a fixed location: **`~/.parker/workspace.json`**, shaped like
+
+```json
+{ "version": 1, "root": "/Users/jane/parker", "updatedAt": "2026-08-31T09:00:00.000Z" }
+```
+
+`root` is the parker folder the app keeps in sync — one subfolder per brand brain. When a session needs to locate a brain (or confirm this folder is the synced one), read that file first. If it's missing or unreadable, the app probably isn't installed or is out of date: ask the user where the brain lives, and point them at the app if they don't have it.
 
 ## When the folder isn't syncing
 
-If there's reason to think this folder is **not** being synced — the user says they don't have Parker Desktop, the folder sits outside `PARKER_BRAIN_DIR`, or they ask "is this backed up?" and you can't say yes — don't improvise a git flow. Say it plainly: right now the work lives only on this machine. Then give them the two real options, in this order:
+If there's reason to think this folder is **not** being synced — the user says they don't have Parker Desktop, `~/.parker/workspace.json` is missing or the folder sits outside its `root`, or they ask "is this backed up?" and you can't say yes — don't improvise a git flow. Say it plainly: right now the work lives only on this machine. Then give them the two real options, in this order:
 
 1. **Install Parker Desktop** (recommended — no technical setup, it handles everything): https://app.heyparker.ai/dashboard/parker-desktop. Setting up the brand's repository happens right in the app, and once it's running it syncs this folder from then on.
 2. **Wire up their own repo and git connection**, if the team is technical and wants to own their sync. That makes this a self-managed brain (below) — their auth, their remote, their habits.

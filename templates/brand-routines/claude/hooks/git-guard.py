@@ -88,10 +88,12 @@ def main() -> int:
             print(BLOCK, file=sys.stderr)
             return 2
 
-    # Everything that moves history or the network on the brand repo is the
-    # app's territory: push, pull, fetch, clone, commit, and friends.
+    # Everything that moves history, the network, or the working tree on the
+    # brand repo is the app's territory: push, pull, commit, and friends —
+    # including the destructive local ops (restore, checkout, clean, stash)
+    # whose results the app would faithfully sync.
     if re.search(
-        r"\bgit\b[^;&|]*\b(push|pull|fetch|clone|commit|rebase|merge|reset|remote\s+set-url)\b",
+        r"\bgit\b[^;&|]*\b(push|pull|fetch|clone|commit|rebase|merge|reset|restore|checkout|clean|stash|remote\s+set-url)\b",
         cmd,
     ):
         print(BLOCK, file=sys.stderr)

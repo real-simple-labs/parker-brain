@@ -1,6 +1,6 @@
 # Brand-routines template — the stampable living loop
 
-This is the factory-canonical **routine bundle** that `parker-system/prompts/onboarding-runner.md` stamps into every brand brain. It is what makes a shipped brain *self-running*: clone the brain into a Claude Code instance and the dreaming / self-improvement / idea / refresh routines are live immediately, ready to be armed on a schedule.
+This is the factory-canonical **routine bundle** that `parker-system/prompts/onboarding-runner.md` stamps into every brand brain. It is what makes a shipped brain *self-running*: the moment the brain's folder lands on a machine (synced by Parker Desktop) and opens in Claude Code, the dreaming / self-improvement / idea / refresh routines are live, ready to be armed on a schedule.
 
 Author the routines **here**, once. Do not hand-edit them per brand — when a routine's method changes, change it here and re-stamp, so every brain stays in sync. (This is the "clean long-term flow" the brand-instance `.claude/README.md` points at.)
 
@@ -19,7 +19,7 @@ Author the routines **here**, once. Do not hand-edit them per brand — when a r
     - `save-brain` — how the brain saves itself: the Parker Desktop app syncs the folder both ways, so writing files to disk is the whole job — no git against the brand repo, ever (repos are created in Parker Desktop and any tool-returned credentials are ignored; mount operations inside `parker-system/` are the one carve-out), what to do when the folder isn't syncing (point at the app, or let a technical team wire their own git), and the self-managed exception detected from the origin URL. The `git-guard` hook enforces the no-git rule.
     - `disconnect-factory` — the deliberate decoupling for teams that want to own and edit the method itself. Confirmation-gated.
     - `setup-routines` — one-time installer that arms the cron schedules in a fresh instance.
-    - `get-started` — the first-run walkthrough: teaches a new user (or a teammate who just cloned the brain) what it knows, how to use it, and the single best first move, grounded in the brand's own data. On-demand and re-runnable; the runner invokes it live at hand-off.
+    - `get-started` — the first-run walkthrough: teaches a new user (or a teammate who just got the brain through Parker Desktop) what it knows, how to use it, and the single best first move, grounded in the brand's own data. On-demand and re-runnable; the runner invokes it live at hand-off.
 - **`schedules/`** → stamped to the brand brain's **`schedules/`**. One recipe per routine (task, cron cadence, what it runs/reads/updates, deliverable, status, origin) plus the folder README. These are repo-native cron routines — **not** the Parker-MCP `workflows/` product surface (see `parker-system/system/schedules.md`).
 
 ## How it's stamped
