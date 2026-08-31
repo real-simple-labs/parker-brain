@@ -9,7 +9,7 @@ This is the repo-native answer to "how does the brain stay alive when no one is 
 Keep these two apart — they look similar and are not the same thing.
 
 - **Workflows** are a **Parker-MCP product** concept: a recurring task a user hands to the hosted Parker product, which runs it through the MCP surface. They live in `workflows/` and call out to the MCP.
-- **Schedules** are **repo-native**: cron routines that run inside *this brand brain repo*, in a Claude Code instance, against the files in the repo. They do not call the Parker MCP. If you cloned the brain to your own machine and pointed Claude Code at it, the schedules are what would run to update the docs.
+- **Schedules** are **repo-native**: cron routines that run inside *this brand brain repo*, in a Claude Code instance, against the files in the repo. They do not call the Parker MCP. If the brain's folder is on your machine (synced by Parker Desktop, or a self-managed clone) and Claude Code points at it, the schedules are what would run to update the docs.
 
 The distinction matters because the brand brain is meant to be portable. A workflow assumes the hosted product is in the loop; a schedule assumes only the repo and a Claude Code runner. When in doubt: if it keeps the *repo's own docs* fresh and needs nothing but the repo to run, it is a schedule.
 

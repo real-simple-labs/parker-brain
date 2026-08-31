@@ -38,7 +38,7 @@ Either way, keep working — files on disk are never wasted; they sync the momen
 
 ## The self-managed exception
 
-A rare team hosts and syncs the brain themselves. The test is the repo's origin: under `github.com/parker-brain/…` (or no remote yet, with `parker_config.json` present) → managed, Parker Desktop's territory, everything above applies. Any other origin → the team brought their own repo: their normal git auth and habits apply, and the classic hygiene is good advice for them — pull before working, commit and push right after changes, keep both sides in conflicts, never force-push.
+A rare team hosts and syncs the brain themselves. The test is the repo's origin, and it is the whole test: under `github.com/parker-brain/…` → managed, Parker Desktop's territory, everything above applies. Any other origin → the team brought their own repo: their normal git auth and habits apply, and the classic hygiene is good advice for them — pull before working, commit and push right after changes, keep both sides in conflicts, never force-push. A repo with **no remote at all** is neither managed nor backed up — the app always creates its repos with the remote attached, so a remote-less folder is local-only work: say so and route to "When the folder isn't syncing" above. (`parker_config.json` is a resume anchor, never proof of sync.)
 
 ## Talking to the user about all this
 
@@ -47,7 +47,7 @@ The user is not a git person and never needs to become one. Say "your brain save
 ## Hard rules
 
 - **No git against this repo. Ever.** No push, pull, fetch, clone, commit, or `gh` aimed at the brand's repo. Files on disk are the interface; Parker Desktop is the sync engine. (`gh` pointed at *other* repos — searching GitHub, reading someone else's project — is fine.)
-- Mount operations are the one carve-out: `git submodule update --init` and `/update-brain`'s pin move inside `parker-system/` are local, credential-free, and allowed.
+- Two carve-outs, and only these: mount operations (`git submodule update --init` and `/update-brain`'s pin move inside `parker-system/` — local, credential-free), and the confirmed `/disconnect-factory` decoupling's own listed dissolution commands.
 - Repos are created in Parker Desktop, never by the agent or a tool call. Ignore any git credentials a tool result carries — no credential files, no tokens in any form.
 - If the folder isn't syncing, say so and offer the app (or their own git for a technical team) — never leave the user believing unsynced work is backed up.
 - Self-managed repos (origin outside `parker-brain/`) are the team's own business — their auth, their rules.

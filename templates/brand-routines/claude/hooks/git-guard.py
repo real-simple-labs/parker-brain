@@ -106,7 +106,8 @@ def main() -> int:
     # whose results the app would faithfully sync.
     if re.search(
         r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
-        r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url)\b",
+        r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url"
+        r"|branch\s+(-[a-zA-Z]*[dDmM]|--delete|--move|--force))\b",
         cmd,
     ):
         print(BLOCK, file=sys.stderr)
