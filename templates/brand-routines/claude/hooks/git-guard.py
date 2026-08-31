@@ -78,8 +78,11 @@ def main() -> int:
     # with no -R/--repo pointing elsewhere. gh search/api/gist/... against
     # other targets is the user's business and passes.
     if re.search(r"(^|[;&|(\s])gh\s", cmd):
+        # gh repo subcommands that MUTATE default to the current repo too;
+        # plain `gh repo clone/view <target>` names its target and passes.
         repo_context = re.search(
-            r"(^|[;&|(\s])gh\s+(pr|issue|release|workflow|run|secret|variable|label|browse)\b",
+            r"(^|[;&|(\s])gh\s+(pr|issue|release|workflow|run|secret|variable|label|browse"
+            r"|repo\s+(rename|delete|archive|unarchive|edit|sync|set-default))\b",
             cmd,
         )
         retargeted = re.search(r"(\s-R\s|--repo[=\s])", cmd)
@@ -88,12 +91,22 @@ def main() -> int:
             print(BLOCK, file=sys.stderr)
             return 2
 
+    # Cloning a managed-org repo is the app's job; cloning anything ELSE
+    # (the public factory for /update-brain's decoupled compare, a reference
+    # repo) is fine even from inside a managed brain.
+    if re.search(r"\bgit\b[^;&|]*\bclone\b", cmd):
+        if MANAGED_ORG.search(cmd):
+            print(BLOCK, file=sys.stderr)
+            return 2
+        return 0
+
     # Everything that moves history, the network, or the working tree on the
     # brand repo is the app's territory: push, pull, commit, and friends —
     # including the destructive local ops (restore, checkout, clean, stash)
     # whose results the app would faithfully sync.
     if re.search(
-        r"\bgit\b[^;&|]*\b(push|pull|fetch|clone|commit|rebase|merge|reset|restore|checkout|clean|stash|remote\s+set-url)\b",
+        r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
+        r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url)\b",
         cmd,
     ):
         print(BLOCK, file=sys.stderr)

@@ -1,6 +1,6 @@
 # Schedules — keeping a brand brain running on its own
 
-A brand brain is a repository. Clone it into a Claude Code instance and it is a living thing that can run jobs against itself. A **schedule** is one of those jobs: a cron routine that runs inside the cloned brain to keep its docs current without anyone asking. The nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs — each is a schedule.
+A brand brain is a repository. Open its synced folder in a Claude Code instance and it is a living thing that can run jobs against itself. A **schedule** is one of those jobs: a cron routine that runs inside the brain to keep its docs current without anyone asking. The nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs — each is a schedule.
 
 This is the repo-native answer to "how does the brain stay alive when no one is typing." Dreaming proposes schedules (the third of its five buckets); self-improvement creates, edits, pauses, and removes them; and the routines themselves run on the back end against the repo.
 
