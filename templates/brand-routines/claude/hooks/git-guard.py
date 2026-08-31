@@ -107,7 +107,7 @@ def main() -> int:
     if re.search(
         r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
         r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url"
-        r"|branch\s+(-[a-zA-Z]*[dDmM]|--delete|--move|--force))\b",
+        r"|branch\s+(-[a-zA-Z]*[dDmMf]|--delete|--move|--force|--copy))\b",
         cmd,
     ):
         print(BLOCK, file=sys.stderr)
