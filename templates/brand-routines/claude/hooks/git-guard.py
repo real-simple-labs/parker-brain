@@ -69,8 +69,12 @@ def main() -> int:
     if not managed:
         return 0
 
-    # Mount operations are the agent's job and pass through.
-    if "-C parker-system" in cmd or re.search(r"\bgit\b[^;&|]*\bsubmodule\b", cmd):
+    # Mount operations are the agent's job and pass through. Plain submodule
+    # commands (update/init/sync/status/deinit/add) need no carve-out — they
+    # carry no denied verb — so there is deliberately no blanket `submodule`
+    # pass: it would shield compound commands like `git submodule status;
+    # git push` and `git submodule foreach git push`.
+    if "-C parker-system" in cmd:
         return 0
 
     # gh is blocked only when it would touch THIS repo: it names the managed
@@ -107,7 +111,7 @@ def main() -> int:
     if re.search(
         r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
         r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url"
-        r"|branch\s+(-[a-zA-Z]*[dDmMf]|--delete|--move|--force|--copy))\b",
+        r"|branch\s+(-[a-zA-Z]*[dDmMfcC]|--delete|--move|--force|--copy))\b",
         cmd,
     ):
         print(BLOCK, file=sys.stderr)
