@@ -79,6 +79,7 @@ The bar: skip the obvious. "Don't advertise blankets in summer" is advice the br
 
 ## Related
 
+- `gifting-and-q4-creative.md` — the execution layer for gifting windows and the Q4 sale cycle: the buyer-vs-user split, the depth-over-breadth persona call into peak, a suggested phase model for the sale, reading pre-season months as signal, and the adaptation ladder. Pull it whenever the seasonal moment is a gifting one.
 - `new-product-launches.md` — launches often ride a seasonal moment; the timing logic overlaps.
 - `ideation-and-brainstorming.md` — where seasonal angles enter the hunt and the sprint plan.
 - `persona-research-and-creative-strategy-process.md` — the served-vs-buyer read behind a seasonal ICP shift.
