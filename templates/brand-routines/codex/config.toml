@@ -1,0 +1,79 @@
+# Committed Codex project config for the brand brain — the twin of
+# .claude/settings.json, for teams that open this repo in OpenAI Codex instead
+# of Claude Code. Same brain, same hooks, same guardrails; only the harness
+# wiring differs. Codex reads this file once the project is trusted, and the
+# hooks below reuse the exact scripts in .claude/hooks/ — one canonical policy
+# implementation, two harnesses.
+#
+# What maps where:
+# - The craft-catalog injection, session-start mount check, MCP pull log, and
+#   git guard are the same four hooks .claude/settings.json wires for Claude.
+# - The permissions.deny rules that keep the parker-system/ mount read-only
+#   have no Codex equivalent, so the mount-guard PreToolUse hook does that job
+#   here (JSON deny on any edit or write under parker-system/).
+# - "outputStyle": "Parker" has no Codex equivalent; the voice ships through
+#   AGENTS.md at the repo root instead (it points at the full style file).
+# - Skills load from .agents/skills/, a committed symlink to .claude/skills/ —
+#   same SKILL.md files, discovered by both harnesses.
+#
+# Trust: on first use Codex asks to trust the project and approve these hooks
+# (interactively, via /hooks in the TUI); the approval is recorded per-user in
+# ~/.codex/config.toml as a hash of each hook's definition below. The command
+# strings are deliberately stable — they delegate to scripts in .claude/hooks/,
+# so factory updates to the scripts arrive through the normal sync without
+# re-approval. Editing THIS file changes the hashes and needs a re-approval,
+# which is exactly the protection working.
+#
+# Maintainer note (factory): this file and .claude/settings.json describe the
+# same behavior — change a hook in one, change it in the other in the same PR.
+
+[features]
+hooks = true
+
+[[hooks.SessionStart]]
+matcher = "startup|resume|clear|compact"
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "python3 .claude/hooks/session-start.py 2>/dev/null || true"
+timeout = 60
+statusMessage = "Checking the method mount"
+
+[[hooks.UserPromptSubmit]]
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = "python3 .claude/hooks/craft-context.py 2>/dev/null || true"
+timeout = 30
+statusMessage = "Loading the craft catalog"
+
+# The git guard. --codex switches its block envelope from Claude's
+# exit-2/stderr mechanism to the PreToolUse JSON deny Codex understands.
+# No error-silencing wrapper here, same as the Claude wiring: its output IS
+# the mechanism, and the script fails open internally.
+[[hooks.PreToolUse]]
+matcher = "Bash|shell|local_shell|exec_command"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "python3 .claude/hooks/git-guard.py --codex"
+timeout = 30
+statusMessage = "Checking the git procedure"
+
+# The mount guard — Codex's stand-in for the settings.json deny rules.
+[[hooks.PreToolUse]]
+matcher = "Edit|Write|NotebookEdit|apply_patch"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "python3 .claude/hooks/mount-guard.py"
+timeout = 30
+statusMessage = "Guarding the method mount"
+
+[[hooks.PostToolUse]]
+matcher = "mcp__.*"
+
+[[hooks.PostToolUse.hooks]]
+type = "command"
+command = "python3 .claude/hooks/pull-log.py 2>/dev/null || true"
+timeout = 30

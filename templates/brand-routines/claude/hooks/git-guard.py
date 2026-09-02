@@ -21,12 +21,19 @@ Design and rationale: parker-system/system/brain-sync.md.
 Fail-open by design: any unexpected error exits 0 so a guard bug can never
 brick every Bash call. Exit 2 blocks the tool call and shows stderr to the
 model; exit 0 allows silently.
+
+Run with --codex (the .codex/config.toml wiring does) and a block is emitted
+as the PreToolUse JSON deny on stdout instead — Codex ignores the exit-2
+mechanism, and the JSON permissionDecision form is its native contract. Same
+guard, same message, different envelope.
 """
 
 import json
 import re
 import subprocess
 import sys
+
+CODEX = "--codex" in sys.argv
 
 MANAGED_ORG = re.compile(r"github\.com[:/]parker-brain/", re.I)
 
@@ -46,6 +53,23 @@ BLOCK = (
 )
 
 
+def block(msg: str) -> int:
+    """Block the tool call in whichever envelope the harness understands."""
+    if CODEX:
+        print(json.dumps({
+            "decision": "block",
+            "reason": msg,
+            "hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": "deny",
+                "permissionDecisionReason": msg,
+            },
+        }))
+        return 0
+    print(msg, file=sys.stderr)
+    return 2
+
+
 def origin_url() -> str:
     try:
         r = subprocess.run(
@@ -59,9 +83,13 @@ def origin_url() -> str:
 
 def main() -> int:
     data = json.load(sys.stdin)
-    if data.get("tool_name") != "Bash":
+    # Claude Code reports the shell tool as Bash; Codex mirrors that name in
+    # hook payloads but its native shell tools can also surface directly.
+    if data.get("tool_name") not in ("Bash", "shell", "local_shell", "exec_command"):
         return 0
     cmd = (data.get("tool_input") or {}).get("command") or ""
+    if isinstance(cmd, list):  # Codex shell tools pass argv lists
+        cmd = " ".join(str(c) for c in cmd)
     if not re.search(r"\b(git|gh)\b", cmd):
         return 0
 
@@ -92,16 +120,14 @@ def main() -> int:
         retargeted = re.search(r"(\s-R\s|--repo[=\s])", cmd)
         names_org = re.search(r"(^|[\s/:\"'=])parker-brain/", cmd, re.I)
         if names_org or (repo_context and not retargeted):
-            print(BLOCK, file=sys.stderr)
-            return 2
+            return block(BLOCK)
 
     # Cloning a managed-org repo is the app's job; cloning anything ELSE
     # (the public factory for /update-brain's decoupled compare, a reference
     # repo) is fine even from inside a managed brain.
     if re.search(r"\bgit\b[^;&|]*\bclone\b", cmd):
         if MANAGED_ORG.search(cmd):
-            print(BLOCK, file=sys.stderr)
-            return 2
+            return block(BLOCK)
         return 0
 
     # Everything that moves history, the network, or the working tree on the
@@ -114,8 +140,7 @@ def main() -> int:
         r"|branch\s+(-[a-zA-Z]*[dDmMfcC]|--delete|--move|--force|--copy))\b",
         cmd,
     ):
-        print(BLOCK, file=sys.stderr)
-        return 2
+        return block(BLOCK)
 
     return 0
 

@@ -34,6 +34,10 @@ So the work is fully pre-built and version-controlled; the clock gets armed **pe
   - `get-started` — the first-run walkthrough: teaches a new user what the brain knows, how to use it (you just talk to it), and the one best first move, grounded in the brand's own data. On-demand, re-runnable, and offered proactively on a fresh brain. Not a scheduled routine.
 - **`settings.local.json`** (gitignored, you create it) — instance-specific overrides: MCP server connections, model, theme. **Do not commit secrets or MCP connections** — those are per-instance.
 
+## The brain on OpenAI Codex
+
+Everything here has a Codex twin, so the same brain opens in either harness: `.codex/config.toml` wires these same hooks for Codex (plus a `mount-guard` hook standing in for the deny rules), `AGENTS.md` at the repo root is Codex's entry point and voice, and `.agents/skills` is a committed symlink to this directory's `skills/` so both harnesses load the same skills. First Codex run needs a one-time trust-and-approve step — `.codex/README.md` walks through it; the full contract is `parker-system/system/codex-support.md`.
+
 ## Portability rule (important)
 
 These skills are **self-contained**. The brand brain is the *output* of the `parker-brain` factory, but the factory does **not** travel with the brain's folder. So every skill embeds its own method and points only at in-repo surfaces — `CLAUDE.md`, the folder READMEs (`open-loops/`, `idea-bank/`, `dreaming/`, `schedules/`…), the `parker-system/` mount, and the brand's own docs. The mount itself travels as a pinned submodule; if it ever arrives empty, `git submodule update --init` materializes it (the session-start hook catches that and says so).
