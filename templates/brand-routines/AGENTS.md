@@ -28,6 +28,11 @@ file wins wherever this summary is thinner.
 - **`parker-system/` is read-only.** It is the pinned factory method mount;
   a hook enforces this, and the rule holds even where the hook can't see.
   Updates arrive only through `/update-brain` moving the pin.
+- **Git here follows `/save-brain` exactly.** Parker's own short-lived
+  credentials in `.git/parker-credentials`, plain `git push origin main`,
+  never `gh`, never a bare or forced push, and every change committed and
+  pushed the moment it's done. A hook blocks the wrong moves and teaches the
+  right one; mount operations (`git -C parker-system …`) pass.
 - **Review gates run inline.** Where a creative skill says to spawn the
   `context-grounding-review` or `creative-voice-review` agent, you have no
   subagent mechanism: open the agent file under `.claude/agents/`, execute its

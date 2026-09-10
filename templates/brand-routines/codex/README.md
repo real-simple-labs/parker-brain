@@ -37,8 +37,9 @@ loads are the same files Claude loads.
    factory updates to the hook *scripts* and is only re-asked if
    `config.toml` itself changes.
 
-## Known differences from Claude Code (by design, documented in
-`parker-system/system/codex-support.md`)
+## Known differences from Claude Code
+
+All by design, documented in `parker-system/system/codex-support.md`.
 
 - **Review gates run inline.** Codex has no Markdown subagents, so the
   creative skills execute `.claude/agents/*.md` as a separate inline pass
