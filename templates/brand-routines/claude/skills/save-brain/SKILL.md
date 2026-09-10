@@ -19,6 +19,12 @@ The repo itself was created **in Parker Desktop** — the app provisions it, syn
 
 **To check rather than assume** ("is my work saved?"), `git status --short --branch` is read-only and allowed: no changed files and no `ahead` count means the app has caught up.
 
+## Optional usage export
+
+Only when `parker_config.json` sets `usage_logging.enabled` to literal `true`, run `python3 scripts/usage-log.py export` before confirming this batch synced (`py -3` on Windows). This writes metadata-only `.usage/` files; Parker Desktop saves them with the other files. The collector only reads Git's worktree location and never stages, commits, pulls, or pushes. The app does not run the export command itself. In a self-managed brain, export before the team's normal save.
+
+Missing or false means off: skip this step, never enable logging to complete a save, and never force-add `.usage/.local/`. If export fails, continue normal work and report the telemetry gap. Stop only updates ignored checkpoints; counters written after this export travel with the next export, without a second save cycle. See `parker-system/system/usage-logging.md`.
+
 ## Finding the brain folder
 
 Parker Desktop writes a pointer file at a fixed location: **`~/.parker/workspace.json`**, shaped like

@@ -279,3 +279,7 @@ Do not treat this file as a scratchpad for internal working preferences.
 Do not turn internal working preferences into product rules without approval.
 
 Do not let process obscure the answer. Be rigorous, but stay direct, useful, and plainspoken.
+
+## Optional usage records
+
+Token logging is off unless `parker_config.json` sets `usage_logging.enabled` to `true`. See `system/usage-logging.md`. Run `python3 scripts/usage-log.py export` before staging a normal factory save; it is a no-op when disabled. Commit the exported `.usage/` records with that save, never force-add `.usage/.local/`, and never load telemetry as marketing context. Export failure must not rerun or block the underlying work.

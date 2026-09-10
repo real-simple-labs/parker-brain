@@ -20,7 +20,11 @@ live in `tests/test_runtime_hooks.py`; the optional local-binary probe is
   repo for a replacement. A missing dispatcher still needs repair before relying
   on the hooks. Windows commands use
   `py -3`; other platforms use `python3`. Install Git and Python 3.11+.
-  The factory itself does not install the brand hooks.
+  The factory itself installs only optional usage hooks, not the brand workflow hooks.
+  `scripts/usage-log.py` runs at SessionStart, Stop, SubagentStop, and SessionEnd
+  in both runtimes; it is inactive unless `usage_logging.enabled` is true in
+  `parker_config.json`. See `system/usage-logging.md` for cache accounting,
+  transcript coverage, and the ignored-checkpoint/export split.
 - Independent creative reviewers read `.claude/agents/context-grounding-review.md`
   and `.claude/agents/creative-voice-review.md` as their instructions. The parent
   supplies those paths, the task, draft, brand root, and pull receipts through
@@ -108,6 +112,10 @@ capability guard to the brand-authored root `CLAUDE.md`. v18 re-sync delivers th
 Parker Desktop sync model (`git-guard.py`, `session-start.py`, `save-brain`, root
 `AGENTS.md`); in a Parker Desktop folder, saving needs no `.git/` write from the
 sandbox, because the app commits outside it. Its migration updates the root `CLAUDE.md`.
+The v21 re-sync adds optional usage hooks, the collector, and file-only export
+before save confirmation without changing the logging preference. Parker Desktop
+syncs the exported records; the collector never runs the retired Git save loop.
+New hook commands require approval in the runtime.
 Team-edited files remain theirs and are listed by the sync; report any retained
 override that prevents a runtime fix from taking effect.
 

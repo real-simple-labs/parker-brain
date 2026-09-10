@@ -77,6 +77,7 @@ This repo is not the private OS/lab. Raw prompt experiments, test brand outputs,
 - `open-loops-training/` - training and rubric material used by the open-loops system.
 - `fixtures/` - sanitized examples only.
 - `evals/` - quality gates and regression checks.
+- `system/usage-logging.md` - optional token accounting for both runtimes, including cached input and parent/worker splits. Enable with `usage_logging.enabled: true` in `parker_config.json`; export metadata to `.usage/` at normal saves. Off by default.
 - `release-notes/` - versioned summary of brain changes.
 
 ### What does not belong here

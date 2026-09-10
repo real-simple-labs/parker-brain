@@ -402,6 +402,10 @@ parker/
 │   └── creative-voice-review.md                    ← The voice gate, runs SECOND: runs scripts/voice-lint.py, judges per creative-strategy-context/ai-writing-tells.md, returns per-line verdicts. Both spawned by the creative skills' ship gates; ship to brand brains with their checkers and doctrine as one bundle.
 │
 ├── .claude/settings.json                           ← Committed factory config: "outputStyle": "Parker" activates the voice layer for every session in this repo
+├── .codex/config.toml                            ← factory opt-in usage hooks; no brand workflow guards
+├── .usage/                                       ← created only when enabled; committed exports and ignored .local checkpoints
+├── scripts/usage-log.py                           ← shared metadata-only token collector and report CLI
+├── system/usage-logging.md                        ← opt-in, cache accounting, build labels, and coverage contract
 ├── tests/                                         ← standard-library hook and release-sync regressions; optional installed-runtime probe
 ├── .github/workflows/runtime-checks.yml             ← runs the regression suite on Linux, macOS, and Windows
 ├── .agents/skills                                  ← symlink → .claude/skills, so OpenAI Codex discovers the factory's skills too (AGENTS.md carries the Codex entry; system/codex-support.md is the contract)
@@ -704,6 +708,10 @@ parker/
 ```
 
 ---
+
+## What changed on 2026-09-15 — v21
+
+- Optional token accounting ships in both runtimes and the brand sync bundle, disabled by default. `.usage/` holds commit-ready metadata; `.usage/.local/` stays ignored. Build delegation carries explicit stage/attempt labels when enabled, and save confirmation exports counters as files for the existing sync. See `system/usage-logging.md` and `release-notes/2026-09-15-v21-usage-logging.md`.
 
 ## What changed on 2026-09-10 — v17
 

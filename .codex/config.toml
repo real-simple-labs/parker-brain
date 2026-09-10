@@ -1,0 +1,37 @@
+# Optional factory usage logging. See system/usage-logging.md.
+[features]
+hooks = true
+
+# Metadata-only usage logging; inactive unless usage_logging.enabled is true.
+
+[[hooks.SessionStart]]
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+timeout = 30
+
+[[hooks.Stop]]
+
+[[hooks.Stop.hooks]]
+type = "command"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+timeout = 30
+
+[[hooks.SubagentStop]]
+
+[[hooks.SubagentStop.hooks]]
+type = "command"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+timeout = 30
+
+[[hooks.SessionEnd]]
+
+[[hooks.SessionEnd.hooks]]
+type = "command"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / 'scripts/usage-log.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" hook --runtime codex"
+timeout = 30
