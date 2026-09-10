@@ -3,7 +3,10 @@
 Same brain, same skills, same method as Claude Code. `config.toml` wires the
 shared scripts in `.claude/hooks/` through a launcher that finds the brand root,
 including when a session starts in a nested folder. On Windows the commands use
-`py -3`; install Python with its Windows launcher.
+`py -3`; install Python with its Windows launcher. The bootstrap uses Git's
+nearest worktree root and never searches above it. Outside a repo, or when that
+root has no dispatcher, it exits successfully without running a different repo's
+hooks. Repair a missing dispatcher before relying on hook protection.
 
 The `parker-brain` filesystem profile extends Codex's workspace defaults and
 makes `parker-system/` read-only. `mount-guard` also catches native patches and

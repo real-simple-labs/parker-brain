@@ -42,6 +42,16 @@ class ReleaseSync(unittest.TestCase):
             mount = brand / "parker-system"
             method = (mount / "method.md").read_bytes()
 
+            unrelated = brand / "unrelated.md"
+            unrelated.write_bytes(b"Fixture user work\n")
+            git(brand, "add", "--", "unrelated.md")
+            with self.assertRaises(subprocess.CalledProcessError):
+                git(brand, "diff", "--cached", "--quiet")
+            self.assertTrue((mount / ".git").is_file())
+            self.assertIn("unrelated.md", git(brand, "diff", "--cached", "--name-only"))
+            # Simulate the user separating their work before approving the absorb.
+            git(brand, "restore", "--staged", "--", "unrelated.md")
+            git(brand, "diff", "--cached", "--quiet")
             git(brand, "rm", "--cached", "parker-system")
             (brand / ".gitmodules").unlink()
             self.assertTrue((mount / ".git").is_file())
@@ -52,7 +62,11 @@ class ReleaseSync(unittest.TestCase):
             self.assertIn("parker-system/method.md", git(brand, "ls-files"))
             self.assertNotIn("160000", git(brand, "ls-files", "--stage"))
             self.assertTrue((brand / ".git/modules/parker-system").is_dir())
+            self.assertEqual(set(git(brand, "diff", "--cached", "--name-only").splitlines()),
+                             {".gitmodules", "parker-system", "parker-system/method.md"})
             git(brand, "commit", "-qm", "Fixture absorb")
+            self.assertNotIn("unrelated.md", git(brand, "ls-files"))
+            self.assertEqual(unrelated.read_bytes(), b"Fixture user work\n")
             git(brand, "revert", "--no-edit", "HEAD")
             git(brand, "submodule", "update", "--init", "parker-system")
             self.assertTrue((mount / ".git").is_file())

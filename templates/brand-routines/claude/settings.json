@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" git-guard"
+            "command": "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" git-guard"
           }
         ]
       }
@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" session-start",
+            "command": "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" session-start",
             "statusMessage": "Checking the method mount"
           }
         ]
@@ -43,7 +43,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" craft-context",
+            "command": "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" craft-context",
             "statusMessage": "Loading the craft catalog"
           }
         ]
@@ -55,7 +55,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" pull-log"
+            "command": "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" pull-log"
           }
         ]
       }

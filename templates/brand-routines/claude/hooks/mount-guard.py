@@ -8,7 +8,7 @@ The permission profile protects against indirect program-driven writes.
 
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import shlex
 import sys
@@ -38,9 +38,9 @@ def patch_targets(patch: str):
             yield match.group(1)
 
 
-def shell_targets(command: str, cwd: Path):
+def shell_targets(command: str, cwd: Path, *, windows: bool = os.name == "nt"):
     """Inspect ordinary commands; the native sandbox handles arbitrary programs."""
-    lexer = shlex.shlex(command, posix=os.name != "nt", punctuation_chars=";&|<>")
+    lexer = shlex.shlex(command, posix=not windows, punctuation_chars=";&|<>")
     lexer.whitespace_split = True
     segment = []
     for token in [*lexer, ";"]:
@@ -53,8 +53,12 @@ def shell_targets(command: str, cwd: Path):
             if ">" in word and set(word) <= set("><&"):
                 yield segment[index + 1].strip("\"'"), cwd
         words = [s.strip("\"'") for s in segment]
-        verb = Path(words[0]).name.lower()
+        verb = (PureWindowsPath(words[0]) if windows else Path(words[0])).name.lower()
         args = [s for s in words[1:] if not s.startswith("-")]
+        if windows and verb == "copy":
+            # CMD accepts /A and /B after a destination as well as after sources.
+            switches = {"/a", "/b", "/d", "/v", "/n", "/y", "/-y", "/z", "/l"}
+            args = [s for s in args if s.lower() not in switches]
         if verb == "cd" and args:
             cwd = (cwd / args[0]).resolve()
         elif verb in {"rm", "rmdir", "unlink", "touch", "mkdir", "truncate",

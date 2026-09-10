@@ -8,16 +8,22 @@ indirect writes; legacy sandbox settings can override that profile, so verify
 the effective permissions when setting up a brain.
 
 Both runtimes launch the shared hooks from the brand root, including subfolder
-sessions. Windows has explicit Python launcher commands. The craft catalog has
+sessions, without crossing Git repository boundaries or failing on an absent
+dispatcher. Windows has explicit Python launcher commands and copy-modifier
+coverage. The craft catalog has
 an explicit context allowance with a bounded user-profile section and a visible
-full-read fallback for oversized sources. Independent creative reviewers run
+full-read fallback for oversized sources. Its 16,000-byte ceiling conservatively
+fits the token allowance, including multibyte text. Independent creative reviewers run
 where spawning is available; inline review is reserved for runtimes without it.
 
 Codex onboarding can finish with scheduling explicitly deferred. The walkthrough
 describes observed schedule state, and disconnecting the factory updates both
 runtimes' mount restrictions and root contracts. Absorbing the method no longer
 deinitializes the submodule and deletes its working files; it retains the files
-and recovery metadata before converting them to ordinary tracked content.
+and recovery metadata before converting them to ordinary tracked content. The
+parent index must be clean, and both editable disconnect options require a
+runtime reload and a normal-permission edit/restore check. Recurring product
+reports explicitly use the available MCP subscription tool, not cloud routines.
 
 ## Delivery and verification
 

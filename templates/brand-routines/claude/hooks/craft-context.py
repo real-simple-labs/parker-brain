@@ -14,9 +14,10 @@ import json
 import re
 from pathlib import Path
 
-# Keep the entire catalog below Codex's configured 16,000-token allowance.
-# UTF-8 bytes are a conservative bound; oversized sources become explicit reads.
-MAX_CONTEXT_BYTES = 48000
+# No tokenizer dependency: one UTF-8 byte per allowed token is a conservative
+# upper bound, not the usual English-text estimate of four bytes per token.
+# This cap includes instructions, profile, and catalog before JSON serialization.
+MAX_CONTEXT_BYTES = 16000
 MAX_PROFILE_BYTES = 8000
 
 # The standard layout mounts the craft layer at parker-system/ (a pinned
@@ -70,7 +71,7 @@ def catalog() -> str:
     return FALLBACK_POINTER
 
 
-def user_profile() -> str:
+def user_profile(max_bytes: int = MAX_PROFILE_BYTES) -> str:
     """Inject the profile of the person Parker is working with, if one exists.
 
     The profile grows from usage, so early on there may be none — that's fine,
@@ -87,16 +88,19 @@ def user_profile() -> str:
         return ""
     if not body:
         return ""
-    if len(body.encode("utf-8")) > MAX_PROFILE_BYTES:
-        return (f"\n\nRead {matches[0]} in full before replying. The user profile "
-                "exceeds the automatic context allowance; its standing rules still apply.")
-    return (
+    profile = (
         "\n\nWho you're working with — honor this on every reply, their standing "
         "rules and preferences govern how you answer, not just what:\n" + body
     )
+    if len(profile.encode("utf-8")) > min(max_bytes, MAX_PROFILE_BYTES):
+        return (f"\n\nRead {matches[0]} in full before replying. The user profile "
+                "exceeds the automatic context allowance; its standing rules still apply.")
+    return profile
 
 
-context = INSTRUCTION + user_profile() + catalog()
+catalog_context = catalog()
+profile_budget = MAX_CONTEXT_BYTES - len((INSTRUCTION + catalog_context).encode("utf-8"))
+context = INSTRUCTION + user_profile(profile_budget) + catalog_context
 if len(context.encode("utf-8")) > MAX_CONTEXT_BYTES:
     context = (
         INSTRUCTION + user_profile()

@@ -14,7 +14,11 @@ live in `tests/test_runtime_hooks.py`; the optional local-binary probe is
   cloning; verify that the entry is a resolving symlink, not a text file.
 - `.codex/config.toml` wires the same four standing hooks as Claude, plus the
   mount guard. `run-hook.py` executes each shared script from the brand root,
-  including when the session starts in a subfolder. Windows commands use
+  including when the session starts in a subfolder. The command bootstrap asks
+  Git for the nearest worktree root and loads only that root's dispatcher;
+  outside a repo or without the dispatcher it exits 0, never searching a parent
+  repo for a replacement. A missing dispatcher still needs repair before relying
+  on the hooks. Windows commands use
   `py -3`; other platforms use `python3`. Install Git and Python 3.11+.
   The factory itself does not install the brand hooks.
 - Independent creative reviewers read `.claude/agents/context-grounding-review.md`
@@ -49,8 +53,11 @@ root so catalog reads, Git checks, and pull-log identity remain consistent.
 The catalog hook uses an explicit context allowance. Its output has a bounded
 user-profile section and checks the full instruction-plus-catalog size; if the
 catalog cannot fit, it emits a visible instruction to read it in full before
-answering. No catalog rows are silently removed. The configured allowance must
-stay larger than the script's output cap; the tests check both together.
+answering. No catalog rows are silently removed. The complete context is capped
+at 16,000 UTF-8 bytes, a conservative ceiling for the 16,000-token allowance
+without a tokenizer dependency. Profile text uses only the remaining budget;
+larger profiles become explicit full-file reads so they do not displace a catalog
+that otherwise fits. Tests cover multibyte text and both limits together.
 
 ## Mount protection and its limits
 

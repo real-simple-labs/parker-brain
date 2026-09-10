@@ -21,8 +21,8 @@ matcher = "startup|resume|clear|compact"
 
 [[hooks.SessionStart.hooks]]
 type = "command"
-command = "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" session-start"
-commandWindows = "py -3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" session-start"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" session-start"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" session-start"
 timeout = 60
 statusMessage = "Checking the method mount"
 
@@ -30,8 +30,8 @@ statusMessage = "Checking the method mount"
 
 [[hooks.UserPromptSubmit.hooks]]
 type = "command"
-command = "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" craft-context"
-commandWindows = "py -3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" craft-context"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" craft-context"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" craft-context"
 timeout = 30
 additionalContextLimit = 16000
 statusMessage = "Loading the craft catalog"
@@ -41,8 +41,8 @@ matcher = "Bash|shell|local_shell|exec_command"
 
 [[hooks.PreToolUse.hooks]]
 type = "command"
-command = "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" git-guard --codex"
-commandWindows = "py -3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" git-guard --codex"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" git-guard --codex"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" git-guard --codex"
 timeout = 30
 statusMessage = "Checking the git procedure"
 
@@ -51,8 +51,8 @@ matcher = "Bash|shell|local_shell|exec_command|Edit|Write|NotebookEdit|apply_pat
 
 [[hooks.PreToolUse.hooks]]
 type = "command"
-command = "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" mount-guard"
-commandWindows = "py -3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" mount-guard"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" mount-guard"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" mount-guard"
 timeout = 30
 statusMessage = "Guarding the method mount"
 
@@ -61,6 +61,6 @@ matcher = "mcp__.*"
 
 [[hooks.PostToolUse.hooks]]
 type = "command"
-command = "python3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" pull-log"
-commandWindows = "py -3 -c \"from pathlib import Path; import runpy; runpy.run_path(str(next(p / '.claude/hooks/run-hook.py' for p in (Path.cwd(), *Path.cwd().parents) if (p / '.claude/hooks/run-hook.py').is_file())), run_name='__main__')\" pull-log"
+command = "python3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" pull-log"
+commandWindows = "py -3 -c \"from pathlib import Path; import subprocess, runpy; r = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True, text=True); p = Path(r.stdout.strip()) / '.claude/hooks/run-hook.py'; runpy.run_path(str(p), run_name='__main__') if r.returncode == 0 and p.is_file() else None\" pull-log"
 timeout = 30

@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import runpy
 import shutil
 import subprocess
 import sys
@@ -33,6 +34,7 @@ class RuntimeHooks(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name).resolve()
         make_brand(self.root)
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         self.config = tomllib.loads((self.root / ".codex/config.toml").read_text(encoding="utf-8"))
 
     def invoke(self, name, payload=None, cwd=None):
@@ -111,6 +113,51 @@ class RuntimeHooks(unittest.TestCase):
                     if event in {"UserPromptSubmit", "SessionStart"}:
                         self.assertTrue(json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"])
 
+    def test_launcher_does_not_cross_repository_boundaries(self):
+        nested_repo = self.root / "nested-repo"
+        nested_repo.mkdir()
+        subprocess.run(["git", "init", "-q", str(nested_repo)], check=True)
+        self.assert_hooks_skipped(nested_repo)
+
+    def test_missing_dispatcher_is_a_successful_noop(self):
+        (self.root / ".claude/hooks/run-hook.py").unlink()
+        self.assert_hooks_skipped(self.root / "sub-context-docs")
+
+    def test_launcher_outside_a_repository_is_a_successful_noop(self):
+        with tempfile.TemporaryDirectory(prefix="parker no repository ") as directory:
+            self.assert_hooks_skipped(Path(directory))
+
+    def assert_hooks_skipped(self, cwd):
+        for groups in self.config["hooks"].values():
+            for group in groups:
+                for hook in group["hooks"]:
+                    command = hook["commandWindows"] if os.name == "nt" else hook["command"]
+                    result = subprocess.run(command, shell=True, cwd=cwd, input="{}",
+                                            text=True, capture_output=True, timeout=10)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stdout, "")
+
+    def test_windows_shell_targets(self):
+        inspect = runpy.run_path(str(BUNDLE / "claude/hooks/mount-guard.py"))["shell_targets"]
+        cases = {
+            r"copy brand.md parker-system\file.md /A": r"parker-system\file.md",
+            r"copy /B brand.md parker-system\file.md /b /Y": r"parker-system\file.md",
+            r"move /Y brand.md parker-system\file.md": r"parker-system\file.md",
+            r"del /F /Q parker-system\file.md": r"parker-system\file.md",
+            r"erase /Q parker-system\file.md": r"parker-system\file.md",
+            r"rd /S /Q parker-system\folder": r"parker-system\folder",
+        }
+        for command, target in cases.items():
+            with self.subTest(command=command):
+                targets = [path for path, cwd in inspect(command, self.root, windows=True)]
+                self.assertIn(target, targets)
+                if os.name == "nt":
+                    self.assertTrue(self.decision({"command": command}, "Bash"))
+        command = r"copy parker-system\source.md brand.md /A"
+        self.assertEqual(list(inspect(command, self.root, windows=True)), [("brand.md", self.root)])
+        if os.name == "nt":
+            self.assertFalse(self.decision({"command": command}, "Bash"))
+
     def test_full_catalog_and_profile_budget(self):
         result = self.invoke("craft-context")
         context = json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
@@ -119,19 +166,34 @@ class RuntimeHooks(unittest.TestCase):
             if row.startswith("|") and ".md" in row:
                 self.assertIn(row, context)
         limit = self.config["hooks"]["UserPromptSubmit"][0]["hooks"][0]["additionalContextLimit"]
-        self.assertLess(len(context.encode()), limit * 4)
+        self.assertLessEqual(len(context.encode("utf-8")), limit)
         profile = self.root / "users/fixture/user-profile.md"
         profile.parent.mkdir(parents=True)
+        profile.write_text("文" * 2500, encoding="utf-8")
+        context = json.loads(self.invoke("craft-context").stdout)["hookSpecificOutput"]["additionalContext"]
+        self.assertIn("Read users/fixture/user-profile.md in full", context)
+        for row in source.splitlines():
+            if row.startswith("|") and ".md" in row:
+                self.assertIn(row, context)
+        self.assertLessEqual(len(context.encode("utf-8")), limit)
         profile.write_text("Fixture rule. " * 20000)
         context = json.loads(self.invoke("craft-context").stdout)["hookSpecificOutput"]["additionalContext"]
         self.assertIn("Read users/fixture/user-profile.md in full", context)
-        self.assertLess(len(context.encode()), limit * 4)
+        self.assertLessEqual(len(context.encode("utf-8")), limit)
         catalog = self.root / "parker-system/creative-strategy-context/expertise-routing.md"
         catalog.write_text("<!-- DOC-MAP:START -->\n" + "fixture " * 10000 + "\n<!-- DOC-MAP:END -->")
         context = json.loads(self.invoke("craft-context").stdout)["hookSpecificOutput"]["additionalContext"]
         self.assertIn("catalog has not been injected", context)
         self.assertIn("in full before answering", context)
-        self.assertLess(len(context.encode()), limit * 4)
+        self.assertLessEqual(len(context.encode("utf-8")), limit)
+
+    def test_multibyte_context_uses_a_conservative_token_bound(self):
+        catalog = self.root / "parker-system/creative-strategy-context/expertise-routing.md"
+        catalog.write_text("<!-- DOC-MAP:START -->\n" + "文" * 6000 + "\n<!-- DOC-MAP:END -->", encoding="utf-8")
+        context = json.loads(self.invoke("craft-context").stdout)["hookSpecificOutput"]["additionalContext"]
+        limit = self.config["hooks"]["UserPromptSubmit"][0]["hooks"][0]["additionalContextLimit"]
+        self.assertLessEqual(len(context.encode("utf-8")), limit)
+        self.assertIn("catalog has not been injected", context)
 
     def test_pull_log_uses_brand_root_from_nested_directory(self):
         key = hashlib.sha256(str(self.root).encode()).hexdigest()[:16]
