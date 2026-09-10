@@ -1,98 +1,116 @@
-# Codex support — how the brain runs on OpenAI Codex
+# Codex support
 
-The brand brain (and this factory repo) is built Claude Code-first, but every
-piece of the runtime has a Codex twin, and this doc is the contract for both:
-what maps where, what was verified against a real Codex install, what differs
-by design, and the maintenance rules that keep the two harnesses from
-drifting. Verified against Codex CLI 0.147.0 (August 2026) by direct probes —
-hook payloads, skill discovery, and the deny contract were exercised live, not
-read off blog posts.
+The factory and its brand brains share one method across Claude Code and OpenAI
+Codex. The supported verification baseline is Codex CLI 0.154.0. Runtime tests
+live in `tests/test_runtime_hooks.py`; the optional local-binary probe is
+`tests/probe_codex_runtime.py`. Run them when changing the runtime.
 
-## The mapping
+## What loads where
 
-| Surface | Claude Code | Codex |
-|---|---|---|
-| Operating contract | `CLAUDE.md` | `AGENTS.md` (routes to `CLAUDE.md`, read in full) |
-| Voice | `.claude/output-styles/parker.md` + `"outputStyle": "Parker"` in settings | No output-style layer; `AGENTS.md` instructs reading the same style file and speaking it |
-| Skills | `.claude/skills/` | `.agents/skills/` — a **committed symlink** to `.claude/skills/`; same SKILL.md files (verified: Codex discovers and follows skills through the symlink; invoke with `$skill-name` or implicit matching) |
-| Hooks | `.claude/settings.json` `hooks` block | `.codex/config.toml` `[[hooks.*]]` tables — same events, same scripts, same JSON wire format |
-| Mount protection (`parker-system/` read-only) | `permissions.deny` rules | No per-path deny exists; the `mount-guard.py` PreToolUse hook does the job (JSON deny on Edit/Write/NotebookEdit/apply_patch targets under the mount) |
-| Git guard block mechanism | exit 2 + stderr | JSON `permissionDecision: "deny"` on stdout (`git-guard.py --codex` switches the envelope; guard logic identical) |
-| Review-gate subagents (`.claude/agents/*.md`) | Spawned as subagents | No Markdown subagents; the creative skills execute the same agent files **inline** as a separate pass and fill the same receipts |
-| Scheduled routines | Claude Code cloud scheduled agents (`/setup-routines`) | Not armable from Codex; skills run on demand, or external cron + `codex exec` |
-| Per-instance config | `.claude/settings.local.json` (gitignored) | the user's own `~/.codex/config.toml` (MCP servers, model — never committed) |
+- `AGENTS.md` routes Codex to the root `CLAUDE.md` and the shared voice file at
+  `.claude/output-styles/parker.md`. Codex has no Claude output-style switch.
+- `.agents/skills` is a committed symlink to `.claude/skills`. Both runtimes read
+  the same skills. On Windows, enable Git symlinks and Developer Mode before
+  cloning; verify that the entry is a resolving symlink, not a text file.
+- `.codex/config.toml` wires the same four standing hooks as Claude, plus the
+  mount guard. `run-hook.py` executes each shared script from the brand root,
+  including when the session starts in a subfolder. The command bootstrap asks
+  Git for the nearest worktree root and loads only that root's dispatcher;
+  outside a repo or without the dispatcher it exits 0, never searching a parent
+  repo for a replacement. A missing dispatcher still needs repair before relying
+  on the hooks. Windows commands use
+  `py -3`; other platforms use `python3`. Install Git and Python 3.11+.
+  The factory itself does not install the brand hooks.
+- Independent creative reviewers read `.claude/agents/context-grounding-review.md`
+  and `.claude/agents/creative-voice-review.md` as their instructions. The parent
+  supplies those paths, the task, draft, brand root, and pull receipts through
+  the runtime's spawning tool. Automatic discovery of Claude's Markdown agent
+  definitions is not required. Only when spawning is unavailable may the parent
+  execute each method inline, re-read the sources, and label the receipt inline.
+  Grounding always runs; voice review follows the skill's customer-facing-copy
+  condition. The receipts describe the review that actually ran.
+- Claude cloud schedules are armed only where the scheduling capability exists.
+  Codex builds ship the recipes with scheduling explicitly deferred and the
+  skills available on demand. This is a complete Codex build. External cron is
+  a separate team setup; never mark a recipe active without an observed schedule.
 
-## Verified hook contract (the load-bearing facts)
+## Hook contract
 
-Codex's hooks engine (stable, on by default in 0.147.0) adopted Claude Code's
-wire format nearly verbatim, which is why the brand hooks run unmodified:
+Hooks receive one JSON object on stdin and emit at most one JSON object on stdout.
+`hookSpecificOutput.additionalContext` injects context. PreToolUse denies with
+`hookSpecificOutput.permissionDecision: "deny"`; exit 2 with stderr also blocks
+on the verified Codex version. The git guard retains `--codex` for its JSON
+envelope, while Claude keeps the exit-code envelope.
 
-- **Input**: JSON on stdin with `hook_event_name`, `cwd`, `session_id`,
-  `tool_name`, `tool_input`, `tool_response`, `permission_mode`, `model` —
-  the same field names Claude Code sends. Hook cwd is the repo root.
-- **Output**: one JSON object on stdout.
-  `{"hookSpecificOutput": {"hookEventName": "...", "additionalContext": "..."}}`
-  injects context (verified end-to-end for UserPromptSubmit and used by
-  SessionStart). PreToolUse denies with `{"decision": "block", "reason": ...,
-  "hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision":
-  "deny", "permissionDecisionReason": ...}}`. Codex parses stdout as a single
-  JSON document when it starts with `{` — anything trailing the object fails
-  the whole event, so emit exactly one object and nothing else.
-- **Events**: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse,
-  PermissionRequest, Stop, SessionEnd, SubagentStart/Stop, Pre/PostCompact.
-  The brand bundle uses the same four events as on Claude, plus a second
-  PreToolUse entry for the mount guard.
-- **Matchers**: regex over tool names, Claude-style names honored (`Bash`,
-  `Edit`, `Write`) plus Codex's own (`apply_patch`, shell variants). MCP tools
-  keep the `mcp__server__tool` naming, so the `mcp__.*` matcher carries over.
-- **Trust**: project-level `.codex/` config loads **only when the project is
-  trusted**, and each hook additionally needs a per-user approval — recorded
-  in `~/.codex/config.toml` under `[hooks.state]` as a hash of the hook's
-  definition. Two consequences the design leans on: hook **command strings
-  must stay stable** (they delegate to `.claude/hooks/` scripts, so script
-  updates via the normal sync never invalidate trust — only edits to
-  `.codex/config.toml` itself trigger re-approval), and **headless `codex
-  exec` silently skips never-approved hooks** — the one-time trust has to
-  happen interactively (TUI, `/hooks`) before hooks work in any automation.
+Codex normalizes shell calls, including `exec_command`, to `tool_name: "Bash"`.
+Both Bash and `apply_patch` carry their text in **`tool_input.command`**. Edit and
+Write are matcher aliases for patches; the payload still says `apply_patch`.
+MCP tools retain `mcp__server__tool` names and their arguments. The payload's
+`cwd` is the session directory, not necessarily the repo root. Patch paths are
+resolved against that directory, while shared hook scripts run from the brand
+root so catalog reads, Git checks, and pull-log identity remain consistent.
 
-## Differences that stay differences (by design)
+The catalog hook uses an explicit context allowance. Its output has a bounded
+user-profile section and checks the full instruction-plus-catalog size; if the
+catalog cannot fit, it emits a visible instruction to read it in full before
+answering. No catalog rows are silently removed. The complete context is capped
+at 16,000 UTF-8 bytes, a conservative ceiling for the 16,000-token allowance
+without a tokenizer dependency. Profile text uses only the remaining budget;
+larger profiles become explicit full-file reads so they do not displace a catalog
+that otherwise fits. Tests cover multibyte text and both limits together.
 
-- **The voice is advisory on Codex.** AGENTS.md context is weaker than
-  Claude's system-prompt-level output style; expect Parker to hold the voice a
-  little less firmly there. Not worth a fork — the full style file is still
-  read every session.
-- **Gates run inline, not independently.** An inline pass shares context with
-  the writer, which is weaker than a fresh subagent. The skills compensate by
-  requiring the pass to re-read sources rather than trust the draft. If Codex
-  ships Markdown-defined subagents later, revisit.
-- **The self-running layer is Claude-first.** Schedules are per-account cloud
-  agents; a Codex-only team runs routines manually or wires external cron.
-- **`.git/parker-credentials` under workspace-write:** some Codex sandbox
-  environments keep `.git/` read-only, so the `/save-brain` credential write
-  may surface an approval prompt instead of just landing. Approve it once per
-  session; the procedure is otherwise unchanged.
-- **Windows:** the `.agents/skills` symlink needs git symlink support
-  (`core.symlinks true` + Developer Mode) or Codex sees no skills there.
+## Mount protection and its limits
 
-## Maintenance rules (factory)
+The default `parker-brain` permission profile extends Codex's `:workspace`
+baseline and makes `parker-system/` read-only. This is the filesystem protection
+for shell commands and tools, including script-driven writes. It preserves the
+baseline restrictions on `.git/`, `.agents/`, and `.codex/`. Updating a submodule
+pin or the copied configuration may therefore need an approval.
 
-- `.claude/settings.json` (brand template) and
-  `templates/brand-routines/codex/config.toml` describe the same hook
-  behavior. **Change one, change the other in the same PR.**
-- Hook scripts live once, in `templates/brand-routines/claude/hooks/`, and
-  must keep emitting the shared wire format (single JSON object, or the
-  Claude-specific exit-code path guarded behind the default mode). A new hook
-  gets wired in both files; a Codex-only hook (like `mount-guard.py`) still
-  lives in the shared `hooks/` directory.
-- Skills need no dual maintenance — the `.agents/skills` symlink means both
-  harnesses read the same files. Never materialize a second copy.
-- The brand bundle's Codex pieces travel through `scripts/sync-executable-layer.py`
-  (`templates/brand-routines/codex/` → `.codex/`, `AGENTS.md` → `AGENTS.md`),
-  so `/update-brain` delivers them on every pin bump. The symlink itself can't
-  be synced by that script — onboarding stamps it, and `migrations/v16.md`
-  adds it to standing brains.
-- When Codex behavior needs re-verifying (a contract doubt, a new Codex
-  version): probe against the real binary — a scratch repo, a marker-emitting
-  hook, `codex exec` with an isolated `CODEX_HOME` — and update this doc with
-  what changed. Blog posts about Codex contradict each other; the binary
-  doesn't.
+The mount hook supplies the explanation before native patches and recognizable
+shell mutations run. It handles patch additions, updates, deletions and moves,
+normalizes parent traversal, and follows symlinks. It is a guardrail, not a shell
+interpreter or a security sandbox: indirect commands and specialized tool paths
+cannot all be inferred from their text.
+
+Permission profiles do not compose with legacy `sandbox_mode` settings. A user
+config, CLI `--sandbox`, a managed policy, or an explicit permission override can
+replace the shipped profile. Check the effective permissions when setting up the
+brain; a hook alone is not an unconditional read-only guarantee. Keep the normal
+policy active for daily work and approve only the specific maintenance command
+needed by `/update-brain` or `/save-brain`.
+
+After an approved `/disconnect-factory`, update both runtimes' restrictions and
+the root contract. Fully absorbed, independent brains own their method. A team
+factory submodule stays read-only unless the team explicitly requests otherwise.
+
+## Trust and delivery
+
+Trust the project and approve its hooks interactively before relying on them,
+including in headless jobs. Unapproved hooks may be skipped. Trust is per user
+and tied to the hook definitions; changed commands need fresh approval. Updating
+a delegated script alone does not change its command's trust hash. Missing
+context can also mean a startup error or oversized input, so inspect the hook
+diagnostic instead of assuming the user forgot approval.
+
+`scripts/sync-executable-layer.py` delivers the shared scripts, `.codex/`, and
+root `AGENTS.md` on a pin bump. The v16 migration supplies the skills symlink.
+v17 re-sync delivers the runtime fixes; its migration also adds the scheduling
+capability guard to the brand-authored root `CLAUDE.md`.
+Team-edited files remain theirs and are listed by the sync; report any retained
+override that prevents a runtime fix from taking effect.
+
+Maintain both configurations together whenever shared hook behavior changes.
+Keep review methods in the existing Markdown files; never duplicate the doctrine
+for a second runtime. Keep onboarding, disconnect, setup-routines, update-brain,
+and this contract aligned. No marketing-output re-run is required solely by a
+runtime wiring update.
+
+## References
+
+- [Codex hooks](https://learn.chatgpt.com/docs/hooks): payloads, context limits,
+  command overrides, cwd, and trust.
+- [Codex permissions](https://learn.chatgpt.com/docs/permissions): named profiles,
+  workspace-relative paths, inheritance, and legacy-setting precedence.
+- [Codex subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents):
+  independent reviewers and runtime capability.

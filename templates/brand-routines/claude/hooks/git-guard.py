@@ -17,8 +17,8 @@ brick every Bash call. Exit 2 blocks the tool call and shows stderr to the
 model; exit 0 allows silently.
 
 Run with --codex (the .codex/config.toml wiring does) and a block is emitted
-as the PreToolUse JSON deny on stdout instead — Codex ignores the exit-2
-mechanism, and the JSON permissionDecision form is its native contract. Same
+as the PreToolUse JSON deny on stdout instead. Codex also supports exit 2;
+the flag keeps its structured permissionDecision response explicit. Same
 guard, same messages, different envelope.
 """
 

@@ -1,52 +1,47 @@
 # `.codex/` — the brand brain on OpenAI Codex
 
-This directory makes the brand brain work in OpenAI Codex the way `.claude/`
-makes it work in Claude Code. Same brain, same skills, same guardrails — only
-the harness wiring differs. Nothing here forks the method: every hook in
-`config.toml` runs the exact scripts in `.claude/hooks/`, and the skills Codex
-loads are the same files Claude loads.
+Same brain, same skills, same method as Claude Code. `config.toml` wires the
+shared scripts in `.claude/hooks/` through a launcher that finds the brand root,
+including when a session starts in a nested folder. On Windows the commands use
+`py -3`; install Python with its Windows launcher. The bootstrap uses Git's
+nearest worktree root and never searches above it. Outside a repo, or when that
+root has no dispatcher, it exits successfully without running a different repo's
+hooks. Repair a missing dispatcher before relying on hook protection.
 
-## What's here
+The `parker-brain` filesystem profile extends Codex's workspace defaults and
+makes `parker-system/` read-only. `mount-guard` also catches native patches and
+common direct shell writes, but is not a complete shell parser. Arbitrary
+programs are confined by the filesystem profile, not by that hook.
 
-- **`config.toml`** — committed Codex project config. Wires the four standing
-  hooks (session-start mount check, craft-catalog injection on every prompt,
-  MCP pull log, git guard) plus a fifth Codex-only one: `mount-guard`, which
-  keeps `parker-system/` read-only because Codex has no per-path permission
-  deny rules. Hook commands are deliberately stable strings that delegate to
-  `.claude/hooks/` scripts, so factory script updates arrive through the
-  normal sync without re-approval.
+## First run and upgrades
 
-## The rest of the Codex surface (lives outside this folder)
+1. Trust the project so its configuration loads.
+2. Approve the hooks interactively, including changed definitions after an
+   upgrade. Approval covers the hook definition; script-only updates do not
+   require it again. Headless runs need this approval too.
+3. Check the effective permission profile before treating the mount as
+   protected. A legacy `sandbox_mode` in any loaded config, or `--sandbox`,
+   overrides the named profile. Select the shipped profile or configure an
+   equivalent mount restriction; hooks alone do not provide filesystem isolation.
 
-- **Skills** — Codex discovers skills from `.agents/skills/`, which is a
-  committed symlink to `.claude/skills/`. One set of SKILL.md files, both
-  harnesses. (On Windows, git needs symlink support enabled —
-  `git config core.symlinks true` plus Developer Mode — or the link checks out
-  as a plain text file and Codex sees no skills.)
-- **Voice and contract** — `AGENTS.md` at the repo root is what Codex reads
-  the way Claude Code reads `CLAUDE.md`. It routes to `CLAUDE.md` as the
-  operating contract and carries the Parker voice, since Codex has no
-  output-style layer.
+Updating the pinned method or syncing protected configuration may require a
+scoped maintenance approval. Keep the default protection in place; follow
+`/update-brain`. `/disconnect-factory` explains how to remove both the hook and
+the profile's mount restriction when the team deliberately takes ownership.
 
-## First run on Codex (per person, one time)
+## Skills, review, and schedules
 
-1. Open the repo in Codex and **trust the project** when asked — untrusted
-   projects skip `.codex/` entirely, and none of the guardrails load.
-2. **Approve the hooks** when Codex asks (or via `/hooks` in the TUI). The
-   approval is stored per-user as a hash of each hook definition; it survives
-   factory updates to the hook *scripts* and is only re-asked if
-   `config.toml` itself changes.
+- `.agents/skills` is a committed symlink to `.claude/skills`: both runtimes read
+  the same files. On Windows, enable Git symlinks and Developer Mode before
+  checkout; a plain-text placeholder does not load skills.
+- Root `AGENTS.md` routes to `CLAUDE.md` and supplies the Parker voice.
+- Use independent review contexts whenever spawning is available, passing the
+  existing `.claude/agents/*.md` instructions. Only use a clearly labeled inline
+  fallback when this session cannot spawn; Markdown discovery differences do
+  not remove the review gate.
+- The six standing schedules use Claude cloud scheduling. Codex onboarding
+  records them as deferred and inactive, then completes; the skills work on
+  demand. Do not claim background routines are running without registrations.
 
-## Known differences from Claude Code
-
-All by design, documented in `parker-system/system/codex-support.md`.
-
-- **Review gates run inline.** Codex has no Markdown subagents, so the
-  creative skills execute `.claude/agents/*.md` as a separate inline pass
-  instead of spawning them. The gates still run; the receipts still ship.
-- **Scheduled routines don't arm from Codex.** The six standing routines run
-  as Claude Code cloud scheduled agents. From Codex, run them by invoking the
-  skills (`$refresh-context`, `$dream`, …) manually or on external cron via
-  `codex exec`.
-- **Headless caveat.** `codex exec` silently skips hooks that were never
-  interactively approved — do the one-time trust in the TUI first.
+The tested baseline is Codex CLI 0.154.0. See
+`parker-system/system/codex-support.md` for the full contract and verification.
