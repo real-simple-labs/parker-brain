@@ -15,6 +15,11 @@ Design and rationale: parker-system/system/brain-git-sync.md.
 Fail-open by design: any unexpected error exits 0 so a guard bug can never
 brick every Bash call. Exit 2 blocks the tool call and shows stderr to the
 model; exit 0 allows silently.
+
+Run with --codex (the .codex/config.toml wiring does) and a block is emitted
+as the PreToolUse JSON deny on stdout instead — Codex ignores the exit-2
+mechanism, and the JSON permissionDecision form is its native contract. Same
+guard, same messages, different envelope.
 """
 
 import json
@@ -22,6 +27,8 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+
+CODEX = "--codex" in sys.argv
 
 MANAGED_ORG = re.compile(r"github\.com[:/]parker-brain/", re.I)
 TOKEN_MARK = "x-access-token:"
@@ -79,6 +86,23 @@ BLOCK_CLONE = (
 )
 
 
+def block(msg: str) -> int:
+    """Block the tool call in whichever envelope the harness understands."""
+    if CODEX:
+        print(json.dumps({
+            "decision": "block",
+            "reason": msg,
+            "hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": "deny",
+                "permissionDecisionReason": msg,
+            },
+        }))
+        return 0
+    print(msg, file=sys.stderr)
+    return 2
+
+
 def origin_url() -> str:
     try:
         r = subprocess.run(
@@ -92,9 +116,13 @@ def origin_url() -> str:
 
 def main() -> int:
     data = json.load(sys.stdin)
-    if data.get("tool_name") != "Bash":
+    # Claude Code reports the shell tool as Bash; Codex mirrors that name in
+    # hook payloads but its native shell tools can also surface directly.
+    if data.get("tool_name") not in ("Bash", "shell", "local_shell", "exec_command"):
         return 0
     cmd = (data.get("tool_input") or {}).get("command") or ""
+    if isinstance(cmd, list):  # Codex shell tools pass argv lists
+        cmd = " ".join(str(c) for c in cmd)
     if not re.search(r"\b(git|gh)\b", cmd) and TOKEN_MARK not in cmd:
         return 0
 
@@ -109,8 +137,7 @@ def main() -> int:
     has_creds = has_creds or TOKEN_MARK in origin  # legacy token-in-remote, pre-v8
 
     if TOKEN_MARK in cmd:
-        print(BLOCK_TOKEN, file=sys.stderr)
-        return 2
+        return block(BLOCK_TOKEN)
 
     # gh is blocked only when it would touch THIS repo: it names the managed
     # org, or it's a repo-context subcommand (defaults to the current repo)
@@ -126,29 +153,24 @@ def main() -> int:
         # parker-brain/x), not just as github.com URLs.
         names_org = re.search(r"(^|[\s/:\"'=])parker-brain/", cmd, re.I)
         if names_org or (repo_context and not retargeted):
-            print(BLOCK_GH, file=sys.stderr)
-            return 2
+            return block(BLOCK_GH)
 
     if re.search(r"\bgit\b[^;&|]*\bclone\b", cmd):
         if "--recurse-submodules" not in cmd:
-            print(BLOCK_CLONE, file=sys.stderr)
-            return 2
+            return block(BLOCK_CLONE)
         # Both entries required: the blank reset (shuts out the user's own
         # helpers, e.g. the macOS keychain) AND the store helper.
         blank_reset = re.search(r"credential\.helper=([\"']\s*[\"'])?(\s|$)", cmd)
         store_helper = re.search(r"credential\.helper=[\"']?store\b", cmd)
         if not (blank_reset and store_helper):
-            print(BLOCK_CLONE_CREDS, file=sys.stderr)
-            return 2
+            return block(BLOCK_CLONE_CREDS)
 
     if re.search(r"\bgit\b[^;&|]*\bpush\b[^;&|]*(\s--force\b|\s-f\b|\s--force-with-lease\b)", cmd):
-        print(BLOCK_FORCE, file=sys.stderr)
-        return 2
+        return block(BLOCK_FORCE)
 
     network = re.search(r"\bgit\b[^;&|]*\b(push|pull|fetch)\b", cmd)
     if network and "-C parker-system" not in cmd and not has_creds:
-        print(BLOCK_AUTH, file=sys.stderr)
-        return 2
+        return block(BLOCK_AUTH)
 
     return 0
 

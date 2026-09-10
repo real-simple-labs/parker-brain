@@ -103,11 +103,16 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
 
     Mirrors onboarding-runner Phase 0 step 5: craft skills, review-gate agents, and
     the voice output style from the factory's .claude/, the routine bundle from
-    templates/brand-routines/ (claude/ -> .claude/, schedules/ -> schedules/), and
-    the two checker scripts.
+    templates/brand-routines/ (claude/ -> .claude/, codex/ -> .codex/,
+    schedules/ -> schedules/, AGENTS.md -> AGENTS.md), and the two checker
+    scripts. The factory's .agents/ entries are skipped: .agents/skills is a
+    symlink to .claude/skills (in the factory and in every brand), so the
+    synced .claude content is already what Codex reads — there is nothing
+    separate to copy, and copying the symlink blob would break it.
     On a skill name collision the routine bundle wins (the `dream` rule).
     """
     routine_prefix = "templates/brand-routines/claude/"
+    codex_prefix = "templates/brand-routines/codex/"
     schedule_prefix = "templates/brand-routines/schedules/"
     routine_skills = {
         p[len(routine_prefix) + len("skills/"):].split("/", 1)[0]
@@ -116,10 +121,14 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
     }
     mapping: dict[str, str] = {}
     for path in factory:
-        if skippable(path):
+        if skippable(path) or path.startswith(".agents/"):
             continue
         if path.startswith(routine_prefix):
             mapping[path] = ".claude/" + path[len(routine_prefix):]
+        elif path.startswith(codex_prefix):
+            mapping[path] = ".codex/" + path[len(codex_prefix):]
+        elif path == "templates/brand-routines/AGENTS.md":
+            mapping[path] = "AGENTS.md"
         elif path.startswith(schedule_prefix):
             mapping[path] = "schedules/" + path[len(schedule_prefix):]
         elif path.startswith(".claude/skills/"):
