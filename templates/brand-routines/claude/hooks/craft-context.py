@@ -14,6 +14,11 @@ import json
 import re
 from pathlib import Path
 
+# Keep the entire catalog below Codex's configured 16,000-token allowance.
+# UTF-8 bytes are a conservative bound; oversized sources become explicit reads.
+MAX_CONTEXT_BYTES = 48000
+MAX_PROFILE_BYTES = 8000
+
 # The standard layout mounts the craft layer at parker-system/ (a pinned
 # submodule of the factory); legacy flat brains keep it at the repo root.
 # Check both so the same script works in either.
@@ -24,7 +29,7 @@ _CANDIDATES = [
 ROUTING = next((p for p in _CANDIDATES if p.exists()), _CANDIDATES[0])
 
 INSTRUCTION = (
-    "The base Claude harness knows nothing about creative strategy, so assume your own "
+    "The base model has no brand-specific creative-strategy context, so assume your own "
     "creative-strategy knowledge is thin and ungrounded until you load the craft docs. "
     "For anything touching creative strategy, before you answer: reason over the craft "
     "catalog below generously, open every method doc that would genuinely help, and load "
@@ -82,18 +87,30 @@ def user_profile() -> str:
         return ""
     if not body:
         return ""
+    if len(body.encode("utf-8")) > MAX_PROFILE_BYTES:
+        return (f"\n\nRead {matches[0]} in full before replying. The user profile "
+                "exceeds the automatic context allowance; its standing rules still apply.")
     return (
         "\n\nWho you're working with — honor this on every reply, their standing "
         "rules and preferences govern how you answer, not just what:\n" + body
     )
 
 
+context = INSTRUCTION + user_profile() + catalog()
+if len(context.encode("utf-8")) > MAX_CONTEXT_BYTES:
+    context = (
+        INSTRUCTION + user_profile()
+        + "\n\nThe full craft catalog exceeds the automatic context allowance. "
+        + f"Read {ROUTING} in full before answering any creative-strategy task; "
+        + "the catalog has not been injected. Do not infer its contents from memory."
+    )
+
 print(
     json.dumps(
         {
             "hookSpecificOutput": {
                 "hookEventName": "UserPromptSubmit",
-                "additionalContext": INSTRUCTION + user_profile() + catalog(),
+                "additionalContext": context,
             }
         }
     )

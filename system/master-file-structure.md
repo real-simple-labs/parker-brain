@@ -125,12 +125,14 @@ parker/
 │       │   ├── settings.json                        ← wires the hooks below + "outputStyle": "Parker" (switches on the voice layer) + the deny rules that keep the mount read-only
 │       │   ├── output-styles/parker.md              ← Parker's voice as a Claude Code output style — the system-prompt layer; copied out of the mount's .claude/output-styles/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
+│       │   ├── hooks/run-hook.py                    ← shared launcher: resolves the brand root before running any hook
+│       │   ├── hooks/mount-guard.py                 ← Codex patch/direct-shell guard; native filesystem permissions provide the isolation layer
 │       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
 │       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; STAMPED from templates/brand-routines/codex/ (system/codex-support.md is the contract)
-│       │   ├── config.toml                          ← wires the same hooks for Codex + a mount-guard PreToolUse hook standing in for the deny rules
+│       │   ├── config.toml                          ← wires shared root-resolving hooks + mount-guard, and the parker-brain filesystem profile
 │       │   └── README.md
 │       ├── .agents/skills                          ← symlink → .claude/skills — how Codex discovers the same skills (created by the runner; can't travel through the sync)
 │       ├── AGENTS.md                               ← Codex's entry point: routes to CLAUDE.md, carries the Parker voice (no output-style layer in Codex); synced from templates/brand-routines/AGENTS.md
@@ -400,6 +402,8 @@ parker/
 │   └── creative-voice-review.md                    ← The voice gate, runs SECOND: runs scripts/voice-lint.py, judges per creative-strategy-context/ai-writing-tells.md, returns per-line verdicts. Both spawned by the creative skills' ship gates; ship to brand brains with their checkers and doctrine as one bundle.
 │
 ├── .claude/settings.json                           ← Committed factory config: "outputStyle": "Parker" activates the voice layer for every session in this repo
+├── tests/                                         ← standard-library hook and release-sync regressions; optional installed-runtime probe
+├── .github/workflows/runtime-checks.yml             ← runs the regression suite on Linux, macOS, and Windows
 ├── .agents/skills                                  ← symlink → .claude/skills, so OpenAI Codex discovers the factory's skills too (AGENTS.md carries the Codex entry; system/codex-support.md is the contract)
 ├── .claude/output-styles/                          ← The chat-voice layer (not an agent, not a skill)
 │   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the onboarding runner and the propagate script.
@@ -700,6 +704,12 @@ parker/
 ```
 
 ---
+
+## What changed on 2026-09-10 — v17
+
+- Runtime hooks now start from the brand root, parse native patch payloads, and deliver the full bounded craft catalog. Codex also has a named read-only mount permission profile; hooks alone are not filesystem isolation.
+- Review gates use independent contexts when available. Codex onboarding explicitly defers unsupported Claude cloud schedules without failing completion. Disconnect removes both mount restrictions.
+- `tests/` covers hook behavior and release sync; the optional installed-runtime fixture verifies real hook dispatch, context delivery, and filesystem enforcement. See `release-notes/2026-09-10-v17-runtime-fixes.md`.
 
 ## What changed on 2026-08-07
 
