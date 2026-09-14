@@ -13,7 +13,7 @@ Each year folder holds the read for that season and any source captures behind i
 
 ## Layout
 
-```
+```text
 gifting/
   README.md          ← this file
   2026/
