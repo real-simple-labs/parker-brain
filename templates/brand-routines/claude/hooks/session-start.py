@@ -2,150 +2,28 @@
 """SessionStart hook for a brand brain: catch a broken method mount before work starts.
 
 The brain's method (prompts, craft knowledge, system docs) lives at parker-system/,
-a git submodule of the public parker-brain factory pinned to a release tag. A clone
-made without --recurse-submodules arrives with that directory empty, and every
-method reference in the brain dangles until it is initialized. This hook checks the
-mount at session start.
+a git submodule of the public parker-brain factory pinned to a release tag. A folder
+that arrives without it (or with it empty) leaves every method reference dangling
+until it is initialized. This hook checks the mount at session start.
 
-On the standard layout it also DOES the start-of-session pull itself when that is
-safe — working tree clean, remote present — because cloud routines and teammates
-push to this repo between sessions and sessions were skipping the pull when it was
-only a reminder. A dirty tree, an expired credential, or any other failure is never
-papered over: the hook reports it loudly and makes fixing it the session's first
-job. Non-interactive throughout (GIT_TERMINAL_PROMPT=0), so it can never hang
-waiting for a password.
+Syncing is NOT this hook's job: the Parker Desktop app watches the brain's folder
+and syncs every change both ways, so the hook only reminds the model of the model —
+files save to disk, the app does the rest, never run git against this repo.
 """
 
 import json
-import os
 import subprocess
 from pathlib import Path
 
 MOUNT = Path("parker-system")
-TOKEN_MARK = "x-access-token:"
-AUTH_SIGNS = ("authentication failed", "403", "401", "could not read username",
-              "terminal prompts disabled", "invalid username or token")
 
-
-def git(*args: str, timeout: int = 45) -> subprocess.CompletedProcess:
-    env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
-    return subprocess.run(["git", *args], capture_output=True, text=True,
-                          timeout=timeout, env=env)
-
-
-def attempt_pull() -> str:
-    """Run the start-of-session pull when safe; return the story for the model."""
-    try:
-        origin = git("remote", "get-url", "origin", timeout=5)
-        if origin.returncode != 0:
-            return ("No `origin` remote is configured, so nothing was pulled. If this "
-                    "brain lives on GitHub, wire the remote per /save-brain before working.")
-        origin_txt = origin.stdout.strip()
-        dirty = git("status", "--porcelain", timeout=10).stdout.strip()
-        if dirty:
-            # A drifted mount checkout (' M parker-system') is not work to
-            # save: committing it would move the pin, which is /update-brain's
-            # job alone, and rebase refuses to run over it. Re-aligning the
-            # checkout to the recorded pin clears it.
-            lines = [l for l in dirty.splitlines() if l.strip()]
-            if all(l.split()[-1].rstrip("/") == "parker-system" for l in lines):
-                git("submodule", "update", "--init", "--recursive", timeout=60)
-                dirty = git("status", "--porcelain", timeout=10).stdout.strip()
-        if dirty:
-            return ("PULL SKIPPED — the working tree has uncommitted changes (likely a "
-                    "previous session that ended without saving). First job of this "
-                    "session, before anything else: commit and push those changes per "
-                    "/save-brain — `git submodule update --init --recursive` first (an "
-                    "unstaged `parker-system` line is mount drift to clear, never to "
-                    "commit; a STAGED one is a deliberate /update-brain pin move — "
-                    "finish that update instead), then `git add -A && git commit`, "
-                    "`git pull --rebase origin "
-                    "main`, `git submodule update --init --recursive`, `git push origin "
-                    "main` — refreshing credentials via setup_parker_brain if a step "
-                    "hits an auth error.")
-        pulled = git("pull", "--rebase", "origin", "main")
-        if pulled.returncode == 0:
-            sub = git("submodule", "update", "--init", "--recursive", timeout=60)
-            if sub.returncode != 0:
-                sub_err = (sub.stderr or sub.stdout or "").strip().splitlines()
-                return ("PULL FAILED — the pull landed but the parker-system/ mount did "
-                        "not follow it ("
-                        + (sub_err[-1] if sub_err else "submodule update failed")
-                        + "), so the method files on disk may be STALE. First job of "
-                        "this session, before any other work: run `git submodule update "
-                        "--init --recursive` and resolve whatever it reports, per /save-brain.")
-            summary = (pulled.stdout or "").strip().splitlines()
-            tail = summary[-1] if summary else "done"
-            return f"Pulled the latest before starting: {tail}."
-        err = (pulled.stderr or "").lower()
-        if any(s in err for s in AUTH_SIGNS):
-            # The Parker-credential recovery applies only to managed repos (same
-            # origin test as git-guard.py); a self-hosted brain uses its own auth.
-            o = origin_txt.lower()
-            if "github.com/parker-brain/" not in o and "github.com:parker-brain/" not in o:
-                return ("PULL FAILED — authentication to this brain's own remote "
-                        "failed. This repo self-hosts outside Parker's GitHub org, so "
-                        "fix it with the team's normal git auth (their credential "
-                        "helper, their login) and rerun `git pull --rebase origin "
-                        "main`; the managed-credential rules in /save-brain don't "
-                        "apply here.")
-            # The stale credential is dead anyway; clearing it here saves the
-            # agent a step (and the Write tool's refusal to overwrite a file
-            # it hasn't read).
-            try:
-                Path(".git/parker-credentials").unlink(missing_ok=True)
-            except OSError:
-                pass
-            try:
-                brand_id = json.loads(
-                    Path("parker_config.json").read_text(encoding="utf-8")
-                ).get("brand_id", "")
-            except Exception:
-                brand_id = ""
-            brand = (f' with brand_id "{brand_id}"' if brand_id else
-                     " (parker_config.json is missing or unreadable here, so call "
-                     "get_available_brands first and use the exact brand_id it "
-                     "returns for this brand — never guess it from the repo name)")
-            refresh = (f"call setup_parker_brain (Parker MCP){brand} and save its "
-                       "credential_file_line to .git/parker-credentials with the "
-                       "Write tool (the stale file is already cleared; on older "
-                       "servers without that field, lift the token from "
-                       "authenticated_clone_url and write "
-                       "`https://x-access-token:<TOKEN>@github.com`) — never put "
-                       "the token inside a shell command; if the safety layer "
-                       "refuses the write, ask the user in plain words and retry "
-                       "(scheduled run with nobody to ask: commit local work, say "
-                       "the online save needs a human session, end cleanly)")
-            if TOKEN_MARK in origin_txt and "@github.com" in origin_txt:
-                # Legacy layout: credentials embedded in origin shadow the store
-                # file, so rewriting the file alone changes nothing.
-                plain = "https://github.com" + origin_txt.split("@github.com", 1)[1]
-                refresh = ("strip the pre-v8 tokenized origin first — `git remote "
-                           f"set-url origin {plain}` (that command carries no "
-                           "secret) — and wire the credential file once (`git "
-                           "config credential.helper \"\"` then `git config --add "
-                           "credential.helper \"store --file "
-                           ".git/parker-credentials\"`), then " + refresh)
-            return ("PULL FAILED — the saved credentials have expired (they last "
-                    "about an hour; this is normal, and NOT a reason to make the "
-                    "user wait). Your very first response runs TWO TRACKS as "
-                    "parallel tool calls in the same turn: (1) START THE USER'S "
-                    "ACTUAL REQUEST — the local reads and routing you would do "
-                    "anyway; this checkout is at most a little stale. (2) REFRESH "
-                    "— " + refresh + ". After the Write lands, run `git pull "
-                    "--rebase origin main && git submodule update --init "
-                    "--recursive` as one command; only the FINAL ANSWER waits for "
-                    "that pull — recheck anything it changed before answering. The "
-                    "user hears one plain line — \"I'll check for any new info "
-                    "first, then get you your answer\" — never tokens, "
-                    "credentials, git, or pulls. Full procedure: /save-brain.")
-        detail = (pulled.stderr or pulled.stdout or "").strip().splitlines()
-        return ("PULL FAILED — not an auth problem: "
-                + (detail[-1] if detail else "unknown error")
-                + ". Resolve it per /save-brain before editing anything; teammates and "
-                  "scheduled routines push to this repo between sessions.")
-    except Exception as exc:  # noqa: BLE001 — a hook must never crash the session
-        return f"PULL SKIPPED — the automatic pull hit an unexpected error ({exc}); run it by hand per /save-brain."
+SYNC_LINE = (
+    " How this brain saves itself: the Parker Desktop app syncs this folder both "
+    "ways — write files to disk and they're saved; teammates' and routines' changes "
+    "arrive on their own. Never run git against this repo (no push, pull, commit, "
+    "clone, or gh) — see /save-brain. Mount operations (`git -C parker-system …`, "
+    "`git submodule …`) are the one exception and are fine."
+)
 
 
 def mount_state() -> str:
@@ -194,10 +72,8 @@ if state == "ok" and not is_submodule and decoupled_by_choice():
     context = (
         "Session start check: parker-system/ holds this team's own copy of the "
         "method (this brain is decoupled from the factory — no submodule, no pin). "
-        "It is theirs to edit and versions with the repo. Before starting real "
-        "work, bring the brain current: run `git pull` — the scheduled cloud "
-        "routines and any teammates push to this repo between sessions. "
-        "/update-brain runs in decoupled mode here, per running-notes/standard-sync.md."
+        "It is theirs to edit and versions with the repo. /update-brain runs in "
+        "decoupled mode here, per running-notes/standard-sync.md." + SYNC_LINE
     )
 elif state == "ok" and not is_submodule:
     context = (
@@ -207,33 +83,29 @@ elif state == "ok" and not is_submodule:
         "today, but don't edit inside parker-system/ (updates would overwrite "
         "it), and don't treat this as a decoupled brain. The current standard "
         "mounts the factory as a pinned submodule; /update-brain can offer the "
-        "v1 migration that converts this brain. Before real work, run `git pull` "
-        "— cloud routines and teammates push to this repo between sessions."
+        "v1 migration that converts this brain." + SYNC_LINE
     )
 elif state == "ok":
     tag = pinned_tag()
     pin = f" (pinned to factory release {tag})" if tag else ""
     context = (
         f"Session start check: the parker-system/ method mount is initialized{pin}. "
-        + attempt_pull() +
-        " parker-system/ itself is read-only; factory updates arrive only through "
-        "/update-brain moving the pin. Standing rule: every change this session makes "
-        "gets committed and pushed immediately per /save-brain — never left local, "
-        "never held for a 'should I save?' question."
+        "parker-system/ itself is read-only; factory updates arrive only through "
+        "/update-brain moving the pin." + SYNC_LINE
     )
 else:
     context = (
         "Session start check: the parker-system/ method mount is "
-        + ("EMPTY — this clone was made without --recurse-submodules."
+        + ("EMPTY — it was never initialized here."
            if state == "empty" else "MISSING.")
         + " The brain's prompts, craft knowledge, and system docs all live in that "
         "mount, so nothing method-driven will work until it is initialized. Fix it "
         "before anything else: run `git submodule update --init parker-system`, "
-        "then verify the directory has content. If this repo was never cloned with "
-        "the mount, `git pull --recurse-submodules` afterward keeps it current. "
-        "The mount is read-only — never edit inside it; /update-brain is how it "
-        "updates. Where to read more: this repo's README.md and CLAUDE.md, and the "
-        "factory's own README inside the mount once initialized."
+        "then verify the directory has content (this is a local, credential-free "
+        "operation against the public factory — allowed and expected). The mount "
+        "is read-only — never edit inside it; /update-brain is how it updates. "
+        "Where to read more: this repo's README.md and CLAUDE.md, and the "
+        "factory's own README inside the mount once initialized." + SYNC_LINE
     )
 
 print(json.dumps({

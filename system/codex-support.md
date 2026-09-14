@@ -78,7 +78,7 @@ config, CLI `--sandbox`, a managed policy, or an explicit permission override ca
 replace the shipped profile. Check the effective permissions when setting up the
 brain; a hook alone is not an unconditional read-only guarantee. Keep the normal
 policy active for daily work and approve only the specific maintenance command
-needed by `/update-brain` or `/save-brain`.
+needed by `/update-brain` or `/disconnect-factory`.
 
 After an approved `/disconnect-factory`, update both runtimes' restrictions and
 the root contract. Fully absorbed, independent brains own their method. A team
@@ -96,7 +96,10 @@ diagnostic instead of assuming the user forgot approval.
 `scripts/sync-executable-layer.py` delivers the shared scripts, `.codex/`, and
 root `AGENTS.md` on a pin bump. The v16 migration supplies the skills symlink.
 v17 re-sync delivers the runtime fixes; its migration also adds the scheduling
-capability guard to the brand-authored root `CLAUDE.md`.
+capability guard to the brand-authored root `CLAUDE.md`. v18 re-sync delivers the
+Parker Desktop sync model (`git-guard.py`, `session-start.py`, `save-brain`, root
+`AGENTS.md`); saving needs no `.git/` write from the sandbox, because the app
+commits outside it. Its migration updates the root `CLAUDE.md`.
 Team-edited files remain theirs and are listed by the sync; report any retained
 override that prevents a runtime fix from taking effect.
 

@@ -1,6 +1,6 @@
 # [brand] Schedules
 
-Repo-native cron routines that run **inside this brain** to keep its docs current without anyone asking — the nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs. Clone this repo into a Claude Code instance and the schedules are what run against it on the back end.
+Repo-native cron routines that run **inside this brain** to keep its docs current without anyone asking — the nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs. Open the brain's Parker Desktop-synced folder in a Claude Code instance and the schedules are what run against it on the back end.
 
 **Schedules are not workflows.** Workflows (`../workflows/`) are the Parker-MCP product surface and call out to the hosted product. A schedule needs nothing but this repo and a Claude Code runner. Full concept: the Parker brain's `parker-system/system/schedules.md`.
 
@@ -13,7 +13,7 @@ Schedules act on the **refresh cadence**, not instead of it: each doc stamps a `
 
 ## The standing routines
 
-Six routines ship with this brain (jobs committed and live; the build arms the cron automatically at its stamp step — a brain cloned onto a *new* instance arrives un-armed, since schedules are per-account, so run `/setup-routines` there to register them):
+Six routines ship with this brain (jobs travel in the repo and are live; the build arms the cron automatically at its stamp step — a brain freshly synced to a *new* instance arrives un-armed, since schedules are per-account, so run `/setup-routines` there to register them):
 
 - **`dream.md`** — daily, 05:00. Runs `/dream` over the day's comms → five-bucket proposals.
 - **`research-loops.md`** — weekly, Wed 06:00. Runs `/research-loops`: rolls up the loops, advances them into hypotheses, runs the validations and due re-validations, aligns the docs with the findings.

@@ -212,6 +212,21 @@ class RuntimeHooks(unittest.TestCase):
         result = subprocess.run([sys.executable, str(self.root / ".claude/hooks/run-hook.py"), "git-guard"], input=json.dumps({"tool_name": "Bash", "tool_input": {"command": "git push --force origin main"}}), text=True, capture_output=True)
         self.assertEqual(result.returncode, 2)
 
+    def test_git_guard_leaves_brand_sync_to_parker_desktop(self):
+        subprocess.run(["git", "-C", str(self.root), "remote", "add", "origin", "https://git.example.test/parker-brain/fixture.git"], check=True)
+        def denied(command):
+            result = self.invoke("git-guard", {"tool_name": "Bash", "tool_input": {"command": command}})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return bool(result.stdout and json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"] == "deny")
+        for command in ("git push origin main", "git commit -am fixture", "git pull --rebase", "git stash", "git -C parker-system fetch --tags; git push origin main", "gh pr create", "git clone https://github.com/parker-brain/other.git"):
+            with self.subTest(blocked=command):
+                self.assertTrue(denied(command))
+        for command in ("git status --short --branch", "git -C parker-system fetch origin --prune --prune-tags", "git -C parker-system checkout v18", "git submodule update --init parker-system", "git rm --cached parker-system && rm parker-system/.git && git add -- parker-system/", "git clone --depth 1 https://github.com/real-simple-labs/parker-brain.git factory-compare"):
+            with self.subTest(allowed=command):
+                self.assertFalse(denied(command))
+        subprocess.run(["git", "-C", str(self.root), "remote", "set-url", "origin", "https://github.com/fixture-team/brain.git"], check=True)
+        self.assertFalse(denied("git push origin main"))
+
     def test_native_permission_profile_and_shared_commands(self):
         self.assertEqual(self.config["default_permissions"], "parker-brain")
         profile = self.config["permissions"]["parker-brain"]

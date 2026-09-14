@@ -1,12 +1,6 @@
 {
-  "$comment": "Committed brand configuration: shared hooks run from the brand root through run-hook.py. The permission rules protect the pinned method mount and allow the save-brain credential flow. Parker is the shared voice. Personal overrides belong in settings.local.json. Keep shared hook behavior aligned with .codex/config.toml; see parker-system/system/codex-support.md.",
+  "$comment": "Committed brand configuration: shared hooks run from the brand root through run-hook.py. The permission rules protect the pinned method mount. The git guard keeps git off the brand repo, because the Parker Desktop app syncs this folder (see /save-brain). Parker is the shared voice. Personal overrides belong in settings.local.json. Keep shared hook behavior aligned with .codex/config.toml; see parker-system/system/codex-support.md.",
   "permissions": {
-    "allow": [
-      "Write(.git/parker-credentials)",
-      "Write(/.git/parker-credentials)",
-      "Write(//tmp/parker-credentials)",
-      "Bash(rm -f .git/parker-credentials)"
-    ],
     "deny": [
       "Edit(/parker-system/**)",
       "Edit(parker-system/**)",

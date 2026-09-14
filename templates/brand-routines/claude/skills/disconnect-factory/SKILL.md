@@ -22,25 +22,25 @@ Then ask which of the two shapes they want (popup question form, one question):
 
 ## Option 1 — repoint at their own factory copy
 
-1. They need a private copy of the public factory under their own control. A GitHub fork of the public repo cannot be made private, so it's a duplicate: bare-clone the public factory, push it to a new private repo they own. Walk them through it or do it with their credentials.
-2. Repoint the submodule: edit the URL in `.gitmodules` to their copy, then `git submodule sync parker-system` and verify `git -C parker-system remote -v`.
+1. They need a private copy of the public factory under their own control. A GitHub fork of the public repo cannot be made private, so it's a duplicate: bare-clone the public factory and push it to a new private repo they own. Walk them through doing it themselves — it's their own account and their own repo, outside Parker's managed storage, and their credentials stay theirs to handle.
+2. Repoint the submodule: edit the URL in `.gitmodules` to their copy, then `git submodule sync parker-system` and verify `git -C parker-system remote -v`. On Parker Desktop, also check that the mount still fills on a teammate's machine: the app's access covers the brand's own repo, not a private factory copy, so a teammate's app may be unable to download it. If it can't, full absorb is the shape that works with the app.
 3. Update `running-notes/standard-sync.md`: posture `own-factory`, their remote, the release currently pinned, and a line recording the decoupling date and reason.
 4. Keep the deny rules **removed only if they ask** — under option 1 many teams still want the mount read-only in the brain and do their method editing in the factory copy itself. Ask; default is keep the rules. If they request an editable mount, remove both runtimes' mount restrictions and update both root contracts as in option 2, while preserving the submodule and its pin. Reload or restart each affected runtime, then perform option 2's harmless edit-and-restore check inside `parker-system/` using the normal daily permissions. Do not call the editable setup complete until that check passes.
-5. Commit as one commit: `Decouple: repoint method at team factory copy`.
+5. Done — the changed files save like any other change (Parker Desktop syncs them; on a self-managed brain, the team commits them as one commit: `Decouple: repoint method at team factory copy`).
 
 ## Option 2 — full absorb
 
-All tracked changes land as **one commit**. Reconnecting later requires reverting that commit and reinitializing the submodule; a revert alone does not restore its local checkout metadata.
+Do all of this in **one pass**, so the sync captures it as one coherent change. Reconnecting later means re-adding the submodule by hand; see the road-back note below.
 
 1. Before changing either repository, require a clean parent index: `git diff --cached --quiet` must exit 0. If unrelated work is staged, stop and have the user save or separate it; never unstage, discard, or include it in this operation. Capture the pinned state next: record the release tag and exact commit (`git -C parker-system describe --tags` and `git -C parker-system rev-parse HEAD`) in the ledger. Verify the mount is populated and clean, and capture `git -C parker-system ls-files` plus the tracked files' contents for a before/after check. Save outstanding method edits before proceeding.
-2. Dissolve the submodule but keep the files in place:
+2. Dissolve the submodule but keep the files in place. Parker Desktop commits whatever it finds once the folder goes quiet, and a half-converted mount breaks the last step, so check the gitfile first and then run the gitlink removal, the gitfile removal, and the `git add` back to back in one chained command:
    - **Do not run `git submodule deinit`: it removes the working files.** Run `git rm --cached parker-system` to remove only the gitlink from the parent index.
    - Remove the `parker-system` entry from `.gitmodules` (delete that file only if it has no other entries).
    - Verify `parker-system/.git` is a gitfile, then remove only that file. Keep the resolved submodule Git directory under the parent Git metadata as recovery data. If `.git` is a directory instead, stop and preserve that metadata before converting; never recursively delete it.
    - Run `git add -- parker-system/` and `git add -u -- .gitmodules`. Verify the former submodule's tracked files are all present, unchanged, and now individually staged in the parent. If an ignore rule hides any, explicitly stage those previously tracked paths; do not commit an incomplete absorb.
 3. Remove the four `parker-system` deny rules from `.claude/settings.json`. Also remove the mount-guard PreToolUse entry and the `parker-system` read-only filesystem entry from `.codex/config.toml`, preserving other hooks and the baseline permission profile. Update the read-only paragraph in root `AGENTS.md` and `CLAUDE.md` to reflect the approved editable method. Restart Codex or reload its permissions before testing an edit; a running session may still hold the old policy. Verify a harmless edit and its restoration inside the absorbed method.
 4. Update `running-notes/standard-sync.md`: posture `independent` (or `own-factory` in spirit if they say they still want offers), the fork-point release, date, reason.
-5. Inspect `git diff --cached --name-only` and the staged diff. It must contain only the absorbed method, `.gitmodules`, the runtime permission/contract edits, and the decoupling ledger. Stop if unrelated paths or edits appear. Commit: `Decouple: absorb factory <tag> into the brain`.
+5. Check the change with `git status` (and the latest sync commits, if Parker Desktop already saved part of it). It must contain only the absorbed method, `.gitmodules`, the runtime permission/contract edits, and the decoupling ledger. Stop if unrelated paths or edits appear. Then it's done — the absorbed files save like any other change (on a self-managed brain, the team commits them as `Decouple: absorb factory <tag> into the brain`).
 
 ## After either path
 
@@ -51,5 +51,5 @@ All tracked changes land as **one commit**. Reconnecting later requires revertin
 ## Hard rules
 
 - Never run without the explicit confirmation. "Can we edit the prompts?" is a question about this skill, not an instruction to run it — explain first, offer, wait.
-- One commit per decoupling. Keep local submodule metadata for recovery; a reconnection needs `git submodule update --init parker-system` after reverting the absorb.
+- One pass per decoupling — never spread it across sessions. Keep local submodule metadata for recovery; a reconnection needs `git submodule update --init parker-system` once the submodule is re-added.
 - Never decouple as a side effect of some other task hitting the read-only wall. If an edit inside `parker-system/` gets denied, the answer is to surface *why* it's read-only and mention this skill exists — not to run it.

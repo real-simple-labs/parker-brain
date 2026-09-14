@@ -1,6 +1,6 @@
 # Schedules — keeping a brand brain running on its own
 
-A brand brain is a repository. Clone it into a Claude Code instance and it is a living thing that can run jobs against itself. A **schedule** is one of those jobs: a cron routine that runs inside the cloned brain to keep its docs current without anyone asking. The nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs — each is a schedule.
+A brand brain is a repository. Open its synced folder in a Claude Code instance and it is a living thing that can run jobs against itself. A **schedule** is one of those jobs: a cron routine that runs inside the brain to keep its docs current without anyone asking. The nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs — each is a schedule.
 
 This is the repo-native answer to "how does the brain stay alive when no one is typing." Dreaming proposes schedules (the third of its five buckets); self-improvement creates, edits, pauses, and removes them; and the routines themselves run on the back end against the repo.
 
@@ -9,7 +9,7 @@ This is the repo-native answer to "how does the brain stay alive when no one is 
 Keep these two apart — they look similar and are not the same thing.
 
 - **Workflows** are a **Parker-MCP product** concept: a recurring task a user hands to the hosted Parker product, which runs it through the MCP surface. They live in `workflows/` and call out to the MCP.
-- **Schedules** are **repo-native**: cron routines that run inside *this brand brain repo*, in a Claude Code instance, against the files in the repo. They do not call the Parker MCP. If you cloned the brain to your own machine and pointed Claude Code at it, the schedules are what would run to update the docs.
+- **Schedules** are **repo-native**: cron routines that run inside *this brand brain repo*, in a Claude Code instance, against the files in the repo. The *trigger* is a Claude Code scheduled agent — registered per-account by `/setup-routines`, firing from Anthropic's cloud infrastructure so it keeps running with the local machine off; "repo-native" means the job works against this repo's files and needs nothing from the hosted Parker product. The job itself is a normal Parker session that uses any connected tool the skill needs, Parker MCP pulls included; a refresh that skipped the live data would just write stale docs. If the brain's folder is on your machine (synced by Parker Desktop, or a self-managed clone) and Claude Code points at it, the schedules are what would run to update the docs.
 
 The distinction matters because the brand brain is meant to be portable. A workflow assumes the hosted product is in the loop; a schedule assumes only the repo and a Claude Code runner. When in doubt: if it keeps the *repo's own docs* fresh and needs nothing but the repo to run, it is a schedule.
 
@@ -49,6 +49,6 @@ A proposed schedule does not run until the user confirms it and it moves out of 
 
 ## The runner
 
-The routines run as **Claude Code scheduled agents** — the `/schedule` skill and the cron machinery behind it. The repo carries the *definition* of each schedule (the `schedules/` file); the Claude Code instance the brain is cloned into carries the *execution*. Standing up a schedule means writing its file here and registering the matching cron routine in the instance; the two stay in sync, with the file as the source of truth for what the routine is supposed to do.
+The routines run as **Claude Code scheduled agents** — the `/schedule` skill and the cron machinery behind it. The repo carries the *definition* of each schedule (the `schedules/` file); the Claude Code instance where the brain's folder is opened carries the *execution*. Standing up a schedule means writing its file here and registering the matching cron routine in the instance; the two stay in sync, with the file as the source of truth for what the routine is supposed to do.
 
 As of July 2026, confirm which `/schedule` you're actually getting — Claude Code's CLI and Desktop app run separate scheduling systems (one works in the cloud, another on the user's machine), and only the cloud one survives the machine being off; see `setup-routines/SKILL.md` for the caveat.
