@@ -15,8 +15,10 @@ fetch + checkout pin move) are the agent's job and need no credentials.
 So do `git add`, `git commit` and `git merge` (v22). When the app pauses a
 brain on a clash - the same lines changed here and by a teammate - its Fix
 button merges the teammate's version in and leaves both versions in the
-file, marked; the agent's job is to edit the file until no mark is left, and
-the app commits and shares the result by itself. Those three verbs let an
+file, between the two-way markers (the app forces that style, so no diff3
+base section ever appears); the agent's job is to edit the file until every
+clash block is combined and none of its three marker lines is left, and the
+app commits and shares the result by itself. Those three verbs let an
 agent finish that by hand without being blocked mid-way; they are local, and
 the app's next cycle treats a commit the agent made like any other. The
 network verbs stay blocked: the agent holds no credentials for them anyway,
@@ -66,9 +68,10 @@ BLOCK = (
     "fetch`, its pin `checkout`, `git submodule update --init`; local and "
     "credential-free) and the confirmed /disconnect-factory commands its own "
     "skill lists. When the app has paused this folder on a clash and put both "
-    "versions into a file (its Fix button), edit the file until no <<<<<<< or "
-    ">>>>>>> line is left; the app saves and shares the result. git add, git "
-    "commit and git merge pass this guard for that, and nothing more is needed. "
+    "versions into a file (its Fix button), edit the file until every clash "
+    "block is combined and none of its <<<<<<<, ======= and >>>>>>> marker lines "
+    "is left; the app saves and shares the result. git add, git commit and git "
+    "merge pass this guard for that, and nothing more is needed. "
     "If you believe this folder is NOT being "
     "synced (no Parker Desktop), don't improvise git — tell the user plainly "
     "and point them at https://app.heyparker.ai/dashboard/parker-desktop, or "

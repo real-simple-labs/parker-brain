@@ -43,7 +43,7 @@ What this means for the runtime docs and the guard:
 - **The agent needs no git to combine a clash**, on any brain version, in either harness, in the Codex sandbox. Editing the marked files is the whole job. The older agent-side flow ("run `git pull --rebase`, resolve, push") never worked for customers: the agent has no credentials on a managed brain.
 - **`git add`, `git commit` and `git merge` pass the guard from v22.** An assistant that finishes a combine by hand, or one on an older brain that ran its own merge, is not blocked mid-way; the app's next cycle treats a commit made in the folder like any other and shares it. The network verbs stay blocked, and so does `commit --amend`, which rewrites history the app may already have shared.
 - **A rebase in progress is left alone.** The app reports the brain as being combined outside it and waits; it never continues or undoes someone else's rebase. That is why the guard keeps `rebase` blocked: a merge stops once with every clash at hand, a rebase stops once per commit.
-- **`git status --short --branch` still tells the truth.** Unmerged files show as `UU`; no marks and no unmerged files means the app has it from here.
+- **`git ls-files -u` tells the truth.** It lists the files still to combine, exactly; in `git status --short --branch` they are the lines with a `U` on either side, or `AA`. No file listed, no marker line left, and no `ahead` count means the app has it from here. The app forces git's two-way conflict style for its own commands, so a person's `diff3`/`zdiff3` setting never adds a `|||||||` base section to the marks the assistant is told about.
 
 ## Why the agent stays out of git on a managed brain
 

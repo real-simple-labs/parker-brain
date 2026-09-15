@@ -26,7 +26,9 @@ SYNC_LINE = (
     "`git submodule update --init`) and the confirmed /disconnect-factory commands "
     "its skill lists. If the app has paused this folder on a clash and put both "
     "versions into a file between <<<<<<< and >>>>>>> marks, edit the file until "
-    "no mark is left and stop; the app saves and shares it."
+    "every clash block is combined and none of its <<<<<<<, ======= and >>>>>>> "
+    "lines is left, then stop; the app saves and shares it (git add, git commit "
+    "and git merge are allowed for that, and not needed)."
 )
 
 
