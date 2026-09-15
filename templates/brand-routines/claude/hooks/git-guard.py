@@ -21,8 +21,10 @@ clash block is combined and none of its three marker lines is left, and the
 app commits and shares the result by itself. Those three verbs let an
 agent finish that by hand without being blocked mid-way; they are local, and
 the app's next cycle treats a commit the agent made like any other. The
-network verbs stay blocked: the agent holds no credentials for them anyway,
-and a `commit --amend` rewrites history the app may already have shared.
+network verbs stay blocked: the agent holds no credentials for them anyway;
+a `commit --amend` rewrites history the app may already have shared; and
+`merge --abort` (or `--quit`) throws the combining away, which is the
+person's call, made in the app, never the agent's.
 A brain hosted anywhere else (the self-managed exception) is untouched —
 the guard only speaks up when the repo's origin (or the command itself)
 points at the parker-brain org, on GitHub or on Parker's git gateway.
@@ -61,9 +63,10 @@ CLONE_OP = re.compile(r"\bgit\b[^;&|]*\b(clone|submodule\s+add)\b[^;&|\n]*")
 BLOCK = (
     "This brain's folder is synced by the Parker Desktop app — it watches the "
     "folder and syncs every change both ways, so saving means writing files, "
-    "nothing more. Never run git (or gh) against this repo: no push, pull, "
-    "fetch, clone, or commit — a second sync engine racing the app is how work "
-    "gets destroyed. Just finish writing the files; they sync on their own. "
+    "nothing more. Never run git (or gh) against this repo on your own: no push, "
+    "pull, fetch, or clone, and no commits of your own — a second sync engine "
+    "racing the app is how work gets destroyed. Just finish writing the files; "
+    "they sync on their own. "
     "Two exceptions pass this guard: mount operations (`git -C parker-system "
     "fetch`, its pin `checkout`, `git submodule update --init`; local and "
     "credential-free) and the confirmed /disconnect-factory commands its own "
@@ -71,7 +74,8 @@ BLOCK = (
     "versions into a file (its Fix button), edit the file until every clash "
     "block is combined and none of its <<<<<<<, ======= and >>>>>>> marker lines "
     "is left; the app saves and shares the result. git add, git commit and git "
-    "merge pass this guard for that, and nothing more is needed. "
+    "merge pass this guard for that, and nothing more is needed; never abort "
+    "the merge, undoing is the person's call in the app. "
     "If you believe this folder is NOT being "
     "synced (no Parker Desktop), don't improvise git — tell the user plainly "
     "and point them at https://app.heyparker.ai/dashboard/parker-desktop, or "
@@ -170,10 +174,12 @@ def main() -> int:
     # (only /disconnect-factory's `--cached` form passes), so those are denied too.
     # `add`, `commit` and `merge` pass (v22): they finish a combine the app
     # started, and the app's next cycle takes a commit made here in stride.
-    # `commit --amend` does not pass - it rewrites what may already be shared.
-    # `am` is the verb, not the flag in `commit -am`.
+    # `commit --amend` does not pass - it rewrites what may already be shared -
+    # and neither does `merge --abort` or `--quit`, which throws the combining
+    # away: undoing is the person's call, in the app. `am` is the verb, not
+    # the flag in `commit -am`.
     if re.search(
-        r"\bgit\b[^;&|]*\b(push|pull|fetch|commit\b[^;&|]*--amend|rebase|reset|restore"
+        r"\bgit\b[^;&|]*\b(push|pull|fetch|commit\b[^;&|]*--amend|merge\b[^;&|]*--(?:abort|quit)|rebase|reset|restore"
         r"|checkout|switch|clean|stash|cherry-pick|revert|(?<!-)am|remote\s+set-url"
         r"|submodule\s+deinit|submodule\s+update\b[^;&|]*--remote|rm\b(?![^;&|]*--cached)"
         r"|branch\s+(-[a-zA-Z]*[dDmMfcC]|--delete|--move|--force|--copy))\b",
