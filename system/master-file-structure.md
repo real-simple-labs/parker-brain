@@ -127,9 +127,9 @@ parker/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── hooks/run-hook.py                    ← shared launcher: resolves the brand root before running any hook
 │       │   ├── hooks/mount-guard.py                 ← Codex patch/direct-shell guard; native filesystem permissions provide the isolation layer
-│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: enforces the save-brain git procedure on parker-brain-org repos (blocks gh, credential-less network ops, force-push, submodule-less clones)
+│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: on `parker-brain` org repos blocks the git commands that move history/network/working tree (push, pull, fetch, commit, rebase, merge, reset, restore, checkout, switch, clean, stash, set-url, submodule deinit, submodule update --remote, rm except --cached), clones and submodule adds of a managed parker-brain/ URL (the public factory still clones), and gh aimed at the brand repo — Parker Desktop owns the sync, per save-brain; mount ops and read-only git pass
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
+│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
 │       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; STAMPED from templates/brand-routines/codex/ (system/codex-support.md is the contract)
 │       │   ├── config.toml                          ← wires shared root-resolving hooks + mount-guard, and the parker-brain filesystem profile

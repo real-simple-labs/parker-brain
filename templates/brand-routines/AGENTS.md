@@ -31,11 +31,14 @@ file wins wherever this summary is thinner.
   blocked edits. Legacy sandbox settings can override the profile; verify the
   effective permissions. Updates arrive through `/update-brain` moving the pin.
   A deliberately disconnected brain follows its recorded ownership posture.
-- **Git here follows `/save-brain` exactly.** Parker's own short-lived
-  credentials in `.git/parker-credentials`, plain `git push origin main`,
-  never `gh`, never a bare or forced push, and every change committed and
-  pushed the moment it's done. A hook blocks the wrong moves and teaches the
-  right one; mount operations (`git -C parker-system …`) pass.
+- **Saving is Parker Desktop's job, not git's.** On a managed brain (origin
+  under `parker-brain/`) the app syncs this folder both ways, so a file you
+  write is saved. Never run git or `gh` against this repo; a hook blocks it
+  and says why. Two exceptions: the mount operations the brain uses (`git -C
+  parker-system fetch`, its pin `checkout`, `git submodule update --init`) and
+  the confirmed `/disconnect-factory` commands. A self-managed brain (any
+  other origin) follows the team's own git habits instead. Full picture:
+  `/save-brain`.
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and

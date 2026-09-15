@@ -1,0 +1,59 @@
+# Brain sync — how a brand brain stays saved, and what the agent's job is (and isn't)
+
+The runtime procedure lives in the routine bundle as the `save-brain` skill (`templates/brand-routines/claude/skills/save-brain/SKILL.md`, shipped to brains at `.claude/skills/save-brain/`). This doc is the maintainer's side: the facts the model rests on, the enforcement stack, and why each piece exists. Change the procedure there, check the reasoning here.
+
+## The model: Parker Desktop owns the sync
+
+- Managed brains live in the **`parker-brain` org**, one private repo per brand. The repo is served from GitHub (`https://github.com/parker-brain/<repo>.git`), or through Parker's git gateway at the same `parker-brain/<repo>` path for brains that use restricted folders.
+- What changed in v18: **the agent neither creates nor syncs the repo — the Parker Desktop app does both.** The team sets the brain up **in Parker Desktop** (install: https://app.heyparker.ai/dashboard/parker-desktop). The app's setup wizard provisions the repo through Parker's server (idempotent create-or-reuse, the same service the old tool used, with no credentials handed to any agent), downloads it into the workspace, and opens Claude Code or Codex inside the brain's folder with the setup prompt. The agent's whole job is to write files to disk; creating and saving happen without it.
+- There is **no repo-provisioning tool call** in the flow anymore. The setup prompt and the Parker MCP's `setup_parker_brain` tool description can still describe the older flow (call the tool, clone with its short-lived credentials, commit and push). The agent doesn't call the tool, and it **ignores any credentials** a tool result carries. No credential file, no tokenized clone, no token handling of any kind.
+- **Finding the folder:** Parker Desktop writes a pointer file at a fixed location, **`~/.parker/workspace.json`** — `{"version": 1, "root": "/Users/jane/parker", "updatedAt": "…"}` — and rewrites it whenever the workspace moves. Under `root`, each brain is its own clone at `orgs/<org>/<repo>/` (app versions before 0.1.18 used `brands/<repo>/`). `personal/` is the user's own space, and each `orgs/<org>/` folder is the organization's shared space, a separate clone that is never a brain. Brains are told apart by `parker_config.json`'s `brand_id`; a fresh empty folder by its name. If the pointer file is missing or unreadable, Parker Desktop is probably not installed (or is an old version), so ask the user where the brain lives, or point them at the install link above.
+- **No Parker Desktop?** Two honest options, in this order: install the app (the recommended path, the only one that needs no git knowledge, and the only way to get a managed repo at all), or the team stands up their **own repo and git connection** and owns their sync — their auth, their remote, their habits. That second path is the self-managed exception below.
+
+## What the app does, and what that means for agents
+
+Verified against the Parker Desktop source on 2026-09-14 (release 0.12.3). Each brain's sync cycle runs once the folder has been quiet for about 15 seconds (at most a minute after the first change), plus a regular poll:
+
+1. `git add -A` and a commit of everything it finds (oversized files and `.DS_Store` stay local).
+2. A fetch and `rebase --autostash` onto the remote. A real conflict parks the brain and asks the person; the agent never resolves it.
+3. `git submodule update --init --recursive --force`, but only when the mount is missing, off its recorded commit, or has local edits.
+4. A push.
+
+A brain that is read-only for this person skips step 1, so their local changes never upload.
+
+Consequences the runtime docs carry:
+
+- **Never stage or commit.** `/update-brain`'s pin move (`git -C parker-system checkout <tag>`) is saved by step 1 before step 3 re-aligns the mount, so the new pin sticks without the agent touching the index. The v15 rule to stage the pin move existed only because the old save loop re-aligned first.
+- **Edits inside `parker-system/` get undone.** Step 3's forced update resets the mount to its recorded commit, so the read-only rule is also physically true.
+- **Leave `submodule.recurse` unset.** The app updates the mount as its own step; with that setting on, git would reach into the mount during the app's rebase and restores. Earlier runners set it; `migrations/v18.md` removes it.
+- **`index.lock` means the app is mid-sync.** A mount or disconnect command that hits it waits a few seconds and retries; nothing deletes the lock.
+- **Checking is allowed, guessing isn't.** `git status --short --branch` is read-only: no changed files and no `ahead` count means the app has caught up. That is the confirm-sync check at the end of a build.
+
+## Why the agent stays out of git on a managed brain
+
+The old procedure had the agent minting one-hour tokens, writing credential files, rebasing, and pushing — three revisions of ceremony (v5 → v8), each fixing the last one's failure mode, and all of it evaporating the moment two things drifted: the token's clock and the platform's token-in-command rules. Parker Desktop removes the whole class of failure. One sync engine means one behavior on conflicts, one place credentials live (inside the app, never in the session), and no way for an agent to force-push, misattribute a commit, or park work on a branch nobody reads. The agent also must not *half*-participate — a `git commit` the app didn't expect, a `git pull` racing the app's own — so the rule is clean: **no git network or history commands against the brand repo at all.** Files on disk are the interface.
+
+Two carve-outs. First, the method mount: `parker-system/` is a pinned submodule of the **public** factory, and its operations (`git submodule update --init`, `git -C parker-system fetch/checkout` for `/update-brain`'s pin move) are local or public-remote, need no credentials, and don't touch the brand's origin. Second, the confirmed `/disconnect-factory` decoupling runs the index commands its own skill lists (`git submodule sync`, `git rm --cached parker-system`, `git add`), chained so the app never commits a half-converted mount.
+
+## Detecting the self-managed exception
+
+A rare team hosts and syncs the brain themselves instead of using Parker Desktop. Detection is the origin URL: a path starting `parker-brain/` on any host → managed (the app's territory, agent hands off), anything else → theirs — their auth and their git habits, and the guard stays out of it. The guard adds one check on the command itself: a `git clone` or `git submodule add` that names a `parker-brain/` URL is blocked wherever it runs, since that would put a second copy of a managed brain on disk outside the app. The public factory (`real-simple-labs/parker-brain`) never matches. A repo with **no remote at all** is neither: the app always creates a managed repo with its remote already attached, so a remote-less repo is unsynced local work (the local-only fallback, or a self-managed brain mid-setup) — say so plainly and offer the app or their own git, and don't let the guard or the docs claim it's managed. `parker_config.json` is a resume anchor, never a sync signal.
+
+## The enforcement stack
+
+1. **`git-guard.py`** — PreToolUse hook on the shell tool in both runtimes: exit 2 plus stderr in Claude Code, the JSON `permissionDecision: "deny"` envelope under `--codex`. Deterministic: on managed repos it blocks the git commands that move history, the network, or the working tree against the brand repo (`push`, `pull`, `fetch`, `commit`, `rebase`, `merge`, `reset`, `restore`, `checkout`, `switch`, `clean`, `stash`, `submodule deinit`, `submodule update --remote`, `rm` (except the `--cached` form `/disconnect-factory` uses), `cherry-pick`, `revert`, `am`, `remote set-url`, branch mutations — delete, move, force, copy), cloning any managed-org URL, and `gh` aimed at this repo (including the mutating `gh repo` subcommands that default to the current repo), with a block message that teaches the model: save the files, Parker Desktop syncs them. The two approved mount operations, `git -C parker-system fetch` and the pin `checkout`, are cut out of the command before the checks, so they pass while `git -C parker-system fetch; git push` still blocks on the push; a `reset`, `clean`, or `push` inside the mount stays visible and is blocked. A non-managed clone or submodule add is cut out the same way, so a push chained after it is still caught. Plain submodule commands (`update`, `init`, `sync`, `status`, `add`) pass because they hit no denied verb — deliberately *not* a blanket `submodule` pass, which would shield `git submodule status; git push` — as do read-only commands (`status`, `log`, `diff`) and clones of non-managed URLs (e.g. the public factory for `/update-brain`'s decoupled compare). It is a teaching rail against habit, not armor against evasion — it fails open internally, and its settings entry must never get an error-silencing shell wrapper, because the block envelope is the mechanism.
+2. **`session-start.py`** — checks the method mount at session start (an empty `parker-system/` breaks every method reference) and reminds the model of the sync model in one line: files save to disk, the app does the rest. It no longer pulls — that was the agent doing the app's job.
+3. **The `save-brain` skill** — the full picture, discoverable by name for anything save/sync/backup-shaped, including finding the folder, checking that it synced, what to do when the folder isn't syncing (point at the app), and the self-managed exception. Codex reads the same file through `.agents/skills`, and the brand `AGENTS.md` carries the one-line rule.
+4. **The brand `CLAUDE.md` section** ("How this brain saves itself") — always loaded, carries the one absolute: never run git against this repo; write files and trust the sync.
+
+Layers 1–3 and the brand `AGENTS.md` travel in the copied bundle, so `sync-executable-layer.py` delivers them to standing brains on a pin bump; team-edited copies stay theirs and need the migration's manual merge. Layer 4 does **not** travel — the brand root `CLAUDE.md` is brand-authored and sits outside the bundle, so it reaches new builds through the template and standing brains only through `migrations/v18.md`'s refresh step.
+
+## Scheduled routines
+
+Cloud routines run on a copy with no Parker Desktop beside it, so nothing they write is saved. That isn't new in v18: Anthropic's cloud environments restrict git, so they couldn't push under the old flow either (`stated`: maintainer note, 2026-09-15). A routine's writes are saved only when it runs where the brain's sync is wired: a folder Parker Desktop syncs for a managed brain, or the team's own git sync for a self-managed one. `system/schedules.md` carries the runner note; `save-brain` tells a cloud run to say its output wasn't saved.
+
+## Open cross-team duties
+
+- **The setup prompts.** The prompt Parker Desktop and the web app's setup page hand the agent still says to set up the brain "using the setup_parker_brain tool on the Parker MCP" and points at the factory's `.git` URL. The runner tells agents to skip the tool, but the prompt should stop naming it.
+- **The tool and server instructions.** The `setup_parker_brain` tool description and the Parker MCP's server instructions still teach cloning with the returned credentials and committing and pushing. Until they change, the skill, hooks, and runner here override anything they say.
+- **The pointer file and the layout are a contract with the app.** If the app changes `workspace.json`'s shape (it carries `version` for that) or the `orgs/<org>/<repo>/` layout, the runner and `save-brain` change in the same release.
