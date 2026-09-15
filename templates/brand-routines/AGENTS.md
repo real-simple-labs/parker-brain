@@ -33,12 +33,16 @@ file wins wherever this summary is thinner.
   A deliberately disconnected brain follows its recorded ownership posture.
 - **Saving is Parker Desktop's job, not git's.** On a managed brain (origin
   under `parker-brain/`) the app syncs this folder both ways, so a file you
-  write is saved. Never run git or `gh` against this repo; a hook blocks it
-  and says why. Two exceptions: the mount operations the brain uses (`git -C
-  parker-system fetch`, its pin `checkout`, `git submodule update --init`) and
-  the confirmed `/disconnect-factory` commands. A self-managed brain (any
-  other origin) follows the team's own git habits instead. Full picture:
-  `/save-brain`.
+  write is saved. Never run git or `gh` against this repo on your own; a hook
+  blocks the network and history-moving commands and says why. Two
+  exceptions: the mount operations the brain uses (`git -C parker-system
+  fetch`, its pin `checkout`, `git submodule update --init`) and the confirmed
+  `/disconnect-factory` commands. When the app has paused this folder on a
+  clash and put both versions into a file between `<<<<<<<` and `>>>>>>>`
+  marks, edit the file until no mark is left and stop; the app saves and
+  shares it (`git add`, `git commit` and `git merge` pass the hook for that,
+  and are not needed). A self-managed brain (any other origin) follows the
+  team's own git habits instead. Full picture: `/save-brain`.
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and
