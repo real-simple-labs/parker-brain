@@ -129,10 +129,11 @@ def main() -> int:
         if names_org or (repo_context and not retargeted):
             return block(BLOCK)
 
-    # Cloning a managed-org repo is the app's job; cloning anything ELSE
-    # (the public factory for /update-brain's decoupled compare, a reference
-    # repo) is fine even from inside a managed brain.
-    if re.search(r"\bgit\b[^;&|]*\bclone\b", cmd):
+    # Cloning a managed-org repo is the app's job, and so is adding one as a
+    # submodule; cloning anything ELSE (the public factory for /update-brain's
+    # decoupled compare or the build's mount, a reference repo) is fine even
+    # from inside a managed brain.
+    if re.search(r"\bgit\b[^;&|]*\b(clone|submodule\s+add)\b", cmd):
         if MANAGED_ORG.search(cmd):
             return block(BLOCK)
         return 0

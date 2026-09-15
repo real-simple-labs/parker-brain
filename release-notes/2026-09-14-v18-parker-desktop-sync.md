@@ -18,7 +18,7 @@ This change first merged as `v16` (#69) and was reverted before any tag carried 
 
 ## Known gap
 
-Scheduled cloud routines run on a copy with no Parker Desktop beside it, so they have no way to save under this model. `save-brain` tells such a session to say so plainly rather than claim the work is saved. How routines should run under the app is an open product decision.
+Scheduled cloud routines can't save to a managed brain. That isn't new: Anthropic's cloud environments restrict git, so they couldn't push under the old flow either. `save-brain` tells such a run to say plainly that its output wasn't saved, and `system/schedules.md` notes that a routine's writes are saved only when it runs in a folder Parker Desktop syncs.
 
 ## Migration
 

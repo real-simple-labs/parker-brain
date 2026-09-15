@@ -48,6 +48,10 @@ A rare team hosts and syncs the brain themselves instead of using Parker Desktop
 
 Layers 1–3 and the brand `AGENTS.md` travel in the copied bundle, so `sync-executable-layer.py` delivers them to standing brains on a pin bump; team-edited copies stay theirs and need the migration's manual merge. Layer 4 does **not** travel — the brand root `CLAUDE.md` is brand-authored and sits outside the bundle, so it reaches new builds through the template and standing brains only through `migrations/v18.md`'s refresh step.
 
+## Scheduled routines
+
+Cloud routines run on a copy with no Parker Desktop beside it, so nothing they write is saved. That isn't new in v18: Anthropic's cloud environments restrict git, so they couldn't push under the old flow either (`stated`: maintainer note, 2026-09-15). A routine's writes are saved only when it runs in a folder the app syncs. `system/schedules.md` carries the runner note; `save-brain` tells a cloud run to say its output wasn't saved.
+
 ## Open cross-team duties
 
 - **The setup prompts.** The prompt Parker Desktop and the web app's setup page hand the agent still says to set up the brain "using the setup_parker_brain tool on the Parker MCP" and points at the factory's `.git` URL. The runner tells agents to skip the tool, but the prompt should stop naming it.
