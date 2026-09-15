@@ -20,10 +20,13 @@ MOUNT = Path("parker-system")
 SYNC_LINE = (
     " How this brain saves itself: the Parker Desktop app syncs this folder both "
     "ways — write files to disk and they're saved; teammates' and routines' changes "
-    "arrive on their own. Never run git against this repo (no push, pull, commit, "
-    "clone, or gh) — see /save-brain. Two exceptions are fine: mount operations "
-    "(`git -C parker-system fetch`, its pin `checkout`, `git submodule update "
-    "--init`) and the confirmed /disconnect-factory commands its skill lists."
+    "arrive on their own. Never run git against this repo on your own (no push, "
+    "pull, clone, or gh; no commits of your own) — see /save-brain. Two exceptions "
+    "are fine: mount operations (`git -C parker-system fetch`, its pin `checkout`, "
+    "`git submodule update --init`) and the confirmed /disconnect-factory commands "
+    "its skill lists. If the app has paused this folder on a clash and put both "
+    "versions into a file between <<<<<<< and >>>>>>> marks, edit the file until "
+    "no mark is left and stop; the app saves and shares it."
 )
 
 

@@ -85,7 +85,10 @@ policy active for daily work and approve only the specific maintenance command
 needed by `/update-brain` or `/disconnect-factory`.
 
 Parker Desktop runs Codex as `codex exec --sandbox workspace-write`, which has no
-network and cannot prompt. On older app versions that don't attach the mount themselves, the build's
+network and cannot prompt. Combining a clash needs neither: the app puts both
+versions into the files, Codex only edits them, and the app saves and shares the
+result (`system/brain-sync.md`, "Clashes").
+Otherwise, that sandbox has no network and cannot prompt. On older app versions that don't attach the mount themselves, the build's
 one network git step, the `git submodule add`
 of the public factory, cannot run there; `/update-brain`'s `git -C parker-system
 fetch` never can. The runner asks the user to run that step in Claude
