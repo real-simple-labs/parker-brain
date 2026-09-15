@@ -13,6 +13,8 @@ cumulative snapshots.
 - Hooks checkpoint locally; normal saves export metadata-only `.usage/` files.
   Ignored live state prevents Stop/save loops. Final post-save counters travel
   with the next normal save.
+- Recovery and reports merge exports from multiple machines for the same actor,
+  preserving distinct requests and counting overlapping cache/token usage once.
 - Builds can label writers, fidelity reviews, retries, and final verification.
   Reports show parent/worker totals, model/prompt/stage groups, cache hit rates,
   and partial coverage. No extra model calls or dollar-price assumptions.

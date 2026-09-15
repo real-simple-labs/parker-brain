@@ -71,6 +71,20 @@ class UsageLogging(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return [json.loads(p.read_text()) for p in (self.root / ".usage").glob("*/*/*.json")]
 
+    def publish_from_other_machine(self, rows, day, runtime="claude", agent=None):
+        with tempfile.TemporaryDirectory(prefix="usage remote fixture ") as tmp:
+            root = Path(tmp).resolve()
+            source = root / "transcript.jsonl"
+            write_rows(source, rows)
+            payload = {**self.payload, "transcript_path": str(source)}
+            if agent:
+                payload.update(hook_event_name="SubagentStop", agent_id=agent,
+                               agent_transcript_path=str(source))
+            snapshot = usage.collect(root, runtime, payload, root / ".usage/.local")
+            snapshot["log_date"] = day
+            usage.export(self.root, [snapshot])
+            return snapshot
+
     def test_disabled_is_strict_and_does_not_read_transcript(self):
         variants = [None, "{bad", "[]", "{}", '{"usage_logging":true}',
                     '{"usage_logging":{"enabled":"true"}}',
@@ -169,6 +183,97 @@ class UsageLogging(unittest.TestCase):
         self.assertEqual(resumed["log_date"], initial["log_date"])
         self.assertEqual(resumed["request_count"], 2)
         self.assertEqual(resumed["attribution_override"]["build_run_id"], "build1")
+
+    def test_recovery_unions_divergent_exports_without_a_transcript(self):
+        self.publish_from_other_machine([claude("one"), claude("shared")], "2026-09-10")
+        later = claude("three")
+        later["timestamp"] = "2026-09-11T10:00:00Z"
+        self.publish_from_other_machine([claude("shared"), later], "2026-09-11")
+        self.source.unlink()
+        for _ in range(2):
+            self.hook()
+            self.exported()
+            state = json.loads((self.root / ".usage/.local/claude-session1-main.json").read_text())
+            self.assertEqual(state["snapshot"]["request_count"], 3)
+            self.assertEqual(state["snapshot"]["tokens"]["total_tokens"], 360)
+            self.assertEqual(state["snapshot"]["log_date"], "2026-09-10")
+            summary = json.loads(self.run_cli("report").stdout)
+            self.assertEqual(summary["request_count"], 3)
+            self.assertEqual(summary["tokens"]["total_tokens"], 360)
+            self.assertEqual(summary["partial_runs"], 1)
+
+    def test_synced_history_is_merged_with_existing_local_state(self):
+        self.hook()
+        remote = claude("remote")
+        remote["timestamp"] = "2026-09-11T10:00:00Z"
+        self.publish_from_other_machine([remote], "2026-09-11")
+        self.source.unlink()
+        self.hook()
+        self.exported()
+        state = json.loads((self.root / ".usage/.local/claude-session1-main.json").read_text())
+        self.assertEqual(state["snapshot"]["request_count"], 2)
+        summary = json.loads(self.run_cli("report").stdout)
+        self.assertEqual(summary["request_count"], 2)
+        self.assertEqual(summary["tokens"]["total_tokens"], 240)
+
+    def test_duplicate_exports_preserve_streaming_maxima_cache_and_build_labels(self):
+        marker = {"type": "user", "message": {"content":
+            'PARKER_USAGE {"stage":"fidelity_review","build_run_id":"build1"}'}}
+        # The older path has the fuller streaming frame, including an unlabeled
+        # copy. Neither date nor label alone determines the best token counters.
+        self.publish_from_other_machine([claude()], "2026-09-10", agent="child")
+        self.publish_from_other_machine([marker, claude(output=5)], "2026-09-11", agent="child")
+        summary = json.loads(self.run_cli("report", "--build", "build1").stdout)
+        self.assertEqual(summary["request_count"], 1)
+        self.assertEqual(summary["tokens"], dict(zip(usage.FIELDS, (110, 20, 60, 30, 10, 4, 120))))
+        self.assertEqual(summary["by_role"]["subagent"]["total_tokens"], 120)
+        self.assertEqual(summary["groups"][0]["cache_hit_percent"], 54.55)
+        self.assertEqual(summary["unattributed_requests_all_runs"], 0)
+
+    def test_codex_exports_with_overlapping_cumulative_intervals_count_once(self):
+        first = codex()
+        second = codex(counts(200, 120, 20), stamp="2026-09-10T11:00:00Z")
+        third = codex(counts(300, 180, 30), stamp="2026-09-10T12:00:00Z")
+        self.publish_from_other_machine([first, third], "2026-09-10", runtime="codex")
+        # This machine missed the first cumulative event altogether.
+        self.publish_from_other_machine([second, third], "2026-09-11", runtime="codex")
+        self.source.unlink()
+        for _ in range(2):
+            self.hook("codex")
+            self.exported()
+            summary = json.loads(self.run_cli("report").stdout)
+            self.assertEqual(summary["request_count"], 3)
+            self.assertEqual(summary["tokens"], dict(zip(usage.FIELDS, (300, 120, 180, 0, 30, 4, 330))))
+            self.assertEqual(summary["groups"][0]["cache_hit_percent"], 60)
+
+    def test_codex_overlapping_exports_can_share_event_timestamps(self):
+        first, second, third = codex(), codex(counts(200, 120, 20)), codex(counts(300, 180, 30))
+        self.publish_from_other_machine([first, third], "2026-09-10", runtime="codex")
+        self.publish_from_other_machine([second, third], "2026-09-11", runtime="codex")
+        self.source.unlink()
+        self.hook("codex")
+        self.exported()
+        summary = json.loads(self.run_cli("report").stdout)
+        self.assertEqual(summary["request_count"], 3)
+        self.assertEqual(summary["tokens"]["total_tokens"], 330)
+        self.assertEqual(summary["tokens"]["cache_read_input_tokens"], 180)
+
+    def test_duplicate_empty_exports_count_as_one_unknown_run(self):
+        for day in ("2026-09-10", "2026-09-11"):
+            self.publish_from_other_machine([], day)
+        summary = json.loads(self.run_cli("report").stdout)
+        self.assertEqual(summary["runs_without_usage"], 1)
+        self.assertEqual(summary["partial_runs"], 1)
+        self.assertIsNone(summary["tokens"]["total_tokens"])
+
+    def test_terminal_checkpoint_still_recovers_late_streaming_counts(self):
+        write_rows(self.source, [claude(output=5)])
+        self.hook(payload={**self.payload, "hook_event_name": "SessionEnd"})
+        self.exported()
+        write_rows(self.source, [claude()])
+        record, = self.exported()
+        self.assertEqual(record["tokens"]["total_tokens"], 120)
+        self.assertEqual(record["coverage"], "observed_transcript")
 
     def test_report_adds_parent_and_child_once_and_exposes_unknown_runs(self):
         self.hook()

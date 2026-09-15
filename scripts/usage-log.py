@@ -356,6 +356,62 @@ def totals(requests):
     return {key: add(r["tokens"][key] for r in requests) if requests else None for key in FIELDS}
 
 
+def merge_snapshots(snapshots):
+    """Union one actor's checkpoints without adding overlapping usage twice."""
+    if not snapshots:
+        return {}
+    ordered = sorted(snapshots, key=lambda s: s.get("last_usage_at") or "")
+    snapshot = {**ordered[-1]}
+    merged, issues = {}, set()
+    for prior in ordered:
+        issues.update(prior["issues"])
+        for item in prior["requests"]:
+            request_id = item["request_id"]
+            old = merged.get(request_id)
+            item = {**item, "tokens": dict(item["tokens"])}
+            if old:
+                item["attribution"] = old["attribution"] or item["attribution"]
+                if snapshot["runtime"] == "claude":
+                    for field in FIELDS:
+                        values = [v for v in (old["tokens"][field], item["tokens"][field]) if v is not None]
+                        item["tokens"][field] = max(values) if values else None
+            merged[request_id] = item
+    # Cumulative totals order same-timestamp events from overlapping exports.
+    # Keep transcript order instead when a counter reset makes that ambiguous.
+    requests = sorted(merged.values(), key=lambda r: (
+        r["timestamp"] or "",
+        r.get("source_totals", {}).get("total_tokens", 0) if "counter_reset" not in issues else 0))
+    if snapshot["runtime"] == "codex" and len(snapshots) > 1:
+        # Two machines can observe different subsets of cumulative events.
+        # Difference their union, keeping the first/fork and reset baselines.
+        previous = None
+        for item in requests:
+            current = item.get("source_totals")
+            if current and previous and all(k in current and current[k] >= v for k, v in previous.items()):
+                delta = {k: v - previous[k] if k in previous else None for k, v in current.items()}
+                item["tokens"] = codex_tokens(delta)
+            previous = current
+    for key in ("agent_type", "runtime_version", "attribution_override"):
+        snapshot[key] = next((s.get(key) for s in reversed(ordered) if s.get(key)), None)
+    if snapshot["attribution_override"]:
+        for item in requests:
+            item["attribution"] = snapshot["attribution_override"]
+    issues.difference_update({"missing_token_fields", "inconsistent_cache_counts",
+                             "inconsistent_reasoning_counts", "inconsistent_total",
+                             "inconsistent_input_components", "no_usage_observed"})
+    for item in requests:
+        validate_tokens(item["tokens"], issues)
+    if not requests:
+        issues.add("no_usage_observed")
+    observed = [r["timestamp"] for r in requests if r["timestamp"]]
+    snapshot.update(requests=requests, request_count=len(requests), tokens=totals(requests),
+                    started_at=min(observed) if observed else None,
+                    last_usage_at=max(observed) if observed else None,
+                    log_date=min(s["log_date"] for s in snapshots),
+                    issues=sorted(issues), coverage="partial" if issues else "observed_transcript")
+    return snapshot
+
+
 def session_info(path, runtime):
     if not path:
         return {}
@@ -384,12 +440,12 @@ def collect(root, runtime, payload, local):
     key = f"{runtime}-{session}-{agent}"
     state_path = safe_path(root, f".usage/.local/{key}.json")
     previous = read_json(state_path) if state_path.exists() else {}
-    old_snapshot = previous.get("snapshot", {})
-    if not old_snapshot:
-        # A resumed transcript may arrive on another machine without local state.
-        published = sorted((root / ".usage").glob(f"*/{runtime}-{session}/{agent}.json"))
-        if published:
-            old_snapshot = read_json(published[0])
+    # Synced exports can add history even when this machine has local state.
+    published = sorted((root / ".usage").glob(f"*/{runtime}-{session}/{agent}.json"))
+    snapshots = [read_json(path) for path in published]
+    if previous.get("snapshot"):
+        snapshots.append(previous["snapshot"])
+    old_snapshot = merge_snapshots(snapshots)
     parent = payload.get("transcript_path") if child else None
     issues = set()
     if source:
@@ -468,8 +524,12 @@ def export(root, snapshots):
 
 
 def report(root, build):
-    snapshots = [read_json(p) for p in sorted((root / ".usage").glob("*/*/*.json"))
-                 if ".local" not in p.parts]
+    by_actor = {}
+    for path in sorted((root / ".usage").glob("*/*/*.json")):
+        snapshot = read_json(path)
+        actor = (snapshot["runtime"], snapshot["session_id"], snapshot["agent_id"])
+        by_actor.setdefault(actor, []).append(snapshot)
+    snapshots = [merge_snapshots(group) for group in by_actor.values()]
     groups, included, actors = {}, [], set()
     roles = {"main": [], "subagent": []}
     for snapshot in snapshots:

@@ -51,6 +51,11 @@ instead of retrying the build or blocking a turn over accounting.
   fixed on the first checkpoint. Main actor is `main`; child actors keep their
   IDs. Parent totals contain only the parent's requests. The report adds child
   totals once and groups by runtime, model, stage, prompt, and actor type.
+  If machines independently export the same actor under different dates,
+  recovery and reports merge their requests, including local checkpoints.
+  Overlapping requests count once; cumulative intervals are reconciled before
+  summing. Existing duplicate files can remain, but no longer inflate reports.
+  Subsequent exports use the earliest known log date.
 
 Each public record contains counters, request hashes, runtime/version, session
 and actor IDs, timestamps, explicit build labels, and coverage diagnostics.
