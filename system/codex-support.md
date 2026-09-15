@@ -80,6 +80,13 @@ brain; a hook alone is not an unconditional read-only guarantee. Keep the normal
 policy active for daily work and approve only the specific maintenance command
 needed by `/update-brain` or `/disconnect-factory`.
 
+Parker Desktop runs Codex as `codex exec --sandbox workspace-write`, which has no
+network and cannot prompt. The build's one network git step, the `git submodule
+add` of the public factory, cannot run there, and neither can `/update-brain`'s
+`git -C parker-system fetch`. The runner asks the user to run that step in Claude
+Code or to switch the tab's sandbox to one with network access, and never
+substitutes a copied factory for the mount.
+
 After an approved `/disconnect-factory`, update both runtimes' restrictions and
 the root contract. Fully absorbed, independent brains own their method. A team
 factory submodule stays read-only unless the team explicitly requests otherwise.
