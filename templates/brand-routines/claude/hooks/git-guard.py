@@ -39,7 +39,12 @@ CODEX = "--codex" in sys.argv
 # git gateway for brains with restricted folders. The public factory
 # (real-simple-labs/parker-brain) never matches.
 MANAGED_ORG = re.compile(r"(https?://[^/\s]+/|git@[^:\s]+:)parker-brain/", re.I)
-MOUNT_OP = re.compile(r"\bgit\s+-C\s+(\./)?parker-system/?(?=\s)[^;&|\n]*")
+# The two denied verbs the brain legitimately runs on the mount: /update-brain's
+# `fetch` and its pin `checkout`. Read-only mount commands (status, describe,
+# rev-parse, ls-files) hit no denied verb; anything else in the mount (reset,
+# clean, push) stays visible to the checks below.
+MOUNT_OP = re.compile(r"\bgit\s+-C\s+(\./)?parker-system/?\s+(fetch|checkout)\b[^;&|\n]*")
+CLONE_OP = re.compile(r"\bgit\b[^;&|]*\b(clone|submodule\s+add)\b[^;&|\n]*")
 
 BLOCK = (
     "This brain's folder is synced by the Parker Desktop app — it watches the "
@@ -48,8 +53,8 @@ BLOCK = (
     "fetch, clone, or commit — a second sync engine racing the app is how work "
     "gets destroyed. Just finish writing the files; they sync on their own. "
     "Mount operations are the one exception and pass this guard: `git -C "
-    "parker-system …` and `git submodule update --init …` are local, "
-    "credential-free, and allowed. If you believe this folder is NOT being "
+    "parker-system fetch`, its pin `checkout`, and `git submodule update --init` "
+    "are local, credential-free, and allowed. If you believe this folder is NOT being "
     "synced (no Parker Desktop), don't improvise git — tell the user plainly "
     "and point them at https://app.heyparker.ai/dashboard/parker-desktop, or "
     "let a technical team wire their own git connection. Full picture: "
@@ -101,10 +106,10 @@ def main() -> int:
     if not managed:
         return 0
 
-    # Mount operations are the agent's job and pass through. They are cut out
-    # of the command before the checks below, rather than passing the whole
-    # command, so `git -C parker-system fetch; git push` still blocks on the
-    # push. Plain submodule commands (update/init/sync/status/add) need
+    # Mount operations are the agent's job and pass through. The approved
+    # segment is cut out of the command before the checks below, rather than
+    # passing the whole command, so `git -C parker-system fetch; git push`
+    # still blocks on the push. Plain submodule commands (update/init/sync/status/add) need
     # no carve-out — they carry no denied verb — so there is deliberately no
     # blanket `submodule` pass: it would shield `git submodule status; git
     # push` and `git submodule foreach git push`.
@@ -133,10 +138,10 @@ def main() -> int:
     # submodule; cloning anything ELSE (the public factory for /update-brain's
     # decoupled compare or the build's mount, a reference repo) is fine even
     # from inside a managed brain.
-    if re.search(r"\bgit\b[^;&|]*\b(clone|submodule\s+add)\b", cmd):
+    if CLONE_OP.search(cmd):
         if MANAGED_ORG.search(cmd):
             return block(BLOCK)
-        return 0
+        cmd = CLONE_OP.sub("", cmd)  # keep checking what follows it
 
     # Everything that moves history, the network, or the working tree on the
     # brand repo is the app's territory: push, pull, commit, and friends —

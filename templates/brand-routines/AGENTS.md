@@ -33,8 +33,9 @@ file wins wherever this summary is thinner.
   A deliberately disconnected brain follows its recorded ownership posture.
 - **Saving is Parker Desktop's job, not git's.** The app syncs this folder
   both ways, so a file you write is saved. Never run git or `gh` against this
-  repo; a hook blocks it and says why. Mount operations (`git -C parker-system
-  …`, `git submodule update --init`) pass. Full picture: `/save-brain`.
+  repo; a hook blocks it and says why. The mount operations the brain uses (`git -C
+  parker-system fetch`, its pin `checkout`, `git submodule update --init`)
+  pass. Full picture: `/save-brain`.
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and
