@@ -139,6 +139,9 @@ class ReleaseSync(unittest.TestCase):
 
             first = sync()
             self.assertIn("added: .claude/hooks/run-hook.py", first)
+            self.assertIn("added: scripts/usage-log.py", first)
+            self.assertFalse((root / "parker_config.json").exists())
+            self.assertFalse((root / ".usage").exists())
             for src, dest in new_map.items():
                 expected = (FACTORY / src).read_bytes()
                 actual = (root / dest).read_bytes()
@@ -157,7 +160,10 @@ class ReleaseSync(unittest.TestCase):
             override.write_text("# Fixture team override\n", encoding="utf-8")
             deleted = root / ".claude/hooks/git-guard.py"
             deleted.unlink()
+            preference = '{"run_id":"fixture","usage_logging":{"enabled":true}}'
+            (root / "parker_config.json").write_text(preference)
             third = sync()
+            self.assertEqual((root / "parker_config.json").read_text(), preference)
             self.assertEqual(override.read_text(), "# Fixture team override\n")
             self.assertFalse(deleted.exists())
             self.assertIn("left alone", third)

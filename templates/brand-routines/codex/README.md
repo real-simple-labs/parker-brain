@@ -45,3 +45,7 @@ the profile's mount restriction when the team deliberately takes ownership.
 
 The tested baseline is Codex CLI 0.154.0. See
 `parker-system/system/codex-support.md` for the full contract and verification.
+
+## Optional usage logging
+
+The shared `scripts/usage-log.py` collector ships at the brand root with hooks for SessionStart, Stop, SubagentStop, and SessionEnd. Missing `usage_logging.enabled` in `parker_config.json` means off; only literal `true` enables it. `save-brain` exports metadata-only `.usage/` records before confirming sync; Parker Desktop saves those files, and live checkpoints stay ignored. Self-managed brains export before their own save. No setup or update enables logging. See `parker-system/system/usage-logging.md` for cache semantics, attribution, coverage, and hook trust.

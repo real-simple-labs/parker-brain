@@ -27,8 +27,10 @@ def probe(case, codex):
         make_brand(brand)
         subprocess.run(["git", "init", "-q", str(brand)], check=True)
         requests = []
-        nested = case == "nested-brand-edit"
-        target = "parker-system/probe.md" if case != "nested-brand-edit" else "probe.md"
+        nested = case in {"nested-brand-edit", "usage-logging"}
+        target = "probe.md" if nested else "parker-system/probe.md"
+        if case == "usage-logging":
+            (brand / "parker_config.json").write_text('{"usage_logging":{"enabled":true}}')
         patch = f"*** Begin Patch\n*** Add File: {target}\n+fixture\n*** End Patch\n"
         command = None
         if case == "shell-write":
@@ -53,6 +55,10 @@ def probe(case, codex):
                     item = {"id": "msg_fixture", "type": "message", "role": "assistant", "content": [{"type": "output_text", "text": "fixture complete", "annotations": []}]}
                 item["status"] = "completed"
                 response = {"id": f"resp_{len(requests)}", "object": "response", "created_at": 0, "status": "completed", "model": "gpt-5.5", "output": [item], "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2}}
+                if case == "usage-logging":
+                    response["usage"] = {"input_tokens": 100, "input_tokens_details": {"cached_tokens": 60},
+                                         "output_tokens": 10, "output_tokens_details": {"reasoning_tokens": 4},
+                                         "total_tokens": 110}
                 events = [
                     {"type": "response.created", "response": {**response, "status": "in_progress", "output": []}},
                     {"type": "response.output_item.added", "output_index": 0, "item": item},
@@ -79,6 +85,8 @@ def probe(case, codex):
         )
         cwd = brand / "sub-context-docs" if nested else brand
         args = [codex, "-C", str(cwd), "--strict-config", "--dangerously-bypass-hook-trust", "exec", "--json", "--ephemeral", "Offline fixture test."]
+        if case == "usage-logging":
+            args.remove("--ephemeral")
         if case == "legacy-patch":
             args[1:1] = ["--sandbox", "workspace-write"]
         try:
@@ -104,6 +112,17 @@ def probe(case, codex):
             assert "fixture method" in feedback, (result.stdout, feedback)
         if case in {"native-patch", "shell-write", "legacy-patch"}:
             assert "read-only factory method mount" in feedback, (case, feedback)
+        if case == "usage-logging":
+            import sys
+            subprocess.run([sys.executable, str(brand / "scripts/usage-log.py"), "export"], cwd=brand, check=True)
+            records = [json.loads(p.read_text()) for p in (brand / ".usage").glob("*/*/*.json")]
+            assert len(records) == 1, records
+            record = records[0]
+            assert record["tokens"]["total_tokens"] == 220, record
+            assert record["tokens"]["cache_read_input_tokens"] == 120, record
+            assert record["tokens"]["reasoning_output_tokens"] == 8, record
+            assert record["coverage"] == "observed_transcript", record
+            assert record["runtime_version"], record
         print(f"PASS {case}: expected file effect; full catalog delivered")
 
 
@@ -114,5 +133,5 @@ if __name__ == "__main__":
     if os.name == "nt":
         raise SystemExit("The integration probe uses POSIX shell fixtures; Windows runs the unit suite.")
     print(subprocess.check_output([executable, "--version"], text=True).strip())
-    for case in ("native-patch", "shell-write", "indirect-write", "nested-brand-edit", "read-mount", "legacy-patch"):
+    for case in ("native-patch", "shell-write", "indirect-write", "nested-brand-edit", "read-mount", "legacy-patch", "usage-logging"):
         probe(case, executable)

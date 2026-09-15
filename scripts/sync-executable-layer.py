@@ -104,7 +104,7 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
     Mirrors onboarding-runner Phase 0 step 5: craft skills, review-gate agents, and
     the voice output style from the factory's .claude/, the routine bundle from
     templates/brand-routines/ (claude/ -> .claude/, codex/ -> .codex/,
-    schedules/ -> schedules/, AGENTS.md -> AGENTS.md), and the two checker
+    schedules/ -> schedules/, AGENTS.md -> AGENTS.md), and the checker and usage
     scripts. The factory's .agents/ entries are skipped: .agents/skills is a
     symlink to .claude/skills (in the factory and in every brand), so the
     synced .claude content is already what Codex reads — there is nothing
@@ -139,7 +139,7 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
             mapping[path] = path
         elif path.startswith(".claude/output-styles/"):
             mapping[path] = path
-        elif path in ("scripts/voice-lint.py", "scripts/grounding-check.py"):
+        elif path in ("scripts/voice-lint.py", "scripts/grounding-check.py", "scripts/usage-log.py"):
             mapping[path] = path
     return mapping
 

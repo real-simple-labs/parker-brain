@@ -46,3 +46,7 @@ These skills are **self-contained**. The brand brain is the *output* of the `par
 ## System-of-records note (for the factory maintainer)
 
 The canonical authoring home for these methods is the factory (`parker-brain`: `self-improvement/`, `parker-system/system/open-loops-system.md`, `parker-system/prompts/ideas-and-briefs/`, `parker-system/system/refresh-cadence.md`). These skills are faithful, self-contained distillations of those specs as of 2026-06-18. To avoid drift, the clean long-term flow is to author the routine once in the factory and have `onboarding-runner` stamp it into each brand brain — rather than hand-editing per brand. Until that's wired, treat the factory specs as source of truth and re-sync these skills when the specs change.
+
+## Optional usage logging
+
+The shared `scripts/usage-log.py` collector ships at the brand root with hooks for SessionStart, Stop, SubagentStop, and SessionEnd. Missing `usage_logging.enabled` in `parker_config.json` means off; only literal `true` enables it. `save-brain` exports metadata-only `.usage/` records before confirming sync; Parker Desktop saves those files, and live checkpoints stay ignored. Self-managed brains export before their own save. No setup or update enables logging. See `parker-system/system/usage-logging.md` for cache semantics, attribution, coverage, and hook trust.

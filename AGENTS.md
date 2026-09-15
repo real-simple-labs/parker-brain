@@ -6,7 +6,7 @@ See `CLAUDE.md` for the full Parker product-brain operating contract, repo rules
 
 - **Voice:** there is no output-style layer here, so read `.claude/output-styles/parker.md` and speak that way from your first message — plain, warm, tenth-grade English, never a terminal printing a report.
 - **Skills** load from `.agents/skills/`, a committed symlink to `.claude/skills/` — same SKILL.md files both harnesses read. Where the docs say `.claude/skills/`, that is your `.agents/skills/`.
-- This factory repo carries no hooks of its own; the brand-brain hook bundle (and its Codex wiring) lives under `templates/brand-routines/`. The full Codex support contract is `system/codex-support.md` — read it before changing anything harness-facing.
+- This factory repo carries only opt-in usage hooks (`system/usage-logging.md`); the brand-brain hook bundle (and its Codex wiring) lives under `templates/brand-routines/`. The full Codex support contract is `system/codex-support.md` — read it before changing anything harness-facing.
 
 ## Cursor Cloud specific instructions
 

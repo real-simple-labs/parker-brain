@@ -20,6 +20,8 @@ def make_brand(root):
     shutil.copytree(BUNDLE / "claude", root / ".claude")
     shutil.copytree(BUNDLE / "codex", root / ".codex")
     shutil.copyfile(BUNDLE / "AGENTS.md", root / "AGENTS.md")
+    (root / "scripts").mkdir(exist_ok=True)
+    shutil.copyfile(FACTORY / "scripts/usage-log.py", root / "scripts/usage-log.py")
     mount = root / "parker-system"
     (mount / "creative-strategy-context").mkdir(parents=True)
     shutil.copyfile(FACTORY / "creative-strategy-context/expertise-routing.md",
@@ -110,7 +112,7 @@ class RuntimeHooks(unittest.TestCase):
                     result = subprocess.run(command, shell=True, cwd=nested, input="{}",
                                             text=True, capture_output=True, timeout=10)
                     self.assertEqual(result.returncode, 0, (event, result.stderr))
-                    if event in {"UserPromptSubmit", "SessionStart"}:
+                    if event in {"UserPromptSubmit", "SessionStart"} and "usage-log.py" not in command:
                         self.assertTrue(json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"])
 
     def test_launcher_does_not_cross_repository_boundaries(self):
@@ -236,7 +238,7 @@ class RuntimeHooks(unittest.TestCase):
         for event, groups in claude["hooks"].items():
             actual = groups[0]["hooks"][0]["command"]
             expected = self.config["hooks"][event][0]["hooks"][0]["command"]
-            self.assertEqual(actual, expected.removesuffix(" --codex"))
+            self.assertEqual(actual, expected.removesuffix(" --codex").replace("--runtime codex", "--runtime claude"))
         for groups in self.config["hooks"].values():
             for group in groups:
                 for hook in group["hooks"]:
