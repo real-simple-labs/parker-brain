@@ -1,6 +1,6 @@
 # v20 — the mount is a check first (2026-09-15)
 
-Parker Desktop attaches the method mount itself when it creates a brand new brain (real-simple-labs/parker-desktop#362): `parker-system` as a submodule of the public factory at the newest release, staged and committed by the app's first sync. The build that follows needs no git.
+Current Parker Desktop releases attach the method mount themselves when they create a brand new brain: `parker-system` as a submodule of the public factory at the newest release, staged and committed by the app's first sync. The build that follows needs no git.
 
 ## What shipped
 
