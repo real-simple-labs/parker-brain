@@ -81,9 +81,10 @@ policy active for daily work and approve only the specific maintenance command
 needed by `/update-brain` or `/disconnect-factory`.
 
 Parker Desktop runs Codex as `codex exec --sandbox workspace-write`, which has no
-network and cannot prompt. The build's one network git step, the `git submodule
-add` of the public factory, cannot run there, and neither can `/update-brain`'s
-`git -C parker-system fetch`. The runner asks the user to run that step in Claude
+network and cannot prompt. On older app versions that don't attach the mount themselves, the build's
+one network git step, the `git submodule add`
+of the public factory, cannot run there; `/update-brain`'s `git -C parker-system
+fetch` never can. The runner asks the user to run that step in Claude
 Code or to switch the tab's sandbox to one with network access, and never
 substitutes a copied factory for the mount.
 
