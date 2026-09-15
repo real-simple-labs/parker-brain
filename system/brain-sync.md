@@ -21,12 +21,15 @@ Verified against the Parker Desktop source on 2026-09-14 (release 0.12.3). Each 
 
 A brain that is read-only for this person skips step 1, so their local changes never upload.
 
+The app also writes guide files at the workspace root and under `orgs/` (`CLAUDE.md` and `AGENTS.md`, rewritten whenever they drift) that describe the layout and end with: do not run git in these folders unless the user asks. Every agent session in a brain reads them, since both harnesses load parent-folder instructions.
+
 Consequences the runtime docs carry:
 
 - **Never stage or commit.** `/update-brain`'s pin move (`git -C parker-system checkout <tag>`) is saved by step 1 before step 3 re-aligns the mount, so the new pin sticks without the agent touching the index. The v15 rule to stage the pin move existed only because the old save loop re-aligned first.
 - **Edits inside `parker-system/` get undone.** Step 3's forced update resets the mount to its recorded commit, so the read-only rule is also physically true.
 - **Leave `submodule.recurse` unset.** The app updates the mount as its own step; with that setting on, git would reach into the mount during the app's rebase and restores. Earlier runners set it; `migrations/v18.md` removes it.
 - **`index.lock` means the app is mid-sync.** A mount or disconnect command that hits it waits a few seconds and retries; nothing deletes the lock.
+- **The workspace guide's no-git line is our rule with our exceptions.** The build's mount (`git submodule add` of the public factory) and `/update-brain`'s pin move are sanctioned. The runner tells the agent to get the harness's approval for them rather than skip them, and never to copy the factory in as a substitute: on 2026-09-15 an agent read the guide as a ban, skipped the mount, and started copying files out of a factory clone. Under the app's Codex engine (`codex exec --sandbox workspace-write`: no network, no prompts) the mount can't run at all; the runner routes that one step to Claude Code or to a sandbox with network.
 - **Checking is allowed, guessing isn't.** `git status --short --branch` is read-only: no changed files and no `ahead` count means the app has caught up. That is the confirm-sync check at the end of a build.
 
 ## Why the agent stays out of git on a managed brain
@@ -56,4 +59,6 @@ Cloud routines run on a copy with no Parker Desktop beside it, so nothing they w
 
 - **The setup prompts.** The prompt Parker Desktop and the web app's setup page hand the agent still says to set up the brain "using the setup_parker_brain tool on the Parker MCP" and points at the factory's `.git` URL. The runner tells agents to skip the tool, but the prompt should stop naming it.
 - **The tool and server instructions.** The `setup_parker_brain` tool description and the Parker MCP's server instructions still teach cloning with the returned credentials and committing and pushing. Until they change, the skill, hooks, and runner here override anything they say.
+- **The workspace guides' git line.** `<root>/CLAUDE.md` and `AGENTS.md` say not to run git unless the user asks. The line should name the brain's own exceptions (the method mount and the pin move, per the brain's instructions), or the next bullet should make the question moot.
+- **Attach the mount at provisioning.** The cleanest fix for both the guide conflict and the Codex sandbox: create the brand repo with `.gitmodules` and the `parker-system` gitlink pinned to the latest release, server-side, so the app's own submodule step materializes it on first download and no agent ever runs `git submodule add`. The runner's mount step then becomes a check, and the build needs no git at all.
 - **The pointer file and the layout are a contract with the app.** If the app changes `workspace.json`'s shape (it carries `version` for that) or the `orgs/<org>/<repo>/` layout, the runner and `save-brain` change in the same release.

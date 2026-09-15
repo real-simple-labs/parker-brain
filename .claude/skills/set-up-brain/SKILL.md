@@ -47,6 +47,7 @@ Run these in order, following `prompts/onboarding-runner.md` for the exact mecha
 ## Hard rules
 
 - **The brand gets its own repo.** Never write brand data into the `parker-brain` clone. If they're working inside the clone, get the brand's own folder set up through Parker Desktop and explain why.
+- **The method is mounted, never copied.** `parker-system/` is a git submodule of the public factory, attached by the one git command the build runs. If that command is blocked or asks for approval (the app's workspace guide says no git without the user asking; the Codex sandbox has no network), ask for the approval through the popup form and wait — never copy the factory's files in as a substitute, and never build without the mount. The runner's Phase 0 step 5 has the words.
 - **The intake is never a gate.** Skippable, calibrated, personal. Anything skipped is an open question in `missing-context.md`, not a blocker, and the build runs as normal without it.
 - **Teach at the moments, run quiet between them.** The welcome, the intake, phase boundaries, blockers, and the finish get real conversation; everything else lives in `BUILD-STATUS.md`. Neither a silent grind nor a wall of narration — the first buries them in nothing, the second in noise.
 - **Keep `BUILD-STATUS.md` true at every state change.** It is the answer to "where are we and how much is left," and the ledger a dead session resumes from.
