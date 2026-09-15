@@ -6,7 +6,7 @@ The release after Parker Desktop 0.15.4 does the git part itself. Its Fix button
 
 ## What shipped
 
-- **`git-guard.py`:** `git add`, a plain `git commit` and `git merge` pass on a managed brain, so an assistant that finishes a combine by hand is not blocked halfway. `push`, `pull`, `fetch`, `rebase`, `commit --amend` and `merge --abort` (undoing is the person's call, in the app) stay blocked. The block message names the clash flow.
+- **`git-guard.py`:** `git add`, a plain `git commit` and `git merge` pass on a managed brain, so an assistant that finishes a combine by hand is not blocked halfway. `push`, `pull`, `fetch`, `rebase`, `commit --amend`, `merge --abort` and `merge --quit` (undoing is the person's call, in the app) stay blocked. The block message names the clash flow.
 - **`save-brain`:** a new section, "When Parker paused the folder on a clash": what the marks mean, what to do, what not to do, and how to check where things stand.
 - **Brand `AGENTS.md`, `session-start.py`, the brand `CLAUDE.md` template:** the same rule in one sentence each - edit the marked files until no mark is left and stop; the app saves and shares.
 - **`system/brain-sync.md`:** the maintainer contract gains a "Clashes" section (the app does the git, the assistant does the text) and the guard's verb list is updated. **`system/codex-support.md`:** combining needs no network.
