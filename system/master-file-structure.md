@@ -127,7 +127,7 @@ parker/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
 │       │   ├── hooks/run-hook.py                    ← shared launcher: resolves the brand root before running any hook
 │       │   ├── hooks/mount-guard.py                 ← Codex patch/direct-shell guard; native filesystem permissions provide the isolation layer
-│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: on `parker-brain` org repos blocks the git commands that move history/network/working tree (push, pull, fetch, clone, commit, rebase, merge, reset, restore, checkout, switch, clean, stash, set-url, submodule deinit) and gh aimed at the brand repo — Parker Desktop owns the sync, per save-brain; mount ops and read-only git pass
+│       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: on `parker-brain` org repos blocks the git commands that move history/network/working tree (push, pull, fetch, clone, commit, rebase, merge, reset, restore, checkout, switch, clean, stash, set-url, submodule deinit, submodule update --remote, rm except --cached) and gh aimed at the brand repo — Parker Desktop owns the sync, per save-brain; mount ops and read-only git pass
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │

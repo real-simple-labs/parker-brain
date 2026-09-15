@@ -52,9 +52,10 @@ BLOCK = (
     "nothing more. Never run git (or gh) against this repo: no push, pull, "
     "fetch, clone, or commit — a second sync engine racing the app is how work "
     "gets destroyed. Just finish writing the files; they sync on their own. "
-    "Mount operations are the one exception and pass this guard: `git -C "
-    "parker-system fetch`, its pin `checkout`, and `git submodule update --init` "
-    "are local, credential-free, and allowed. If you believe this folder is NOT being "
+    "Two exceptions pass this guard: mount operations (`git -C parker-system "
+    "fetch`, its pin `checkout`, `git submodule update --init`; local and "
+    "credential-free) and the confirmed /disconnect-factory commands its own "
+    "skill lists. If you believe this folder is NOT being "
     "synced (no Parker Desktop), don't improvise git — tell the user plainly "
     "and point them at https://app.heyparker.ai/dashboard/parker-desktop, or "
     "let a technical team wire their own git connection. Full picture: "
@@ -147,10 +148,13 @@ def main() -> int:
     # brand repo is the app's territory: push, pull, commit, and friends —
     # including the destructive local ops (restore, checkout, clean, stash)
     # whose results the app would faithfully sync. `submodule deinit` empties
-    # the mount's working files, so it is denied too.
+    # the mount's working files, `submodule update --remote` moves the pin off
+    # its release (the app would commit that), and `git rm` stages deletions
+    # (only /disconnect-factory's `--cached` form passes), so those are denied too.
     if re.search(
         r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
-        r"|checkout|switch|clean|stash|cherry-pick|revert|am|remote\s+set-url|submodule\s+deinit"
+        r"|checkout|switch|clean|stash|cherry-pick|revert|am|remote\s+set-url"
+        r"|submodule\s+deinit|submodule\s+update\b[^;&|]*--remote|rm\b(?![^;&|]*--cached)"
         r"|branch\s+(-[a-zA-Z]*[dDmMfcC]|--delete|--move|--force|--copy))\b",
         cmd,
     ):

@@ -21,9 +21,9 @@ SYNC_LINE = (
     " How this brain saves itself: the Parker Desktop app syncs this folder both "
     "ways — write files to disk and they're saved; teammates' and routines' changes "
     "arrive on their own. Never run git against this repo (no push, pull, commit, "
-    "clone, or gh) — see /save-brain. Mount operations (`git -C parker-system "
-    "fetch`, its pin `checkout`, `git submodule update --init`) are the one "
-    "exception and are fine."
+    "clone, or gh) — see /save-brain. Two exceptions are fine: mount operations "
+    "(`git -C parker-system fetch`, its pin `checkout`, `git submodule update "
+    "--init`) and the confirmed /disconnect-factory commands its skill lists."
 )
 
 
