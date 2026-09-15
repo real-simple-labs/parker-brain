@@ -104,7 +104,7 @@ def main() -> int:
     # Mount operations are the agent's job and pass through. They are cut out
     # of the command before the checks below, rather than passing the whole
     # command, so `git -C parker-system fetch; git push` still blocks on the
-    # push. Plain submodule commands (update/init/sync/status/deinit/add) need
+    # push. Plain submodule commands (update/init/sync/status/add) need
     # no carve-out — they carry no denied verb — so there is deliberately no
     # blanket `submodule` pass: it would shield `git submodule status; git
     # push` and `git submodule foreach git push`.
@@ -140,10 +140,11 @@ def main() -> int:
     # Everything that moves history, the network, or the working tree on the
     # brand repo is the app's territory: push, pull, commit, and friends —
     # including the destructive local ops (restore, checkout, clean, stash)
-    # whose results the app would faithfully sync.
+    # whose results the app would faithfully sync. `submodule deinit` empties
+    # the mount's working files, so it is denied too.
     if re.search(
         r"\bgit\b[^;&|]*\b(push|pull|fetch|commit|rebase|merge|reset|restore"
-        r"|checkout|clean|stash|cherry-pick|revert|am|remote\s+set-url"
+        r"|checkout|switch|clean|stash|cherry-pick|revert|am|remote\s+set-url|submodule\s+deinit"
         r"|branch\s+(-[a-zA-Z]*[dDmMfcC]|--delete|--move|--force|--copy))\b",
         cmd,
     ):

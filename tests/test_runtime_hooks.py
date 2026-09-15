@@ -218,7 +218,7 @@ class RuntimeHooks(unittest.TestCase):
             result = self.invoke("git-guard", {"tool_name": "Bash", "tool_input": {"command": command}})
             self.assertEqual(result.returncode, 0, result.stderr)
             return bool(result.stdout and json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"] == "deny")
-        for command in ("git push origin main", "git commit -am fixture", "git pull --rebase", "git stash", "git -C parker-system fetch --tags; git push origin main", "gh pr create", "git clone https://github.com/parker-brain/other.git"):
+        for command in ("git push origin main", "git commit -am fixture", "git pull --rebase", "git stash", "git switch --discard-changes main", "git submodule deinit -f parker-system", "git -C parker-system fetch --tags; git push origin main", "gh pr create", "git clone https://github.com/parker-brain/other.git"):
             with self.subTest(blocked=command):
                 self.assertTrue(denied(command))
         for command in ("git status --short --branch", "git -C parker-system fetch origin --prune --prune-tags", "git -C parker-system checkout v18", "git submodule update --init parker-system", "git rm --cached parker-system && rm parker-system/.git && git add -- parker-system/", "git clone --depth 1 https://github.com/real-simple-labs/parker-brain.git factory-compare"):

@@ -22,7 +22,7 @@ SYNC_LINE = (
     "ways — write files to disk and they're saved; teammates' and routines' changes "
     "arrive on their own. Never run git against this repo (no push, pull, commit, "
     "clone, or gh) — see /save-brain. Mount operations (`git -C parker-system …`, "
-    "`git submodule …`) are the one exception and are fine."
+    "`git submodule update --init`) are the one exception and are fine."
 )
 
 

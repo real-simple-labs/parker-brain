@@ -98,8 +98,8 @@ root `AGENTS.md` on a pin bump. The v16 migration supplies the skills symlink.
 v17 re-sync delivers the runtime fixes; its migration also adds the scheduling
 capability guard to the brand-authored root `CLAUDE.md`. v18 re-sync delivers the
 Parker Desktop sync model (`git-guard.py`, `session-start.py`, `save-brain`, root
-`AGENTS.md`); saving needs no `.git/` write from the sandbox, because the app
-commits outside it. Its migration updates the root `CLAUDE.md`.
+`AGENTS.md`); in a Parker Desktop folder, saving needs no `.git/` write from the
+sandbox, because the app commits outside it. Its migration updates the root `CLAUDE.md`.
 Team-edited files remain theirs and are listed by the sync; report any retained
 override that prevents a runtime fix from taking effect.
 
