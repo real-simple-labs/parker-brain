@@ -1,7 +1,7 @@
 ---
-summary: "How to build launch creative for an established brand's new product or SKU — the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries."
+summary: "How to build launch creative for an established brand's new product or SKU — what counts as genuinely new (and what is only a restock or a promotional wrapper), the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), why brand authority transfers along some axes and not others, the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries."
 doc: new-product-launches
-last_updated: 2026-07-11
+last_updated: 2026-09-16
 ---
 
 # Launching Ads For New Products And New SKUs
@@ -22,7 +22,14 @@ This doc is NOT for any of the following:
 - **A brand entering a new geographic market with existing products** (e.g., Canada → US, UK → US). That is a geographic-expansion brief, not a new-product brief.
 - **Routine performance creative for a SKU that has already had ads run on it.** That is normal scaling creative, not launch creative.
 
-If the brief does not match the scope above, flag it to the user and route to the correct approach before doing any work.
+**The word "new" is doing real work in that scope, and it is worth being precise about it.** The question is whether something genuinely new is entering the line — not whether the brand is making an announcement.
+
+- A limited or seasonal drop that introduces a **genuinely new colorway, flavor, scent, or make-up** is in scope. Something new exists that did not exist before; it classifies as Scenario A below.
+- A **restock, re-release, or back-in-stock moment for an unchanged SKU** is not a launch. Nothing is new. That is inventory news, and it is routine performance creative with an urgency mechanic.
+- **"Limited edition" framing applied to an existing product** is a promotional wrapper, not newness. Same conclusion: not a launch.
+- A **re-launch** — a product previously paused, pulled, failed, or rebuilt — sits at the edge. If the product genuinely changed, treat it as a launch and lead with what is different this time. If only the marketing changed, it is not a launch.
+
+If the brief does not match the scope above, flag it to the user and route to the correct approach before doing any work. A launch playbook applied to a restock produces an ad that overclaims, and an audience that has already seen the product notices immediately.
 
 ## Format: this doc covers video and static
 
@@ -87,14 +94,14 @@ You will usually be handed a launch brief, blurb, or prompt and asked to produce
 
 > Important caveat: "existing persona" doesn't necessarily mean every current buyer. Sometimes the new SKU targets a *slice* of the existing persona (the active subset of an athleisure buyer base, the new-mom subset of a baby brand's buyers, the dads inside a portrait brand's audience). When that's the case, treat it as Scenario B with a refined persona slice and write the ad to that slice's specific language, not the general persona's.
 
-**Question 3 — Type of newness.** Pick the closest match. The SKU is:
+**Question 3 — Type of newness.** Pick the closest match. The four kinds are ordered roughly by how much of the brand's existing equity carries forward. The SKU is:
 
 - **Same product, new attribute** — new color, flavor, scent, fabric, size. Example: a scrubs brand releasing a new colorway, a candle brand releasing a new fragrance.
 - **Same product family, new format / variant / bundle / collection drop** — gummy → drink, single → bundle, hero → spinoff, SS25 collection drop.
 - **Same product family, new audience entry** — a head-shaving brand launching a razor bundle for women's legs and body. The product type exists in the brand's world but the audience is new to the brand.
-- **Wholly new category for the brand** — a fashion brand launching a beverage, a deodorant brand launching skincare. These are rare and risky.
+- **Wholly new category for the brand** — a fashion brand launching a beverage, a deodorant brand launching skincare. These are rare and risky, and the one case where the parent brand's authority claims mostly do not transfer at all.
 
-Questions 2 and 3 together determine which of the three launch scenarios you are in.
+Questions 2 and 3 together determine which of the three launch scenarios you are in. The taxonomy is a lens, not a cage — a launch that sits between two entries gets described in plain language rather than forced into the closest label.
 
 **Question 4 — Deliverable type and format.** What is the user actually asking you to produce, and in which format? Defaulting to "full video script" when the user asked for "5 static carousel concepts" wastes the user's time. Classify into one of the following.
 
@@ -154,6 +161,18 @@ The brand exists and has real authority somewhere, but this new audience does no
 Example: a brand traditionally known for head-shaving launches a razor bundle for women — legs, underarms, body. Their existing male-focused voice and creative will not land with a woman trying to solve a leg-shaving problem. The launch ad has to start in the new persona's world: how do women in this category talk about shaving, what objections do they have to a "men's grooming brand crossing over," what proof do they actually trust. The brand authority gets re-pitched into the new audience's language ("the engineering that made [X] work, now built for [you]"). Objection handler up front. Social proof from women, not from existing male customers.
 
 > Important caveat: Scenario C is the most likely scenario to fail, because it requires the most upfront persona work and the most invention. If the brand is rushing the launch, push back gently and make sure you have the ideal persona locked. Scenario C launches done fast are usually launches done badly. The persona work is not optional.
+
+## Authority does not transfer for free
+
+The most expensive assumption in launch creative is that a brand's credibility travels with its logo. It does not. Authority is earned inside a specific conversation with a specific audience, and it transfers along three axes, each of which can break independently:
+
+- **Audience.** Credibility with one audience says nothing to another. This is what makes Scenario C hard.
+- **Category.** Credibility in one category does not extend to an adjacent one just because the company is competent.
+- **Mechanism.** Sometimes the *engineering* transfers even when the brand relationship does not — "the thing that made X work, now built for Y" — which is the honest version of a re-pitch, and only usable when it is actually true.
+
+Where authority does transfer, it is one of the cheapest wins available: the existing customer relationship is the whole asset in Scenario B. Where it does not, borrowing it anyway telegraphs to the new audience that the brand is not for them.
+
+For a wholly-new-category launch, do not borrow the parent brand's authority claims as if they carry. Lean on genuinely transferable equity — aesthetic, founder, audience trust — only where credible, and otherwise write the launch as though the new category is its own brand wearing the parent's badge.
 
 ## Step 1: Diagnostic — learn from the existing account before writing anything
 
@@ -250,6 +269,8 @@ Pair awareness stage with scenario and persona. A Scenario A launch to a Most Aw
 
 > Important caveat: the warm-audience launch ad almost always targets Most Aware. The cold-audience scaling ads cover everything else. Don't confuse the *phase* (warm vs. cold — who's in the audience pool) with the *awareness stage* (what they already know). Related, but different.
 
+**One deliberate override worth naming.** The canonical awareness-stage definitions live in [killer-performance-ads.md](killer-performance-ads.md), which sets Solution Aware as the default starting point when first working an account — and that default is correct for the general case. A launch's *warm phase* is the exception: an ad going to the brand's own buyer list is genuinely addressing a Most Aware audience, so Most Aware is the right default there. This is a scoped override for the warm phase only. The cold-audience scaling that follows returns to the canonical default, and Scenario C in particular usually starts further back than Solution Aware, because the new persona does not know the brand at all.
+
 ## Step 5: Creative moves by scenario (video and static)
 
 Concrete creative moves that tend to work for each scenario, in both video and static. Use these as your starting move-set, not your only options. If the brief is hybrid, align the moves across formats so the launch system feels coherent in the feed.
@@ -342,7 +363,7 @@ New SKUs often lack reviews, UGC, and best-seller status on day one. The temptat
 - **Demo-as-proof** — show the product working, let the demo do the convincing
 - **Existing-customer testimonial about brand quality, applied to the new SKU** ("I trust [brand] because of [hero], and this is from the same team")
 
-Do not fabricate. Do not claim "best-selling," "loved by thousands," or "X reviews" for a product that does not yet have them. Inherited claims that are not actually transferable erode trust faster than an honest "this is brand new and here's why we think you'll love it."
+Do not fabricate. Do not claim "best-selling," "loved by thousands," or "X reviews" for a product that does not yet have them. Inherited claims that are not actually transferable erode trust faster than an honest "this is brand new and here's why we think you'll love it." The dishonesty is also self-defeating: a launch ad that overclaims trains the audience to discount everything else the brand says.
 
 ## Step 8: Tag every output with launch context
 
