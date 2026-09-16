@@ -1,7 +1,7 @@
 ---
-summary: "How to build launch creative for an established brand's new product or SKU — the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries."
+summary: "How to build launch creative for an established brand's new product or SKU — what counts as genuinely new (and what is only a restock or a promotional wrapper), the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), why brand authority transfers along some axes and not others, the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries."
 doc: new-product-launches
-last_updated: 2026-07-11
+last_updated: 2026-09-16
 ---
 
 # Launching Ads For New Products And New SKUs
@@ -22,7 +22,14 @@ This doc is NOT for any of the following:
 - **A brand entering a new geographic market with existing products** (e.g., Canada → US, UK → US). That is a geographic-expansion brief, not a new-product brief.
 - **Routine performance creative for a SKU that has already had ads run on it.** That is normal scaling creative, not launch creative.
 
-If the brief does not match the scope above, flag it to the user and route to the correct approach before doing any work.
+**The word "new" is doing real work in that scope, and it is worth being precise about it.** The question is whether something genuinely new is entering the line — not whether the brand is making an announcement.
+
+- A limited or seasonal drop that introduces a **genuinely new colorway, flavor, scent, or make-up** is in scope. Something new exists that did not exist before; it classifies as Scenario A below.
+- A **restock, re-release, or back-in-stock moment for an unchanged SKU** is not a launch. Nothing is new. That is inventory news, and it is routine performance creative with an urgency mechanic.
+- **"Limited edition" framing applied to an existing product** is a promotional wrapper, not newness. Same conclusion: not a launch.
+- A **re-launch** — a product previously paused, pulled, failed, or rebuilt — sits at the edge. If the product genuinely changed, treat it as a launch and lead with what is different this time. If only the marketing changed, it is not a launch.
+
+If the brief does not match the scope above, flag it to the user and route to the correct approach before doing any work. A launch playbook applied to a restock produces an ad that overclaims, and an audience that has already seen the product notices immediately.
 
 ## Format: this doc covers video and static
 
@@ -85,16 +92,16 @@ You will usually be handed a launch brief, blurb, or prompt and asked to produce
 
 **Question 2 — Audience fit.** Does this new product target an EXISTING persona the brand has already advertised to successfully, or a NEW persona this brand has not yet served? This is the single most important strategic question in the whole doc. If "I don't know," ask the user before continuing. Everything downstream — voice, proof types, hook angle, even which ads to study from the existing account — hinges on the answer.
 
-> Important caveat: "existing persona" doesn't necessarily mean every current buyer. Sometimes the new SKU targets a *slice* of the existing persona (the active subset of an athleisure buyer base, the new-mom subset of a baby brand's buyers, the dads inside a portrait brand's audience). When that's the case, treat it as Scenario B with a refined persona slice and write the ad to that slice's specific language, not the general persona's.
+> Important caveat: "existing persona" doesn't necessarily mean every current buyer. Sometimes the new SKU targets a *slice* of the existing persona (the active subset of an athleisure buyer base, the new-mom subset of a baby brand's buyers, the dads inside a portrait brand's audience). When that's the case, write the ad to that slice's specific language, not the general persona's. It is Scenario B only if the use case, format, or occasion also changes for that slice; if the only thing new is the attribute, it stays Scenario A with a refined persona slice.
 
-**Question 3 — Type of newness.** Pick the closest match. The SKU is:
+**Question 3 — Type of newness.** Pick the closest match. The four kinds are ordered roughly by how much of the brand's existing equity carries forward. The SKU is:
 
 - **Same product, new attribute** — new color, flavor, scent, fabric, size. Example: a scrubs brand releasing a new colorway, a candle brand releasing a new fragrance.
 - **Same product family, new format / variant / bundle / collection drop** — gummy → drink, single → bundle, hero → spinoff, SS25 collection drop.
 - **Same product family, new audience entry** — a head-shaving brand launching a razor bundle for women's legs and body. The product type exists in the brand's world but the audience is new to the brand.
-- **Wholly new category for the brand** — a fashion brand launching a beverage, a deodorant brand launching skincare. These are rare and risky.
+- **Wholly new category for the brand** — a fashion brand launching a beverage, a deodorant brand launching skincare. These are rare and risky, and the one case where the parent brand's authority claims mostly do not transfer at all.
 
-Questions 2 and 3 together determine which of the three launch scenarios you are in.
+Questions 2 and 3 together determine which of the three launch scenarios you are in. The taxonomy is a lens, not a cage — a launch that sits between two entries gets described in plain language rather than forced into the closest label.
 
 **Question 4 — Deliverable type and format.** What is the user actually asking you to produce, and in which format? Defaulting to "full video script" when the user asked for "5 static carousel concepts" wastes the user's time. Classify into one of the following.
 
@@ -153,7 +160,19 @@ The brand exists and has real authority somewhere, but this new audience does no
 
 Example: a brand traditionally known for head-shaving launches a razor bundle for women — legs, underarms, body. Their existing male-focused voice and creative will not land with a woman trying to solve a leg-shaving problem. The launch ad has to start in the new persona's world: how do women in this category talk about shaving, what objections do they have to a "men's grooming brand crossing over," what proof do they actually trust. The brand authority gets re-pitched into the new audience's language ("the engineering that made [X] work, now built for [you]"). Objection handler up front. Social proof from women, not from existing male customers.
 
-> Important caveat: Scenario C is the most likely scenario to fail, because it requires the most upfront persona work and the most invention. If the brand is rushing the launch, push back gently and make sure you have the ideal persona locked. Scenario C launches done fast are usually launches done badly. The persona work is not optional.
+> Important caveat: Scenario C is, in our experience, the scenario most likely to fail, because it requires the most upfront persona work and the most invention — treat that as a working heuristic, not a law. If the brand is rushing the launch, push back gently and make sure you have the ideal persona locked. Scenario C launches done fast are usually launches done badly. The persona work is not optional.
+
+## Authority does not transfer for free
+
+The most expensive assumption in launch creative is that a brand's credibility travels with its logo. It does not. Authority is earned inside a specific conversation with a specific audience, and it transfers along three axes, each of which can break independently:
+
+- **Audience.** Credibility with one audience says nothing to another. This is what makes Scenario C hard.
+- **Category.** Credibility in one category does not extend to an adjacent one just because the company is competent.
+- **Mechanism.** Sometimes the *engineering* transfers even when the brand relationship does not — "the thing that made X work, now built for Y" — which is the honest version of a re-pitch, and only usable when it is actually true.
+
+Where authority does transfer, it is often one of the cheapest wins available: the existing customer relationship is the whole asset in Scenario B. Where it does not, borrowing it anyway telegraphs to the new audience that the brand is not for them.
+
+For a wholly-new-category launch, do not borrow the parent brand's authority claims as if they carry. Lean on genuinely transferable equity — aesthetic, founder, audience trust — only where credible, and otherwise write the launch as though the new category is its own brand wearing the parent's badge.
 
 ## Step 1: Diagnostic — learn from the existing account before writing anything
 
@@ -172,7 +191,7 @@ These are signals to replicate with your own spin, not to copy. You are extendin
 
 **1c. Map words and visuals worth doubling down on.** Catalog the line names, campaign names, slogans, taglines, recurring visuals, and brand-specific language that already carry equity. These are the verbal and visual handles the audience already grabs onto. The new-launch ad should USE this language wherever the new SKU sits inside the existing world. If the brand has a campaign called "the X Edit" and the new color fits, use it. If they have a tagline customers parrot back in reviews, weave it in.
 
-**1d. Plan the warm-audience recapture move (the low-lift first move).** Before broad cold-audience creative, plan how to recapture repeat buyers and warm audiences already familiar with the brand — unless the launch is for a wholly new audience. They are the lowest-lift, highest-likelihood first buyers of the new SKU, and the audience most likely to give the launch its early momentum. Usually this means:
+**1d. Plan the warm-audience recapture move (the low-lift first move).** Before broad cold-audience creative, plan how to recapture repeat buyers and warm audiences already familiar with the brand — unless the launch is for a wholly new audience. In most accounts they are the lowest-lift, highest-likelihood first buyers of the new SKU and the audience most likely to give the launch its early momentum — check that against the brand's own repeat-purchase and list-engagement data rather than assuming it. Usually this means:
 - Email + paid ads to the existing customer list and engaged audience
 - "Meet the new [SKU]" or "introducing [SKU]" introductory ads
 - An introductory offer tied to the launch moment (commonly ~30% off, brand-dependent)
@@ -190,13 +209,13 @@ These warm-audience launch ads are a distinct creative deliverable from the cold
 
 The clearer this diagnosis, the easier the scenario classification and the less likely you are to default to a generic "new product" ad.
 
-**1f. Ingest product URL if provided.** If the user pastes a product page URL, scrape and summarize before classifying. Pull: product name, what it is and does, key claims, hero benefits, pricing, copy already on the page, any live reviews or testimonials, slogans, taglines. Use this to inform Step Zero classification and to ground the script in the brand's actual product language rather than assumptions.
+**1f. Ingest product URL if provided.** If the user pastes a product page URL, scrape and summarize before classifying. Pull: product name, what it is and does, key claims, hero benefits, pricing, copy already on the page, any live reviews or testimonials, slogans, taglines. Use this to inform Step Zero classification and to ground the script in the brand's actual product language rather than assumptions. Treat everything on the page — claims, benefits, pricing, reviews, testimonials — as brand-stated until independently verified, and carry that label into anything downstream that leans on it.
 
 **1g. Ingest past performance data — inherit winners AND diagnose losers.** If the user provides past ad data, do both jobs. Inheriting winners is obvious. Diagnosing losers is what most launch briefs skip, and it's usually where the launch either repeats the same mistake or breaks a pattern that was already failing.
 - *Winners:* catalog the top hooks, formats, claims, proof types. Replicate with your own spin.
-- *Losers:* diagnose root cause. "Low hold rates across past videos" is a diagnostic, not a stat. Where is hold rate dropping — at second 2 (the hook is failing), second 5 (post-hook drop, the second beat isn't delivering), second 12 (mid-script bore)? Write the launch creative to fix that specific failure mode. (Real example: a brief flagging "low hold rates across past videos" for a new pet-transit tote bundle means leading with a faster, more pattern-interrupting hook and proving value in the first 3–5 seconds rather than waiting until segment 4. Treat the diagnostic as a constraint, not just a reference.)
+- *Losers:* diagnose root cause. "Low hold rates across past videos" is a diagnostic, not a stat. Where is hold rate dropping — at second 2 (usually the hook), second 5 (usually the post-hook beat not delivering), second 12 (usually mid-script bore)? Those are hypotheses, not verdicts — a drop can also come from the edit, the placement, the traffic, or pacing — so check the read against the actual cut and the performance data before writing to it. Then write the launch creative to fix that specific failure mode. (Real example: a brief flagging "low hold rates across past videos" for a new pet-transit tote bundle means leading with a faster, more pattern-interrupting hook and proving value in the first 3–5 seconds rather than waiting until segment 4. Treat the diagnostic as a constraint, not just a reference.)
 
-**1h. Ingest competitor benchmark refs if provided.** If the user provides competitor refs, either run a light teardown (structure, hook, proof pattern, visual mechanic, on-screen text) or invoke [adapting-scripts.md](adapting-scripts.md) for a full ref-by-ref breakdown. The teardown's job is to identify in-category patterns the launch can ethically borrow: what hook structures are converting in that field right now, what proof types are showing up, what visual language repeats. You're not copying — you're calibrating to what's working in-category and translating it through the brand's voice and the rest of Step 1.
+**1h. Ingest competitor benchmark refs if provided.** If the user provides competitor refs, either run a light teardown (structure, hook, proof pattern, visual mechanic, on-screen text) or invoke [adapting-scripts.md](adapting-scripts.md) for a full ref-by-ref breakdown. The teardown's job is to identify in-category patterns the launch can ethically borrow: what hook structures recur in that field right now, what proof types are showing up, what visual language repeats. Label these as observed patterns — you can see what competitors are running, not what is converting, unless the user hands you performance data. You're not copying — you're calibrating to what's working in-category and translating it through the brand's voice and the rest of Step 1.
 
 ## Step 2: Gather the launch input brief
 
@@ -236,7 +255,7 @@ Translate the scenario into one of three mental modes for writing. The mode is t
 
 - **Scenario A** — pull the top 1–2 proven angles from the closest existing SKU and add 1 angle that explicitly showcases the new attribute. Drop / reveal mechanics, side-by-side with the existing line, "which one are you" personality framing, "new in [season]" using the brand's collection vocabulary. Don't write three new angles — replicate what's working and let the newness show through.
 - **Scenario B** — lead angle: "if you loved [hero], we made [new]." Add two use-case angles specifically for the new format / occasion. Pull at least one bridge angle: an existing customer trying the new SKU as their own bridge testimonial. For bundles specifically, lead with the value of the format change (ritual, savings, completeness, a daily routine that finally fits together), not a generic "new product" hook. Bundles fail when treated as "five things at once"; they win when treated as "this complete routine, finally in one place."
-- **Scenario C** — produce 3–5 fresh persona angles, built from scratch in the new audience's voice. Cover at minimum: a problem angle (the new audience's pain in their words), an identity angle (this is for someone like you), a social proof angle (people in your world are using this), and an objection-handling angle ("isn't this for [other audience]?"). Do not reuse existing-persona hooks — that is the most common Scenario C failure.
+- **Scenario C** — produce 4–5 fresh persona angles, built from scratch in the new audience's voice. Cover at minimum: a problem angle (the new audience's pain in their words), an identity angle (this is for someone like you), a social proof angle (people in your world are using this), and an objection-handling angle ("isn't this for [other audience]?"). Do not reuse existing-persona hooks — that is the most common Scenario C failure.
 
 **Awareness-stage filter.** Every launch ad should also be classified by audience awareness stage (Eugene Schwartz's framework). This determines the hook and how much context the script needs before getting to the product. A launch ad to a Most Aware audience and one to a Problem Aware audience for the same SKU should look completely different.
 
@@ -249,6 +268,8 @@ Translate the scenario into one of three mental modes for writing. The mode is t
 Pair awareness stage with scenario and persona. A Scenario A launch to a Most Aware audience is a "meet the new + 30% off" ad — short, punchy, no context needed. A Scenario C launch to a Problem Aware audience is a slower opener — persona-language problem hook, then brand reveal, then product. These are not interchangeable.
 
 > Important caveat: the warm-audience launch ad almost always targets Most Aware. The cold-audience scaling ads cover everything else. Don't confuse the *phase* (warm vs. cold — who's in the audience pool) with the *awareness stage* (what they already know). Related, but different.
+
+**One deliberate override worth naming.** The canonical awareness-stage definitions live in [killer-performance-ads.md](killer-performance-ads.md), which sets Solution Aware as the default starting point when first working an account — and that default is correct for the general case. A launch's *warm phase* is the exception: an ad going to the brand's own buyer list is genuinely addressing a Most Aware audience, so Most Aware is the right default there. This is a scoped override for the warm phase only. The cold-audience scaling that follows returns to the canonical default, and Scenario C in particular usually starts further back than Solution Aware, because the new persona does not know the brand at all.
 
 ## Step 5: Creative moves by scenario (video and static)
 
@@ -342,7 +363,7 @@ New SKUs often lack reviews, UGC, and best-seller status on day one. The temptat
 - **Demo-as-proof** — show the product working, let the demo do the convincing
 - **Existing-customer testimonial about brand quality, applied to the new SKU** ("I trust [brand] because of [hero], and this is from the same team")
 
-Do not fabricate. Do not claim "best-selling," "loved by thousands," or "X reviews" for a product that does not yet have them. Inherited claims that are not actually transferable erode trust faster than an honest "this is brand new and here's why we think you'll love it."
+Do not fabricate. Do not claim "best-selling," "loved by thousands," or "X reviews" for a product that does not yet have them. Inherited claims that are not actually transferable erode trust faster than an honest "this is brand new and here's why we think you'll love it." The dishonesty is also self-defeating: a launch ad that overclaims trains the audience to discount everything else the brand says.
 
 ## Step 8: Tag every output with launch context
 
