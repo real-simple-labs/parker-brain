@@ -383,17 +383,72 @@ class Scaffold(unittest.TestCase):
             return json.loads(hook.stdout)["hookSpecificOutput"]["additionalContext"]
 
         underway = context()
-        self.assertIn("hasn't finished", underway)
+        self.assertIn("stopped partway", underway)
         self.assertIn("resume", underway)
         self.assertNotIn("scaffolded, not built", underway)
+        # Mid-build the hook has usually cleared the marker already; the status file still speaks.
+        (brand / ".scaffolded").unlink()
+        self.assertIn("stopped partway", context())
         (brand / "BUILD-STATUS.md").unlink()
+        built = context()
+        self.assertNotIn("stopped partway", built)
+        self.assertNotIn("scaffolded, not built", built)
+        (brand / ".scaffolded").write_text("marker\n")
         self.assertIn("scaffolded, not built", context())
         # A run_id alone is setup tracking that started before any build work.
         config = brand / "parker_config.json"
         config.write_text(json.dumps({**json.loads(config.read_text(encoding="utf-8")), "run_id": "run-1"}))
         only_run_id = context()
         self.assertIn("scaffolded, not built", only_run_id)
-        self.assertNotIn("BUILD-STATUS.md shows", only_run_id)
+        self.assertNotIn("stopped partway", only_run_id)
+
+    def test_pull_log_clears_the_marker_once_a_real_phase_completes(self):
+        brand = self.brand("phase brand")
+        self.assert_init_ok(self.init(brand))
+        marker = brand / ".scaffolded"
+        tool = "mcp__Parker__update_parker_brain_setup_status"
+        temp = str(self.root)  # the pull log lands in the temp dir; keep it in the fixture
+        env = {**ENV, "TMPDIR": temp, "TEMP": temp, "TMP": temp}
+
+        def report(tool_name, tool_input, cwd=brand):
+            payload = {"session_id": "s1", "tool_name": tool_name, "tool_input": tool_input}
+            hook = subprocess.run([sys.executable, str(brand / ".claude/hooks/run-hook.py"), "pull-log"],
+                                  cwd=cwd, env=env, input=json.dumps(payload), capture_output=True,
+                                  text=True, timeout=30)
+            self.assertEqual(hook.returncode, 0, hook.stderr)
+
+        def phase(name, index, status):
+            return {"mode": "update_phase", "brand_id": "42", "run_id": "run-1",
+                    "phase_name": name, "phase_index": index, "phase_status": status}
+
+        keeps = [
+            (tool, {"mode": "start", "brand_id": "42"}),
+            (tool, phase("Phase 0 — Repo & Scaffold", 1, "in_progress")),
+            (tool, phase("Phase 0 — Repo & Scaffold", 1, "completed")),
+            (tool, phase("phase 0: setup", 3, "completed")),
+            (tool, phase("Repo & Scaffold", 1, "completed")),  # index 1 is Phase 0, whatever its name
+            (tool, phase("Phase 1A — Brand Foundation", 2, "in_progress")),
+            (tool, phase("Phase 1A — Brand Foundation", 2, "failed")),
+            (tool, {"mode": "complete", "brand_id": "42", "run_status": "failed"}),
+            ("mcp__Parker__search_facebook_ads_sql", phase("Phase 1A — Brand Foundation", 2, "completed")),
+            ("Bash", phase("Phase 1A — Brand Foundation", 2, "completed")),
+            (tool, "not a dict"),
+        ]
+        for tool_name, tool_input in keeps:
+            report(tool_name, tool_input)
+            self.assertTrue(marker.exists(), (tool_name, tool_input))
+
+        # The hook runs from the brand root, so a call made from a subfolder still clears it.
+        (brand / "running-notes").mkdir(exist_ok=True)
+        report("mcp__claude_ai_Parker__update_parker_brain_setup_status",
+               phase("Phase 1A — Brand Foundation", "2", "completed"), cwd=brand / "running-notes")
+        self.assertFalse(marker.exists())
+        report(tool, phase("Phase 1B — Competitor Profiles", 3, "completed"))  # already gone: no error
+        self.assertFalse(marker.exists())
+
+        marker.write_text("marker\n")
+        report(tool, {"mode": "complete", "brand_id": "42", "run_id": "run-1", "run_status": "completed"})
+        self.assertFalse(marker.exists())
 
     # ------------------------------------------------------------ the backend path
 

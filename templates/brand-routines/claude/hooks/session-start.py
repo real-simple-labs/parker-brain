@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """SessionStart hook for a brand brain: catch a broken method mount before work starts,
-and say so when the brain is only scaffolded (a `.scaffolded` marker at the root).
+and say where the build stands: only scaffolded (a `.scaffolded` marker at the root,
+no build started) or partway through a build (a live BUILD-STATUS.md at the root).
 
 The brain's method (prompts, craft knowledge, system docs) lives at parker-system/,
 a git submodule of the public parker-brain factory pinned to a release tag. A folder
@@ -57,20 +58,21 @@ SCAFFOLD_LINE = (
     " This brain is scaffolded, not built: a `.scaffolded` file sits at its root, so "
     "most of the vault CLAUDE.md maps doesn't exist yet. Work from live pulls, save "
     "what the team tells you into running-notes/ and brand-lens.md, and offer "
-    "/set-up-brain when a full build would change the answer. The build deletes the "
-    "marker when it finishes; don't delete it yourself."
+    "/set-up-brain when a full build would change the answer. The marker comes off "
+    "on its own once a build finishes its first phase; don't delete it yourself."
 )
 
 BUILD_UNDERWAY_LINE = (
-    " A build started here but hasn't finished: `.scaffolded` is still at the root, "
-    "and BUILD-STATUS.md shows where it stopped. The docs it has written so far are "
-    "real, so use them, and offer /set-up-brain to resume the rest rather than start "
-    "over. The build deletes the marker when it finishes; don't delete it yourself."
+    " BUILD-STATUS.md sits at the root, so a build ran here. If it isn't marked "
+    "complete, the build stopped partway: the docs it wrote so far are real, so use "
+    "them, and offer /set-up-brain to resume the rest rather than start over. If it "
+    "is marked complete, only the build's closeout is left; /set-up-brain finishes it."
 )
 
 
 def build_started() -> bool:
-    """A build has begun only once its status file exists. A run_id in
+    """A build is under way while its status file sits at the root; the build
+    archives it into prompts-run-log/ when it finishes. A run_id in
     parker_config.json alone doesn't count: setup tracking records it before
     Phase 0 creates BUILD-STATUS.md, so nothing was built yet."""
     return Path("BUILD-STATUS.md").exists()
@@ -137,8 +139,10 @@ else:
         "factory's own README inside the mount once initialized." + SYNC_LINE
     )
 
-if Path(".scaffolded").exists():
-    context += BUILD_UNDERWAY_LINE if build_started() else SCAFFOLD_LINE
+if build_started():
+    context += BUILD_UNDERWAY_LINE
+elif Path(".scaffolded").exists():
+    context += SCAFFOLD_LINE
 
 print(json.dumps({
     "hookSpecificOutput": {

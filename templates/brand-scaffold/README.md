@@ -15,6 +15,6 @@ This is {{BRAND_NAME}}'s brand brain: the folder Parker thinks with. It's set up
 - `.claude/skills/`: the craft skills (scripts, hooks, headlines, iterations, account analysis) and the routines that keep the brain fresh.
 - `running-notes/`: the team's notes, rules, and what Parker still needs to know. Empty until the team starts talking.
 - `brand-lens.md`: the brand's own rules and tribal knowledge. Empty until it's filled.
-- `.scaffolded`: marks this brain as not built yet. The build removes it.
+- `.scaffolded`: marks this brain as not built yet. It comes off on its own once the build finishes its first phase.
 
 The Parker Desktop app keeps this folder saved and synced for the whole team.

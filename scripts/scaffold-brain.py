@@ -87,7 +87,7 @@ CLAUDE_PHASE_STATUS = (
 )
 
 CLAUDE_BUILD_STATUS = """\
-**Not built yet.** This brain was scaffolded on {{CREATED_AT}}. The method library, the skills, the routines, and empty running notes are in place, but none of the brand's own knowledge has been written: no brand profile, no personas, no audits, no competitor reads, no strategy. The `.scaffolded` file at the root marks this state, and the full build deletes it when it finishes. If a build is under way (a `BUILD-STATUS.md` at the root), the docs it has written so far are real: use them, and `/set-up-brain` resumes the rest. Otherwise the line at the top of this file that says the homework is here isn't true yet. Until it is:
+**Not built yet.** This brain was scaffolded on {{CREATED_AT}}. The method library, the skills, the routines, and empty running notes are in place, but none of the brand's own knowledge has been written: no brand profile, no personas, no audits, no competitor reads, no strategy. The `.scaffolded` file at the root marks this state until the build starts writing real docs: a hook takes it off when the build reports its first finished phase after Phase 0, and the build's closeout removes it if it's still there. Don't delete it yourself. If a build is under way (a `BUILD-STATUS.md` at the root), the docs it has written so far are real: use them, and `/set-up-brain` resumes the rest. Otherwise the line at the top of this file that says the homework is here isn't true yet. Until it is:
 
 - **Most of the map above doesn't exist yet.** Check before you cite a doc, and don't treat a missing one as a failed read. What's real is `running-notes/`, `brand-lens.md`, and anything the team has added since.
 - **Lean on live pulls.** For anything about the account, the customers, or the competitors, pull it fresh through the Parker MCP and label every claim honestly. With no vault to check a pull against, say what one pull can and can't tell you.
@@ -106,9 +106,10 @@ The method, the skills, and the routines are in place; the brand's own knowledge
 hasn't been written yet. Parker still works here: it pulls live data and saves
 what the team tells it into running-notes/ and brand-lens.md.
 
-The full build (/set-up-brain) deletes this file when it finishes. Parker's apps
-read this file's presence as "not built yet", so don't delete it by hand unless
-the brain really is built.
+Parker's apps read this file's presence as "nothing built yet". It comes off on
+its own once the full build (/set-up-brain) reports its first finished phase
+after Phase 0, and the build's closeout removes it if it's still there. Don't
+delete it by hand unless the brain really has been built.
 """
 
 GITMODULES = (

@@ -1,6 +1,6 @@
 # Brain scaffold: what a new brand brain starts with, and how it gets there
 
-A new brand brain starts as a **scaffold**: every method file the brain carries, plus the brand-owned starting files, with none of the brand's own knowledge yet. `scripts/scaffold-brain.py` builds it with no AI involved. This doc is the maintainer's contract for it: what goes in, the marker that says "not built yet," the three ways it gets applied, and what to change when you add a file every brain needs.
+A new brand brain starts as a **scaffold**: every method file the brain carries, plus the brand-owned starting files, with none of the brand's own knowledge yet. `scripts/scaffold-brain.py` builds it with no AI involved. This doc is the maintainer's contract for it: what goes in, the marker that says "nothing built yet," the three ways it gets applied, and what to change when you add a file every brain needs.
 
 ## Why it exists
 
@@ -26,15 +26,17 @@ Left out on purpose:
 
 ## The `.scaffolded` marker
 
-A file at the brain's root that says "set up, not built." The scaffold writes it; the build deletes it once its verification passes (`prompts/onboarding-runner.md`, "Verify the build"), and nothing else touches it. It stays for as long as the brain isn't built, including a brain the team has been filling by conversation for weeks.
+A file at the brain's root that says "set up, nothing built yet." The scaffold writes it. It stays for as long as no build has written real docs, including a brain the team has been filling by conversation for weeks.
+
+**It comes off in code, not by the model's memory.** The brain's `pull-log` hook (`templates/brand-routines/claude/hooks/pull-log.py`) already runs after every Parker MCP call, in Claude Code and in Codex, from the brand root. It watches the build's `update_parker_brain_setup_status` calls, and the first one that reports a phase after Phase 0 as `completed` deletes the marker, because from that point the brain holds real docs. "After Phase 0" means a `phase_index` of 2 or more and a `phase_name` that doesn't start with "Phase 0"; the runner reports Phase 0 first, at index 1, and finishing it only confirms setup, so the marker stays. A `mode: "complete"` call with `run_status: "completed"` deletes it too. A failed or in-progress report never does. The build's closeout still makes sure the marker is gone (`prompts/onboarding-runner.md`, "Verify the build"), which catches a build whose status calls never went through because the Parker MCP wasn't connected. Nothing else touches it. Only the hook's script changed for this, not its registration, so Codex doesn't ask to re-approve the hook.
 
 What reads it:
 
 - **The runner and `/set-up-brain`** route a folder with the marker and no build started as "scaffolded": a cold start with the setup already done.
-- **The session-start hook** tells the model the brain is scaffolded, so it doesn't go hunting for docs that don't exist.
-- **Parker's apps.** Any "is this brain built?" check should treat the marker's presence as **not built**. Checking presence costs nothing extra: the root listing the check already reads (`GET /repos/{owner}/{repo}/contents/`) includes dotfiles, so it's one more name to look for in data already fetched. Don't read `parker_config.json` for this; that's a second API call per check, and the marker is the one source of truth.
+- **The session-start hook** tells the model the brain is scaffolded, so it doesn't go hunting for docs that don't exist. When a `BUILD-STATUS.md` sits at the root it says a build ran here instead, and whether to resume it, whatever the marker says.
+- **Parker's apps.** Any "is this brain built?" check should treat the marker's presence as **not built**. Checking presence costs nothing extra: the root listing the check already reads (`GET /repos/{owner}/{repo}/contents/`) includes dotfiles, so it's one more name to look for in data already fetched. Don't read `parker_config.json` for this; that's a second API call per check, and the marker is the one source of truth. If the app wants to show "building" rather than "built" once the marker is gone, the same listing has the signal: `BUILD-STATUS.md` sits at the root for the whole build and moves into `prompts-run-log/` at closeout. So the root listing gives three states: marker present means nothing built yet; no marker with `BUILD-STATUS.md` means a build is under way or stopped partway, with real docs but not all of them; neither means built.
 
-Heads-up for the web app: its current check calls a brain built once the root holds any file outside a short ignore list. A scaffolded brain has dozens of files (`CLAUDE.md`, `.claude/`, `running-notes/`, and more), so that check reads it as built. **The marker check has to ship before the backend starts scaffolding.** It also changes one thing for the better: a brain now shows as not built for the whole length of a build, instead of flipping to built when the first file lands.
+Heads-up for the web app: its current check calls a brain built once the root holds any file outside a short ignore list. A scaffolded brain has dozens of files (`CLAUDE.md`, `.claude/`, `running-notes/`, and more), so that check reads it as built. **The marker check has to ship before the backend starts scaffolding.** It also changes one thing for the better: a brain now shows as not built until its build finishes its first real phase, instead of the moment the scaffold's files land.
 
 ## Three ways it gets applied
 
