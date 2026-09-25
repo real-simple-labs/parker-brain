@@ -58,6 +58,10 @@ Everything below is on the menu, but **the comfort read above decides which item
 
 Somewhere in here, **make them actually do something real** — run one live query, connect one tool, or set one schedule — not just listen. A walkthrough they only watched doesn't stick.
 
+## When the brain is scaffolded, not built
+
+A `.scaffolded` file at the brain's root means it was set up but never built: the method, the skills, and the routines are here, the brand's own knowledge isn't. The tour changes shape. There is no "what just happened" and no roadmap to review, and most folders the menu above would walk through don't exist yet, so don't describe them as if they did. Say plainly that the brain is set up but empty, and paint what it becomes: what the build reads (the account, the reviews, the customers' words, the competitors), what it writes, that it runs a few hours mostly on its own, and that `/set-up-brain` starts it. Then show them it's still useful right now: Parker pulls live data as they work, and whatever they tell it gets saved to the running notes and the brand lens, so the brain starts filling in from their first conversation. The real first move is usually either kicking off the build or asking one real question about their account; let them pick. Don't offer to arm the routines here; they need a built brain to work on.
+
 ## Stay grounded in this brain
 
 Everything you tell them should be true of the brain actually in front of you, not a generic pitch. So look through it first and know what's really here — what's rich, what's thin, what's empty — and let that shape what you say, the example prompts you offer, and the first move you recommend. Don't inflate a thin doc to sound impressive, and don't recite an abstract description of a folder when you could say what's genuinely in it. If a part of the brain is empty or weak, that's honest and worth saying.

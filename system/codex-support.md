@@ -109,7 +109,10 @@ context can also mean a startup error or oversized input, so inspect the hook
 diagnostic instead of assuming the user forgot approval.
 
 `scripts/sync-executable-layer.py` delivers the shared scripts, `.codex/`, and
-root `AGENTS.md` on a pin bump. The v16 migration supplies the skills symlink.
+root `AGENTS.md` on a pin bump. The v16 migration supplies the skills symlink to
+older brains; new brains get it from `scripts/scaffold-brain.py` or the release
+manifest (`system/brain-scaffold.md`). The scaffold reads only local git objects,
+so it runs in Codex's default sandbox once the mount is attached.
 v17 re-sync delivers the runtime fixes; its migration also adds the scheduling
 capability guard to the brand-authored root `CLAUDE.md`. v18 re-sync delivers the
 Parker Desktop sync model (`git-guard.py`, `session-start.py`, `save-brain`, root

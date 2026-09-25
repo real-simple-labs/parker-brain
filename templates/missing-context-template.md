@@ -10,6 +10,8 @@ It is maintained, not regenerated: every doc refresh that discovers a new gap ad
 
 ## Structure
 
+`scripts/scaffold-brain.py` seeds the file from the fenced block below when a brain is set up (filling `brand:` and `last_updated:`), so keep it one fenced block.
+
 ```
 ---
 brand:

@@ -1,6 +1,6 @@
 # Standard sync — the update ledger
 
-> Status: `[~]` template. Seeded by the onboarding build when the method is mounted; owned by `/update-brain` from then on. This is the one file that says how this brain relates to the `parker-brain` factory: which release it runs, what posture it holds toward updates, and every offer the team has already answered. `/disconnect-factory` flips the posture; nothing else edits the header block.
+> Status: `[~]` template. Seeded by the scaffold (`scripts/scaffold-brain.py`) with the pinned release, the factory remote, and the posture `follow`; owned by `/update-brain` from then on. This is the one file that says how this brain relates to the `parker-brain` factory: which release it runs, what posture it holds toward updates, and every offer the team has already answered. `/disconnect-factory` flips the posture; nothing else edits the header block.
 
 ## Where this brain stands
 

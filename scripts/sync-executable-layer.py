@@ -16,10 +16,14 @@ own git history to answer "did the team touch this file?" — no manifest needed
   - file existed at the old tag but the brand deleted it -> leave it deleted, list it
   - file removed by the factory               -> never delete; list it
 
-The BUNDLE_MAP below is the machine-readable twin of the copy list in
-prompts/onboarding-runner.md (Phase 0 step 5 and the routine-bundle stamp step).
-The two must move together: change one, change the other in the same PR.
-Migrations must never copy or diff paths this map owns — see migrations/README.md.
+The bundle map below (bundle_map) is the one list of method files a brand brain
+carries as verbatim copies. scripts/scaffold-brain.py reads it to set up a new
+brain, and this script reads it to refresh an existing one, so a file added here
+reaches both. prompts/onboarding-runner.md (Phase 0 step 5) describes what the
+list ships; change the description when the list changes. Migrations must never
+copy or diff paths this map owns — see migrations/README.md. What a new brain
+starts with is this map plus SEEDS in scaffold-brain.py; system/brain-scaffold.md
+has the rules.
 
 Schedule recipes (schedules/*.md) get one normalization: the `- **Status:**` line
 that /setup-routines stamps per-account is ignored when comparing, and the brand's
@@ -142,6 +146,12 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
         elif path in ("scripts/voice-lint.py", "scripts/grounding-check.py", "scripts/usage-log.py"):
             mapping[path] = path
     return mapping
+
+
+def wants_exec(dest: str) -> bool:
+    """Copied files that get the executable bit: every Python file and anything
+    under scripts/. scaffold-brain.py applies the same rule to new brains."""
+    return dest.endswith(".py") or dest.split("/", 1)[0] == "scripts"
 
 
 def is_schedule(dest: str) -> bool:
@@ -273,7 +283,7 @@ def main() -> int:
                 continue
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
-            if path.suffix == ".py" or path.parts[0] == "scripts":
+            if wants_exec(path.as_posix()):
                 path.chmod(path.stat().st_mode | 0o755)
 
     refreshed_label = "would refresh" if args.dry_run else "refreshed"

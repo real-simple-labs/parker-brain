@@ -1,6 +1,6 @@
 # Brand-brain CLAUDE.md template
 
-> Status: `[~]` drafted 2026-06-11, pending Jimmy's review. This is the canonical root `CLAUDE.md` for every standalone brand-brain repo. Instantiate it per brand by filling the `{{slots}}` and deleting this header block. The template's job, in Jimmy's words: the failure mode of this system is not using the context enough or not knowing how to connect the dots across the documents — so these instructions are an engine for aggressive retrieval, cross-doc connection, and senior-strategist judgment, calibrated to the user's actual ask.
+> Status: `[~]` drafted 2026-06-11, pending Jimmy's review. This is the canonical root `CLAUDE.md` for every standalone brand-brain repo. Instantiate it per brand by filling the `{{slots}}` and deleting this header block. The scaffold (`scripts/scaffold-brain.py`) stamps a not-built-yet version first, with the brand name filled in and the slots below replaced; the build re-stamps it at the end. Renaming or removing a slot means updating `SEEDS` in that script. The template's job, in Jimmy's words: the failure mode of this system is not using the context enough or not knowing how to connect the dots across the documents — so these instructions are an engine for aggressive retrieval, cross-doc connection, and senior-strategist judgment, calibrated to the user's actual ask.
 
 ---
 
@@ -154,6 +154,7 @@ Read what they actually want. Someone asking "what should our creative strategy 
 ## Phase awareness
 
 The brand moves through three gated phases — Audit, then personas and product priority, then ideation and briefing — defined in `parker-system/system/three-phase-operating-model.md`. {{PHASE_STATUS — name the brand's current phase, what is approved, and what that bounds. A Phase-3 ask on a brand whose Phase-2 roadmap is unapproved gets the work plus the honest caveat that the lanes are provisional.}}
+
 ## Build status
 
 {{BUILD_STATUS — what exists, what is thin, what is not yet built, the known data gaps. Point at running-notes/missing-context.md as the live version.}}

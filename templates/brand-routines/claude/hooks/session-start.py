@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""SessionStart hook for a brand brain: catch a broken method mount before work starts.
+"""SessionStart hook for a brand brain: catch a broken method mount before work starts,
+and say so when the brain is only scaffolded (a `.scaffolded` marker at the root).
 
 The brain's method (prompts, craft knowledge, system docs) lives at parker-system/,
 a git submodule of the public parker-brain factory pinned to a release tag. A folder
@@ -51,6 +52,14 @@ def pinned_tag() -> str:
     except Exception:
         return ""
 
+
+SCAFFOLD_LINE = (
+    " This brain is scaffolded, not built: a `.scaffolded` file sits at its root, so "
+    "most of the vault CLAUDE.md maps doesn't exist yet. Work from live pulls, save "
+    "what the team tells you into running-notes/ and brand-lens.md, and offer "
+    "/set-up-brain when a full build would change the answer. The build deletes the "
+    "marker when it finishes; don't delete it yourself."
+)
 
 state = mount_state()
 
@@ -113,6 +122,9 @@ else:
         "Where to read more: this repo's README.md and CLAUDE.md, and the "
         "factory's own README inside the mount once initialized." + SYNC_LINE
     )
+
+if Path(".scaffolded").exists():
+    context += SCAFFOLD_LINE
 
 print(json.dumps({
     "hookSpecificOutput": {

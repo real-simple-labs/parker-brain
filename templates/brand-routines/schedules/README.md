@@ -1,4 +1,4 @@
-# [brand] Schedules
+# Schedules
 
 Repo-native cron routines that run **inside this brain** to keep its docs current without anyone asking — the nightly dreaming pass, a weekly idea harvest, a refresh sweep over stale docs. Open the brain's Parker Desktop-synced folder in a Claude Code instance and the schedules are what run against it on the back end.
 

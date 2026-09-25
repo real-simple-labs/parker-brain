@@ -59,7 +59,7 @@ The planner step chooses the approach; the answer step does the work. The planne
 
 Beyond Parker MCP, the team can connect their own tools to the brain — Notion, Airtable, Slack, Gmail, calendar, and more. Treat any connected tool as a live, first-class source and actively keep the brain in sync with it: operational and organizational truth folds into the running notes, a fact that contradicts a standing doc is surfaced and offered as an update rather than silently overwritten, and anything durable carries its source surface and date per the attribution rules. Encourage connecting these tools, since the more of the team's real context the brain can see, the less it runs on stale information. The full behavior is in `system/parker-tools.md`.
 
-When the task is to stand up a brand's brain from scratch — a new brand with no brain yet — the front door is the **`/set-up-brain`** skill: it welcomes the user, calibrates to their comfort with tools like Claude Code, works inside the brand's synced folder — the one the Parker Desktop app creates and keeps in sync (usually the app opened the session right there) — runs the build inside it, and hands off to `/get-started` at the end. It follows `prompts/onboarding-runner.md` as its method, so whether entered through the skill or directly, follow that runner. It is the executable cold-start sequence: it scaffolds the flat standalone brand-brain layout, ships the craft layer into the repo, maps each prompt's output path, asks the optional brand intake before the prompts run, runs the prompts in dependency order (audit, then strategy, then ideation), and carries the approval gates. The sequence and the why behind it live in `prompts/README.md`. This is not a gate for daily co-pilot work; if the user just asks for a script or an idea, give it to them and let the phases run silently underneath.
+When the task is to stand up a brand's brain from scratch — a new brand with no brain yet — the front door is the **`/set-up-brain`** skill: it welcomes the user, calibrates to their comfort with tools like Claude Code, works inside the brand's synced folder — the one the Parker Desktop app creates and keeps in sync (usually the app opened the session right there) — runs the build inside it, and hands off to `/get-started` at the end. It follows `prompts/onboarding-runner.md` as its method, so whether entered through the skill or directly, follow that runner. It is the executable cold-start sequence: it runs `scripts/scaffold-brain.py` to lay down the flat standalone brand-brain layout and the copied craft layer (no AI, seconds), maps each prompt's output path, asks the optional brand intake before the prompts run, runs the prompts in dependency order (audit, then strategy, then ideation), and carries the approval gates. The sequence and the why behind it live in `prompts/README.md`. This is not a gate for daily co-pilot work; if the user just asks for a script or an idea, give it to them and let the phases run silently underneath.
 
 **A new brand gets its own repository — do not build on top of `parker-brain`.** This repo is the open-sourced product brain: the prompts, skills, methodology, and craft layer. When you onboard a brand, the brand brain you build is a **separate, standalone repository for that brand**, created through the **Parker Desktop app** — never by hand, never by a tool call, never commits back into `parker-brain`. The app syncs the brand's folder both ways, so Claude never runs git in it: every output is just written into the folder and saves on its own. The brand repo is the product, the onboarding runner's flat standalone layout is its shape, and the method reaches it as a **git submodule of this repo mounted read-only at `parker-system/`, pinned to a release tag** — not as copied files. If the user is working inside a `parker-brain` checkout, do not write brand data into it — get the brand's own folder set up through Parker Desktop and explain why.
 
@@ -206,6 +206,15 @@ Before adding that learning here, verify:
 
 Do not promote raw material. Promote the cleaned method, rule, prompt improvement, schema, fixture, or generalized knowledge.
 
+## What A New Brain Starts With
+
+A new brand brain starts as a scaffold that `scripts/scaffold-brain.py` builds with no AI: in the brand folder during the build's Phase 0, or on Parker's backend from the `brain-scaffold.json` manifest CI attaches to every release. A `.scaffolded` file at the brain's root means set up but not built; only the build removes it, after its verification passes. What lands is defined in exactly two lists, and a file every brain needs has to be in one of them or it never reaches a new brain:
+
+- **The bundle map** in `scripts/sync-executable-layer.py`: method files copied verbatim (skills, agents, hooks, checker scripts, schedule recipes, the Codex twin). `/update-brain` re-syncs them on every pin bump, so write them brand-neutral and never put a brand name or any per-brand edit into a copy; a changed copy reads as team-edited and stops updating.
+- **`SEEDS`** in `scripts/scaffold-brain.py`: brand-owned starting files (the brand `CLAUDE.md`, `README.md`, running notes, brand lens, the folder READMEs in `templates/brand-scaffold/`), written once. A standing brain only gets a new seed through a migration step.
+
+When you add, move, or rename a file a brain needs, or change a template a seed reads, update the right list in the same PR and run `python3 -m unittest discover -s tests -p "test_scaffold_brain.py"`. The full contract is `system/brain-scaffold.md`.
+
 ## Product-Brain Source Of Truth
 
 Before changing prompts, skills, schemas, or system behavior, read the relevant product sources:
@@ -217,6 +226,7 @@ Before changing prompts, skills, schemas, or system behavior, read the relevant 
 - `system/open-loops-system.md`
 - `system/codex-support.md` when the change touches anything harness-facing (hooks, skills locations, settings, the voice layer)
 - `system/brain-sync.md` when the change touches how a brand brain saves or syncs (Parker Desktop, git, the guard hook)
+- `system/brain-scaffold.md` when the change adds, moves, or renames a file a brand brain carries, or edits a template the scaffold seeds from
 - `prompts/_open-loops-core-block.md` and `prompts/open-loops/open-loops-roll-up.md`
 - relevant methodology docs and team knowledge docs
 - sibling prompts or skills that share the behavior

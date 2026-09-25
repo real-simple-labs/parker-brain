@@ -20,7 +20,7 @@ What you need first:
 
 Then set up your brand's brain **in Parker Desktop** — the app creates the brain, syncs its folder to your machine, and opens Claude Code or Codex right there to continue the setup.
 
-What happens next: Parker asks a short intake about the things it genuinely can't observe, and builds the brain from your real data — audit first, then strategy, then ideation. The build runs a few hours, mostly on its own; a `BUILD-STATUS.md` file always shows where it is and what's left. Everything saves automatically as it goes — Parker Desktop syncs the folder the whole time — and at the end Parker sets up the standing routines where your setup supports scheduling and walks you through what you have.
+What happens next: a quick script lays down the brain's starting files (the method, the skills, empty running notes; no AI, a few seconds), then Parker asks a short intake about the things it genuinely can't observe, and builds the brain from your real data — audit first, then strategy, then ideation. The build runs a few hours, mostly on its own; a `BUILD-STATUS.md` file always shows where it is and what's left. Everything saves automatically as it goes — Parker Desktop syncs the folder the whole time — and at the end Parker sets up the standing routines where your setup supports scheduling and walks you through what you have.
 
 - 📺 [Setup walkthrough video](https://drive.google.com/file/d/1zxs88XEx1-zdbHjO-DfNc70a3zuGYnuF/view)
 - 📄 [Full instructions doc](https://docs.google.com/document/d/1zsNCydlMu8u6sBlaqiL5TEIAE-aAYUOFj-mlbRjf9VE/edit?usp=sharing)
@@ -78,6 +78,7 @@ This repo is not the private OS/lab. Raw prompt experiments, test brand outputs,
 - `fixtures/` - sanitized examples only.
 - `evals/` - quality gates and regression checks.
 - `system/usage-logging.md` - optional token accounting for both runtimes, including cached input and parent/worker splits. Enable with `usage_logging.enabled: true` in `parker_config.json`; export metadata to `.usage/` at normal saves. Off by default.
+- `scripts/scaffold-brain.py` + `system/brain-scaffold.md` - the brain scaffold: every file a new brand brain starts with, built with no AI. The build runs it in the brand folder; `.github/workflows/release-scaffold.yml` attaches the same scaffold to every release as `brain-scaffold.json` so Parker's backend can create a scaffolded brand repo with three GitHub API calls. A `.scaffolded` file marks a brain as set up but not built until the build finishes. What a new brain gets is defined by the bundle map in `scripts/sync-executable-layer.py` plus `SEEDS` in the scaffold script; a file every brain needs goes in one of the two.
 - `release-notes/` - versioned summary of brain changes.
 
 ### What does not belong here
