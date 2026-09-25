@@ -287,6 +287,65 @@ class Scaffold(unittest.TestCase):
         restore = run_script("init", "--target", str(brand), "--restore-copies")
         self.assertEqual(restore.returncode, 2)
 
+    def test_init_rejects_a_tag_the_mount_is_not_at(self):
+        brand = self.brand("tag brand")
+        wrong = self.init(brand, "--tag", "v98")
+        self.assertEqual(wrong.returncode, 2)
+        self.assertFalse((brand / ".scaffolded").exists())
+        self.assert_init_ok(self.init(brand, "--tag", "v99"))
+
+    def test_origin_credentials_never_reach_the_config(self):
+        brand = self.brand("token brand")
+        git(brand, "remote", "add", "origin", "https://x-access-token:ghs_secret@github.com/parker-brain/acme.git")
+        result = run_script("init", "--target", str(brand), "--brand-name", "Acme", "--brand-id", "42",
+                            "--created-at", "2026-09-25")
+        self.assert_init_ok(result)
+        config = json.loads((brand / "parker_config.json").read_text(encoding="utf-8"))
+        self.assertEqual(config["github_repo_url"], "https://github.com/parker-brain/acme.git")
+        self.assertEqual(scaffold.without_credentials("git@github.com:parker-brain/acme.git"),
+                         "git@github.com:parker-brain/acme.git")
+
+    def test_a_run_that_dies_partway_is_finished_by_the_next(self):
+        brand = self.brand("crash brand")
+        real_write = scaffold.write_file
+
+        def failing_write(entry, data):
+            if entry.path == "CLAUDE.md":
+                raise scaffold.ScaffoldError("couldn't write CLAUDE.md: disk full")
+            real_write(entry, data)
+
+        cwd = os.getcwd()
+        self.addCleanup(os.chdir, cwd)
+        scaffold.write_file = failing_write
+        try:
+            code = scaffold.main(["init", "--target", str(brand), "--brand-name", "Acme",
+                                  "--brand-id", "42", "--created-at", "2026-09-25"])
+        finally:
+            scaffold.write_file = real_write
+            os.chdir(cwd)
+        self.assertEqual(code, 2)
+        self.assertTrue((brand / ".scaffolded").exists())  # the marker landed first
+        self.assertFalse((brand / "CLAUDE.md").exists())
+        self.assert_init_ok(self.init(brand))  # the next run finishes the job
+        self.assertTrue((brand / "CLAUDE.md").exists())
+
+    def test_session_start_tells_an_unfinished_build_from_an_empty_brain(self):
+        brand = self.brand("underway brand")
+        self.assert_init_ok(self.init(brand))
+        (brand / "BUILD-STATUS.md").write_text("Phase 1: 12 of 40\n")
+
+        def context():
+            hook = subprocess.run([sys.executable, str(brand / ".claude/hooks/run-hook.py"), "session-start"],
+                                  cwd=brand, env=ENV, capture_output=True, text=True, timeout=30)
+            return json.loads(hook.stdout)["hookSpecificOutput"]["additionalContext"]
+
+        underway = context()
+        self.assertIn("hasn't finished", underway)
+        self.assertIn("resume", underway)
+        self.assertNotIn("scaffolded, not built", underway)
+        (brand / "BUILD-STATUS.md").unlink()
+        self.assertIn("scaffolded, not built", context())
+
     # ------------------------------------------------------------ the backend path
 
     def test_manifest_builds_a_real_repo(self):

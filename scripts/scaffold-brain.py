@@ -13,7 +13,7 @@ Three commands:
 
   manifest  Run in a factory checkout. Writes the scaffold for one release as
             GitHub tree entries (brain-scaffold.json), so a backend can create a
-            scaffolded brand repo with three REST calls and no git. CI runs this
+            scaffolded brand repo with three write calls and no git. CI runs this
             on every published release and attaches the file to it.
               python3 scripts/scaffold-brain.py manifest --tag v23 --out brain-scaffold.json
 
@@ -47,6 +47,7 @@ import runpy
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 HERE = Path(__file__).resolve().parent
@@ -85,7 +86,7 @@ CLAUDE_PHASE_STATUS = (
 )
 
 CLAUDE_BUILD_STATUS = """\
-**Not built yet.** This brain was scaffolded on {{CREATED_AT}}. The method library, the skills, the routines, and empty running notes are in place, but none of the brand's own knowledge has been written: no brand profile, no personas, no audits, no competitor reads, no strategy. The `.scaffolded` file at the root marks this state, and the full build deletes it when it finishes. So the line at the top of this file that says the homework is here isn't true yet. Until it is:
+**Not built yet.** This brain was scaffolded on {{CREATED_AT}}. The method library, the skills, the routines, and empty running notes are in place, but none of the brand's own knowledge has been written: no brand profile, no personas, no audits, no competitor reads, no strategy. The `.scaffolded` file at the root marks this state, and the full build deletes it when it finishes. If a build is under way (a `BUILD-STATUS.md` at the root), the docs it has written so far are real: use them, and `/set-up-brain` resumes the rest. Otherwise the line at the top of this file that says the homework is here isn't true yet. Until it is:
 
 - **Most of the map above doesn't exist yet.** Check before you cite a doc, and don't treat a missing one as a failed read. What's real is `running-notes/`, `brand-lens.md`, and anything the team has added since.
 - **Lean on live pulls.** For anything about the account, the customers, or the competitors, pull it fresh through the Parker MCP and label every claim honestly. With no vault to check a pull against, say what one pull can and can't tell you.
@@ -344,6 +345,15 @@ def render(text: str, values: dict[str, str], path: str) -> str:
     return TOKEN_PATTERN.sub(lambda match: values[match.group(0)], text)
 
 
+def without_credentials(url: str) -> str:
+    """Drop any user:token@ from an http(s) URL. A clone made with a token has
+    one in its origin, and parker_config.json is committed and shared."""
+    parts = urllib.parse.urlsplit(url.strip())
+    if parts.scheme in ("http", "https") and "@" in parts.netloc:
+        parts = parts._replace(netloc=parts.netloc.rsplit("@", 1)[1])
+    return urllib.parse.urlunsplit(parts)
+
+
 def token_values(brand_name: str, brand_id: str, repo_url: str, created_at: str) -> dict[str, str]:
     if not brand_name.strip():
         raise ScaffoldError("--brand-name is required")
@@ -354,7 +364,7 @@ def token_values(brand_name: str, brand_id: str, repo_url: str, created_at: str)
     return {
         "{{BRAND_NAME}}": brand_name.strip(),
         "{{BRAND_ID}}": str(brand_id).strip(),
-        "{{GITHUB_REPO_URL}}": repo_url.strip(),
+        "{{GITHUB_REPO_URL}}": without_credentials(repo_url),
         "{{CREATED_AT}}": created_at,
     }
 
@@ -363,6 +373,11 @@ def token_values(brand_name: str, brand_id: str, repo_url: str, created_at: str)
 
 def release_tag(mount: Path, override: str | None) -> str:
     if override:
+        head = git(mount, "rev-parse", "HEAD").strip()
+        at = git(mount, "rev-parse", "--verify", f"{override}^{{commit}}").strip()
+        if at != head:
+            raise ScaffoldError(f"--tag {override} is {at[:12]}, but parker-system/ is at {head[:12]}; "
+                                "the files come from the mount, so the recorded release must match it")
         return override
     result = subprocess.run(["git", "-C", str(mount), "describe", "--tags", "--exact-match", "HEAD"],
                             capture_output=True, text=True)
@@ -388,7 +403,10 @@ def merge_config(path: Path, rendered: str) -> str:
         return "kept"
     for key in added:
         current[key] = json.loads(rendered)[key]
-    path.write_text(json.dumps(current, indent=2) + "\n", encoding="utf-8")
+    try:
+        path.write_text(json.dumps(current, indent=2) + "\n", encoding="utf-8")
+    except OSError as error:
+        raise ScaffoldError(f"couldn't update parker_config.json: {error}")
     return "added " + ", ".join(added)
 
 
@@ -434,10 +452,14 @@ def link_skills(entry: Entry, dry_run: bool, written: list, kept: list, problems
 
 def write_file(entry: Entry, data: bytes):
     path = Path(entry.path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(data)
-    if entry.executable:
-        path.chmod(path.stat().st_mode | 0o755)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+        if entry.executable:
+            path.chmod(path.stat().st_mode | 0o755)
+    except OSError as error:
+        raise ScaffoldError(f"couldn't write {entry.path}: {error}. Fix that and run the same "
+                            "command again; it picks up where it stopped.")
 
 
 def cmd_init(args) -> int:
@@ -476,7 +498,11 @@ def cmd_init(args) -> int:
             f"already here came from {recorded}; finish the move the /update-brain way: "
             f"`python3 parker-system/scripts/sync-executable-layer.py --from {recorded}`, then record "
             f"{tag} in parker_config.json and running-notes/standard-sync.md.")
-    for entry in plan(factory, tag):
+    entries = plan(factory, tag)
+    # The marker goes first: a run that dies partway must leave a folder the next
+    # run recognizes as scaffolded and finishes, not one it mistakes for a built brain.
+    entries.sort(key=lambda entry: entry.path != MARKER)
+    for entry in entries:
         if entry.kind == "gitlink" or entry.path == ".gitmodules":
             continue  # the mount is already attached
         if entry.kind == "symlink":
@@ -619,7 +645,7 @@ FRESH_REPO_FILES = {"README.md", ".gitignore", "LICENSE"}
 
 
 def apply_manifest(manifest: dict, repo: str, values: dict[str, str], api) -> str:
-    """The backend's three calls, plus the checks it should make first.
+    """The backend's three write calls, plus the reads it should make first.
     `api(method, path, body)` returns (status, json). Returns the new commit sha."""
     if manifest.get("format") != MANIFEST_FORMAT:
         raise ScaffoldError(f"manifest format {manifest.get('format')} isn't {MANIFEST_FORMAT}")

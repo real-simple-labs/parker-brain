@@ -121,7 +121,7 @@ parker/
 │       │   ├── [workflow-slug].md                   ← task, cadence, sources, skills, deliverable, status, origin
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
-│       ├── .claude/                                ← Makes the brain self-running; COPIED verbatim from templates/brand-routines/ by scripts/scaffold-brain.py
+│       ├── .claude/                                ← Makes the brain self-running; COPIED verbatim by scripts/scaffold-brain.py: the routine bundle (settings, hooks, routine skills) from templates/brand-routines/claude/, plus the craft skills, agents, and output style from the mount's own .claude/
 │       │   ├── settings.json                        ← wires the hooks below + "outputStyle": "Parker" (switches on the voice layer) + the deny rules that keep the mount read-only
 │       │   ├── output-styles/parker.md              ← Parker's voice as a Claude Code output style — the system-prompt layer; copied out of the mount's .claude/output-styles/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
@@ -716,7 +716,7 @@ parker/
 
 ## What changed on 2026-09-25 — v23
 
-- A new brand brain starts as a scaffold built by `scripts/scaffold-brain.py`, with no AI: the bundle-map copies plus the brand-owned seeds (brand `CLAUDE.md` in its not-built-yet form, `README.md`, the living-layer folder READMEs from `templates/brand-scaffold/`, `brand-lens.md`, the running notes, `parker_config.json`), the `.agents/skills` symlink, and a `.scaffolded` marker the build deletes once verification passes. The runner's Phase 0 runs it instead of copying by hand; CI attaches the same scaffold to every release as `brain-scaffold.json` so Parker's backend can create a scaffolded repo with three REST calls. Method files are never de-genericized any more (a changed copy stops updating). Contract: `system/brain-scaffold.md`. See `release-notes/2026-09-25-v23-brain-scaffold.md`.
+- A new brand brain starts as a scaffold built by `scripts/scaffold-brain.py`, with no AI: the bundle-map copies plus the brand-owned seeds (brand `CLAUDE.md` in its not-built-yet form, `README.md`, the living-layer folder READMEs from `templates/brand-scaffold/`, `brand-lens.md`, the running notes, `parker_config.json`), the `.agents/skills` symlink, and a `.scaffolded` marker the build deletes once verification passes. The runner's Phase 0 runs it instead of copying by hand; CI attaches the same scaffold to every release as `brain-scaffold.json` so Parker's backend can create a scaffolded repo with three write calls, plus preflight reads. Method files are never de-genericized any more (a changed copy stops updating). Contract: `system/brain-scaffold.md`. See `release-notes/2026-09-25-v23-brain-scaffold.md`.
 
 ## What changed on 2026-09-15 — v21
 

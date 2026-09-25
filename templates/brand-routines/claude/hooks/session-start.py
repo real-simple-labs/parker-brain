@@ -61,6 +61,24 @@ SCAFFOLD_LINE = (
     "marker when it finishes; don't delete it yourself."
 )
 
+BUILD_UNDERWAY_LINE = (
+    " A build started here but hasn't finished: `.scaffolded` is still at the root, "
+    "and BUILD-STATUS.md shows where it stopped. The docs it has written so far are "
+    "real, so use them, and offer /set-up-brain to resume the rest rather than start "
+    "over. The build deletes the marker when it finishes; don't delete it yourself."
+)
+
+
+def build_started() -> bool:
+    """A build has begun: its status file exists, or setup tracking recorded a run."""
+    if Path("BUILD-STATUS.md").exists():
+        return True
+    try:
+        config = json.loads(Path("parker_config.json").read_text(encoding="utf-8"))
+        return bool(isinstance(config, dict) and config.get("run_id"))
+    except (OSError, ValueError):
+        return False
+
 state = mount_state()
 
 # A submodule checkout carries a .git *file* inside the mount. Plain tracked
@@ -124,7 +142,7 @@ else:
     )
 
 if Path(".scaffolded").exists():
-    context += SCAFFOLD_LINE
+    context += BUILD_UNDERWAY_LINE if build_started() else SCAFFOLD_LINE
 
 print(json.dumps({
     "hookSpecificOutput": {
