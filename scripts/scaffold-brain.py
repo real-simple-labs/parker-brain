@@ -46,6 +46,7 @@ import re
 import runpy
 import subprocess
 import sys
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -390,18 +391,43 @@ def release_tag(mount: Path, override: str | None) -> str:
     return tag
 
 
-def replace_atomically(path: Path, data: bytes, executable: bool = False):
-    """Write to a sibling temp file, then swap it into place. A failure leaves the
-    old file (or no file) behind, never a short one a later run would take as done."""
-    tmp = path.with_name(f".{path.name}.scaffold-tmp")
+_UMASK = os.umask(0)
+os.umask(_UMASK)
+
+
+def fsync_dir(folder: Path):
+    """Make a rename in this folder durable. POSIX only; Windows can't open a folder."""
+    if os.name == "nt":
+        return
+    fd = os.open(folder, os.O_RDONLY)
     try:
-        with open(tmp, "wb") as handle:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def replace_atomically(path: Path, data: bytes, executable: bool = False, sync_dir: bool = False):
+    """Write to a new, exclusively created sibling temp file, then swap it into
+    place. A failure leaves the old file (or no file) behind, never a short one a
+    later run would take as done, and a planted file or symlink can't redirect the
+    write. An existing file keeps its permissions; a new one gets the usual mode."""
+    fd, name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".scaffold-tmp")
+    tmp = Path(name)
+    try:
+        with os.fdopen(fd, "wb") as handle:
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
+        try:
+            mode = path.stat().st_mode & 0o7777
+        except FileNotFoundError:
+            mode = 0o666 & ~_UMASK
         if executable:
-            tmp.chmod(tmp.stat().st_mode | 0o755)
+            mode |= 0o111 & ~_UMASK
+        tmp.chmod(mode)
         os.replace(tmp, path)
+        if sync_dir:
+            fsync_dir(path.parent)
     except BaseException:
         try:
             tmp.unlink()
@@ -477,7 +503,8 @@ def write_file(entry: Entry, data: bytes):
     path = Path(entry.path)
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
-        replace_atomically(path, data, entry.executable)
+        # the marker's folder entry must be durable before any later file's is
+        replace_atomically(path, data, entry.executable, sync_dir=entry.path == MARKER)
     except OSError as error:
         raise ScaffoldError(f"couldn't write {entry.path}: {error}. Fix that and run the same "
                             "command again; it picks up where it stopped.")

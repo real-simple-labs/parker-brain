@@ -290,10 +290,35 @@ class Scaffold(unittest.TestCase):
 
     def test_init_rejects_a_tag_the_mount_is_not_at(self):
         brand = self.brand("tag brand")
+        mount = brand / "parker-system"
+        tree = git(mount, "rev-parse", "HEAD^{tree}").decode().strip()
+        other = git(mount, "commit-tree", tree, "-m", "Another release").decode().strip()
+        git(mount, "tag", "v98", other)  # a real tag, just not the commit the mount is at
         wrong = self.init(brand, "--tag", "v98")
         self.assertEqual(wrong.returncode, 2)
+        self.assertIn("--tag v98 is", wrong.stderr)
         self.assertFalse((brand / ".scaffolded").exists())
         self.assert_init_ok(self.init(brand, "--tag", "v99"))
+
+    @unittest.skipIf(os.name == "nt", "POSIX symlinks and modes")
+    def test_writes_ignore_planted_symlinks_and_keep_modes(self):
+        brand = self.brand("mode brand")
+        victim = self.root / "victim.txt"
+        victim.write_text("keep me\n")
+        for name in (".CLAUDE.md.scaffold-tmp", ".scaffolded.scaffold-tmp"):
+            (brand / name).symlink_to(victim)
+        config = brand / "parker_config.json"
+        config.write_text('{"brand_id": "42"}')
+        config.chmod(0o600)
+        self.assert_init_ok(self.init(brand))
+        self.assertEqual(victim.read_text(), "keep me\n")
+        self.assertEqual(config.stat().st_mode & 0o777, 0o600)  # merged, still private
+        umask = os.umask(0)
+        os.umask(umask)
+        self.assertEqual((brand / "CLAUDE.md").stat().st_mode & 0o777, 0o666 & ~umask)
+        self.assertEqual((brand / "scripts/voice-lint.py").stat().st_mode & 0o777, 0o777 & ~umask)
+        self.assertEqual(list(brand.rglob("*.scaffold-tmp")),
+                         sorted(brand / n for n in (".CLAUDE.md.scaffold-tmp", ".scaffolded.scaffold-tmp")))
 
     def test_origin_credentials_never_reach_the_config(self):
         brand = self.brand("token brand")
