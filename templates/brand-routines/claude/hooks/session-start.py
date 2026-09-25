@@ -70,14 +70,10 @@ BUILD_UNDERWAY_LINE = (
 
 
 def build_started() -> bool:
-    """A build has begun: its status file exists, or setup tracking recorded a run."""
-    if Path("BUILD-STATUS.md").exists():
-        return True
-    try:
-        config = json.loads(Path("parker_config.json").read_text(encoding="utf-8"))
-        return bool(isinstance(config, dict) and config.get("run_id"))
-    except (OSError, ValueError):
-        return False
+    """A build has begun only once its status file exists. A run_id in
+    parker_config.json alone doesn't count: setup tracking records it before
+    Phase 0 creates BUILD-STATUS.md, so nothing was built yet."""
+    return Path("BUILD-STATUS.md").exists()
 
 state = mount_state()
 

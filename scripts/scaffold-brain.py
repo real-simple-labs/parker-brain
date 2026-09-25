@@ -390,24 +390,47 @@ def release_tag(mount: Path, override: str | None) -> str:
     return tag
 
 
-def merge_config(path: Path, rendered: str) -> str:
-    """Add the scaffold's keys an existing parker_config.json lacks; change nothing else."""
+def replace_atomically(path: Path, data: bytes, executable: bool = False):
+    """Write to a sibling temp file, then swap it into place. A failure leaves the
+    old file (or no file) behind, never a short one a later run would take as done."""
+    tmp = path.with_name(f".{path.name}.scaffold-tmp")
+    try:
+        with open(tmp, "wb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        if executable:
+            tmp.chmod(tmp.stat().st_mode | 0o755)
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            tmp.unlink()
+        except OSError:
+            pass
+        raise
+
+
+def merge_config(path: Path, rendered: str) -> tuple[str, bool]:
+    """Add the scaffold's keys an existing parker_config.json lacks; change nothing else.
+    Returns (what happened, whether it needs attention)."""
     try:
         current = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return "left alone (not readable JSON)"
+    except (OSError, ValueError) as error:
+        return (f"isn't readable JSON ({error}); left as is. Fix or remove it and run this again "
+                "so the brain's identity and pinned release get recorded"), True
     if not isinstance(current, dict):
-        return "left alone (not a JSON object)"
+        return ("isn't a JSON object; left as is. Fix or remove it and run this again so the "
+                "brain's identity and pinned release get recorded"), True
     added = [key for key in json.loads(rendered) if key not in current]
     if not added:
-        return "kept"
+        return "kept", False
     for key in added:
         current[key] = json.loads(rendered)[key]
     try:
-        path.write_text(json.dumps(current, indent=2) + "\n", encoding="utf-8")
+        replace_atomically(path, (json.dumps(current, indent=2) + "\n").encode("utf-8"))
     except OSError as error:
         raise ScaffoldError(f"couldn't update parker_config.json: {error}")
-    return "added " + ", ".join(added)
+    return "added " + ", ".join(added), False
 
 
 def check_mount(mount: Path):
@@ -454,9 +477,7 @@ def write_file(entry: Entry, data: bytes):
     path = Path(entry.path)
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(data)
-        if entry.executable:
-            path.chmod(path.stat().st_mode | 0o755)
+        replace_atomically(path, data, entry.executable)
     except OSError as error:
         raise ScaffoldError(f"couldn't write {entry.path}: {error}. Fix that and run the same "
                             "command again; it picks up where it stopped.")
@@ -512,7 +533,8 @@ def cmd_init(args) -> int:
         text = render(entry.content, values, entry.path)
         if path.exists() or path.is_symlink():
             if entry.path == "parker_config.json" and not args.dry_run:
-                notes.append(f"parker_config.json: {merge_config(path, text)}")
+                outcome, broken = merge_config(path, text)
+                (problems if broken else notes).append(f"parker_config.json: {outcome}")
             else:
                 kept.append(entry.path)
             continue

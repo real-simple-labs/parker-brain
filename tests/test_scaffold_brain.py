@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from test_runtime_hooks import FACTORY
 
@@ -306,28 +307,45 @@ class Scaffold(unittest.TestCase):
                          "git@github.com:parker-brain/acme.git")
 
     def test_a_run_that_dies_partway_is_finished_by_the_next(self):
+        """The failure lands after the bytes are written, where a plain write would
+        leave a short file behind that the next run would keep as done."""
         brand = self.brand("crash brand")
-        real_write = scaffold.write_file
+        real_replace = os.replace
 
-        def failing_write(entry, data):
-            if entry.path == "CLAUDE.md":
-                raise scaffold.ScaffoldError("couldn't write CLAUDE.md: disk full")
-            real_write(entry, data)
+        def failing_replace(src, dst, *args, **kwargs):
+            if Path(dst).name in ("CLAUDE.md", "parker_config.json"):
+                raise OSError(28, "No space left on device")
+            return real_replace(src, dst, *args, **kwargs)
 
         cwd = os.getcwd()
         self.addCleanup(os.chdir, cwd)
-        scaffold.write_file = failing_write
-        try:
-            code = scaffold.main(["init", "--target", str(brand), "--brand-name", "Acme",
-                                  "--brand-id", "42", "--created-at", "2026-09-25"])
-        finally:
-            scaffold.write_file = real_write
-            os.chdir(cwd)
+        with mock.patch.object(scaffold.os, "replace", failing_replace):
+            try:
+                code = scaffold.main(["init", "--target", str(brand), "--brand-name", "Acme",
+                                      "--brand-id", "42", "--created-at", "2026-09-25"])
+            finally:
+                os.chdir(cwd)
         self.assertEqual(code, 2)
         self.assertTrue((brand / ".scaffolded").exists())  # the marker landed first
-        self.assertFalse((brand / "CLAUDE.md").exists())
+        self.assertFalse((brand / "CLAUDE.md").exists())   # no short file left behind
+        self.assertEqual(list(brand.rglob("*.scaffold-tmp")), [])
         self.assert_init_ok(self.init(brand))  # the next run finishes the job
-        self.assertTrue((brand / "CLAUDE.md").exists())
+        self.assertEqual((brand / "CLAUDE.md").read_bytes(),
+                         self.rendered_seed("CLAUDE.md", brand_name=IDENTITY["brand_name"]))
+        json.loads((brand / "parker_config.json").read_text(encoding="utf-8"))
+
+    def rendered_seed(self, path, brand_name):
+        item = next(i for i in self.manifest["tree"] if i["path"] == path)
+        vals = scaffold.token_values(brand_name, "42", IDENTITY["repo_url"], "2026-09-25")
+        return scaffold.render(item["content"], vals, path).encode("utf-8")
+
+    def test_an_unreadable_config_needs_attention(self):
+        brand = self.brand("broken config brand")
+        (brand / "parker_config.json").write_text('{"brand_id": "42", "run_')
+        result = self.init(brand)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("needs attention: parker_config.json: isn't readable JSON", result.stdout)
+        self.assertEqual((brand / "parker_config.json").read_text(), '{"brand_id": "42", "run_')
 
     def test_session_start_tells_an_unfinished_build_from_an_empty_brain(self):
         brand = self.brand("underway brand")
@@ -345,6 +363,12 @@ class Scaffold(unittest.TestCase):
         self.assertNotIn("scaffolded, not built", underway)
         (brand / "BUILD-STATUS.md").unlink()
         self.assertIn("scaffolded, not built", context())
+        # A run_id alone is setup tracking that started before any build work.
+        config = brand / "parker_config.json"
+        config.write_text(json.dumps({**json.loads(config.read_text(encoding="utf-8")), "run_id": "run-1"}))
+        only_run_id = context()
+        self.assertIn("scaffolded, not built", only_run_id)
+        self.assertNotIn("BUILD-STATUS.md shows", only_run_id)
 
     # ------------------------------------------------------------ the backend path
 
