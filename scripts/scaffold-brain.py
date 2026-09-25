@@ -414,17 +414,17 @@ def replace_atomically(path: Path, data: bytes, executable: bool = False, sync_d
     fd, name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".scaffold-tmp")
     tmp = Path(name)
     try:
-        with os.fdopen(fd, "wb") as handle:
-            handle.write(data)
-            handle.flush()
-            os.fsync(handle.fileno())
         try:
             mode = path.stat().st_mode & 0o7777
         except FileNotFoundError:
             mode = 0o666 & ~_UMASK
         if executable:
             mode |= 0o111 & ~_UMASK
-        tmp.chmod(mode)
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+            handle.flush()
+            tmp.chmod(mode)  # before the fsync, so the mode is as durable as the bytes
+            os.fsync(handle.fileno())
         os.replace(tmp, path)
         if sync_dir:
             fsync_dir(path.parent)
