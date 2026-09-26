@@ -10,11 +10,21 @@ tool call, and `scripts/grounding-check.py` reads the log back.
 The log lives in the OS temp directory, keyed by a hash of the repo path —
 never inside the repo, never committed, never visible in any output. It is
 plumbing for the reviewer, not a surface for humans.
+
+The same call also clears the `.scaffolded` marker. The build reports every
+phase to Parker with `update_parker_brain_setup_status`; the first time it
+reports a phase after Phase 0 as completed (or the whole run as completed), the
+brain has real content, so the marker that tells Parker's apps "nothing built
+yet" comes off right here, in code, instead of waiting for the model to
+remember at the end of a multi-hour build. A report the tool answered with an
+error leaves the marker alone.
 """
 
 import hashlib
 import json
 import os
+from pathlib import Path
+import re
 import sys
 import tempfile
 import time
@@ -25,6 +35,62 @@ def log_path() -> str:
     return os.path.join(tempfile.gettempdir(), f"parker-pull-log-{key}.jsonl")
 
 
+MARKER = Path(".scaffolded")
+STATUS_TOOL = "update_parker_brain_setup_status"
+
+
+def as_int(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def clears_marker(tool: str, tool_input) -> bool:
+    """A setup-status report that means the build has written real content:
+    a phase other than Phase 0 reported completed, or the whole run completed."""
+    if not tool.endswith("__" + STATUS_TOOL) or not isinstance(tool_input, dict):
+        return False
+    mode = str(tool_input.get("mode", "")).lower()
+    if mode == "complete":
+        return str(tool_input.get("run_status", "")).lower() == "completed"
+    if mode != "update_phase" or str(tool_input.get("phase_status", "")).lower() != "completed":
+        return False
+    if re.match(r"\s*phase\s*0(?!\d)", str(tool_input.get("phase_name", "")), re.IGNORECASE):
+        return False
+    index = as_int(tool_input.get("phase_index"))
+    return index is not None and index >= 2  # phase 1 of the run is Phase 0
+
+
+def reported_failure(response) -> bool:
+    """True when the tool's response says the call failed. Claude Code only runs
+    PostToolUse after a call succeeds; this covers runtimes that also run it for
+    failures, and responses that carry the error as JSON text."""
+    if isinstance(response, str):
+        try:
+            response = json.loads(response)
+        except ValueError:
+            return False
+    if isinstance(response, list):
+        return any(reported_failure(block.get("text")) for block in response
+                   if isinstance(block, dict) and block.get("type") == "text")
+    if not isinstance(response, dict):
+        return False
+    if response.get("isError") or response.get("is_error") or response.get("success") is False:
+        return True
+    if response.get("error"):
+        return True
+    return reported_failure(response.get("content")) if "content" in response else False
+
+
+def clear_marker() -> None:
+    try:
+        if MARKER.is_symlink() or MARKER.is_file():
+            MARKER.unlink()
+    except OSError:
+        pass
+
+
 def main() -> None:
     try:
         payload = json.load(sys.stdin)
@@ -33,6 +99,9 @@ def main() -> None:
     tool = payload.get("tool_name", "")
     if not tool.startswith("mcp__"):
         return
+    if clears_marker(tool, payload.get("tool_input")) \
+            and not reported_failure(payload.get("tool_response")):
+        clear_marker()
     entry = {
         "ts": int(time.time()),
         "session": payload.get("session_id", ""),

@@ -1,0 +1,49 @@
+name: Release scaffold
+
+# Attaches brain-scaffold.json (the empty brand brain as GitHub tree entries) to
+# every published vN release, so Parker's backend can create a scaffolded brand
+# repo without git: fetch the file, fill the placeholders, create tree, commit,
+# move the branch. The contract is system/brain-scaffold.md. Run it by hand to
+# rebuild the file for a release that was published before this workflow existed
+# (only releases that already contain scripts/scaffold-brain.py can build one).
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to build the manifest for, e.g. v23
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - name: Check the tag
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+$ ]]; then
+            echo "::error::'$TAG' isn't a vN release tag"
+            exit 1
+          fi
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ env.TAG }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Test the scaffold
+        run: python -m unittest discover -s tests -p "test_scaffold_brain.py" -v
+      - name: Build the manifest
+        run: python scripts/scaffold-brain.py manifest --tag "$TAG" --out brain-scaffold.json
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" brain-scaffold.json --clobber --repo "$GITHUB_REPOSITORY"

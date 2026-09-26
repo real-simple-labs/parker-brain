@@ -1,6 +1,6 @@
 # Routine-log template
 
-> Instantiate this per brand at `running-notes/routine-log.md`. The onboarding runner stamps it empty at build time; every standing routine appends one entry each time it runs, newest first. Fill the `{{slots}}`, delete this header block. This is a running history, not a live view — the due-date view is `refresh-schedule.md`.
+> Instantiate this per brand at `running-notes/routine-log.md`. The scaffold (`scripts/scaffold-brain.py`) stamps it empty when the brain is set up; every standing routine appends one entry each time it runs, newest first. Fill the `{{slots}}`, delete this header block. This is a running history, not a live view — the due-date view is `refresh-schedule.md`.
 
 ---
 

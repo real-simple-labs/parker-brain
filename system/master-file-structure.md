@@ -121,7 +121,7 @@ parker/
 │       │   ├── [workflow-slug].md                   ← task, cadence, sources, skills, deliverable, status, origin
 │       │   └── proposed/[workflow-slug].md          ← dreaming-suggested, awaiting user confirmation
 │       │
-│       ├── .claude/                                ← Makes the brain self-running; STAMPED from templates/brand-routines/ at build time
+│       ├── .claude/                                ← Makes the brain self-running; COPIED verbatim by scripts/scaffold-brain.py: the routine bundle (settings, hooks, routine skills) from templates/brand-routines/claude/, plus the craft skills, agents, and output style from the mount's own .claude/
 │       │   ├── settings.json                        ← wires the hooks below + "outputStyle": "Parker" (switches on the voice layer) + the deny rules that keep the mount read-only
 │       │   ├── output-styles/parker.md              ← Parker's voice as a Claude Code output style — the system-prompt layer; copied out of the mount's .claude/output-styles/
 │       │   ├── hooks/craft-context.py               ← injects the live craft catalog + sources-receipt rule every turn
@@ -131,11 +131,12 @@ parker/
 │       │   ├── README.md
 │       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
-│       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; STAMPED from templates/brand-routines/codex/ (system/codex-support.md is the contract)
+│       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; COPIED from templates/brand-routines/codex/ by the scaffold (system/codex-support.md is the contract)
 │       │   ├── config.toml                          ← wires shared root-resolving hooks + mount-guard, and the parker-brain filesystem profile
 │       │   └── README.md
-│       ├── .agents/skills                          ← symlink → .claude/skills — how Codex discovers the same skills (created by the runner; can't travel through the sync)
+│       ├── .agents/skills                          ← symlink → .claude/skills — how Codex discovers the same skills (created by the scaffold; can't travel through the sync)
 │       ├── AGENTS.md                               ← Codex's entry point: routes to CLAUDE.md, carries the Parker voice (no output-style layer in Codex); synced from templates/brand-routines/AGENTS.md
+│       ├── .scaffolded                             ← Marker: set up, nothing built yet. Written by scripts/scaffold-brain.py; the pull-log hook deletes it when the build reports its first finished phase after Phase 0 (closeout, if still there); apps read its presence as "not built" (system/brain-scaffold.md)
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
@@ -405,12 +406,16 @@ parker/
 ├── .codex/config.toml                            ← factory opt-in usage hooks; no brand workflow guards
 ├── .usage/                                       ← created only when enabled; committed exports and ignored .local checkpoints
 ├── scripts/usage-log.py                           ← shared metadata-only token collector and report CLI
+├── scripts/scaffold-brain.py                      ← builds an empty brand brain with no AI: `init` in a brand folder, `manifest` for a release, `push` to test the backend path (system/brain-scaffold.md)
+├── system/brain-scaffold.md                       ← what a new brain starts with (the bundle map + SEEDS), the .scaffolded marker, the release manifest, and the backend's three calls
+├── templates/brand-scaffold/                      ← brand-owned seed files the scaffold writes once: the brain's starter README.md and the six living-layer folder READMEs
 ├── system/usage-logging.md                        ← opt-in, cache accounting, build labels, and coverage contract
 ├── tests/                                         ← standard-library hook and release-sync regressions; optional installed-runtime probe
 ├── .github/workflows/runtime-checks.yml             ← runs the regression suite on Linux, macOS, and Windows
+├── .github/workflows/release-scaffold.yml           ← on every published release, attaches brain-scaffold.json (the empty brain as GitHub tree entries) for Parker's backend
 ├── .agents/skills                                  ← symlink → .claude/skills, so OpenAI Codex discovers the factory's skills too (AGENTS.md carries the Codex entry; system/codex-support.md is the contract)
 ├── .claude/output-styles/                          ← The chat-voice layer (not an agent, not a skill)
-│   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the onboarding runner and the propagate script.
+│   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the scaffold (and the propagate script for legacy copy-based brains).
 │
 ├── references/                                     ← Global knowledge, namespaced by team
 │   └── knowledge/
@@ -708,6 +713,10 @@ parker/
 ```
 
 ---
+
+## What changed on 2026-09-25 — v23
+
+- A new brand brain starts as a scaffold built by `scripts/scaffold-brain.py`, with no AI: the bundle-map copies plus the brand-owned seeds (brand `CLAUDE.md` in its not-built-yet form, `README.md`, the living-layer folder READMEs from `templates/brand-scaffold/`, `brand-lens.md`, the running notes, `parker_config.json`), the `.agents/skills` symlink, and a `.scaffolded` marker that the `pull-log` hook deletes in code once the build reports its first finished phase after Phase 0 (closeout deletes it if it's still there). The runner's Phase 0 runs it instead of copying by hand; CI attaches the same scaffold to every release as `brain-scaffold.json` so Parker's backend can create a scaffolded repo with three write calls, plus preflight reads. Method files are never de-genericized any more (a changed copy stops updating). Contract: `system/brain-scaffold.md`. See `release-notes/2026-09-25-v23-brain-scaffold.md`.
 
 ## What changed on 2026-09-15 — v21
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""SessionStart hook for a brand brain: catch a broken method mount before work starts.
+"""SessionStart hook for a brand brain: catch a broken method mount before work starts,
+and say where the build stands: only scaffolded (a `.scaffolded` marker at the root,
+no build started) or partway through a build (a live BUILD-STATUS.md at the root).
 
 The brain's method (prompts, craft knowledge, system docs) lives at parker-system/,
 a git submodule of the public parker-brain factory pinned to a release tag. A folder
@@ -51,6 +53,29 @@ def pinned_tag() -> str:
     except Exception:
         return ""
 
+
+SCAFFOLD_LINE = (
+    " This brain is scaffolded, not built: a `.scaffolded` file sits at its root, so "
+    "most of the vault CLAUDE.md maps doesn't exist yet. Work from live pulls, save "
+    "what the team tells you into running-notes/ and brand-lens.md, and offer "
+    "/set-up-brain when a full build would change the answer. The marker comes off "
+    "on its own once a build finishes its first phase; don't delete it yourself."
+)
+
+BUILD_UNDERWAY_LINE = (
+    " BUILD-STATUS.md sits at the root, so a build ran here. If it isn't marked "
+    "complete, the build stopped partway: the docs it wrote so far are real, so use "
+    "them, and offer /set-up-brain to resume the rest rather than start over. If it "
+    "is marked complete, only the build's closeout is left; /set-up-brain finishes it."
+)
+
+
+def build_started() -> bool:
+    """A build is under way while its status file sits at the root; the build
+    archives it into prompts-run-log/ when it finishes. A run_id in
+    parker_config.json alone doesn't count: setup tracking records it before
+    Phase 0 creates BUILD-STATUS.md, so nothing was built yet."""
+    return Path("BUILD-STATUS.md").exists()
 
 state = mount_state()
 
@@ -113,6 +138,11 @@ else:
         "Where to read more: this repo's README.md and CLAUDE.md, and the "
         "factory's own README inside the mount once initialized." + SYNC_LINE
     )
+
+if build_started():
+    context += BUILD_UNDERWAY_LINE
+elif Path(".scaffolded").exists():
+    context += SCAFFOLD_LINE
 
 print(json.dumps({
     "hookSpecificOutput": {
