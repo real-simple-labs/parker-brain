@@ -58,7 +58,7 @@ def clears_marker(tool: str, tool_input) -> bool:
     if re.match(r"\s*phase\s*0(?!\d)", str(tool_input.get("phase_name", "")), re.IGNORECASE):
         return False
     index = as_int(tool_input.get("phase_index"))
-    return index is None or index >= 2  # phase 1 of the run is Phase 0
+    return index is not None and index >= 2  # phase 1 of the run is Phase 0
 
 
 def clear_marker() -> None:

@@ -427,6 +427,9 @@ class Scaffold(unittest.TestCase):
             (tool, phase("Phase 0 — Repo & Scaffold", 1, "completed")),
             (tool, phase("phase 0: setup", 3, "completed")),
             (tool, phase("Repo & Scaffold", 1, "completed")),  # index 1 is Phase 0, whatever its name
+            (tool, {k: v for k, v in phase("Brand Foundation", 2, "completed").items()
+                    if k != "phase_index"}),  # no index: can't tell it isn't Phase 0
+            (tool, phase("Phase 1A — Brand Foundation", "two", "completed")),
             (tool, phase("Phase 1A — Brand Foundation", 2, "in_progress")),
             (tool, phase("Phase 1A — Brand Foundation", 2, "failed")),
             (tool, {"mode": "complete", "brand_id": "42", "run_status": "failed"}),
