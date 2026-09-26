@@ -1,7 +1,5 @@
 # Parker Brain
 
-> **New to Parker?** New customers get 1 month free with code **`PARKERBRAIN`** — limited spots → **[heyparker.ai](https://heyparker.ai)**
-
 ## What is Parker Brain
 
 Parker is a context-aware marketing intelligence system for brands and marketing teams. A **brand brain** is Parker's memory and method for one brand: everything Parker has learned about it — the audit, the strategy, personas, customer language, competitors, the idea bank — plus the skills that do the craft work (scripts, hooks, headlines, iterations, account analysis) and the routines that keep it all fresh without being asked. Each brand brain is a folder on your machine that the **Parker Desktop app** keeps backed up and synced for the whole team, with its private storage managed by Parker.
