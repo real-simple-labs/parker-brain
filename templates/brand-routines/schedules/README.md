@@ -24,7 +24,7 @@ Six routines ship with this brain (jobs travel in the repo and are live; the bui
 
 ## The routine log
 
-Every routine here prepends one entry to `running-notes/routine-log.md` each time it runs — scheduled or manual. That file is the append-only history of what the brain did on its own: what fired, when, what it changed, what it left, and why. It answers "did the weekly routine actually run, and what did it do," which a live due-date view (`refresh-schedule.md`) cannot. The log is stamped empty at build from `parker-system/templates/routine-log-template.md`; routines create it on first run if it is missing.
+Every routine here prepends one entry to `running-notes/routine-log.md` each time it runs — scheduled or manual. That file is the append-only history of what the brain did on its own: what fired, when, what it changed, what it left, and why. It answers "did the weekly routine actually run, and what did it do," which a live due-date view (`refresh-schedule.md`) cannot. The scaffold seeds it empty from `parker-system/templates/routine-log-template.md` when the brain is set up; routines create it on first run if it is missing.
 
 ## The runner
 

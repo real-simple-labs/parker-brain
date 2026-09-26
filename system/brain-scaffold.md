@@ -28,7 +28,7 @@ Left out on purpose:
 
 A file at the brain's root that says "set up, nothing built yet." The scaffold writes it. It stays for as long as no build has written real docs, including a brain the team has been filling by conversation for weeks.
 
-**It comes off in code, not by the model's memory.** The brain's `pull-log` hook (`templates/brand-routines/claude/hooks/pull-log.py`) already runs after every Parker MCP call, in Claude Code and in Codex, from the brand root. It watches the build's `update_parker_brain_setup_status` calls, and the first one that reports a phase after Phase 0 as `completed` deletes the marker, because from that point the brain holds real docs. "After Phase 0" means a `phase_index` of 2 or more and a `phase_name` that doesn't start with "Phase 0"; the runner reports Phase 0 first, at index 1, and finishing it only confirms setup, so the marker stays. A `mode: "complete"` call with `run_status: "completed"` deletes it too. A failed or in-progress report never does. The build's closeout still makes sure the marker is gone (`prompts/onboarding-runner.md`, "Verify the build"), which catches a build whose status calls never went through because the Parker MCP wasn't connected. Nothing else touches it. Only the hook's script changed for this, not its registration, so Codex doesn't ask to re-approve the hook.
+**It comes off in code, not by the model's memory.** The brain's `pull-log` hook (`templates/brand-routines/claude/hooks/pull-log.py`) already runs after every Parker MCP call, in Claude Code and in Codex, from the brand root. It watches the build's `update_parker_brain_setup_status` calls, and the first one that reports a phase after Phase 0 as `completed` deletes the marker, because from that point the brain holds real docs. "After Phase 0" means a `phase_index` of 2 or more and a `phase_name` that doesn't start with "Phase 0"; the runner reports Phase 0 first, at index 1, and finishing it only confirms setup, so the marker stays. A `mode: "complete"` call with `run_status: "completed"` deletes it too. A failed or in-progress report never does, and neither does a report the tool answered with an error. The build's closeout still makes sure the marker is gone (`prompts/onboarding-runner.md`, "Verify the build"), which catches a build whose status calls never went through because the Parker MCP wasn't connected. Nothing else touches it. Only the hook's script changed for this, not its registration, so Codex doesn't ask to re-approve the hook.
 
 What reads it:
 
@@ -48,7 +48,7 @@ python3 parker-system/scripts/scaffold-brain.py init --brand-name "Acme" --brand
 
 Needs the `parker-system/` mount attached and checked out at a release tag; it reads every file from the mount's git objects at that commit, so the scaffold always matches the pinned method. It never overwrites a file (an existing `parker_config.json` only gains the keys it lacks, and one that isn't valid JSON is flagged, not trusted), so running it on a scaffolded brain fills gaps and nothing else. The `.scaffolded` marker is written first, and every file goes through a temp file and a swap, so a run that dies partway leaves whole files or none, and the next run finishes the job. It refuses a brain that's already built or mid-build without the marker, and a folder with no mount. `--dry-run` shows the plan; `--verbose` lists every file. It also flags a mount that moved after scaffolding (the release in `parker_config.json` no longer matches the mount's tag): the copies came from the recorded release, so that move gets finished the `/update-brain` way, and on a scaffolded folder the pin shouldn't move before the build at all.
 
-`init --restore-copies` is the repair tool the build verification uses: on any brain with the mount, it puts back the pinned release's version of every bundle-map copy that is missing or differs (keeping a schedule's armed Status line) and touches nothing else. On a standing brain it would overwrite the team's own edits, which is why `/update-brain`, not this, is the update tool there. The report is one line plus anything that needs attention; the likely one is the `.agents/skills` symlink on Windows without Developer Mode, which only matters for Codex.
+`init --restore-copies` is the repair tool the build verification uses: on any brain with the mount, it puts back the pinned release's version of every bundle-map copy that is missing or differs (keeping a schedule's armed Status line) and touches nothing else. `--dry-run` lists what it would restore, and `--only <path>` (repeatable) limits it to the copies named, so a build can repair what it broke without undoing an edit the team made to a scaffolded brain before the build ran. Without `--only`, on a standing brain it would overwrite the team's own edits, which is why `/update-brain`, not this, is the update tool there. The report is one line plus anything that needs attention; the likely one is the `.agents/skills` symlink on Windows without Developer Mode, which only matters for Codex.
 
 ### 2. The release manifest (CI)
 
@@ -85,7 +85,7 @@ No git and no disk. Four steps, three of them writes:
 1. **Fetch the manifest** from `https://github.com/real-simple-labs/parker-brain/releases/latest/download/brain-scaffold.json` (public, no auth). For the minute after a release is published, before CI attaches the file, that URL returns 404; fall back to the newest release that has the asset (`GET /repos/real-simple-labs/parker-brain/releases`). Check `format` is `1`.
 2. **Create the repo with `auto_init: true`.** GitHub's tree API refuses an empty repo, so it needs the one starting commit. If the repo already existed (the provisioning service is create-or-reuse), scaffold only when it's still fresh: exactly one commit, holding nothing but GitHub's own `README.md`, `.gitignore`, or `LICENSE`. Anything else is someone's brain; leave it alone.
 3. **Fill the placeholders** in every entry's `content`, in a single pass (so a value can never introduce another placeholder), JSON-string-escaping the values for the paths in `json_escaped_paths`.
-4. **Create the tree, create the commit, move the branch.** No `base_tree` (the scaffold replaces GitHub's starter README), the starter commit as the parent, and `force: false` so the branch only moves forward.
+4. **Create the tree, create the commit, move the branch.** The starter commit's tree as `base_tree` (so a `LICENSE` or `.gitignore` the repo was created with survives; the manifest's `README.md` replaces GitHub's starter one), the starter commit as the parent, and `force: false` so the branch only moves forward.
 
 A reference in TypeScript with Octokit:
 
@@ -107,9 +107,10 @@ const fill = (text: string, path: string) =>
 const { data: info } = await octokit.rest.repos.get({ owner, repo });
 const branch = info.default_branch;
 const { data: ref } = await octokit.rest.git.getRef({ owner, repo, ref: `heads/${branch}` });
+const { data: start } = await octokit.rest.git.getCommit({ owner, repo, commit_sha: ref.object.sha });
 // (fresh-repo check from step 2 goes here)
 const { data: tree } = await octokit.rest.git.createTree({
-  owner, repo,
+  owner, repo, base_tree: start.tree.sha,
   tree: manifest.tree.map((entry: any) => ("content" in entry ? { ...entry, content: fill(entry.content, entry.path) } : entry)),
 });
 const { data: commit } = await octokit.rest.git.createCommit({

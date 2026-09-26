@@ -16,7 +16,8 @@ phase to Parker with `update_parker_brain_setup_status`; the first time it
 reports a phase after Phase 0 as completed (or the whole run as completed), the
 brain has real content, so the marker that tells Parker's apps "nothing built
 yet" comes off right here, in code, instead of waiting for the model to
-remember at the end of a multi-hour build.
+remember at the end of a multi-hour build. A report the tool answered with an
+error leaves the marker alone.
 """
 
 import hashlib
@@ -61,6 +62,27 @@ def clears_marker(tool: str, tool_input) -> bool:
     return index is not None and index >= 2  # phase 1 of the run is Phase 0
 
 
+def reported_failure(response) -> bool:
+    """True when the tool's response says the call failed. Claude Code only runs
+    PostToolUse after a call succeeds; this covers runtimes that also run it for
+    failures, and responses that carry the error as JSON text."""
+    if isinstance(response, str):
+        try:
+            response = json.loads(response)
+        except ValueError:
+            return False
+    if isinstance(response, list):
+        return any(reported_failure(block.get("text")) for block in response
+                   if isinstance(block, dict) and block.get("type") == "text")
+    if not isinstance(response, dict):
+        return False
+    if response.get("isError") or response.get("is_error") or response.get("success") is False:
+        return True
+    if response.get("error"):
+        return True
+    return reported_failure(response.get("content")) if "content" in response else False
+
+
 def clear_marker() -> None:
     try:
         if MARKER.is_symlink() or MARKER.is_file():
@@ -77,7 +99,8 @@ def main() -> None:
     tool = payload.get("tool_name", "")
     if not tool.startswith("mcp__"):
         return
-    if clears_marker(tool, payload.get("tool_input")):
+    if clears_marker(tool, payload.get("tool_input")) \
+            and not reported_failure(payload.get("tool_response")):
         clear_marker()
     entry = {
         "ts": int(time.time()),

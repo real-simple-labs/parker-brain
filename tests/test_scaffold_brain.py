@@ -277,6 +277,21 @@ class Scaffold(unittest.TestCase):
         self.assertIn("- **Status:** active (armed 2026-09-25)", schedule.read_text(encoding="utf-8"))
         self.assertEqual((brand / "running-notes/brand-rules.md").read_text(), "team notes\n")
 
+        # --only restores just the named copies; a copy the team edited on purpose stays.
+        team_skill = brand / ".claude/skills/get-started/SKILL.md"
+        team_skill.write_bytes(team_skill.read_bytes() + b"\nOur team's own note.\n")
+        skill.write_bytes(pristine.replace(b"the brand", b"Acme", 1))
+        only = run_script("init", "--target", str(brand), "--restore-copies",
+                          "--only", ".claude/skills/dream/SKILL.md")
+        self.assertEqual(only.returncode, 0, only.stdout + only.stderr)
+        self.assertIn("restored 1 method files", only.stdout)
+        self.assertEqual(skill.read_bytes(), pristine)
+        self.assertIn(b"Our team's own note.", team_skill.read_bytes())
+        typo = run_script("init", "--target", str(brand), "--restore-copies", "--only", "CLAUDE.md")
+        self.assertEqual(typo.returncode, 1)
+        self.assertIn("CLAUDE.md isn't a method copy", typo.stdout)
+        self.assertIn(b"Our team's own note.", team_skill.read_bytes())
+
     def test_init_flags_a_pin_that_moved_after_scaffolding(self):
         brand = self.brand("moved pin brand")
         self.assert_init_ok(self.init(brand))
@@ -317,7 +332,7 @@ class Scaffold(unittest.TestCase):
         os.umask(umask)
         self.assertEqual((brand / "CLAUDE.md").stat().st_mode & 0o777, 0o666 & ~umask)
         self.assertEqual((brand / "scripts/voice-lint.py").stat().st_mode & 0o777, 0o777 & ~umask)
-        self.assertEqual(list(brand.rglob("*.scaffold-tmp")),
+        self.assertEqual(sorted(brand.rglob("*.scaffold-tmp")),
                          sorted(brand / n for n in (".CLAUDE.md.scaffold-tmp", ".scaffolded.scaffold-tmp")))
 
     def test_origin_credentials_never_reach_the_config(self):
@@ -410,8 +425,10 @@ class Scaffold(unittest.TestCase):
         temp = str(self.root)  # the pull log lands in the temp dir; keep it in the fixture
         env = {**ENV, "TMPDIR": temp, "TEMP": temp, "TMP": temp}
 
-        def report(tool_name, tool_input, cwd=brand):
+        def report(tool_name, tool_input, cwd=brand, response=None):
             payload = {"session_id": "s1", "tool_name": tool_name, "tool_input": tool_input}
+            if response is not None:
+                payload["tool_response"] = response
             hook = subprocess.run([sys.executable, str(brand / ".claude/hooks/run-hook.py"), "pull-log"],
                                   cwd=cwd, env=env, input=json.dumps(payload), capture_output=True,
                                   text=True, timeout=30)
@@ -441,10 +458,19 @@ class Scaffold(unittest.TestCase):
             report(tool_name, tool_input)
             self.assertTrue(marker.exists(), (tool_name, tool_input))
 
+        # A report the tool answered with an error leaves the marker too.
+        done = phase("Phase 1A — Brand Foundation", 2, "completed")
+        for response in ({"isError": True}, {"success": False, "message": "run not found"},
+                         [{"type": "text", "text": json.dumps({"error": "invalid run_id"})}],
+                         json.dumps({"error": "invalid run_id"})):
+            report(tool, done, response=response)
+            self.assertTrue(marker.exists(), response)
+
         # The hook runs from the brand root, so a call made from a subfolder still clears it.
         (brand / "running-notes").mkdir(exist_ok=True)
         report("mcp__claude_ai_Parker__update_parker_brain_setup_status",
-               phase("Phase 1A — Brand Foundation", "2", "completed"), cwd=brand / "running-notes")
+               phase("Phase 1A — Brand Foundation", "2", "completed"), cwd=brand / "running-notes",
+               response=[{"type": "text", "text": json.dumps({"ok": True, "errors": []})}])
         self.assertFalse(marker.exists())
         report(tool, phase("Phase 1B — Competitor Profiles", 3, "completed"))  # already gone: no error
         self.assertFalse(marker.exists())
@@ -514,6 +540,7 @@ class Scaffold(unittest.TestCase):
         writes = [(m, p) for m, p, _ in calls if m != "GET"]
         self.assertEqual(writes, [("POST", "/repos/o/r/git/trees"), ("POST", "/repos/o/r/git/commits"),
                                   ("PATCH", "/repos/o/r/git/refs/heads/main")])
+        self.assertEqual(calls[4][2]["base_tree"], "tree0")  # keeps a LICENSE or .gitignore
         tree = {item["path"]: item for item in calls[4][2]["tree"]}
         self.assertEqual(json.loads(tree["parker_config.json"]["content"])["brand_name"], IDENTITY["brand_name"])
         self.assertNotIn("{{BRAND_NAME}}", tree["CLAUDE.md"]["content"])

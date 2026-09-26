@@ -512,6 +512,8 @@ def write_file(entry: Entry, data: bytes):
 
 
 def cmd_init(args) -> int:
+    if args.only and not args.restore_copies:
+        raise ScaffoldError("--only works with --restore-copies")
     target = Path(args.target).resolve()
     os.chdir(target)
     mount = Path(MOUNT)
@@ -599,12 +601,16 @@ def restore_copies(factory: Factory, tag: str, args) -> int:
         raise ScaffoldError(
             f"parker_config.json records {recorded} but parker-system/ is at {tag}; "
             "restoring now would mix releases. Finish that move with /update-brain first.")
-    restored, problems = [], []
-    for entry in plan(factory, tag):
+    entries = [entry for entry in plan(factory, tag) if entry.origin == "bundle" or entry.kind == "symlink"]
+    only = {path.replace("\\", "/").strip("/") for path in args.only or ()}
+    restored = []
+    problems = [f"{path} isn't a method copy this release ships; nothing restored there"
+                for path in sorted(only - {entry.path for entry in entries})]
+    for entry in entries:
+        if only and entry.path not in only:
+            continue
         if entry.kind == "symlink":
             link_skills(entry, args.dry_run, restored, [], problems)
-            continue
-        if entry.origin != "bundle":
             continue
         path = Path(entry.path)
         wanted = entry.content.encode("utf-8")
@@ -726,7 +732,10 @@ def apply_manifest(manifest: dict, repo: str, values: dict[str, str], api) -> st
         if "content" in item:
             item["content"] = render(item["content"], values, item["path"])
         entries.append(item)
-    status, new_tree = api("POST", f"/repos/{repo}/git/trees", {"tree": entries})
+    # base_tree keeps a LICENSE or .gitignore the repo was created with; the
+    # manifest's README.md replaces GitHub's starter one.
+    status, new_tree = api("POST", f"/repos/{repo}/git/trees",
+                           {"base_tree": commit["tree"]["sha"], "tree": entries})
     if status != 201:
         raise ScaffoldError(f"create tree failed: {status} {new_tree.get('message')}")
     tag = manifest["factory"]["tag"]
@@ -778,6 +787,9 @@ def main(argv=None) -> int:
     init.add_argument("--restore-copies", action="store_true",
                       help="put back the release's version of every method copy that is missing or "
                            "edited, on any brain; never touches brand files (for build repairs)")
+    init.add_argument("--only", action="append", metavar="PATH",
+                      help="with --restore-copies: restore just this copy (repeatable), so a "
+                           "copy the team edited on purpose stays as it is")
     init.set_defaults(run=cmd_init)
 
     manifest = sub.add_parser("manifest", help="write the scaffold as GitHub tree entries")
