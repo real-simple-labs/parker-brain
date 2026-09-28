@@ -11,6 +11,6 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** weekly, Monday 05:30 (user's timezone).
-> **Prompt:** "Run the /update-brain routine for the brand brain in this repo. Follow the skill exactly: compare against the factory and against the brain's own canonical build, write the offer list to the ledger and the digest, and apply nothing — offers wait for the user."
+> **Prompt:** "Run the /update-brain routine for this brand brain. Follow the skill exactly: compare against the factory and against the brain's own canonical build, write the offer list to the ledger and the digest, and apply nothing — offers wait for the user."
 
 > **Nothing is copied, regenerated, or edited without the user's yes. Declined offers stay quiet until the factory moves again.**

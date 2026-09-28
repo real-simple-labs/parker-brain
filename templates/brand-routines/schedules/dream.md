@@ -11,6 +11,6 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** daily, 05:00 (user's timezone) — earliest so proposals are ready for the morning.
-> **Prompt:** "Run the /dream routine for the brand brain in this repo. Follow the skill exactly: read the day's comms, capture verbatim, write six-bucket proposals into dreaming/proposals/pending/, propose — never apply. Surface a morning-suggestion summary."
+> **Prompt:** "Run the /dream routine for this brand brain. Follow the skill exactly: read the day's comms, capture verbatim, write six-bucket proposals into dreaming/proposals/pending/, propose — never apply. Surface a morning-suggestion summary."
 
 > **Promotion of proposals happens in `/self-improve`, with the human in the loop — dreaming never applies its own proposals.**

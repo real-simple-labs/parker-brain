@@ -41,9 +41,11 @@ SYNC_LINE = (
 CLOUD_SYNC_LINE = (
     " How this brain saves itself here: this is a cloud run (no Parker Desktop on "
     "this machine), so nothing syncs it for you. Pull before you work, then commit "
-    "and push when you are done, through Parker's git server; if this copy has no "
-    "access yet, get it with the Parker MCP tool register_parker_brain_git_credential "
-    "and never print its secret file. Never force-push. See /save-brain, "
+    "and push to main when you are done (`git push origin HEAD:main`), through "
+    "Parker's git server. You have permission to push straight to main: it is the "
+    "brain everyone reads, so never create a branch. If this copy has no access "
+    "yet, get it with the Parker MCP tool register_parker_brain_git_credential and "
+    "never print its secret file. Never force-push. See /save-brain, "
     "\"In a cloud run\"."
 )
 

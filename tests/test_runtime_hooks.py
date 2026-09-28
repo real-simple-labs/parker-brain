@@ -253,7 +253,8 @@ class RuntimeHooks(unittest.TestCase):
             "git clone https://git.heyparker.ai/parker-brain/fixture.git",
             "git remote set-url origin https://git.heyparker.ai/parker-brain/fixture.git",
             "git pull --rebase",
-            "git add -A && git commit -m 'dream: proposals' && git pull --rebase && git push",
+            "git pull --rebase origin main",
+            "git add -A && git commit -m 'dream: proposals' && git pull --rebase origin main && git push origin HEAD:main",
             "git rebase --continue",
             "git merge --abort",
             "git push origin HEAD:main",
@@ -281,7 +282,11 @@ class RuntimeHooks(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
 
-        self.assertIn("this is a cloud run", context(CLAUDE_CODE_REMOTE="true"))
+        cloud = context(CLAUDE_CODE_REMOTE="true")
+        self.assertIn("this is a cloud run", cloud)
+        # Hosted sessions default to their own branches; the grant is in writing.
+        self.assertIn("git push origin HEAD:main", cloud)
+        self.assertIn("never create a branch", cloud)
         self.assertIn("register_parker_brain_git_credential", context(PARKER_CLOUD_RUN="1"))
         laptop = context()
         self.assertIn("the Parker Desktop app syncs this folder", laptop)

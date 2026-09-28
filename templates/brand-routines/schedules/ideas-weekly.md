@@ -11,4 +11,4 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** weekly, Monday 07:00 (user's timezone) — one agent runs both passes in sequence.
-> **Prompt:** "Run the weekly idea cycle for the brand brain in this repo: first /harvest-ideas (hunt brief first, then cold pass, then the hunter lenses — capture verbatim with the spark, ungraded, with provenance and a viewable link — capture only), then /evaluate-ideas (rank the whole pile against the roadmap, confidence-first, lead with the call). Mark the rank provisional if the roadmap is still awaiting approval."
+> **Prompt:** "Run the weekly idea cycle for this brand brain: first /harvest-ideas (hunt brief first, then cold pass, then the hunter lenses — capture verbatim with the spark, ungraded, with provenance and a viewable link — capture only), then /evaluate-ideas (rank the whole pile against the roadmap, confidence-first, lead with the call). Mark the rank provisional if the roadmap is still awaiting approval."

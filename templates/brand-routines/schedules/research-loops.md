@@ -11,6 +11,6 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** weekly, Wednesday 06:00 (user's timezone).
-> **Prompt:** "Run the /research-loops routine for the brand brain in this repo. Follow the skill exactly: roll up and grade the loops, advance promoted ones through the approval gate, validate every cleared hypothesis honestly, run due re-validations, deliver the digest, and align the standing docs — apply nothing the gates say needs the user; file those as pending proposals."
+> **Prompt:** "Run the /research-loops routine for this brand brain. Follow the skill exactly: roll up and grade the loops, advance promoted ones through the approval gate, validate every cleared hypothesis honestly, run due re-validations, deliver the digest, and align the standing docs — apply nothing the gates say needs the user; file those as pending proposals."
 
 > **Doc alignment in a scheduled run proposes, never applies — `/self-improve` disposes with the human in the loop. Strategy and brand hard rules always wait for the user.**

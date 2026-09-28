@@ -11,4 +11,4 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** weekly, Monday 06:00 (user's timezone).
-> **Prompt:** "Run the /refresh-context routine for the brand brain in this repo. Follow the skill exactly: surface what's overdue by date and what's stale-by-dependency along the Phase 1→2→3 spine, re-run each due doc's generating prompt carrying prior context forward, re-stamp dates, update the refresh schedule. Report what was refreshed, separating date-overdue from dependency-stale."
+> **Prompt:** "Run the /refresh-context routine for this brand brain. Follow the skill exactly: surface what's overdue by date and what's stale-by-dependency along the Phase 1→2→3 spine, re-run each due doc's generating prompt carrying prior context forward, re-stamp dates, update the refresh schedule. Report what was refreshed, separating date-overdue from dependency-stale."

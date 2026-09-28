@@ -11,6 +11,6 @@
 ## Schedule recipe (register once via `/schedule`)
 
 > **Cadence:** weekly, Friday 16:00 (user's timezone) — end-of-week, so it disposes of the week's dreaming proposals and freshly captured traces.
-> **Prompt:** "Run the /self-improve routine for the brand brain in this repo. Follow the skill exactly: curate reasoning traces, dispose of dreaming proposals (human in the loop — surface decisions, don't silently promote), advance open loops into hypotheses via the roll-up, run due re-validations. Report what was promoted, what awaits me, and what was killed."
+> **Prompt:** "Run the /self-improve routine for this brand brain. Follow the skill exactly: curate reasoning traces, dispose of dreaming proposals (human in the loop — surface decisions, don't silently promote), advance open loops into hypotheses via the roll-up, run due re-validations. Report what was promoted, what awaits me, and what was killed."
 
 > **This is the disposing half: dreaming proposes, self-improve disposes. Nothing canonical changes without going through this pass and the human.**
