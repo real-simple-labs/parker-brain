@@ -58,9 +58,7 @@ A **cloud run** is a session in the cloud with no Parker Desktop beside it: a sc
 In a cloud run nobody else syncs the brain, so you do it, with git, through Parker's own storage:
 
 1. **Get access.** Use the Parker MCP tool `register_parker_brain_git_credential` with the brand's `brand_id` (from `parker_config.json`, the routine's prompt, or `get_available_brands`). Follow its steps exactly: one shell command makes a secret, keeps it in a file only you can read, and prints its hash; you send the tool only the hash. **Never print, show, or send the secret file's content.** The tool answers with commands for the next step.
-2. **Get the brain.**
-   - Not in a copy of the brain yet: run its `clone_command` in a working folder and continue inside the new folder.
-   - Already in a copy (the routine started in it): run its `use_in_copy_command` inside that copy. It points the copy at Parker's storage and at the secret file.
+2. **Get the brain.** Run the tool's `clone_command` in a working folder and continue inside the new folder. Clone a fresh copy even if the run started in another copy of this brain (for example one a routine checked out from GitHub), and leave that one alone: when some folders are hidden from this person, Parker's copy has a different history, and mixing the two would bring back what is hidden.
 3. **Work.** Run `git pull --rebase` before you read or change files, then do the job (the routine's skill, from this copy's `.claude/skills/`).
 4. **Save.** Commit everything and share it:
 
