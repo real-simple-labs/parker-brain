@@ -39,11 +39,16 @@ class RuntimeHooks(unittest.TestCase):
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         self.config = tomllib.loads((self.root / ".codex/config.toml").read_text(encoding="utf-8"))
 
-    def invoke(self, name, payload=None, cwd=None):
+    def invoke(self, name, payload=None, cwd=None, env=None):
         command = [sys.executable, str(self.root / ".claude/hooks/run-hook.py"), name]
         if name == "git-guard":
             command.append("--codex")
-        return subprocess.run(command, cwd=cwd or self.root,
+        # The cloud-run signals come only from the test that sets them, so a
+        # run inside a cloud session gets the same verdicts as a laptop.
+        run_env = {k: v for k, v in os.environ.items()
+                   if k not in ("CLAUDE_CODE_REMOTE", "PARKER_CLOUD_RUN")}
+        run_env.update(env or {})
+        return subprocess.run(command, cwd=cwd or self.root, env=run_env,
                               input=json.dumps(payload or {}), text=True,
                               capture_output=True, timeout=10)
 
@@ -230,6 +235,60 @@ class RuntimeHooks(unittest.TestCase):
                 self.assertFalse(denied(command))
         subprocess.run(["git", "-C", str(self.root), "remote", "set-url", "origin", "https://github.com/fixture-team/brain.git"], check=True)
         self.assertFalse(denied("git push origin main"))
+
+    def test_git_guard_steps_aside_in_a_cloud_run(self):
+        # v24: a scheduled routine or hosted sandbox syncs the brain itself,
+        # through Parker's git server. Nothing is blocked there.
+        subprocess.run(["git", "-C", str(self.root), "remote", "add", "origin", "https://git.heyparker.ai/parker-brain/fixture.git"], check=True)
+        home = self.root / "cloud-home"
+        home.mkdir()
+
+        def denied(command, **env):
+            env = {"HOME": str(home), "USERPROFILE": str(home), **env}
+            result = self.invoke("git-guard", {"tool_name": "Bash", "tool_input": {"command": command}}, env=env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return bool(result.stdout and json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"] == "deny")
+
+        cloud_work = (
+            "git clone https://git.heyparker.ai/parker-brain/fixture.git",
+            "git remote set-url origin https://git.heyparker.ai/parker-brain/fixture.git",
+            "git pull --rebase",
+            "git add -A && git commit -m 'dream: proposals' && git pull --rebase && git push",
+            "git rebase --continue",
+            "git merge --abort",
+            "git push origin HEAD:main",
+        )
+        for signal in ({"CLAUDE_CODE_REMOTE": "true"}, {"PARKER_CLOUD_RUN": "1"}):
+            for command in cloud_work:
+                with self.subTest(cloud=signal, command=command):
+                    self.assertFalse(denied(command, **signal))
+        # No cloud signal: a person's computer, with the app or without it.
+        self.assertTrue(denied("git push origin HEAD:main"))
+        self.assertTrue(denied("git push origin HEAD:main", CLAUDE_CODE_REMOTE="false"))
+        # Parker Desktop on this machine: never a cloud run, whatever it says.
+        (home / ".parker").mkdir()
+        (home / ".parker/workspace.json").write_text('{"version": 1, "root": "/tmp/parker"}')
+        self.assertTrue(denied("git push origin HEAD:main", CLAUDE_CODE_REMOTE="true"))
+        self.assertTrue(denied("git pull --rebase", PARKER_CLOUD_RUN="1"))
+
+    def test_session_start_tells_a_cloud_run_to_sync_itself(self):
+        home = self.root / "cloud-home"
+        home.mkdir()
+
+        def context(**env):
+            env = {"HOME": str(home), "USERPROFILE": str(home), **env}
+            result = self.invoke("session-start", {}, env=env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
+
+        self.assertIn("this is a cloud run", context(CLAUDE_CODE_REMOTE="true"))
+        self.assertIn("register_parker_brain_git_credential", context(PARKER_CLOUD_RUN="1"))
+        laptop = context()
+        self.assertIn("the Parker Desktop app syncs this folder", laptop)
+        self.assertNotIn("this is a cloud run", laptop)
+        (home / ".parker").mkdir()
+        (home / ".parker/workspace.json").write_text('{"version": 1, "root": "/tmp/parker"}')
+        self.assertNotIn("this is a cloud run", context(CLAUDE_CODE_REMOTE="true"))
 
     def test_native_permission_profile_and_shared_commands(self):
         self.assertEqual(self.config["default_permissions"], "parker-brain")

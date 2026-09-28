@@ -33,7 +33,10 @@ file wins wherever this summary is thinner.
   A deliberately disconnected brain follows its recorded ownership posture.
 - **Saving is Parker Desktop's job, not git's.** On a managed brain (origin
   under `parker-brain/`) the app syncs this folder both ways, so a file you
-  write is saved. Never run git or `gh` against this repo on your own; a hook
+  write is saved. The one exception is a cloud run (a scheduled routine or a
+  hosted sandbox, with no Parker Desktop on the machine): it gets the brain
+  through the Parker MCP and pulls, commits and pushes itself, per
+  `/save-brain`'s "In a cloud run"; the hook lets that through. Never run git or `gh` against this repo on your own; a hook
   blocks the network and history-moving commands and says why. Two
   exceptions: the mount operations the brain uses (`git -C parker-system
   fetch`, its pin `checkout`, `git submodule update --init`) and the confirmed

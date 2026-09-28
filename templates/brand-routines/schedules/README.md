@@ -29,3 +29,5 @@ Every routine here prepends one entry to `running-notes/routine-log.md` each tim
 ## The runner
 
 Routines run as Claude Code scheduled agents (the `/schedule` skill / cron). This repo carries the *definition* of each schedule; the Claude Code instance carries the *execution*. The file here is the source of truth for what the routine is supposed to do — `/setup-routines` is the guided installer that arms the cron.
+
+A cloud routine has no Parker Desktop beside it, so it gets the brain and saves it itself (v24): `/setup-routines` puts a cloud-run preamble in front of each recipe's prompt (get the brain through the Parker MCP's `register_parker_brain_git_credential`, run the job in that copy, save per `/save-brain`'s "In a cloud run") and attaches the Parker MCP. A routine armed before v24 can't save; run `/setup-routines` again to re-arm it.

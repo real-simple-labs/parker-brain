@@ -10,10 +10,14 @@ until it is initialized. This hook checks the mount at session start.
 
 Syncing is NOT this hook's job: the Parker Desktop app watches the brain's folder
 and syncs every change both ways, so the hook only reminds the model of the model —
-files save to disk, the app does the rest, never run git against this repo.
+files save to disk, the app does the rest, never run git against this repo. In a
+cloud run (v24: no ~/.parker/workspace.json, and CLAUDE_CODE_REMOTE=true or
+PARKER_CLOUD_RUN=1, the same test as git-guard.py) no app runs, so the reminder
+says the other thing: the run pulls, commits and pushes itself.
 """
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -32,6 +36,24 @@ SYNC_LINE = (
     "lines is left, then stop; the app saves and shares it (git add, git commit "
     "and git merge are allowed for that, and not needed)."
 )
+
+
+CLOUD_SYNC_LINE = (
+    " How this brain saves itself here: this is a cloud run (no Parker Desktop on "
+    "this machine), so nothing syncs it for you. Pull before you work, then commit "
+    "and push when you are done, through Parker's git server; if this copy has no "
+    "access yet, get it with the Parker MCP tool register_parker_brain_git_credential "
+    "and never print its secret file. Never force-push. See /save-brain, "
+    "\"In a cloud run\"."
+)
+
+
+def sync_line() -> str:
+    """The app's rules on a person's computer; the cloud run's own otherwise."""
+    cloud = not (Path.home() / ".parker" / "workspace.json").exists() and (
+        os.environ.get("CLAUDE_CODE_REMOTE") == "true"
+        or os.environ.get("PARKER_CLOUD_RUN") == "1")
+    return CLOUD_SYNC_LINE if cloud else SYNC_LINE
 
 
 def mount_state() -> str:
@@ -104,7 +126,7 @@ if state == "ok" and not is_submodule and decoupled_by_choice():
         "Session start check: parker-system/ holds this team's own copy of the "
         "method (this brain is decoupled from the factory — no submodule, no pin). "
         "It is theirs to edit and versions with the repo. /update-brain runs in "
-        "decoupled mode here, per running-notes/standard-sync.md." + SYNC_LINE
+        "decoupled mode here, per running-notes/standard-sync.md." + sync_line()
     )
 elif state == "ok" and not is_submodule:
     context = (
@@ -114,7 +136,7 @@ elif state == "ok" and not is_submodule:
         "today, but don't edit inside parker-system/ (updates would overwrite "
         "it), and don't treat this as a decoupled brain. The current standard "
         "mounts the factory as a pinned submodule; /update-brain can offer the "
-        "v1 migration that converts this brain." + SYNC_LINE
+        "v1 migration that converts this brain." + sync_line()
     )
 elif state == "ok":
     tag = pinned_tag()
@@ -122,7 +144,7 @@ elif state == "ok":
     context = (
         f"Session start check: the parker-system/ method mount is initialized{pin}. "
         "parker-system/ itself is read-only; factory updates arrive only through "
-        "/update-brain moving the pin." + SYNC_LINE
+        "/update-brain moving the pin." + sync_line()
     )
 else:
     context = (
@@ -136,7 +158,7 @@ else:
         "operation against the public factory — allowed and expected). The mount "
         "is read-only — never edit inside it; /update-brain is how it updates. "
         "Where to read more: this repo's README.md and CLAUDE.md, and the "
-        "factory's own README inside the mount once initialized." + SYNC_LINE
+        "factory's own README inside the mount once initialized." + sync_line()
     )
 
 if build_started():

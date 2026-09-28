@@ -37,6 +37,11 @@ live in `tests/test_runtime_hooks.py`; the optional local-binary probe is
   Codex builds ship the recipes with scheduling explicitly deferred and the
   skills available on demand. This is a complete Codex build. External cron is
   a separate team setup; never mark a recipe active without an observed schedule.
+- A Codex cloud task, or any other cloud runner that is not a Claude Code
+  cloud session, counts as a cloud run (v24) only when its environment sets
+  `PARKER_CLOUD_RUN=1`: Claude Code sets `CLAUDE_CODE_REMOTE=true` by itself,
+  Codex sets nothing the guard reads. Without it, `git-guard.py` treats the
+  task like a person's computer and blocks the run's own saves.
 
 ## Hook contract
 

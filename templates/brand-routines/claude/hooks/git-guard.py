@@ -29,6 +29,16 @@ A brain hosted anywhere else (the self-managed exception) is untouched —
 the guard only speaks up when the repo's origin (or the command itself)
 points at the parker-brain org, on GitHub or on Parker's git gateway.
 
+A cloud run is untouched too (v24): a scheduled routine or a hosted sandbox
+has no Parker Desktop beside it, so it gets the brain through the Parker
+MCP's register_parker_brain_git_credential and pulls, commits and pushes
+itself. Nothing is blocked there, merges and clashes included. It is a cloud
+run only when ~/.parker/workspace.json is missing (no app on this machine)
+and the environment says so: Claude Code cloud sessions set
+CLAUDE_CODE_REMOTE=true and never set it locally, and any other cloud runner
+sets PARKER_CLOUD_RUN=1. A person's own computer is never one, with or
+without the app: their own commits would lose who made each change.
+
 Runtime procedure: .claude/skills/save-brain/ (/save-brain).
 Design and rationale: parker-system/system/brain-sync.md.
 
@@ -43,6 +53,8 @@ guard, same message, different envelope.
 """
 
 import json
+import os
+from pathlib import Path
 import re
 import subprocess
 import sys
@@ -79,8 +91,9 @@ BLOCK = (
     "If you believe this folder is NOT being "
     "synced (no Parker Desktop), don't improvise git — tell the user plainly "
     "and point them at https://app.heyparker.ai/dashboard/parker-desktop, or "
-    "let a technical team wire their own git connection. Full picture: "
-    "/save-brain (or parker-system/system/brain-sync.md)."
+    "let a technical team wire their own git connection. A scheduled cloud "
+    "run is different: /save-brain's \"In a cloud run\" covers it. Full "
+    "picture: /save-brain (or parker-system/system/brain-sync.md)."
 )
 
 
@@ -99,6 +112,14 @@ def block(msg: str) -> int:
         return 0
     print(msg, file=sys.stderr)
     return 2
+
+
+def cloud_run() -> bool:
+    """No Parker Desktop on this machine, and a cloud environment."""
+    if (Path.home() / ".parker" / "workspace.json").exists():
+        return False
+    return (os.environ.get("CLAUDE_CODE_REMOTE") == "true"
+            or os.environ.get("PARKER_CLOUD_RUN") == "1")
 
 
 def origin_url() -> str:
@@ -122,6 +143,8 @@ def main() -> int:
     if isinstance(cmd, list):  # Codex shell tools pass argv lists
         cmd = " ".join(str(c) for c in cmd)
     if not re.search(r"\b(git|gh)\b", cmd):
+        return 0
+    if cloud_run():
         return 0
 
     managed = bool(MANAGED_ORG.search(origin_url())) or bool(MANAGED_ORG.search(cmd))
