@@ -287,6 +287,10 @@ class RuntimeHooks(unittest.TestCase):
         # Hosted sessions default to their own branches; the grant is in writing.
         self.assertIn("git push origin HEAD:main", cloud)
         self.assertIn("never create a branch", cloud)
+        # The session may have started in another copy (a routine's source); the
+        # work goes into a fresh clone, as /save-brain says.
+        self.assertIn("clone a fresh copy", cloud)
+        self.assertIn("not in this folder", cloud)
         self.assertIn("register_parker_brain_git_credential", context(PARKER_CLOUD_RUN="1"))
         laptop = context()
         self.assertIn("the Parker Desktop app syncs this folder", laptop)

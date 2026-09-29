@@ -48,7 +48,7 @@ Times are suggestions — confirm against the user's timezone and working rhythm
      The job line stays minimal, letting the committed SKILL.md carry the method; each schedule's recipe in `../schedules/` has its own.
    - **If the Parker MCP has no `register_parker_brain_git_credential` tool yet** (it reaches production after this release), register the routine the way it was before v24 — in this repo, with the job line alone — and tell the person plainly that a cloud run can do the work but can't save it yet. Run `/setup-routines` again once the tool is there.
 3. **Verify** — list the scheduled routines back to the user with their next-run times, and confirm each points at the right skill.
-4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active, plus who registered it and when), so the schedule doc reflects reality and a teammate's later `/setup-routines` run can see the routines are already owned. The files save and sync like any other change (a self-managed team commits them).
+4. **Record** — note in each `../schedules/[slug].md` that the schedule is registered for this instance (status: active, plus who registered it and when, and "saves in a cloud run" when its prompt starts with the cloud-run preamble; the new line replaces the old one, a "needs re-arm (v24)" note included), so the schedule doc reflects reality and a teammate's later `/setup-routines` run can see the routines are already owned. The files save and sync like any other change (a self-managed team commits them).
 
 ## Notes
 
