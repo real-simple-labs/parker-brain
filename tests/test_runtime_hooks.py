@@ -291,6 +291,9 @@ class RuntimeHooks(unittest.TestCase):
         # work goes into a fresh clone, as /save-brain says.
         self.assertIn("clone a fresh copy", cloud)
         self.assertIn("not in this folder", cloud)
+        # The key lives in git's memory (v26): no file to name or delete.
+        self.assertIn("never print the key", cloud)
+        self.assertNotIn("secret file", cloud)
         self.assertIn("register_parker_brain_git_credential", context(PARKER_CLOUD_RUN="1"))
         laptop = context()
         self.assertIn("the Parker Desktop app syncs this folder", laptop)

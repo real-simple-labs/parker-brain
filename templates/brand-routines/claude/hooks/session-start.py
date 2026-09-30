@@ -42,7 +42,7 @@ CLOUD_SYNC_LINE = (
     " How this brain saves itself here: this is a cloud run (no Parker Desktop on "
     "this machine), so nothing syncs it for you. Before you work, follow "
     "/save-brain, \"In a cloud run\": get access with the Parker MCP tool "
-    "register_parker_brain_git_credential (never print its secret file), clone a "
+    "register_parker_brain_git_credential (never print the key), clone a "
     "fresh copy with its clone_command, and do all the work in that new copy, not "
     "in this folder. When you are done, commit there and push to main "
     "(`git push origin HEAD:main`) through Parker's git server. You have "
