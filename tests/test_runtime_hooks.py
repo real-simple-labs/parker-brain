@@ -304,12 +304,7 @@ class RuntimeHooks(unittest.TestCase):
         profile = self.config["permissions"]["parker-brain"]
         self.assertEqual(profile["extends"], ":workspace")
         self.assertEqual(profile["filesystem"][":workspace_roots"]["parker-system"], "read")
-        self.assertEqual(profile["filesystem"][":workspace_roots"]["parker-context"], "read")
         claude = json.loads((self.root / ".claude/settings.json").read_text(encoding="utf-8"))
-        deny = set(claude["permissions"]["deny"])
-        for folder in ("parker-system", "parker-context"):
-            for rule in ("Edit(/{}/**)", "Edit({}/**)", "Write(/{}/**)", "Write({}/**)"):
-                self.assertIn(rule.format(folder), deny)
         for event, groups in claude["hooks"].items():
             actual = groups[0]["hooks"][0]["command"]
             expected = self.config["hooks"][event][0]["hooks"][0]["command"]

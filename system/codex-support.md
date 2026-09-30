@@ -71,8 +71,7 @@ that otherwise fits. Tests cover multibyte text and both limits together.
 ## Mount protection and its limits
 
 The default `parker-brain` permission profile extends Codex's `:workspace`
-baseline and makes `parker-system/` and `parker-context/` (documents Parker keeps
-in its own database, written by Parker Desktop) read-only. This is the filesystem protection
+baseline and makes `parker-system/` read-only. This is the filesystem protection
 for shell commands and tools, including script-driven writes. It preserves the
 baseline restrictions on `.git/`, `.agents/`, and `.codex/`. Updating a submodule
 pin or the copied configuration may therefore need an approval.

@@ -29,11 +29,6 @@ def probe(case, codex):
         requests = []
         nested = case in {"nested-brand-edit", "usage-logging"}
         target = "probe.md" if nested else "parker-system/probe.md"
-        if case == "context-write":
-            # What Parker Desktop writes from the database; the profile keeps it read-only.
-            (brand / "parker-context").mkdir()
-            (brand / "parker-context/brand-context.md").write_text("fixture context\n")
-            target = "parker-context/probe.md"
         if case == "usage-logging":
             (brand / "parker_config.json").write_text('{"usage_logging":{"enabled":true}}')
         patch = f"*** Begin Patch\n*** Add File: {target}\n+fixture\n*** End Patch\n"
@@ -44,8 +39,6 @@ def probe(case, codex):
             command = "python3 -c " + shlex.quote("from pathlib import Path; Path('parker-system/probe.md').write_text('fixture')")
         elif case == "read-mount":
             command = "cat parker-system/source.md"
-        elif case == "context-write":
-            command = "python3 -c " + shlex.quote("from pathlib import Path; Path('parker-context/probe.md').write_text('fixture')")
 
         class Handler(BaseHTTPRequestHandler):
             def log_message(self, *args):
@@ -112,7 +105,7 @@ def probe(case, codex):
             if row.startswith("|") and ".md" in row:
                 assert json.dumps(row, ensure_ascii=False)[1:-1] in visible, (case, row)
         assert "hook_outputs/" not in visible, case
-        if case in {"indirect-write", "context-write"}:
+        if case == "indirect-write":
             # The shell heuristic does not parse Python; native permissions must deny it.
             assert "Operation not permitted" in feedback or "Permission denied" in feedback, (result.stdout, result.stderr, feedback)
         if case == "read-mount":
@@ -140,5 +133,5 @@ if __name__ == "__main__":
     if os.name == "nt":
         raise SystemExit("The integration probe uses POSIX shell fixtures; Windows runs the unit suite.")
     print(subprocess.check_output([executable, "--version"], text=True).strip())
-    for case in ("native-patch", "shell-write", "indirect-write", "context-write", "nested-brand-edit", "read-mount", "legacy-patch", "usage-logging"):
+    for case in ("native-patch", "shell-write", "indirect-write", "nested-brand-edit", "read-mount", "legacy-patch", "usage-logging"):
         probe(case, executable)

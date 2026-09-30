@@ -1,4 +1,4 @@
-# parker-context/ holds documents Parker keeps in its own database, such as the
-# brand context. Parker Desktop writes them here read-only. They are never part
-# of this repository.
+# parker-context/ holds this brand's context documents that Parker keeps in its
+# own database, such as the brand context. Parker Desktop keeps the folder in
+# sync with that database, so it is never part of this repository.
 parker-context/
