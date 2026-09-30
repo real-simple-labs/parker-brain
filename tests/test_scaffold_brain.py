@@ -232,6 +232,26 @@ class Scaffold(unittest.TestCase):
         self.assertEqual(config["usage_logging"], {"enabled": True})
         self.assertEqual(config["parker_brain_version"], "v99")
 
+    def test_init_adds_parker_context_to_an_existing_gitignore(self):
+        brand = self.brand("ignore brand")
+        (brand / ".gitignore").write_text("node_modules/\n.env")  # no final newline
+        result = self.init(brand)
+        self.assert_init_ok(result)
+        self.assertIn(".gitignore: added parker-context/", result.stdout)
+        lines = (brand / ".gitignore").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(lines[:2], ["node_modules/", ".env"])
+        self.assertEqual(lines.count("parker-context/"), 1)
+        again = self.init(brand)
+        self.assert_init_ok(again)
+        self.assertIn(".gitignore: kept", again.stdout)
+        self.assertEqual((brand / ".gitignore").read_text(encoding="utf-8").splitlines(), lines)
+
+    def test_init_keeps_a_gitignore_that_already_ignores_the_folder(self):
+        brand = self.brand("ignored brand")
+        (brand / ".gitignore").write_text("/parker-context\n")
+        self.assert_init_ok(self.init(brand))
+        self.assertEqual((brand / ".gitignore").read_text(encoding="utf-8"), "/parker-context\n")
+
     def test_init_refuses_a_built_brain_and_a_missing_mount(self):
         built = self.brand("built brand")
         (built / "CLAUDE.md").write_text("# Parker — a built brain\n")
