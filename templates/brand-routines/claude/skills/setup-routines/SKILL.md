@@ -42,12 +42,12 @@ Times are suggestions — confirm against the user's timezone and working rhythm
    - **The prompt is the cloud-run preamble plus the job.** Fill in the brand's name and its `brand_id`: copy the id exactly from `parker_config.json`, and check it against `get_available_brands` when the Parker MCP is connected. A wrong id fails the run's access check, so the routine would run and save nothing. Fill in [key command] too, word for word: it is the tool's `make_credential_command` (call `register_parker_brain_git_credential` once with only the `brand_id` and copy it from the answer; it is the same for every brand). On Parker's production servers it is:
 
      ```
-     (s="parker_git_$(openssl rand -hex 32)" && printf 'protocol=https\nhost=git.heyparker.ai\nusername=parker\npassword=%s\n\n' "$s" | git -c credential.helper= -c 'credential.helper=cache --timeout=3600' credential approve && printf '%s' "$s" | openssl dgst -sha256 -r | cut -c1-64)
+     (s="parker_git_$(openssl rand -hex 32)" && printf 'protocol=https\nhost=git.heyparker.ai\nusername=parker\npassword=%s\n\n' "$s" | git -c credential.helper= -c 'credential.helper=cache --timeout=86400' credential approve && printf '%s' "$s" | openssl dgst -sha256 -r | cut -c1-64)
      ```
 
      The command must sit in the prompt itself. A cloud session's safety check (auto mode) stops a stored key that only a tool's text asks for, because it never sees tool results; the same command in the routine's own prompt is the person's own request, and it passes.
 
-     > This is a scheduled cloud run for the Parker Brain of [brand] (brand_id [brand_id]). No Parker Desktop runs here, so you get the brain and save it yourself. Get a fresh copy of that brain with the Parker MCP tool `register_parker_brain_git_credential` for that brand_id, even if this session started in another copy, and follow its steps exactly. Its first step makes the one-hour key for Parker's git server; run exactly this command for it (it keeps the key only in git's memory for one hour, writes no file, and prints only the key's hash, which is what you send the tool):
+     > This is a scheduled cloud run for the Parker Brain of [brand] (brand_id [brand_id]). No Parker Desktop runs here, so you get the brain and save it yourself. Get a fresh copy of that brain with the Parker MCP tool `register_parker_brain_git_credential` for that brand_id, even if this session started in another copy, and follow its steps exactly. Its first step makes the one-hour key for Parker's git server; run exactly this command for it (it keeps the key only in git's memory, writes no file, and prints only the key's hash, which is what you send the tool):
      >
      > [key command]
      >
