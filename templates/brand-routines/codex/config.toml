@@ -12,6 +12,9 @@ extends = ":workspace"
 
 [permissions.parker-brain.filesystem.":workspace_roots"]
 "parker-system" = "read"
+# Documents Parker keeps in its own database (the brand context). Parker Desktop
+# writes them; the brain only reads them.
+"parker-context" = "read"
 
 [features]
 hooks = true

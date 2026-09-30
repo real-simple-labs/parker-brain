@@ -143,6 +143,7 @@ SEEDS = (
         (r"\{\{BUILD_STATUS\b[^{}]*\}\}", CLAUDE_BUILD_STATUS),
     )),
     Seed("README.md", "templates/brand-scaffold/README.md"),
+    Seed(".gitignore", "templates/brand-scaffold/gitignore"),
     Seed("open-loops/README.md", "templates/brand-scaffold/open-loops/README.md"),
     Seed("hypotheses/README.md", "templates/brand-scaffold/hypotheses/README.md"),
     Seed("validations/README.md", "templates/brand-scaffold/validations/README.md"),
@@ -732,8 +733,8 @@ def apply_manifest(manifest: dict, repo: str, values: dict[str, str], api) -> st
         if "content" in item:
             item["content"] = render(item["content"], values, item["path"])
         entries.append(item)
-    # base_tree keeps a LICENSE or .gitignore the repo was created with; the
-    # manifest's README.md replaces GitHub's starter one.
+    # base_tree keeps a LICENSE the repo was created with; the manifest's own
+    # README.md and .gitignore replace GitHub's starter ones.
     status, new_tree = api("POST", f"/repos/{repo}/git/trees",
                            {"base_tree": commit["tree"]["sha"], "tree": entries})
     if status != 201:

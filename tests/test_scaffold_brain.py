@@ -113,6 +113,9 @@ class Scaffold(unittest.TestCase):
                      "AGENTS.md", ".codex/config.toml", "scripts/voice-lint.py"):
             self.assertIn(path, tree)
         self.assertEqual(tree["scripts/voice-lint.py"]["mode"], "100755")
+        # Parker Desktop writes parker-context/ from the database; git must never pick it up.
+        self.assertEqual(tree[".gitignore"]["mode"], "100644")
+        self.assertIn("parker-context/", tree[".gitignore"]["content"].splitlines())
         self.assertEqual(tree["CLAUDE.md"]["mode"], "100644")
         self.assertNotIn("BUILD-STATUS.md", tree)
         self.assertNotIn("running-notes/refresh-schedule.md", tree)
@@ -540,7 +543,7 @@ class Scaffold(unittest.TestCase):
         writes = [(m, p) for m, p, _ in calls if m != "GET"]
         self.assertEqual(writes, [("POST", "/repos/o/r/git/trees"), ("POST", "/repos/o/r/git/commits"),
                                   ("PATCH", "/repos/o/r/git/refs/heads/main")])
-        self.assertEqual(calls[4][2]["base_tree"], "tree0")  # keeps a LICENSE or .gitignore
+        self.assertEqual(calls[4][2]["base_tree"], "tree0")  # keeps a LICENSE
         tree = {item["path"]: item for item in calls[4][2]["tree"]}
         self.assertEqual(json.loads(tree["parker_config.json"]["content"])["brand_name"], IDENTITY["brand_name"])
         self.assertNotIn("{{BRAND_NAME}}", tree["CLAUDE.md"]["content"])

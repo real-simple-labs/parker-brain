@@ -1,0 +1,4 @@
+# parker-context/ holds documents Parker keeps in its own database, such as the
+# brand context. Parker Desktop writes them here read-only. They are never part
+# of this repository.
+parker-context/

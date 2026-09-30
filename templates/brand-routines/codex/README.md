@@ -9,7 +9,7 @@ root has no dispatcher, it exits successfully without running a different repo's
 hooks. Repair a missing dispatcher before relying on hook protection.
 
 The `parker-brain` filesystem profile extends Codex's workspace defaults and
-makes `parker-system/` read-only. `mount-guard` also catches native patches and
+makes `parker-system/` and `parker-context/` read-only. `mount-guard` also catches native patches and
 common direct shell writes, but is not a complete shell parser. Arbitrary
 programs are confined by the filesystem profile, not by that hook.
 
