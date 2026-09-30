@@ -14,8 +14,8 @@ Tests on 2026-09-30, same environment and settings each time:
 
 ## What shipped
 
-- **`setup-routines`** writes the exact key command into every routine's prompt: the tool's `make_credential_command`, the same for every brand. The status line of a routine armed this way says "saves in a cloud run (v26)".
-- **The key lives in git's memory.** The command hands the secret to git's own credential cache (in memory for a day, longer than any run; the server's one-hour registration decides when it stops working), and the tool's `clone_command` makes that cache the only credential helper for Parker's server in the new copy. No secret file, nothing to delete at the end (mevin#943).
+- **`setup-routines`** writes the exact key command into every routine's prompt: the tool's `make_credential_command` for that brand. The status line of a routine armed this way says "saves in a cloud run (v26)".
+- **The key lives in git's memory.** The command hands the secret to git's own credential cache (in memory for a day, longer than any run; the server's one-hour registration decides when it stops working), under the user `parker-<brand_id>`, and the tool's `clone_command` makes that cache the only credential helper for Parker's server in the new copy, with the same user in the clone URL, so two brains in one session each keep their own key. No secret file, nothing to delete at the end (mevin#943).
 - **`save-brain`, "In a cloud run"** follows: run the key command from the routine's prompt when it has one; renew with the same hash before the hour ends; after "Authentication failed" or a username prompt, git no longer has a working key, so make a new one and register it.
 - **`session-start.py`**'s cloud line says "never print the key" instead of naming a file.
 - **Docs.** `system/brain-sync.md` explains why the command sits in the prompt, and what a repository's `.claude/settings.json` could and couldn't allow instead. The schedules README says the same.
