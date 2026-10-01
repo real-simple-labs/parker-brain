@@ -1,4 +1,5 @@
-"""Exercise the actual v16 bundle upgrade, including team-owned overrides."""
+"""Exercise the actual v16 bundle upgrade, including team-owned overrides and
+stale factory copies."""
 
 import io
 import os
@@ -170,6 +171,77 @@ class ReleaseSync(unittest.TestCase):
             self.assertIn(".codex/config.toml", third)
             self.assertIn("left deleted", third)
             self.assertIn(".claude/hooks/git-guard.py", third)
+
+    def test_older_factory_copies_refresh_and_team_edits_stay(self):
+        with tempfile.TemporaryDirectory(prefix="parker stale copy test ") as directory:
+            root = Path(directory).resolve()
+            mount = root / "parker-system"
+            mount.mkdir()
+            env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
+
+            def git(*args):
+                subprocess.run(
+                    ["git", "-c", "user.name=Runtime Test", "-c", "user.email=runtime@example.invalid",
+                     "-c", "core.autocrlf=false", "-c", "commit.gpgsign=false", *args],
+                    cwd=mount, env=env, check=True, capture_output=True, text=True,
+                )
+
+            def write(path, text):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(text, encoding="utf-8")
+
+            skill = "templates/brand-routines/claude/skills/{}/SKILL.md"
+            recipe = "templates/brand-routines/schedules/demo.md"
+
+            def release(version, tag):
+                for name in ("demo", "other", "mine"):
+                    write(mount / skill.format(name), f"{name} template {version}\n")
+                write(mount / recipe, f"# Demo\n- **Status:** not armed\nrecipe {version}\n")
+                git("add", "-A")
+                git("commit", "-qm", f"Fixture {version}")
+                if tag:
+                    git("tag", version)
+
+            git("init", "-q")
+            # The factory's own twin of a routine skill: never mapped, but a
+            # hand-run build could copy it in.
+            write(mount / ".claude/skills/demo/SKILL.md", "demo factory twin\n")
+            release("v1", tag=True)
+            release("v2", tag=True)
+            release("v3", tag=False)
+
+            write(root / ".claude/skills/demo/SKILL.md", "demo factory twin\n")
+            write(root / ".claude/skills/other/SKILL.md", "other template v1\n")
+            write(root / ".claude/skills/mine/SKILL.md", "Fixture team edit\n")
+            status = "- **Status:** active — fixture registration"
+            write(root / "schedules/demo.md", f"# Demo\n{status}\nrecipe v1\n")
+
+            result = subprocess.run([sys.executable, str(SYNC), "--from", "v2"],
+                                    cwd=root, env=env, capture_output=True, text=True, timeout=60)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            out = result.stdout
+            for dest in (".claude/skills/demo/SKILL.md", ".claude/skills/other/SKILL.md",
+                         "schedules/demo.md"):
+                self.assertIn(f"refreshed: {dest} (was an older factory copy)", out)
+            self.assertEqual((root / ".claude/skills/demo/SKILL.md").read_text(), "demo template v3\n")
+            self.assertEqual((root / ".claude/skills/other/SKILL.md").read_text(), "other template v3\n")
+            self.assertEqual((root / "schedules/demo.md").read_text(),
+                             f"# Demo\n{status}\nrecipe v3\n")
+            self.assertIn("left alone", out)
+            self.assertIn(".claude/skills/mine/SKILL.md", out)
+            self.assertEqual((root / ".claude/skills/mine/SKILL.md").read_text(), "Fixture team edit\n")
+
+    def test_routine_skill_twins_match_except_dream(self):
+        # The factory's own copy of a routine skill never ships (the routine
+        # bundle wins the name), but a brain built by hand before v23 could hold
+        # it. Keep the twins identical so that copy is never stale; `dream` is
+        # the one skill the factory runs differently on purpose.
+        skills = FACTORY / "templates/brand-routines/claude/skills"
+        for path in sorted(skills.rglob("*")):
+            rel = path.relative_to(skills)
+            twin = FACTORY / ".claude/skills" / rel
+            if path.is_file() and rel.parts[0] != "dream" and twin.is_file():
+                self.assertEqual(twin.read_bytes(), path.read_bytes(), f".claude/skills/{rel}")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,10 @@ own git history to answer "did the team touch this file?" — no manifest needed
 
   - brand copy matches the OLD tag's version  -> team never touched it: refresh silently
   - brand copy matches the NEW tag's version  -> already current: skip (idempotent)
-  - brand copy matches neither                -> team-edited: leave it, list it (theirs wins)
+  - brand copy matches an older release's version, or the factory's own twin
+    of the file at any release (shipped_versions) -> team never touched it
+    either: refresh, and say it was an older factory copy
+  - brand copy matches none of these          -> team-edited: leave it, list it (theirs wins)
   - file is new in this release               -> add it
   - file existed at the old tag but the brand deleted it -> leave it deleted, list it
   - file removed by the factory               -> never delete; list it
@@ -148,6 +151,53 @@ def bundle_map(factory: dict[str, str]) -> dict[str, str]:
     return mapping
 
 
+def source_paths(dest: str) -> list[str]:
+    """Every factory path a brand copy at `dest` could have come from.
+
+    bundle_map gives one source per destination, but a brain can hold a copy of
+    another one. Before v23 a build copied the files by hand, and it could take
+    a routine skill from the factory's own .claude/skills/ even where the
+    routine bundle owns the name (a brain built at v22 got the factory's
+    setup-routines, last changed in v18). Such a copy is still untouched
+    factory text, not a team edit."""
+    if dest.startswith(".claude/"):
+        return ["templates/brand-routines/claude/" + dest[len(".claude/"):], dest]
+    if dest.startswith(".codex/"):
+        return ["templates/brand-routines/codex/" + dest[len(".codex/"):]]
+    if dest == "AGENTS.md":
+        return ["templates/brand-routines/AGENTS.md"]
+    if dest.startswith("schedules/"):
+        return ["templates/brand-routines/schedules/" + dest[len("schedules/"):]]
+    return [dest]
+
+
+def releases(up_to: str) -> list[str]:
+    """Release tags (v1, v2, ...) in the history of `up_to`."""
+    tags = git("tag", "--merged", up_to, "--list", "v*").split()
+    return [t for t in tags if re.fullmatch(r"v\d+", t)]
+
+
+def shipped_versions(dest: str, up_to: str, trees: dict[str, dict[str, str]]) -> set[str]:
+    """Blob hashes of every version of `dest`'s possible sources at any release
+    up to `up_to`. `trees` caches each tag's tree across calls."""
+    found = set()
+    for tag in releases(up_to):
+        if tag not in trees:
+            trees[tag] = tree(tag)
+        for src in source_paths(dest):
+            sha = trees[tag].get(src)
+            if sha:
+                found.add(sha)
+    return found
+
+
+def blob_by_sha(sha: str) -> bytes:
+    return subprocess.run(
+        ["git", "-C", str(MOUNT), "cat-file", "blob", sha],
+        check=True, capture_output=True,
+    ).stdout
+
+
 def wants_exec(dest: str) -> bool:
     """Copied files that get the executable bit: every Python file and anything
     under scripts/. scaffold-brain.py applies the same rule to new brains."""
@@ -222,7 +272,9 @@ def main() -> int:
     new_map = bundle_map(new)
 
     updated, added, edited, deleted_by_team, removed, current = [], [], [], [], [], []
+    stale: set[str] = set()   # refreshed from an older factory copy, not the old tag's
     writes: list[tuple[Path, bytes]] = []
+    trees: dict[str, dict[str, str]] = {}
 
     # destination -> source view of each tag
     old_by_dest = {d: s for s, d in old_map.items()}
@@ -256,11 +308,20 @@ def main() -> int:
             elif old_text is not None and normalized(brand_text) == normalized(old_text):
                 updated.append(dest)
                 writes.append((dest_path, merge_status(new_text, brand_text)))
+            elif any(normalized(brand_text) == normalized(blob_by_sha(sha))
+                     for sha in shipped_versions(dest, args.new_tag, trees)):
+                updated.append(dest)
+                stale.add(dest)
+                writes.append((dest_path, merge_status(new_text, brand_text)))
             else:
                 edited.append(dest)
             continue
         if o is not None and b == o:
             updated.append(dest)
+            writes.append((dest_path, blob(args.new_tag, src)))
+        elif b in shipped_versions(dest, args.new_tag, trees):
+            updated.append(dest)
+            stale.add(dest)
             writes.append((dest_path, blob(args.new_tag, src)))
         else:
             edited.append(dest)
@@ -294,7 +355,8 @@ def main() -> int:
           f"   already current: {len(current)}")
     for label, paths in ((added_label, added), (refreshed_label, updated)):
         for p in paths:
-            print(f"    {label}: {p}")
+            note = " (was an older factory copy)" if p in stale else ""
+            print(f"    {label}: {p}{note}")
     if edited:
         print(f"  left alone — the team changed these, theirs wins ({len(edited)}):")
         for p in edited:
