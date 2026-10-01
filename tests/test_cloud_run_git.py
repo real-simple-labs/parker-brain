@@ -22,6 +22,8 @@ _spec.loader.exec_module(crg)
 
 BRAND = "e608c8a7-141b-4154-9881-c131c8e78ebf"
 URL = "https://git.heyparker.ai/parker-brain/admin-laura-geller.git"
+# The folder as this system writes it (Windows turns the slashes around).
+FOLDER = str(Path("/work/brain"))
 
 
 class CloneCommand(unittest.TestCase):
@@ -34,7 +36,7 @@ class CloneCommand(unittest.TestCase):
             "-c", "credential.https://git.heyparker.ai.useHttpPath=false",
             "--",
             f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/admin-laura-geller.git",
-            "/work/brain",
+            FOLDER,
         ])
 
     def test_a_folder_can_never_become_a_git_option(self):
@@ -111,10 +113,10 @@ class Main(unittest.TestCase):
     def test_clone_never_prompts_sets_up_the_mount_and_prints_the_folder(self):
         code, out, err, run = self.run_main(["clone", URL, BRAND, "/work/brain"])
         self.assertEqual(code, 0)
-        self.assertEqual(out.strip(), "/work/brain")
+        self.assertEqual(out.strip(), FOLDER)
         clone, mount = run.call_args_list
         self.assertEqual(clone.args[0][:2], ["git", "clone"])
-        self.assertEqual(mount.args[0], ["git", "-C", "/work/brain", "submodule", "update", "--init"])
+        self.assertEqual(mount.args[0], ["git", "-C", FOLDER, "submodule", "update", "--init"])
         for call in (clone, mount):
             env = call.kwargs["env"]
             self.assertEqual((env["GIT_TERMINAL_PROMPT"], env["GIT_ASKPASS"], env["SSH_ASKPASS"]),
@@ -126,7 +128,7 @@ class Main(unittest.TestCase):
             return subprocess.CompletedProcess(cmd, 1 if "submodule" in cmd else 0)
         code, out, err, _ = self.run_main(["clone", URL, BRAND, "/work/brain"], side_effect=fake)
         self.assertEqual(code, 0)
-        self.assertEqual(out.strip(), "/work/brain")
+        self.assertEqual(out.strip(), FOLDER)
         self.assertIn("parker-system could not be set up", err)
 
     def test_a_failed_clone_prints_no_folder_and_passes_gits_exit_code(self):
