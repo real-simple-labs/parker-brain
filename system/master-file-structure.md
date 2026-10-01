@@ -138,7 +138,7 @@ parker/
 │       ├── AGENTS.md                               ← Codex's entry point: routes to CLAUDE.md, carries the Parker voice (no output-style layer in Codex); synced from templates/brand-routines/AGENTS.md
 │       ├── .scaffolded                             ← Marker: set up, nothing built yet. Written by scripts/scaffold-brain.py; the pull-log hook deletes it when the build reports its first finished phase after Phase 0 (closeout, if still there); apps read its presence as "not built" (system/brain-scaffold.md)
 │       ├── .gitignore                              ← Seeded by the scaffold (the brain's own file after that). Its parker-context/ line is left from v25; nothing uses that folder since v29
-│       ├── brand-context/                          ← Since v29: the brand context Parker's chat reads (brand-context.md). A tracked folder; Parker syncs it both ways with its database (a cron commits Parker's changes, a push webhook brings edits back). Never counts toward a built brain. Not in the scaffold: Parker's first sync writes it
+│       ├── brand-context/                          ← Since v29: the brand context Parker's chat reads (brand-context.md) and the brand's own context docs (<doc name>.md, one per doc). A tracked folder; Parker syncs it both ways with its database (a cron commits Parker's changes, a push webhook brings edits back). Never counts toward a built brain. Not in the scaffold: Parker's first sync writes it
 │       │
 │       ├── personas/                               ← First-class, brand-id level
 │       │   ├── personas-profile.md                 ← MAIN — identity-first persona synthesis
