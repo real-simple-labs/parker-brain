@@ -131,10 +131,11 @@ def main(argv: list[str]) -> int:
             # A cloud shell moves a command that runs past its timeout to the
             # background, and an agent once read the half-made copy as an
             # empty brain. Say so before the wait, where the shell shows it.
-            print(f"cloud-run-git.py: cloning into {folder}. A big Parker Brain takes several "
-                  "minutes: wait until this command prints the folder. Until then git says "
-                  "\"No commits yet\" there: that is the clone still running, not an empty "
-                  "brain.", file=sys.stderr, flush=True)
+            # No folder in this line: the folder alone, on stdout, means done.
+            print("cloud-run-git.py: cloning. A big Parker Brain takes several minutes: wait "
+                  "until this command prints the folder. Until then git says \"No commits "
+                  "yet\" there: that is the clone still running, not an empty brain.",
+                  file=sys.stderr, flush=True)
             subprocess.run(command, check=True, env=git_env())
             # The method mount comes from the public factory. Without it the
             # copy still works, so a failure here is a warning, not a stop.

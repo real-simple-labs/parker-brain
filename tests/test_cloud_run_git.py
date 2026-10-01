@@ -114,9 +114,6 @@ class Main(unittest.TestCase):
         code, out, err, run = self.run_main(["clone", URL, BRAND, "/work/brain"])
         self.assertEqual(code, 0)
         self.assertEqual(out.strip(), FOLDER)
-        # Said before the wait: a half-made copy is not an empty brain.
-        self.assertIn("cloud-run-git.py: cloning into " + FOLDER, err)
-        self.assertIn('"No commits yet" there: that is the clone still running', err)
         clone, mount = run.call_args_list
         self.assertEqual(clone.args[0][:2], ["git", "clone"])
         self.assertEqual(mount.args[0], ["git", "-C", FOLDER, "submodule", "update", "--init"])
@@ -125,6 +122,25 @@ class Main(unittest.TestCase):
             self.assertEqual((env["GIT_TERMINAL_PROMPT"], env["GIT_ASKPASS"], env["SSH_ASKPASS"]),
                              ("0", "", ""))
             self.assertIn("PATH", env)
+
+    def test_says_to_wait_before_the_clone_starts(self):
+        # The shell shows this line when it moves a long clone to the
+        # background, so it has to be out before git starts.
+        err, seen = io.StringIO(), []
+
+        def fake(cmd, **kwargs):
+            if cmd[:2] == ["git", "clone"]:
+                seen.append(err.getvalue())
+            return subprocess.CompletedProcess(cmd, 0)
+        with mock.patch.object(crg.subprocess, "run", side_effect=fake), \
+                contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+            self.assertEqual(crg.main(["clone", URL, BRAND, "/work/brain"]), 0)
+        self.assertEqual(len(seen), 1)
+        self.assertIn("cloud-run-git.py: cloning. A big Parker Brain takes several minutes",
+                      seen[0])
+        self.assertIn('"No commits yet" there: that is the clone still running', seen[0])
+        # The folder means done, so it shows up nowhere before the clone.
+        self.assertNotIn(FOLDER, seen[0])
 
     def test_a_failed_mount_warns_but_keeps_the_copy(self):
         def fake(cmd, **kwargs):
