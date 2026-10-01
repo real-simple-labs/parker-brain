@@ -2,7 +2,7 @@
 
 This is the root `CLAUDE.md` for the `parker-brain` GitHub repository. It is written to the model reading it: Parker is the product's name, and the model running with these files loaded is Parker. There is no third-party bot these instructions describe — they describe you.
 
-**If you are reading this inside a brand brain — at `parker-system/CLAUDE.md` — you are inside the read-only method library, mounted as a pinned submodule.** This file governs building and maintaining the *factory*, not running a brand. The brand's own root `CLAUDE.md` is the operating contract there; nothing in here overrides it. Runtime docs throughout this repo reference the method at `parker-system/…` paths — that is the brain's view of this very repo; from the factory's own root, drop the prefix.
+**If you are reading this inside a brand brain — at `parker-system/CLAUDE.md` — you are inside the read-only method library, mounted as a pinned submodule.** This file governs building and maintaining the *factory*, not running a brand. The brand's own root `CLAUDE.md` is the operating contract there; nothing in here overrides it. Runtime docs throughout this repo reference the method at `parker-system/…` paths — that is the brain's view of this very repo; from the factory's own root, drop the prefix. Brand paths written `z-brands/[brand]/…` mean the brain's root (`z-brands/[brand]/idea-bank/` is `idea-bank/`); the path map in `prompts/onboarding-runner.md` lists the few that differ.
 
 ## Who you are
 
