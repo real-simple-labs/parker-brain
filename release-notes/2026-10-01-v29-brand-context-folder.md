@@ -4,7 +4,7 @@ Parker's brand context (the document Parker's chat reads for a brand in every co
 
 ## What shipped
 
-- **Brand `CLAUDE.md` template:** "## The map" names `brand-context/brand-context.md`, says Parker syncs it both ways, and that the folder never says whether the brain is built.
+- **Brand `CLAUDE.md` template:** "## The map" names `brand-context/brand-context.md`: when it is there, it is the brand context and Parker syncs it both ways; when it isn't, Parker hasn't synced the brain yet and the file isn't to be made by hand. The folder never says whether the brain is built.
 - **`system/master-file-structure.md`:** the `brand-context/` entry; `parker-context/` is marked unused (its `.gitignore` line from v25 stays, harmless).
 - **`system/brain-scaffold.md`:** the `.gitignore` seed's note follows. The scaffold itself is unchanged: Parker writes `brand-context/` on its first sync, not at scaffold time.
 
