@@ -42,7 +42,7 @@ from urllib.parse import urlsplit
 HOSTS = ("git.heyparker.ai", "dev-git.heyparker.ai")
 SECRET_PREFIX = "parker_git_"
 CACHE_HELPER = f"cache --timeout={24 * 60 * 60}"
-BRAND_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]{0,63}$")
+BRAND_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9-]{0,63}")
 REPO_PATH = re.compile(r"^/([A-Za-z0-9._-]+)/([A-Za-z0-9._-]+)\.git$")
 FACTORY = Path(__file__).resolve().parent.parent
 
@@ -60,7 +60,9 @@ class UsageError(Exception):
 def credential_user(brand_id: str) -> str:
     """One cache entry per brand: git's cache holds one secret per host and
     user, so two brains in one session each keep their own."""
-    if not BRAND_ID.match(brand_id):
+    # fullmatch: `$` would also take a final newline, which ends git's
+    # credential input early and caches no key at all.
+    if not BRAND_ID.fullmatch(brand_id):
         raise UsageError(f"not a brand_id: {brand_id!r}")
     return f"parker-{brand_id}"
 
@@ -132,7 +134,8 @@ def main(argv: list[str]) -> int:
                 ["git", "-C", folder, "submodule", "update", "--init"], env=git_env())
             if mount.returncode != 0:
                 print("cloud-run-git.py: the copy is ready, but parker-system could not be "
-                      "set up; run `git submodule update --init` in it", file=sys.stderr)
+                      "set up: it comes from github.com, which this environment may block. "
+                      "The copy works without it.", file=sys.stderr)
             print(folder)
     except UsageError as err:
         print(f"cloud-run-git.py: {err}", file=sys.stderr)

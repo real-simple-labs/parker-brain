@@ -71,7 +71,7 @@ class CloneCommand(unittest.TestCase):
         crg.clone_args("https://dev-git.heyparker.ai/parker-brain/a.git", BRAND)
 
     def test_takes_only_a_brand_id_a_shell_cannot_read(self):
-        for brand in ["", "a b", "$(id)", "a;b", "-x", "a\nb", "x" * 65]:
+        for brand in ["", "a b", "$(id)", "a;b", "-x", "a\nb", "brand\n", "x" * 65]:
             with self.subTest(brand=brand), self.assertRaises(crg.UsageError):
                 crg.credential_user(brand)
 
