@@ -30,6 +30,9 @@ file wins wherever this summary is thinner.
   the default `parker-brain` filesystem profile protects it, and a hook explains
   blocked edits. Legacy sandbox settings can override the profile; verify the
   effective permissions. Updates arrive through `/update-brain` moving the pin.
+  Method docs there write brand paths as `z-brands/[brand]/…`; that means this
+  brain's root (`z-brands/[brand]/idea-bank/` is `idea-bank/`), and the path map
+  in `parker-system/prompts/onboarding-runner.md` lists the few that differ.
   A deliberately disconnected brain follows its recorded ownership posture.
 - **Saving is Parker Desktop's job, not git's.** On a managed brain (origin
   under `parker-brain/`) the app syncs this folder both ways, so a file you

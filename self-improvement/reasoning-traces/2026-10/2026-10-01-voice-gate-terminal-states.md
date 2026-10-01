@@ -28,4 +28,4 @@ promotion_condition: already applied — explicit approval in the same session
 
 **Inferred rule:** Every review loop needs an end state for problems the loop can't fix. Give that end state to the independent reviewer, with a precondition that keeps it from swallowing fixable issues, and back it with a pass cap whose exit is visible in the output contract rather than silent.
 
-**Scope judgment:** The five creative skills and the voice reviewer. The grounding gate terminates on its own (a re-pull or a dropped citation resolves its bounces), so it was left alone.
+**Scope judgment:** The five creative skills and the voice reviewer. The grounding gate has the same kind of gap when a pull it asks for can't be made (no Parker MCP connected), so a bounce can repeat with no end; that needs its own change and was left out of this one.
