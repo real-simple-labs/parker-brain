@@ -22,7 +22,8 @@ factory, where this script and that rule live; run it from that folder.
         as the only credential helper for Parker's server and the brand's
         user in the URL, then sets up the brain's parker-system mount. The
         folder defaults to the brain's name next to this checkout. Prints the
-        folder.
+        folder. A big brain clones for minutes: wait for the folder line, as
+        a half-made copy ("No commits yet") is not an empty brain.
 
 The key never reaches a command line, a file, or this script's output.
 """
@@ -126,8 +127,15 @@ def main(argv: list[str]) -> int:
             command = clone_args(
                 args.git_url, args.brand_id,
                 Path(args.folder) if args.folder is not None else None)
-            subprocess.run(command, check=True, env=git_env())
             folder = command[-1]
+            # A cloud shell moves a command that runs past its timeout to the
+            # background, and an agent once read the half-made copy as an
+            # empty brain. Say so before the wait, where the shell shows it.
+            print(f"cloud-run-git.py: cloning into {folder}. A big Parker Brain takes several "
+                  "minutes: wait until this command prints the folder. Until then git says "
+                  "\"No commits yet\" there: that is the clone still running, not an empty "
+                  "brain.", file=sys.stderr, flush=True)
+            subprocess.run(command, check=True, env=git_env())
             # The method mount comes from the public factory. Without it the
             # copy still works, so a failure here is a warning, not a stop.
             mount = subprocess.run(

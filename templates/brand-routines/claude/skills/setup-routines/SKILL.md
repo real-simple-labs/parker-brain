@@ -46,7 +46,7 @@ Times are suggestions — confirm against the user's timezone and working rhythm
      > This is a scheduled cloud run for the Parker Brain of [brand] (brand_id [brand_id]). No Parker Desktop runs here, so you get the brain and save it yourself. From this session's folder (a checkout of Parker's factory), and even if this session started in another copy of the brain:
      > 1. Run `scripts/cloud-run-git.py key [brand_id]`. It prints a hash.
      > 2. Call the Parker MCP tool `register_parker_brain_git_credential` with that brand_id, and the hash as `credential_sha256`.
-     > 3. Run `scripts/cloud-run-git.py clone <git_url> [brand_id]` with the `git_url` the tool returns. It prints the folder of the new copy.
+     > 3. Run `scripts/cloud-run-git.py clone <git_url> [brand_id]` with the `git_url` the tool returns. It prints the folder of the new copy. A big brain takes several minutes: give the command a long timeout (10 minutes) and wait until it prints the folder.
      >
      > Work only inside the new copy, and never change this session's folder: read the copy's `CLAUDE.md`, and run the job below by following its skill in `.claude/skills/`. When you are done, save as the copy's `.claude/skills/save-brain/SKILL.md` says under "In a cloud run": you have permission to push straight to `main` of that copy (`git push origin HEAD:main`), and you must not create a branch. If you can't get the brain, say so plainly and stop.
      >

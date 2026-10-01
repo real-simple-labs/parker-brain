@@ -114,6 +114,9 @@ class Main(unittest.TestCase):
         code, out, err, run = self.run_main(["clone", URL, BRAND, "/work/brain"])
         self.assertEqual(code, 0)
         self.assertEqual(out.strip(), FOLDER)
+        # Said before the wait: a half-made copy is not an empty brain.
+        self.assertIn("cloud-run-git.py: cloning into " + FOLDER, err)
+        self.assertIn('"No commits yet" there: that is the clone still running', err)
         clone, mount = run.call_args_list
         self.assertEqual(clone.args[0][:2], ["git", "clone"])
         self.assertEqual(mount.args[0], ["git", "-C", FOLDER, "submodule", "update", "--init"])
@@ -198,6 +201,8 @@ class FactoryRule(unittest.TestCase):
                 text = (FACTORY / path).read_text()
                 self.assertIn("1. Run `scripts/cloud-run-git.py key [brand_id]`.", text)
                 self.assertIn("3. Run `scripts/cloud-run-git.py clone <git_url> [brand_id]`", text)
+                self.assertIn("give the command a long timeout (10 minutes) and wait until it "
+                              "prints the folder", text)
                 self.assertNotIn("credential approve", text)
                 self.assertNotIn("openssl rand", text)
 
