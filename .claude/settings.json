@@ -1,6 +1,14 @@
 {
-  "$comment": "Committed factory config. outputStyle switches on the Parker voice layer at .claude/output-styles/parker.md \u2014 the same system-prompt layer every shipped brand brain gets \u2014 so sessions in this repo talk plain and warm too. Personal overrides live in .claude/settings.local.json (gitignored).",
+  "$comment": "Committed factory config. outputStyle switches on the Parker voice layer at .claude/output-styles/parker.md — the same system-prompt layer every shipped brand brain gets — so sessions in this repo talk plain and warm too. Personal overrides live in .claude/settings.local.json (gitignored). permissions.allow lets a cloud routine (which starts in a checkout of this factory) run the two key steps of scripts/cloud-run-git.py without auto mode's safety check judging them; narrow rules like these stay in effect in auto mode, and nothing else is allowed (system/brain-sync.md).",
   "outputStyle": "Parker",
+  "permissions": {
+    "allow": [
+      "Bash(scripts/cloud-run-git.py key *)",
+      "Bash(scripts/cloud-run-git.py clone *)",
+      "Bash(python3 scripts/cloud-run-git.py key *)",
+      "Bash(python3 scripts/cloud-run-git.py clone *)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
