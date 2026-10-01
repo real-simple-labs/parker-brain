@@ -32,9 +32,22 @@ class CloneCommand(unittest.TestCase):
             "-c", "credential.helper=",
             "-c", "credential.https://git.heyparker.ai.helper=cache --timeout=86400",
             "-c", "credential.https://git.heyparker.ai.useHttpPath=false",
+            "--",
             f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/admin-laura-geller.git",
             "/work/brain",
         ])
+
+    def test_a_folder_can_never_become_a_git_option(self):
+        # `clone <url> <brand> -- '--config=credential.helper=!cmd'` would have
+        # let the allowed command run any shell command through git.
+        for folder in ["--config=credential.helper=!id", "-c", "-"]:
+            with self.subTest(folder=folder), self.assertRaises(crg.UsageError):
+                crg.clone_args(URL, BRAND, Path(folder))
+        with mock.patch.object(crg.subprocess, "run") as run, \
+                contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(crg.main(
+                ["clone", URL, BRAND, "--", "--config=credential.helper=!id"]), 2)
+        run.assert_not_called()
 
     def test_clones_next_to_the_factory_checkout_by_default(self):
         args = crg.clone_args(URL, BRAND)
@@ -56,7 +69,7 @@ class CloneCommand(unittest.TestCase):
         crg.clone_args("https://dev-git.heyparker.ai/parker-brain/a.git", BRAND)
 
     def test_takes_only_a_brand_id_a_shell_cannot_read(self):
-        for brand in ["", "a b", "$(id)", "a;b", "x" * 65]:
+        for brand in ["", "a b", "$(id)", "a;b", "-x", "a\nb", "x" * 65]:
             with self.subTest(brand=brand), self.assertRaises(crg.UsageError):
                 crg.credential_user(brand)
 
@@ -66,6 +79,68 @@ class CloneCommand(unittest.TestCase):
             self.assertEqual(crg.main(["clone", "https://github.com/a/b.git", BRAND]), 2)
             self.assertEqual(crg.main(["key", "not a brand"]), 2)
         run.assert_not_called()
+
+
+class Main(unittest.TestCase):
+    """The two steps as the allowed command runs them, git mocked."""
+
+    def run_main(self, argv, side_effect=None):
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(crg.subprocess, "run", side_effect=side_effect) as run, \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = crg.main(argv)
+        return code, out.getvalue(), err.getvalue(), run
+
+    def test_key_caches_one_secret_for_both_servers_and_prints_only_its_hash(self):
+        code, out, _, run = self.run_main(["key", BRAND])
+        self.assertEqual(code, 0)
+        printed = out.strip()
+        self.assertRegex(printed, r"^[0-9a-f]{64}$")
+        inputs = [call.kwargs["input"] for call in run.call_args_list]
+        self.assertEqual([i.split("\n")[1] for i in inputs],
+                         ["host=git.heyparker.ai", "host=dev-git.heyparker.ai"])
+        secrets_sent = {i.split("password=")[1].split("\n")[0] for i in inputs}
+        self.assertEqual(len(secrets_sent), 1)
+        secret = secrets_sent.pop()
+        self.assertEqual(hashlib.sha256(secret.encode()).hexdigest(), printed)
+        self.assertNotIn(secret, out)
+        for call in run.call_args_list:
+            self.assertNotIn(secret, " ".join(call.args[0]))
+            self.assertIn(f"username=parker-{BRAND}", call.kwargs["input"])
+
+    def test_clone_never_prompts_sets_up_the_mount_and_prints_the_folder(self):
+        code, out, err, run = self.run_main(["clone", URL, BRAND, "/work/brain"])
+        self.assertEqual(code, 0)
+        self.assertEqual(out.strip(), "/work/brain")
+        clone, mount = run.call_args_list
+        self.assertEqual(clone.args[0][:2], ["git", "clone"])
+        self.assertEqual(mount.args[0], ["git", "-C", "/work/brain", "submodule", "update", "--init"])
+        for call in (clone, mount):
+            env = call.kwargs["env"]
+            self.assertEqual((env["GIT_TERMINAL_PROMPT"], env["GIT_ASKPASS"], env["SSH_ASKPASS"]),
+                             ("0", "", ""))
+            self.assertIn("PATH", env)
+
+    def test_a_failed_mount_warns_but_keeps_the_copy(self):
+        def fake(cmd, **kwargs):
+            return subprocess.CompletedProcess(cmd, 1 if "submodule" in cmd else 0)
+        code, out, err, _ = self.run_main(["clone", URL, BRAND, "/work/brain"], side_effect=fake)
+        self.assertEqual(code, 0)
+        self.assertEqual(out.strip(), "/work/brain")
+        self.assertIn("parker-system could not be set up", err)
+
+    def test_a_failed_clone_prints_no_folder_and_passes_gits_exit_code(self):
+        def fake(cmd, **kwargs):
+            raise subprocess.CalledProcessError(
+                128, cmd, stderr="fatal: Authentication failed for 'https://git.heyparker.ai/...'")
+        code, out, _, run = self.run_main(["clone", URL, BRAND, "/work/brain"], side_effect=fake)
+        self.assertEqual((code, out), (128, ""))
+        self.assertEqual(run.call_count, 1)
+
+    def test_no_git_is_a_plain_error(self):
+        code, out, err, _ = self.run_main(["clone", URL, BRAND], side_effect=FileNotFoundError("git"))
+        self.assertEqual((code, out), (127, ""))
+        self.assertIn("git is not installed", err)
 
 
 @unittest.skipIf(sys.platform == "win32", "git's credential cache needs Unix sockets")
@@ -89,7 +164,7 @@ class KeyInGitsMemory(unittest.TestCase):
         return dict(line.split("=", 1) for line in out.splitlines() if "=" in line)["password"]
 
     def test_keeps_the_key_in_memory_and_prints_only_its_hash(self):
-        printed = crg.make_key(BRAND, host="127.0.0.1:9", protocol="http")
+        printed = crg.make_key(BRAND, hosts=("127.0.0.1:9",), protocol="http")
         self.assertRegex(printed, r"^[0-9a-f]{64}$")
         secret = self.fill(f"parker-{BRAND}")
         self.assertRegex(secret, r"^parker_git_[0-9a-f]{64}$")
@@ -97,9 +172,9 @@ class KeyInGitsMemory(unittest.TestCase):
         self.assertEqual([p.name for p in Path(self.home).iterdir()], [".cache"])
 
     def test_a_second_brands_key_leaves_the_first_one_in_place(self):
-        crg.make_key("brand-1", host="127.0.0.1:9", protocol="http")
+        crg.make_key("brand-1", hosts=("127.0.0.1:9",), protocol="http")
         first = self.fill("parker-brand-1")
-        crg.make_key("brand-2", host="127.0.0.1:9", protocol="http")
+        crg.make_key("brand-2", hosts=("127.0.0.1:9",), protocol="http")
         self.assertEqual(self.fill("parker-brand-1"), first)
         self.assertNotEqual(self.fill("parker-brand-2"), first)
 
