@@ -159,13 +159,14 @@ def source_paths(dest: str) -> list[str]:
     a routine skill from the factory's own .claude/skills/ even where the
     routine bundle owns the name (a brain built at v22 got the factory's
     setup-routines, last changed in v18). Such a copy is still untouched
-    factory text, not a team edit."""
+    factory text, not a team edit. The same goes for the factory's own
+    .codex/ and AGENTS.md, which differ from the brand templates."""
     if dest.startswith(".claude/"):
         return ["templates/brand-routines/claude/" + dest[len(".claude/"):], dest]
     if dest.startswith(".codex/"):
-        return ["templates/brand-routines/codex/" + dest[len(".codex/"):]]
+        return ["templates/brand-routines/codex/" + dest[len(".codex/"):], dest]
     if dest == "AGENTS.md":
-        return ["templates/brand-routines/AGENTS.md"]
+        return ["templates/brand-routines/AGENTS.md", dest]
     if dest.startswith("schedules/"):
         return ["templates/brand-routines/schedules/" + dest[len("schedules/"):]]
     return [dest]

@@ -197,20 +197,23 @@ class ReleaseSync(unittest.TestCase):
                 for name in ("demo", "other", "mine"):
                     write(mount / skill.format(name), f"{name} template {version}\n")
                 write(mount / recipe, f"# Demo\n- **Status:** not armed\nrecipe {version}\n")
+                write(mount / "templates/brand-routines/AGENTS.md", f"brand agents {version}\n")
                 git("add", "-A")
                 git("commit", "-qm", f"Fixture {version}")
                 if tag:
                     git("tag", version)
 
             git("init", "-q")
-            # The factory's own twin of a routine skill: never mapped, but a
-            # hand-run build could copy it in.
+            # The factory's own twins of a routine skill and of AGENTS.md: never
+            # mapped, but a hand-run build could copy them in.
             write(mount / ".claude/skills/demo/SKILL.md", "demo factory twin\n")
+            write(mount / "AGENTS.md", "factory agents\n")
             release("v1", tag=True)
             release("v2", tag=True)
             release("v3", tag=False)
 
             write(root / ".claude/skills/demo/SKILL.md", "demo factory twin\n")
+            write(root / "AGENTS.md", "factory agents\n")
             write(root / ".claude/skills/other/SKILL.md", "other template v1\n")
             write(root / ".claude/skills/mine/SKILL.md", "Fixture team edit\n")
             status = "- **Status:** active — fixture registration"
@@ -221,8 +224,9 @@ class ReleaseSync(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             out = result.stdout
             for dest in (".claude/skills/demo/SKILL.md", ".claude/skills/other/SKILL.md",
-                         "schedules/demo.md"):
+                         "schedules/demo.md", "AGENTS.md"):
                 self.assertIn(f"refreshed: {dest} (was an older factory copy)", out)
+            self.assertEqual((root / "AGENTS.md").read_text(encoding="utf-8"), "brand agents v3\n")
             self.assertEqual((root / ".claude/skills/demo/SKILL.md").read_text(encoding="utf-8"), "demo template v3\n")
             self.assertEqual((root / ".claude/skills/other/SKILL.md").read_text(encoding="utf-8"), "other template v3\n")
             self.assertEqual((root / "schedules/demo.md").read_text(encoding="utf-8"),
