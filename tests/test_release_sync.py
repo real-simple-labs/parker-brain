@@ -223,13 +223,13 @@ class ReleaseSync(unittest.TestCase):
             for dest in (".claude/skills/demo/SKILL.md", ".claude/skills/other/SKILL.md",
                          "schedules/demo.md"):
                 self.assertIn(f"refreshed: {dest} (was an older factory copy)", out)
-            self.assertEqual((root / ".claude/skills/demo/SKILL.md").read_text(), "demo template v3\n")
-            self.assertEqual((root / ".claude/skills/other/SKILL.md").read_text(), "other template v3\n")
-            self.assertEqual((root / "schedules/demo.md").read_text(),
+            self.assertEqual((root / ".claude/skills/demo/SKILL.md").read_text(encoding="utf-8"), "demo template v3\n")
+            self.assertEqual((root / ".claude/skills/other/SKILL.md").read_text(encoding="utf-8"), "other template v3\n")
+            self.assertEqual((root / "schedules/demo.md").read_text(encoding="utf-8"),
                              f"# Demo\n{status}\nrecipe v3\n")
             self.assertIn("left alone", out)
             self.assertIn(".claude/skills/mine/SKILL.md", out)
-            self.assertEqual((root / ".claude/skills/mine/SKILL.md").read_text(), "Fixture team edit\n")
+            self.assertEqual((root / ".claude/skills/mine/SKILL.md").read_text(encoding="utf-8"), "Fixture team edit\n")
 
     def test_routine_skill_twins_match_except_dream(self):
         # The factory's own copy of a routine skill never ships (the routine
