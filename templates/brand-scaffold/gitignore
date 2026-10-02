@@ -1,4 +1,4 @@
-# parker-context/ holds this brand's context documents that Parker keeps in its
-# own database, such as the brand context. Parker Desktop keeps the folder in
-# sync with that database, so it is never part of this repository.
+# parker-context/ was kept for an earlier plan; nothing uses it now. The
+# brand context lives in brand-context/, which git tracks and Parker keeps
+# in sync with its own database.
 parker-context/

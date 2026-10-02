@@ -1,4 +1,4 @@
-# v29 — the voice gate always ends (2026-10-01)
+# v30 — the voice gate always ends (2026-10-02)
 
 The five creative skills re-ran the `creative-voice-review` gate "until the verdict is `ships`," but one of the reviewer's findings can't be fixed by rewriting: copy that is clean but generic because the brand's voice corpus is thin or missing. On a new or unbuilt brain that kept the gate `flagged` forever. Separately, a few skills that run inside a brain still named the factory's old `z-brands/[brand]/` paths.
 
@@ -17,4 +17,4 @@ Nothing.
 
 ## Migration
 
-`migrations/v29.md`: nothing to do. Everything here is a copied skill or agent, which the pin bump's re-sync delivers, or a doc read from the mount.
+`migrations/v30.md`: nothing to do. Everything here is a copied skill or agent, which the pin bump's re-sync delivers, or a doc read from the mount.
