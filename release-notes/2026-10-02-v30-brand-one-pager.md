@@ -14,4 +14,6 @@ The brand context file in a brand's brain is renamed from `brand-context/brand-c
 
 ## Migration
 
-`migrations/v30.md`: rename the file in the map line of `CLAUDE.md` (or add the line if there is none). Nothing else; the file itself is moved by Parker.
+`migrations/v30.md`: rename the file in the map line of `CLAUDE.md` (or add the line if there is none). Nothing else; the file itself is moved by Parker. While a brain still has only the old file, the migration stops before it changes anything and does not record `v30`; the next `/update-brain` finishes it once Parker has moved the file.
+
+Tag v30 only after simple-ai#1747 is deployed: from then on Parker writes only the new name, so a brain that gets its first sync after v30 never gets the old one.
