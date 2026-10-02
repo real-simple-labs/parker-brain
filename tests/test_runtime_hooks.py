@@ -15,6 +15,17 @@ import unittest
 FACTORY = Path(__file__).resolve().parents[1]
 BUNDLE = FACTORY / "templates/brand-routines"
 
+# git-guard and session-start behave differently in a cloud run (v24). These
+# signals come only from the test that sets them, so a run inside a cloud
+# session gets the same verdicts as a laptop.
+CLOUD_SIGNALS = ("CLAUDE_CODE_REMOTE", "PARKER_CLOUD_RUN")
+
+
+def local_env(**extra):
+    env = {k: v for k, v in os.environ.items() if k not in CLOUD_SIGNALS}
+    env.update(extra)
+    return env
+
 
 def make_brand(root):
     shutil.copytree(BUNDLE / "claude", root / ".claude")
@@ -43,12 +54,7 @@ class RuntimeHooks(unittest.TestCase):
         command = [sys.executable, str(self.root / ".claude/hooks/run-hook.py"), name]
         if name == "git-guard":
             command.append("--codex")
-        # The cloud-run signals come only from the test that sets them, so a
-        # run inside a cloud session gets the same verdicts as a laptop.
-        run_env = {k: v for k, v in os.environ.items()
-                   if k not in ("CLAUDE_CODE_REMOTE", "PARKER_CLOUD_RUN")}
-        run_env.update(env or {})
-        return subprocess.run(command, cwd=cwd or self.root, env=run_env,
+        return subprocess.run(command, cwd=cwd or self.root, env=local_env(**(env or {})),
                               input=json.dumps(payload or {}), text=True,
                               capture_output=True, timeout=10)
 
@@ -114,7 +120,7 @@ class RuntimeHooks(unittest.TestCase):
             for group in groups:
                 for hook in group["hooks"]:
                     command = hook["commandWindows"] if os.name == "nt" else hook["command"]
-                    result = subprocess.run(command, shell=True, cwd=nested, input="{}",
+                    result = subprocess.run(command, shell=True, cwd=nested, input="{}", env=local_env(),
                                             text=True, capture_output=True, timeout=10)
                     self.assertEqual(result.returncode, 0, (event, result.stderr))
                     if event in {"UserPromptSubmit", "SessionStart"} and "usage-log.py" not in command:
@@ -139,7 +145,7 @@ class RuntimeHooks(unittest.TestCase):
             for group in groups:
                 for hook in group["hooks"]:
                     command = hook["commandWindows"] if os.name == "nt" else hook["command"]
-                    result = subprocess.run(command, shell=True, cwd=cwd, input="{}",
+                    result = subprocess.run(command, shell=True, cwd=cwd, input="{}", env=local_env(),
                                             text=True, capture_output=True, timeout=10)
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertEqual(result.stdout, "")
@@ -216,7 +222,7 @@ class RuntimeHooks(unittest.TestCase):
         for command in ("git push --force origin main", ["git", "push", "--force", "origin", "main"]):
             result = self.invoke("git-guard", {"tool_name": "Bash", "tool_input": {"command": command}}, self.root / "sub-context-docs")
             self.assertEqual(json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"], "deny")
-        result = subprocess.run([sys.executable, str(self.root / ".claude/hooks/run-hook.py"), "git-guard"], input=json.dumps({"tool_name": "Bash", "tool_input": {"command": "git push --force origin main"}}), text=True, capture_output=True)
+        result = subprocess.run([sys.executable, str(self.root / ".claude/hooks/run-hook.py"), "git-guard"], input=json.dumps({"tool_name": "Bash", "tool_input": {"command": "git push --force origin main"}}), env=local_env(), text=True, capture_output=True)
         self.assertEqual(result.returncode, 2)
 
     def test_git_guard_leaves_brand_sync_to_parker_desktop(self):

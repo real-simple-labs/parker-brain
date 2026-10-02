@@ -15,11 +15,11 @@ import tempfile
 import unittest
 from unittest import mock
 
-from test_runtime_hooks import FACTORY
+from test_runtime_hooks import FACTORY, local_env
 
 SCRIPT = FACTORY / "scripts/scaffold-brain.py"
 SYNC = FACTORY / "scripts/sync-executable-layer.py"
-ENV = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
+ENV = local_env(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1")
 GIT_ID = ["-c", "user.name=Scaffold Test", "-c", "user.email=scaffold@example.invalid",
           "-c", "core.autocrlf=false", "-c", "commit.gpgsign=false",
           "-c", "protocol.file.allow=always"]
