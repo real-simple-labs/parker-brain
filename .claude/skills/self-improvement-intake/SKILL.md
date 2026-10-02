@@ -22,7 +22,7 @@ triggers:
 
 Turn important feedback from normal conversation into durable Parker learning. The saved unit is the reasoning trace: what happened, the decision context behind it, why it mattered, what rule Parker should infer, where it applies, and what should change.
 
-The canonical method lives at `self-improvement/self-improvement-system.md`. Read it before creating or updating traces.
+The canonical method lives at `parker-system/self-improvement/self-improvement-system.md` (at the root in the factory). Read it before creating or updating traces.
 
 ## When this skill runs
 

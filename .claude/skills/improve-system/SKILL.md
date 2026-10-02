@@ -20,7 +20,7 @@ triggers:
 
 Turn the reasoning traces Parker has been capturing into actual updates to the two surfaces the user named when they ran this: **this brand's** context and **this person's** context. Capture already happened — `self-improvement-intake` wrote the traces during conversation. This skill is the application pass: read every relevant trace, cluster the repeated ones, and fold the promotable learning into the living surfaces so future runs inherit it.
 
-This is the on-demand form of the weekly curation loop in `self-improvement/self-improvement-system.md`. Read that method before applying anything — it is the governing authority on scope, promotion, and the human-in-the-loop rule. This skill executes its application step against one brand and one user.
+This is the on-demand form of the weekly curation loop in `parker-system/self-improvement/self-improvement-system.md` (at the root in the factory). Read that method before applying anything — it is the governing authority on scope, promotion, and the human-in-the-loop rule. This skill executes its application step against one brand and one user.
 
 ## Where this skill sits
 
@@ -34,15 +34,15 @@ Running this skill is the user opening the door to apply learning. It is not a b
 
 The user named two targets. Stay inside them.
 
-- **Brand context** — `z-brands/[brand]/brand-profile.md`, `z-brands/[brand]/running-notes/brand-notes-from-org.md` and its children, most often `brand-rules.md` for fact-based DOs and DON'Ts and `success-definition.md` for the north star, plus the relevant sub-context doc, open loop, or brand idea bank when a trace clearly belongs there.
+- **Brand context** — `sub-context-docs/brand-profile-narrative.md`, `running-notes/brand-notes-from-org.md` and its children, most often `brand-rules.md` for fact-based DOs and DON'Ts and `success-definition.md` for the north star, plus the relevant sub-context doc, open loop, or brand idea bank when a trace clearly belongs there.
 - **User context** — `users/[user-id]/user-profile.md` for who the person is, their process, their craft, how they like Parker to work, and the standing rules they've set, and `users/[user-id]/[brand-id]/brand-notes-from-user.md` for how this user engages with this brand. **Create the profile if it doesn't exist yet** — stamp it from `parker-system/templates/user-profile-template.md` on the first real user-learning; it is not seeded at onboarding, it starts here from usage. A stated rule ("use net-new CPA, not blended") lands in the profile's "Rules they've set" section; a learning about who they are or how they work lands in the matching section. **Carry the full verbatim moment into the entry** — their exact words, the Parker output they were correcting, the surrounding exchange — never a paraphrase, per the hard rule in `self-improvement-system.md`.
-- **The roll-up from user to team and org.** A user-learning rarely stays in the user doc. When it touches how work gets done or who does it, also update `z-brands/[brand]/sub-context-docs/operations-and-team.md` (the role/org truth), the team profile and team notes (the team's way of working), and the "how the team uses Parker, user by user" part of `running-notes/brand-notes-from-org.md`. The person rolls up into the team and org picture; route each learning to every surface it belongs on, not just the user doc.
+- **The roll-up from user to team and org.** A user-learning rarely stays in the user doc. When it touches how work gets done or who does it, also update `sub-context-docs/operations-and-team.md` (the role/org truth), the team profile and team notes (the team's way of working), and the "how the team uses Parker, user by user" part of `running-notes/brand-notes-from-org.md`. The person rolls up into the team and org picture; route each learning to every surface it belongs on, not just the user doc.
 
 Traces scoped to a skill, a prompt family, or the system architecture are **not** applied here. This skill updates brand and user context. Surface those broader traces in the report so they route through their own promotion path — `update-parker-skill` for skill changes, the prompt family for prompt rules, the curation loop for system docs — rather than being quietly written into brand or user context where they do not belong.
 
 ## How this skill runs
 
-1. **Load the method.** Read `self-improvement/self-improvement-system.md`. It governs scope classification, the promotion conditions, and the hard rules. This skill does not restate them; it obeys them.
+1. **Load the method.** Read `parker-system/self-improvement/self-improvement-system.md` (at the root in the factory). It governs scope classification, the promotion conditions, and the hard rules. This skill does not restate them; it obeys them.
 
 2. **Set the scope.** Identify the brand and the user this pass is for. Default to the current brand in context and the current user. If either is ambiguous, ask before touching anything — applying one brand's traces to another, or one user's preferences to the team, is the failure this skill must never cause.
 
