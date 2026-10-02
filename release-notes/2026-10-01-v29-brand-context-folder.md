@@ -11,7 +11,7 @@ Parker's brand context (the document Parker's chat reads for a brand in every co
 ## For the other Parker repos
 
 - simple-ai#1732: the sync. A cron writes a changed brand context into each set-up brain; the GitHub App's push webhook brings edits back. Off until `BRAND_CONTEXT_BRAIN_SYNC=on` (the backfill).
-- simple-ai#1737: the same sync for the brand's context docs, behind the same switch: nothing reaches a brain until `BRAND_CONTEXT_BRAIN_SYNC=on`, and then a brand's docs follow its brand context. A doc's file keeps the doc's title as its name, and a doc whose file goes away keeps its text: the sync puts the file back.
+- simple-ai#1737: the same sync for the brand's context docs, behind the same switch: nothing reaches a brain until `BRAND_CONTEXT_BRAIN_SYNC=on`, and then a brand's docs follow its brand context. A doc's file takes the doc's title as its name (a character a file name can't hold, such as `/` or `:`, becomes `-`), and a doc whose file goes away keeps its text: the sync puts the file back.
 - simple-ai#1733: the web brain view shows the file; the old brand context page goes.
 - parker-desktop#496 / #497: the Desktop shows the file in every brain (read-only until the brain has it in git, then editable).
 
