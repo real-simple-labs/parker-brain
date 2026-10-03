@@ -10,8 +10,15 @@ The planner reads this catalog, reasons like a strategist over the whole set
 Run after adding or editing a knowledge doc:
 
     python3 scripts/build-doc-map.py
+
+Parker's chat reads this catalog as its list of method docs, so it must stay
+current. `--check` writes nothing: it exits 1 when the catalog differs from
+what this script would write, or when a top-level doc has no summary (so it
+would be missing from the list). tests/test_doc_map.py runs it on every PR.
+
+    python3 scripts/build-doc-map.py --check
 """
-import os, re, glob
+import os, re, glob, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KB = os.path.join(ROOT, "creative-strategy-context")
@@ -33,7 +40,7 @@ def get_summary(path):
     return None
 
 
-def main():
+def main(check=False):
     rows = []
     missing = []
     for path in sorted(glob.glob(os.path.join(KB, "*.md"))):
@@ -56,9 +63,19 @@ def main():
     pattern = re.compile(r"(<!-- DOC-MAP:START -->\n).*?(\n<!-- DOC-MAP:END -->)", re.DOTALL)
     if not pattern.search(doc):
         raise SystemExit("DOC-MAP markers not found in expertise-routing.md")
-    doc = pattern.sub(lambda m: m.group(1) + generated + m.group(2), doc)
+    updated = pattern.sub(lambda m: m.group(1) + generated + m.group(2), doc)
+    if check:
+        problems = []
+        if updated != doc:
+            problems.append("The catalog in expertise-routing.md is out of date. Run: python3 scripts/build-doc-map.py")
+        if missing:
+            problems.append("These docs have no summary frontmatter, so the catalog leaves them out: " + ", ".join(missing))
+        if problems:
+            raise SystemExit("\n".join(problems))
+        print(f"Catalog is current: {len(rows)} docs.")
+        return
     with open(CATALOG_DOC, "w", encoding="utf-8") as f:
-        f.write(doc)
+        f.write(updated)
 
     print(f"Wrote catalog: {len(rows)} docs.")
     if missing:
@@ -68,4 +85,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(check="--check" in sys.argv[1:])
