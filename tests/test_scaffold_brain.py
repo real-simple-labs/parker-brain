@@ -166,6 +166,18 @@ class Scaffold(unittest.TestCase):
             "created_at": "2026-09-25", "usage_logging": {"enabled": False}})
         self.assertIn("release v99", rendered[".scaffolded"])
 
+    def test_the_folders_the_build_fills_start_with_a_readme_that_is_not_a_doc(self):
+        tree = {item["path"]: item for item in self.manifest["tree"]}
+        for folder in ("sub-context-docs", "personas", "source-pulls", "competitors", "audits",
+                       "strategy", "idea-bank", "sprints", "briefs", "expert-insights"):
+            readme = tree[f"{folder}/README.md"]
+            self.assertEqual(readme["mode"], "100644", folder)
+            self.assertIn("It is not one of the folder's docs", readme["content"], folder)
+            self.assertIn("parker-system/", readme["content"], folder)
+            for token in scaffold.TOKENS:
+                self.assertNotIn(token, readme["content"], folder)
+        self.assertIn("A README is never one of the folder's docs", tree["CLAUDE.md"]["content"])
+
     def test_render_is_one_pass(self):
         sneaky = scaffold.token_values("{{BRAND_ID}}", "7", "", "2026-01-01")
         self.assertEqual(scaffold.render("{{BRAND_NAME}}/{{BRAND_ID}}", sneaky, "x.md"), "{{BRAND_ID}}/7")
