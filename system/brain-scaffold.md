@@ -76,7 +76,7 @@ The manifest is the scaffold as GitHub tree entries:
 }
 ```
 
-As of this change it's 182 entries and about 950 KB. The four placeholders are the only ones; the script fails the release if any bundle file contains one, so filling them everywhere is safe. Run the workflow by hand (`workflow_dispatch` with a tag) to rebuild the file for a release; only releases that contain `scripts/scaffold-brain.py` can build one, so the first manifest ships with the release that carries this change.
+At v23 it was 182 entries and about 950 KB; each seed or bundle file added since adds one entry. The four placeholders are the only ones; the script fails the release if any bundle file contains one, so filling them everywhere is safe. Run the workflow by hand (`workflow_dispatch` with a tag) to rebuild the file for a release; only releases that contain `scripts/scaffold-brain.py` can build one, so the first manifest ships with the release that carries this change.
 
 ### 3. The backend, when a brand signs up
 
