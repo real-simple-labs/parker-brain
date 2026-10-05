@@ -410,7 +410,7 @@ parker/
 ├── scripts/usage-log.py                           ← shared metadata-only token collector and report CLI
 ├── scripts/scaffold-brain.py                      ← builds an empty brand brain with no AI: `init` in a brand folder, `manifest` for a release, `push` to test the backend path (system/brain-scaffold.md)
 ├── system/brain-scaffold.md                       ← what a new brain starts with (the bundle map + SEEDS), the .scaffolded marker, the release manifest, and the backend's three calls
-├── templates/brand-scaffold/                      ← brand-owned seed files the scaffold writes once: the brain's starter README.md and the six living-layer folder READMEs
+├── templates/brand-scaffold/                      ← brand-owned seed files the scaffold writes once: the brain's starter README.md, the six living-layer folder READMEs, and (since v32) a README for each folder the build and the team fill
 ├── system/usage-logging.md                        ← opt-in, cache accounting, build labels, and coverage contract
 ├── tests/                                         ← standard-library hook and release-sync regressions; optional installed-runtime probe
 ├── .github/workflows/runtime-checks.yml             ← runs the regression suite on Linux, macOS, and Windows

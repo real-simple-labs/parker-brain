@@ -33,7 +33,7 @@ Each brand gets a first-class idea bank at:
 
 The folder contains:
 
-- `README.md` - how to use the brand's idea bank.
+- `README.md` - the folder guide: what lives here and which prompts and skills keep it. The scaffold seeds it (since v32); it is not one of the bank's docs.
 - `index.md` - the searchable list of active ideas.
 - `entries/[YYYY-MM-DD]-[concept-slug].md` - one idea per file.
 
