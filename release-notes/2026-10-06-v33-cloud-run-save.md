@@ -10,6 +10,7 @@ Four production test routines ran on 2026-10-06. One of them, with a plain promp
 - **`save-brain`, "In a cloud run" step 4:** from a factory checkout, save with that command. Anywhere else, the plain git steps stay, and a push refused as `non-fast-forward` or `fetch first` only means someone saved in the meantime: pull with rebase and push again.
 - **`save-brain` step 3** no longer pulls before work: the copy from step 2 is fresh, and `save` takes in what others saved. The brand `CLAUDE.md` template and `AGENTS.md` no longer name the raw push in their cloud-run sentence.
 - **`system/brain-sync.md`** records why.
+- **Files with a git filter.** `save` refuses a change to a file a git filter would rewrite (Git LFS, for one): with hooks off, LFS would push its pointer and never upload the file.
 - **Tests.** `tests/test_cloud_run_git.py` runs `save` against a real local origin: a plain save, a teammate's save taken in first, a save that lands between the pull and the push, a clash that pushes nothing, the second `save` after the files are combined, marker lines left in a file, keeping only the teammate's version, a machine with no git identity, plain markers whatever the machine's conflict style, a push address elsewhere refused, a planted hook that never runs, copy settings that run code or name a proxy refused, a leftover divider in a file the agent already staged, and a check that it never forces a push.
 
 ## For the other Parker repos
@@ -18,4 +19,4 @@ The Parker MCP tool `register_parker_brain_git_credential` names `scripts/cloud-
 
 ## Migration
 
-`migrations/v33.md`: one step. The brain's `CLAUDE.md` (a seed the re-sync never touches) loses the raw `git push origin HEAD:main` from its cloud-run sentence and points to `/save-brain` instead; the template already says so. Routines armed with a v27 to v32 prompt need no re-arm: their preamble saves "as the copy's `save-brain` says", and the copy's `save-brain` names `save` once the brain is on v33. That preamble still shows the raw push in brackets, so running `/setup-routines` again (optional) makes the prompt itself name `save`.
+`migrations/v33.md`: two steps. The brain's `CLAUDE.md` (a seed the re-sync never touches) loses the raw `git push origin HEAD:main` from its cloud-run sentence and points to `/save-brain` instead; the template already says so. Step 2 offers once to re-arm this account's routines whose stored prompt still shows the raw push; a yes, a no or a "not now" all finish it, since many teams switched Parker's routines off or run their own. Without a re-arm, a v27 to v32 routine saves the way it did, or with `save` when it follows the copy's `save-brain`.

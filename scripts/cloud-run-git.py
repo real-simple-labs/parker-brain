@@ -259,6 +259,24 @@ def clash(folder: Path) -> SaveError:
         ">>>>>>>). Then run this save command again: it finishes and pushes.", 3)
 
 
+def check_filters(folder: Path) -> None:
+    """A git filter rewrites a file as it is added: Git LFS stores a pointer
+    and uploads the real bytes from its pre-push hook, which save never runs.
+    So save takes no change to a file that has one."""
+    paths = [f for f in (git(folder, "ls-files", "-z", "--modified", "--others", "--exclude-standard").stdout
+                         + git(folder, "diff", "--cached", "--name-only", "-z").stdout).split("\0") if f]
+    filtered = []
+    for start in range(0, len(paths), 200):
+        fields = git(folder, "check-attr", "-z", "filter", "--", *paths[start:start + 200]).stdout.split("\0")
+        filtered += [path for path, value in zip(fields[0::3], fields[2::3])
+                     if value not in ("unspecified", "unset")]
+    if filtered:
+        raise SaveError(
+            "these files have a git filter (Git LFS, for one): " + ", ".join(sorted(set(filtered)))
+            + ". save runs no filter's upload step, so it would push a placeholder instead of the "
+            "file. Nothing was saved.", 5)
+
+
 def has_markers(path: Path, clashed: bool) -> bool:
     data = path.read_bytes()
     return bool(MARKER_LINE.search(data) or (clashed and DIVIDER_LINE.search(data)))
@@ -270,6 +288,7 @@ def finish_rebase(folder: Path, ident: list[str]) -> None:
     note = clash_note(folder)
     clashed = set(git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0"))
     clashed |= set(note.read_text().splitlines()) if note.is_file() else set()
+    check_filters(folder)
     git(folder, "add", "-A")
     staged = [f for f in git(folder, "diff", "--cached", "--name-only", "-z", "HEAD").stdout.split("\0") if f]
     left = [f for f in staged if (folder / f).is_file() and has_markers(folder / f, f in clashed)]
@@ -295,6 +314,7 @@ def save(folder: Path, message: str | None, attempts: int = SAVE_ATTEMPTS) -> st
     elif git(folder, "status", "--porcelain").stdout.strip():
         if not message:
             raise UsageError("the copy has changes: give a message with -m")
+        check_filters(folder)
         add = git(folder, "add", "-A")
         if add.returncode != 0:
             raise SaveError(add.stderr.strip(), add.returncode)

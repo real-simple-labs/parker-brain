@@ -494,6 +494,24 @@ class Save(unittest.TestCase):
         self.assertEqual(_git(self.origin, "log", "-1", "--format=%s %ae %ce", "main"),
                          "dream: one proposal routines@heyparker.ai routines@heyparker.ai")
 
+    def test_refuses_a_change_a_git_filter_would_rewrite(self):
+        # With Git LFS set up on the machine, `filter=lfs` would store a
+        # pointer, and the real bytes go up only from a hook save never runs.
+        (self.copy / ".gitattributes").write_text("*.md filter=lfs\n")
+        (self.copy / "new.md").write_text("from the run\n")
+        before = self.origin_log()
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, "x")
+        self.assertEqual(caught.exception.code, 5)
+        self.assertIn("new.md", str(caught.exception))
+        self.assertEqual(self.origin_log(), before)
+
+    def test_other_attributes_are_fine(self):
+        (self.copy / ".gitattributes").write_text("* text=auto\nroutine-log.md merge=union\n")
+        (self.copy / "new.md").write_text("from the run\n")
+        crg.save(self.copy, "x")
+        self.assertEqual(self.origin_log()[0], "x")
+
     def test_changes_need_a_message(self):
         (self.copy / "new.md").write_text("x\n")
         with self.assertRaises(crg.UsageError):
