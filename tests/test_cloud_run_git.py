@@ -354,6 +354,23 @@ class Save(unittest.TestCase):
         self.assertEqual(self.origin_log()[0], "teammate edit")
         self.assertTrue(self.rebase_open())
 
+    def test_a_divider_line_left_stops_the_next_save(self):
+        # The model deletes the angle lines and misses the middle one.
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\n=======\ntheirs\n")
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertIn("notes.md", str(caught.exception))
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+
+    def test_a_divider_line_in_a_file_that_did_not_clash_is_fine(self):
+        # Markdown can underline a heading with exactly seven = signs.
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\ntheirs\n")
+        (self.copy / "heading.md").write_text("Title\n=======\n")
+        crg.save(self.copy, None)
+        self.assertEqual(_git(self.origin, "show", "main:heading.md"), "Title\n=======")
+
     def test_keeping_only_their_version_pushes_nothing_new(self):
         self.clash_on_notes()
         (self.copy / "notes.md").write_text("theirs\n")
@@ -389,11 +406,14 @@ class Save(unittest.TestCase):
         # save runs without the safety check, so a hook planted in the copy
         # must not run through it.
         ran = self.copy / "hook-ran"
-        hook = self.copy / ".git/hooks/pre-commit"
-        hook.write_text(f"#!/bin/sh\ntouch '{ran}'\n")
-        hook.chmod(0o755)
+        for name in ("pre-commit", "pre-push", "post-rewrite"):
+            hook = self.copy / ".git/hooks" / name
+            hook.write_text(f"#!/bin/sh\necho {name} >> '{ran}'\n")
+            hook.chmod(0o755)
+        self.save_in_other("theirs.md", "teammate\n", "Parker sync: 1 file")
         (self.copy / "new.md").write_text("x\n")
         crg.save(self.copy, "x")
+        self.assertEqual(self.origin_log()[0], "x")
         self.assertFalse(ran.exists())
 
     def test_a_machine_with_no_git_identity_still_saves(self):

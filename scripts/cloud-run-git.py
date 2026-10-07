@@ -125,6 +125,9 @@ def clone_args(git_url: str, brand_id: str, folder: Path | None = None) -> list[
 SAVE_ATTEMPTS = 5
 FALLBACK_IDENTITY = {"user.name": "Parker cloud run", "user.email": "routines@heyparker.ai"}
 MARKER_LINE = re.compile(rb"^(<<<<<<<|\|\|\|\|\|\|\||>>>>>>>)( |$)", re.M)
+# A line of only ======= is the middle of a clash, but markdown can have one
+# too, so it counts only in a file that clashed.
+DIVIDER_LINE = re.compile(rb"^=======\r?$", re.M)
 # Plain markers whatever the machine's git config says (diff3 and zdiff3 add a
 # ||||||| block with the old text), so the clash message and the check above
 # describe what is really in the file.
@@ -206,17 +209,22 @@ def clash(folder: Path) -> SaveError:
         ">>>>>>>). Then run this save command again: it finishes and pushes.", 3)
 
 
+def has_markers(path: Path, clashed: bool) -> bool:
+    data = path.read_bytes()
+    return bool(MARKER_LINE.search(data) or (clashed and DIVIDER_LINE.search(data)))
+
+
 def finish_rebase(folder: Path, ident: list[str]) -> None:
     """The last save stopped on a clash and left the rebase open; the files
     are combined now. Take them and finish it."""
+    clashed = set(git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0"))
     git(folder, "add", "-A")
     staged = [f for f in git(folder, "diff", "--cached", "--name-only", "-z", "HEAD").stdout.split("\0") if f]
-    left = [f for f in staged
-            if (folder / f).is_file() and MARKER_LINE.search((folder / f).read_bytes())]
+    left = [f for f in staged if (folder / f).is_file() and has_markers(folder / f, f in clashed)]
     if left:
         raise SaveError(
-            "these files still have marker lines (<<<<<<<, ||||||| or >>>>>>>): " + ", ".join(left)
-            + ". Combine them, then run save again.", 3)
+            "these files still have marker lines (<<<<<<<, =======, ||||||| or >>>>>>>): "
+            + ", ".join(left) + ". Combine them, then run save again.", 3)
     # Kept only their version: this commit has nothing left to add.
     step = "--continue" if staged else "--skip"
     done = git(folder, *ident, *CONFLICT_STYLE, "rebase", step)

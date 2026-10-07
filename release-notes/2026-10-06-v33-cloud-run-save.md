@@ -8,6 +8,7 @@ Four production test routines ran on 2026-10-06. One of them, with a plain promp
 - **`.claude/settings.json`** allows `save` like `key` and `clone`, so the safety check never judges a scheduled run's git steps.
 - **`setup-routines`** (both copies): the cloud-run preamble saves with `scripts/cloud-run-git.py save <folder> -m "<what changed>"` instead of `git push origin HEAD:main`, and says what to do on a clash.
 - **`save-brain`, "In a cloud run" step 4:** from a factory checkout, save with that command. Anywhere else, the plain git steps stay, and a push refused as `non-fast-forward` or `fetch first` only means someone saved in the meantime: pull with rebase and push again.
+- **`save-brain` step 3** no longer pulls before work: the copy from step 2 is fresh, and `save` takes in what others saved. The brand `CLAUDE.md` template and `AGENTS.md` no longer name the raw push in their cloud-run sentence.
 - **`system/brain-sync.md`** records why.
 - **Tests.** `tests/test_cloud_run_git.py` runs `save` against a real local origin: a plain save, a teammate's save taken in first, a save that lands between the pull and the push, a clash that pushes nothing, the second `save` after the files are combined, marker lines left in a file, keeping only the teammate's version, a machine with no git identity, plain markers whatever the machine's conflict style, a push address elsewhere refused, a planted hook that never runs, and a check that it never forces a push.
 
@@ -17,4 +18,4 @@ The Parker MCP tool `register_parker_brain_git_credential` names `scripts/cloud-
 
 ## Migration
 
-`migrations/v33.md`: nothing to do on the brand side. Routines armed with an older prompt keep working with plain git; the next `/setup-routines` gives them the `save` step.
+`migrations/v33.md`: one step. The brain's `CLAUDE.md` (a seed the re-sync never touches) loses the raw `git push origin HEAD:main` from its cloud-run sentence and points to `/save-brain` instead; the template already says so. Routines armed with an older prompt keep working with plain git; the next `/setup-routines` gives them the `save` step.
