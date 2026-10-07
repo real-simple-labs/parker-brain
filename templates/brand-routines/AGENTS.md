@@ -39,8 +39,8 @@ file wins wherever this summary is thinner.
   write is saved. The one exception is a cloud run (a scheduled routine or a
   hosted sandbox, with no Parker Desktop on the machine): it gets the brain
   through the Parker MCP, pulls and commits, and pushes straight to `main`
-  itself (`git push origin HEAD:main`; it has permission to, and never makes
-  a branch), per `/save-brain`'s "In a cloud run"; the hook lets that through. Never run git or `gh` against this repo on your own; a hook
+  itself (it has permission to, and never makes a branch), the way
+  `/save-brain`'s "In a cloud run" says; the hook lets that through. Never run git or `gh` against this repo on your own; a hook
   blocks the network and history-moving commands and says why. Two
   exceptions: the mount operations the brain uses (`git -C parker-system
   fetch`, its pin `checkout`, `git submodule update --init`) and the confirmed
