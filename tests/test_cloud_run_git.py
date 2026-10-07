@@ -232,6 +232,20 @@ class CheckCopy(unittest.TestCase):
             with self.subTest(folder=folder), self.assertRaises(crg.UsageError):
                 crg.check_copy(folder)
 
+    def test_refuses_a_copy_that_pushes_somewhere_else(self):
+        # The push goes to a pushurl, or through a pushInsteadOf rewrite, not
+        # to the fetch address.
+        good = f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/a.git"
+        for config in [
+            ("remote.origin.pushurl", "https://github.com/someone/a.git"),
+            ("url.https://github.com/someone/.pushInsteadOf",
+             f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/"),
+        ]:
+            with self.subTest(config=config[0]), self.assertRaises(crg.UsageError):
+                folder = self.folder_with_origin(good)
+                _git(folder, "config", *config)
+                crg.check_copy(folder)
+
 
 class Save(unittest.TestCase):
     """save against a real origin; check_copy is mocked, as the origin here is
@@ -346,6 +360,41 @@ class Save(unittest.TestCase):
         crg.save(self.copy, None)
         self.assertEqual(self.origin_log()[0], "teammate edit")
         self.assertFalse(self.rebase_open())
+
+    def test_a_clash_has_plain_markers_whatever_the_config_says(self):
+        # diff3/zdiff3 add a ||||||| block with the old text, which the clash
+        # message doesn't tell the agent to delete.
+        _git(self.copy, "config", "merge.conflictStyle", "zdiff3")
+        self.clash_on_notes()
+        text = (self.copy / "notes.md").read_text()
+        self.assertIn("<<<<<<< ", text)
+        self.assertNotIn("|||||||", text)
+
+    def test_a_base_marker_left_stops_the_next_save(self):
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\n||||||| base\none\ntheirs\n")
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertIn("marker lines", str(caught.exception))
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+
+    def test_a_stalled_transfer_gives_up(self):
+        with mock.patch.object(crg.subprocess, "run") as run:
+            crg.git(self.copy, "push", "origin", "HEAD:main")
+        env = run.call_args.kwargs["env"]
+        self.assertEqual((env["GIT_HTTP_LOW_SPEED_LIMIT"], env["GIT_HTTP_LOW_SPEED_TIME"]), ("1", "600"))
+
+    @unittest.skipIf(sys.platform == "win32", "shell hooks")
+    def test_runs_no_hook_from_the_copy(self):
+        # save runs without the safety check, so a hook planted in the copy
+        # must not run through it.
+        ran = self.copy / "hook-ran"
+        hook = self.copy / ".git/hooks/pre-commit"
+        hook.write_text(f"#!/bin/sh\ntouch '{ran}'\n")
+        hook.chmod(0o755)
+        (self.copy / "new.md").write_text("x\n")
+        crg.save(self.copy, "x")
+        self.assertFalse(ran.exists())
 
     def test_a_machine_with_no_git_identity_still_saves(self):
         # A fresh cloud machine has no name or email, and the rebase needs

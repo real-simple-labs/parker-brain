@@ -29,7 +29,8 @@ factory, where this script and that rule live; run it from that folder.
         Saves a copy made by `clone` to Parker's git server: commits what
         changed (with the message), takes in what others saved meanwhile
         (pull --rebase), and pushes to main, trying again when someone saves
-        in between. It never forces a push. When a change clashes with what
+        in between. It never forces a push, pushes only to Parker's git
+        server, and runs no git hook from the copy. When a change clashes with what
         someone else saved, it pushes nothing and names the files: combine
         them in the copy, then run save again, which finishes and pushes.
         Prints "saved <commit>" when the brain has it.
@@ -123,7 +124,15 @@ def clone_args(git_url: str, brand_id: str, folder: Path | None = None) -> list[
 
 SAVE_ATTEMPTS = 5
 FALLBACK_IDENTITY = {"user.name": "Parker cloud run", "user.email": "routines@heyparker.ai"}
-MARKER_LINE = re.compile(rb"^(<<<<<<<|>>>>>>>)( |$)", re.M)
+MARKER_LINE = re.compile(rb"^(<<<<<<<|\|\|\|\|\|\|\||>>>>>>>)( |$)", re.M)
+# Plain markers whatever the machine's git config says (diff3 and zdiff3 add a
+# ||||||| block with the old text), so the clash message and the check above
+# describe what is really in the file.
+CONFLICT_STYLE = ["-c", "merge.conflictStyle=merge"]
+# A pull or push that moves no data for ten minutes has stalled: let git give
+# up so save reports it, rather than hold the run forever. Parker's server can
+# go quiet for a minute or more while it builds a big brain's answer.
+STALL_LIMIT = {"GIT_HTTP_LOW_SPEED_LIMIT": "1", "GIT_HTTP_LOW_SPEED_TIME": "600"}
 
 
 class SaveError(Exception):
@@ -134,9 +143,14 @@ class SaveError(Exception):
         self.code = code
 
 
+# The factory allows save without the safety check, so nothing in the copy
+# may run code through it: no git hooks and no file-system monitor.
+NO_CODE = ["-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false"]
+
+
 def git(folder: Path, *args: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", "-C", str(folder), *args],
-                          capture_output=True, text=True, env=git_env())
+    return subprocess.run(["git", "-C", str(folder), *NO_CODE, *args],
+                          capture_output=True, text=True, env={**git_env(), **STALL_LIMIT})
 
 
 def check_copy(folder: Path) -> None:
@@ -145,15 +159,23 @@ def check_copy(folder: Path) -> None:
     else."""
     if not str(folder) or str(folder).startswith("-") or not folder.is_dir():
         raise UsageError(f"not a folder: {str(folder)!r}")
-    origin = git(folder, "remote", "get-url", "origin")
-    parts = urlsplit(origin.stdout.strip())
-    if (origin.returncode != 0 or parts.scheme != "https" or parts.hostname not in HOSTS
-            or parts.port or parts.password or parts.query or parts.fragment
-            or not parts.username or not parts.username.startswith("parker-")
-            or not BRAND_ID.fullmatch(parts.username[len("parker-"):])
-            or not REPO_PATH.match(parts.path)):
+    # Every address origin fetches from and pushes to, after any insteadOf or
+    # pushInsteadOf rewrite: a pushurl is where the push really goes.
+    fetch = git(folder, "remote", "get-url", "--all", "origin")
+    push = git(folder, "remote", "get-url", "--push", "--all", "origin")
+    urls = fetch.stdout.split() + push.stdout.split()
+    if fetch.returncode != 0 or push.returncode != 0 or not urls or not all(map(parker_url, urls)):
         raise UsageError(f"{folder} is not a copy made by `clone`: its origin is not "
                          "Parker's git server")
+
+
+def parker_url(url: str) -> bool:
+    parts = urlsplit(url)
+    return (parts.scheme == "https" and parts.hostname in HOSTS
+            and not (parts.port or parts.password or parts.query or parts.fragment)
+            and bool(parts.username) and parts.username.startswith("parker-")
+            and bool(BRAND_ID.fullmatch(parts.username[len("parker-"):]))
+            and bool(REPO_PATH.match(parts.path)))
 
 
 def identity(folder: Path) -> list[str]:
@@ -193,11 +215,11 @@ def finish_rebase(folder: Path, ident: list[str]) -> None:
             if (folder / f).is_file() and MARKER_LINE.search((folder / f).read_bytes())]
     if left:
         raise SaveError(
-            "these files still have marker lines (<<<<<<< or >>>>>>>): " + ", ".join(left)
+            "these files still have marker lines (<<<<<<<, ||||||| or >>>>>>>): " + ", ".join(left)
             + ". Combine them, then run save again.", 3)
     # Kept only their version: this commit has nothing left to add.
     step = "--continue" if staged else "--skip"
-    done = git(folder, *ident, "rebase", step)
+    done = git(folder, *ident, *CONFLICT_STYLE, "rebase", step)
     if done.returncode != 0:
         if rebase_open(folder):
             raise clash(folder)
@@ -219,7 +241,7 @@ def save(folder: Path, message: str | None, attempts: int = SAVE_ATTEMPTS) -> st
         if commit.returncode != 0:
             raise SaveError(commit.stderr.strip() or commit.stdout.strip(), commit.returncode)
     for attempt in range(1, attempts + 1):
-        pull = git(folder, *ident, "pull", "--rebase", "origin", "main")
+        pull = git(folder, *ident, *CONFLICT_STYLE, "pull", "--rebase", "origin", "main")
         if pull.returncode != 0:
             # The rebase stays open, so the next save can finish it once the
             # files are combined; no fetch or push is left for the agent to run.
