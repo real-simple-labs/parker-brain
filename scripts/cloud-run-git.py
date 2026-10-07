@@ -186,6 +186,12 @@ def check_copy(folder: Path) -> None:
     else."""
     if not str(folder) or str(folder).startswith("-") or not folder.is_dir():
         raise UsageError(f"not a folder: {str(folder)!r}")
+    # The copy's top folder only: from a folder inside it, the checks below
+    # would see part of the tree while `git add -A` stages all of it.
+    top = git(folder, "rev-parse", "--show-toplevel").stdout.strip()
+    if not top or Path(top).resolve() != folder.resolve():
+        raise UsageError(f"{folder} is not the top folder of a copy made by `clone`"
+                         + (f" (that is {top})" if top else ""))
     # Every address origin fetches from and pushes to, after any insteadOf or
     # pushInsteadOf rewrite: a pushurl is where the push really goes.
     fetch = git(folder, "remote", "get-url", "--all", "origin")
@@ -249,8 +255,9 @@ def clash_note(folder: Path) -> Path:
 def clash(folder: Path) -> SaveError:
     files = [f for f in git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0") if f]
     note = clash_note(folder)
-    known = note.read_text().splitlines() if note.is_file() else []
-    note.write_text("".join(f + "\n" for f in sorted(set(known + files))))
+    # NUL-separated, as git lists them: a file name can hold a newline.
+    known = note.read_bytes().decode().split("\0") if note.is_file() else []
+    note.write_bytes("".join(f + "\0" for f in sorted(set(known + files) - {""})).encode())
     return SaveError(
         "what you changed clashes with what someone else saved, in: "
         + (", ".join(files) or "the same files")
@@ -287,9 +294,13 @@ def finish_rebase(folder: Path, ident: list[str]) -> None:
     are combined now. Take them and finish it."""
     note = clash_note(folder)
     clashed = set(git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0"))
-    clashed |= set(note.read_text().splitlines()) if note.is_file() else set()
+    clashed |= set(note.read_bytes().decode().split("\0")) if note.is_file() else set()
     check_filters(folder)
-    git(folder, "add", "-A")
+    add = git(folder, "add", "-A")
+    if add.returncode != 0:
+        # With nothing staged, the step below would pick --skip and drop
+        # the combined files.
+        raise SaveError(add.stderr.strip() or add.stdout.strip(), add.returncode)
     staged = [f for f in git(folder, "diff", "--cached", "--name-only", "-z", "HEAD").stdout.split("\0") if f]
     left = [f for f in staged if (folder / f).is_file() and has_markers(folder / f, f in clashed)]
     if left:

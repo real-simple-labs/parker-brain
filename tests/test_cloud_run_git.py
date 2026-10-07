@@ -252,6 +252,13 @@ class CheckCopy(unittest.TestCase):
                 crg.check_copy(folder)
             self.assertIn(key.lower(), str(caught.exception))
 
+    def test_refuses_a_folder_inside_a_copy(self):
+        inner = self.cloned() / "notes"
+        inner.mkdir()
+        with self.assertRaises(crg.UsageError) as caught:
+            crg.check_copy(inner)
+        self.assertIn("top folder", str(caught.exception))
+
     def test_leaves_the_machines_own_settings_alone(self):
         # The environment's global config (a proxy, a signing key) is its own.
         home = Path(tempfile.mkdtemp(prefix="crg-home-"))
@@ -424,6 +431,38 @@ class Save(unittest.TestCase):
         crg.save(self.copy, None)
         self.assertEqual(self.origin_log()[0], "routine edit")
         self.assertFalse(crg.clash_note(self.copy).exists())
+
+    @unittest.skipIf(sys.platform == "win32", "no newline in Windows file names")
+    def test_a_clashed_file_name_with_a_newline_is_kept_whole(self):
+        name = "notes\n2026.md"
+        (self.copy / name).write_text("one\n")
+        crg.save(self.copy, "add a file")
+        self.save_in_other(name, "theirs\n", "teammate edit")
+        (self.copy / name).write_text("mine\n")
+        with self.assertRaises(crg.SaveError):
+            crg.save(self.copy, "routine edit")
+        (self.copy / name).write_text("mine\n=======\ntheirs\n")
+        _git(self.copy, "add", "-A")
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertIn("marker lines", str(caught.exception))
+
+    def test_a_failed_add_never_skips_the_combined_commit(self):
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\ntheirs\n")
+        real_git = crg.git
+
+        def failing_add(folder, *args):
+            if args[:2] == ("add", "-A"):
+                return subprocess.CompletedProcess(args, 128, "", "fatal: index.lock exists")
+            return real_git(folder, *args)
+        with mock.patch.object(crg, "git", side_effect=failing_add), \
+                self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertIn("index.lock", str(caught.exception))
+        self.assertTrue(self.rebase_open())
+        crg.save(self.copy, None)
+        self.assertEqual(self.origin_log()[0], "routine edit")
 
     def test_a_divider_line_in_a_file_that_did_not_clash_is_fine(self):
         # Markdown can underline a heading with exactly seven = signs.
