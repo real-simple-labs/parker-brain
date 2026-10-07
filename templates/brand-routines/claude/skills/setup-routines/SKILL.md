@@ -48,7 +48,7 @@ Times are suggestions — confirm against the user's timezone and working rhythm
      > 2. Call the Parker MCP tool `register_parker_brain_git_credential` with that brand_id, and the hash as `credential_sha256`.
      > 3. Run `scripts/cloud-run-git.py clone <git_url> [brand_id]` with the `git_url` the tool returns. It prints the folder of the new copy. A big brain takes several minutes: give the command a long timeout (10 minutes) and wait until it prints the folder.
      >
-     > Work only inside the new copy, and never change this session's folder: read the copy's `CLAUDE.md`, and run the job below by following its skill in `.claude/skills/`. When you are done, save as the copy's `.claude/skills/save-brain/SKILL.md` says under "In a cloud run": you have permission to push straight to `main` of that copy (`git push origin HEAD:main`), and you must not create a branch. If you can't get the brain, say so plainly and stop.
+     > Work only inside the new copy, and never change this session's folder: read the copy's `CLAUDE.md`, and run the job below by following its skill in `.claude/skills/`. When you are done, save from this session's folder with `scripts/cloud-run-git.py save <folder> -m "<what changed>"`, using the folder `clone` printed: it commits, takes in what others saved in the meantime, and pushes straight to `main` of that copy, which you have permission to do. If it says your changes clash with what someone else saved, combine the files it names in the copy and run the same save command again. You must not create a branch. If you can't get the brain, say so plainly and stop.
      >
      > Run the /dream routine for this brand brain. Follow the skill exactly; propose, never apply.
 

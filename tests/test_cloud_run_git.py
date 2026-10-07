@@ -200,14 +200,213 @@ class KeyInGitsMemory(unittest.TestCase):
         self.assertNotEqual(self.fill("parker-brand-2"), first)
 
 
+def _git(cwd, *args):
+    return subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True,
+                          text=True).stdout.strip()
+
+
+class CheckCopy(unittest.TestCase):
+    """save pushes only a copy clone made: Parker's server, the brand user."""
+
+    def folder_with_origin(self, url):
+        folder = Path(tempfile.mkdtemp(prefix="crg-copy-"))
+        _git(folder, "init", "-q")
+        _git(folder, "remote", "add", "origin", url)
+        return folder
+
+    def test_takes_a_copy_clone_made(self):
+        crg.check_copy(self.folder_with_origin(
+            f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/admin-laura-geller.git"))
+
+    def test_refuses_any_other_folder(self):
+        for url in [
+            "https://github.com/parker-brain/a.git",
+            "https://git.heyparker.ai/parker-brain/a.git",
+            "https://someone@git.heyparker.ai/parker-brain/a.git",
+            f"https://parker-{BRAND}:pw@git.heyparker.ai/parker-brain/a.git",
+            "git@git.heyparker.ai:parker-brain/a.git",
+        ]:
+            with self.subTest(url=url), self.assertRaises(crg.UsageError):
+                crg.check_copy(self.folder_with_origin(url))
+        for folder in [Path("-x"), Path("/no/such/folder")]:
+            with self.subTest(folder=folder), self.assertRaises(crg.UsageError):
+                crg.check_copy(folder)
+
+
+class Save(unittest.TestCase):
+    """save against a real origin; check_copy is mocked, as the origin here is
+    a local folder, not Parker's server."""
+
+    def setUp(self):
+        root = Path(tempfile.mkdtemp(prefix="crg-save-"))
+        self.origin = root / "origin.git"
+        _git(root, "init", "-q", "--bare", "-b", "main", str(self.origin))
+        seed = root / "seed"
+        _git(root, "clone", "-q", str(self.origin), str(seed))
+        self.configure(seed)
+        (seed / "notes.md").write_text("one\n")
+        _git(seed, "add", "-A")
+        _git(seed, "commit", "-q", "-m", "seed")
+        _git(seed, "push", "-q", "origin", "HEAD:main")
+        self.copy, self.other = root / "copy", root / "other"
+        for folder in (self.copy, self.other):
+            _git(root, "clone", "-q", str(self.origin), str(folder))
+            self.configure(folder)
+        patcher = mock.patch.object(crg, "check_copy")
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        sleeper = mock.patch.object(crg.time, "sleep")
+        sleeper.start()
+        self.addCleanup(sleeper.stop)
+
+    def configure(self, folder):
+        for key, value in [("user.name", "Test"), ("user.email", "test@example.com"),
+                           ("core.autocrlf", "false"), ("pull.rebase", "false")]:
+            _git(folder, "config", key, value)
+
+    def origin_log(self):
+        return _git(self.origin, "log", "--format=%s", "main").splitlines()
+
+    def save_in_other(self, name, text, message):
+        _git(self.other, "pull", "-q", "--rebase", "origin", "main")
+        (self.other / name).write_text(text)
+        _git(self.other, "add", "-A")
+        _git(self.other, "commit", "-q", "-m", message)
+        _git(self.other, "push", "-q", "origin", "HEAD:main")
+
+    def test_commits_and_pushes_to_main(self):
+        (self.copy / "new.md").write_text("from the run\n")
+        sha = crg.save(self.copy, "dream: one proposal")
+        self.assertEqual(self.origin_log()[0], "dream: one proposal")
+        self.assertEqual(_git(self.origin, "rev-parse", "--short", "main"), sha)
+
+    def test_takes_in_what_others_saved_first(self):
+        self.save_in_other("theirs.md", "teammate\n", "Parker sync: 1 file")
+        (self.copy / "mine.md").write_text("routine\n")
+        crg.save(self.copy, "refresh-context: logged run")
+        self.assertEqual(self.origin_log()[:2], ["refresh-context: logged run", "Parker sync: 1 file"])
+
+    def test_tries_again_when_someone_saves_between_pull_and_push(self):
+        real_git, raced = crg.git, []
+
+        def racing_git(folder, *args):
+            if args[:1] == ("push",) and not raced:
+                raced.append(True)
+                self.save_in_other("theirs.md", "teammate\n", "Parker sync: 1 file")
+            return real_git(folder, *args)
+        (self.copy / "mine.md").write_text("routine\n")
+        with mock.patch.object(crg, "git", side_effect=racing_git):
+            crg.save(self.copy, "competitors: foreplay note")
+        self.assertEqual(self.origin_log()[:2], ["competitors: foreplay note", "Parker sync: 1 file"])
+
+    def rebase_open(self):
+        return crg.rebase_open(self.copy)
+
+    def clash_on_notes(self):
+        self.save_in_other("notes.md", "theirs\n", "teammate edit")
+        (self.copy / "notes.md").write_text("mine\n")
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, "routine edit")
+        return caught.exception
+
+    def test_a_clash_pushes_nothing_and_names_the_files(self):
+        err = self.clash_on_notes()
+        self.assertEqual(err.code, 3)
+        self.assertIn("in: notes.md.", str(err))
+        self.assertIn("run this save command again", str(err))
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+        # The rebase stays open for the next save to finish: no fetch or push
+        # is left for the agent to run by hand.
+        self.assertTrue(self.rebase_open())
+
+    def test_save_again_after_combining_finishes_and_pushes(self):
+        # Two routines both add an entry at the top of routine-log.md: the
+        # clash a production run hit.
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\ntheirs\n")
+        sha = crg.save(self.copy, None)
+        self.assertEqual(self.origin_log()[:2], ["routine edit", "teammate edit"])
+        self.assertEqual(_git(self.origin, "show", "main:notes.md"), "mine\ntheirs")
+        self.assertEqual(_git(self.origin, "rev-parse", "--short", "main"), sha)
+        self.assertFalse(self.rebase_open())
+
+    def test_marker_lines_left_stop_the_next_save(self):
+        self.clash_on_notes()
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertEqual(caught.exception.code, 3)
+        self.assertIn("marker lines", str(caught.exception))
+        self.assertIn("notes.md", str(caught.exception))
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+        self.assertTrue(self.rebase_open())
+
+    def test_keeping_only_their_version_pushes_nothing_new(self):
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("theirs\n")
+        crg.save(self.copy, None)
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+        self.assertFalse(self.rebase_open())
+
+    def test_a_machine_with_no_git_identity_still_saves(self):
+        # A fresh cloud machine has no name or email, and the rebase needs
+        # one as much as the commit does.
+        for key in ("user.name", "user.email"):
+            _git(self.copy, "config", "--unset", key)
+        _git(self.copy, "config", "user.useConfigOnly", "true")
+        self.save_in_other("theirs.md", "teammate\n", "Parker sync: 1 file")
+        (self.copy / "mine.md").write_text("routine\n")
+        bare = {k: v for k, v in os.environ.items()
+                if not k.startswith(("GIT_AUTHOR_", "GIT_COMMITTER_")) and k != "EMAIL"}
+        bare.update({"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"})
+        with mock.patch.dict(os.environ, bare, clear=True):
+            crg.save(self.copy, "dream: one proposal")
+        self.assertEqual(_git(self.origin, "log", "-1", "--format=%s %ae %ce", "main"),
+                         "dream: one proposal routines@heyparker.ai routines@heyparker.ai")
+
+    def test_changes_need_a_message(self):
+        (self.copy / "new.md").write_text("x\n")
+        with self.assertRaises(crg.UsageError):
+            crg.save(self.copy, None)
+
+    def test_nothing_to_save_pushes_nothing(self):
+        before = self.origin_log()
+        crg.save(self.copy, None)
+        self.assertEqual(self.origin_log(), before)
+
+    def test_never_forces_a_push(self):
+        calls = []
+        real_git = crg.git
+
+        def spying_git(folder, *args):
+            calls.append(args)
+            return real_git(folder, *args)
+        (self.copy / "new.md").write_text("x\n")
+        with mock.patch.object(crg, "git", side_effect=spying_git):
+            crg.save(self.copy, "x")
+        pushes = [c for c in calls if c[:1] == ("push",)]
+        self.assertEqual(pushes, [("push", "origin", "HEAD:main")])
+
+    def test_main_prints_saved_and_refuses_a_bad_folder(self):
+        (self.copy / "new.md").write_text("x\n")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(crg.main(["save", str(self.copy), "-m", "x"]), 0)
+        self.assertRegex(out.getvalue().strip(), r"^saved [0-9a-f]{7,}$")
+        with mock.patch.object(crg, "check_copy", side_effect=crg.UsageError("no")), \
+                contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(crg.main(["save", str(self.copy), "-m", "x"]), 2)
+
+
 class FactoryRule(unittest.TestCase):
-    def test_allows_these_two_steps_of_this_script_and_nothing_else(self):
+    def test_allows_these_steps_of_this_script_and_nothing_else(self):
         settings = json.loads((FACTORY / ".claude/settings.json").read_text())
         self.assertEqual(settings["permissions"], {"allow": [
             "Bash(scripts/cloud-run-git.py key *)",
             "Bash(scripts/cloud-run-git.py clone *)",
             "Bash(python3 scripts/cloud-run-git.py key *)",
             "Bash(python3 scripts/cloud-run-git.py clone *)",
+            "Bash(scripts/cloud-run-git.py save *)",
+            "Bash(python3 scripts/cloud-run-git.py save *)",
         ]})
 
     def test_routine_prompts_name_the_script_and_carry_no_key_command(self):
@@ -221,6 +420,11 @@ class FactoryRule(unittest.TestCase):
                               "prints the folder", text)
                 self.assertNotIn("credential approve", text)
                 self.assertNotIn("openssl rand", text)
+                # The save goes through the allowed command too: a routine
+                # with a plain prompt had its raw push retry blocked.
+                self.assertIn('save from this session\'s folder with `scripts/cloud-run-git.py '
+                              'save <folder> -m "<what changed>"`', text)
+                self.assertNotIn("git push origin HEAD:main", text)
 
     @unittest.skipIf(sys.platform == "win32", "no execute bit on Windows")
     def test_the_script_runs_as_written_in_the_rule(self):
