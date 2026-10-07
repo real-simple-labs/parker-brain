@@ -13,7 +13,7 @@ The brain reads live data through the **Parker MCP** — the one connection that
 What you need first:
 
 1. **Claude Code** installed (a Max plan is recommended — the initial build is a big job).
-2. **A Parker account with the MCP connected**: sign up at [heyparker.ai](https://heyparker.ai) (1 month free with code `PARKERBRAIN`), then follow the connect instructions at [app.heyparker.ai/dashboard/parker-brain](https://app.heyparker.ai/dashboard/parker-brain).
+2. **A Parker account with the MCP connected**: sign up at [heyparker.ai](https://heyparker.ai), then follow the connect instructions at [app.heyparker.ai/dashboard/parker-brain](https://app.heyparker.ai/dashboard/parker-brain).
 3. **The Parker Desktop app** installed: [app.heyparker.ai/dashboard/parker-desktop](https://app.heyparker.ai/dashboard/parker-desktop). It's what creates your brand's brain and keeps its folder backed up and synced — no GitHub account, no git, no technical setup.
 
 Then set up your brand's brain **in Parker Desktop** — the app creates the brain, syncs its folder to your machine, and opens Claude Code or Codex right there to continue the setup.
