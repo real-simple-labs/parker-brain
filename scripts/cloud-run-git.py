@@ -30,7 +30,8 @@ factory, where this script and that rule live; run it from that folder.
         changed (with the message), takes in what others saved meanwhile
         (pull --rebase), and pushes to main, trying again when someone saves
         in between. It never forces a push, pushes only to Parker's git
-        server, and runs no git hook from the copy. When a change clashes with what
+        server, runs no git hook from the copy, and takes no copy whose own
+        git settings go beyond what clone writes. When a change clashes with what
         someone else saved, it pushes nothing and names the files: combine
         them in the copy, then run save again, which finishes and pushes.
         Prints "saved <commit>" when the brain has it.
@@ -149,11 +150,34 @@ class SaveError(Exception):
 # The factory allows save without the safety check, so nothing in the copy
 # may run code through it: no git hooks and no file-system monitor.
 NO_CODE = ["-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false"]
+# The only keys a copy's own git config may hold. Git has many settings that
+# run a command (filters, helpers, drivers) or send traffic elsewhere
+# (proxies, includes), so save takes a copy with nothing else, whatever the
+# key: what `clone` writes, and what a run sets for itself.
+COPY_CONFIG = re.compile(r"""(?x)^(?:
+    core\.(?:repositoryformatversion|filemode|bare|logallrefupdates|ignorecase
+          |precomposeunicode|symlinks|autocrlf|safecrlf|eol|quotepath|longpaths)
+  | extensions\.(?:objectformat|refstorage)
+  | remote\.origin\.(?:url|pushurl|fetch|tagopt|prune)
+  | branch\.[^\n]+\.(?:remote|merge|rebase)
+  | submodule\.parker-system\.(?:url|active)
+  | user\.(?:name|email)
+  | pull\.(?:rebase|ff) | rebase\.(?:autostash|autosquash|stat) | init\.defaultbranch
+  | advice\.[a-z]+ | color\.[a-z.]+
+  | credential\.helper
+  | credential\.https://(?:dev-)?git\.heyparker\.ai\.(?:helper|usehttppath)
+)$""")
+# Repository selectors and config passed in the environment would point git
+# at another repository or add settings the check above never saw.
+FOREIGN_ENV = re.compile(r"^GIT_(?:DIR|WORK_TREE|INDEX_FILE|OBJECT_DIRECTORY|ALTERNATE_OBJECT_DIRECTORIES"
+                         r"|COMMON_DIR|NAMESPACE|CONFIG|CONFIG_PARAMETERS|CONFIG_COUNT|CONFIG_KEY_\d+"
+                         r"|CONFIG_VALUE_\d+)$")
 
 
 def git(folder: Path, *args: str) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in git_env().items() if not FOREIGN_ENV.match(k)}
     return subprocess.run(["git", "-C", str(folder), *NO_CODE, *args],
-                          capture_output=True, text=True, env={**git_env(), **STALL_LIMIT})
+                          capture_output=True, text=True, env={**env, **STALL_LIMIT})
 
 
 def check_copy(folder: Path) -> None:
@@ -170,6 +194,23 @@ def check_copy(folder: Path) -> None:
     if fetch.returncode != 0 or push.returncode != 0 or not urls or not all(map(parker_url, urls)):
         raise UsageError(f"{folder} is not a copy made by `clone`: its origin is not "
                          "Parker's git server")
+    listed = git(folder, "config", "--list", "--show-scope", "-z")
+    if listed.returncode != 0:
+        raise UsageError(f"can't read the git settings of {folder}")
+    foreign = []
+    # With -z, each setting is "<scope>\0<key>\n<value>\0".
+    fields = listed.stdout.split("\0")
+    for scope, item in zip(fields[0::2], fields[1::2]):
+        key, _, value = item.partition("\n")
+        if scope not in ("local", "worktree"):
+            continue  # the machine's own settings, not the copy's
+        if not COPY_CONFIG.match(key) or (key.endswith(".helper") and value not in ("", CACHE_HELPER)):
+            foreign.append(key)
+    if foreign:
+        raise UsageError(
+            f"{folder} has git settings a copy made by `clone` doesn't have: "
+            + ", ".join(sorted(set(foreign)))
+            + ". save takes no copy with them; remove them or clone a fresh copy.")
 
 
 def parker_url(url: str) -> bool:
@@ -199,8 +240,17 @@ def rebase_open(folder: Path) -> bool:
     return False
 
 
+def clash_note(folder: Path) -> Path:
+    """The files of the last clash, kept in .git: once the agent has run
+    `git add` on a file, git no longer lists it as clashed."""
+    return folder / git(folder, "rev-parse", "--git-path", "cloud-run-git-clash").stdout.strip()
+
+
 def clash(folder: Path) -> SaveError:
     files = [f for f in git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0") if f]
+    note = clash_note(folder)
+    known = note.read_text().splitlines() if note.is_file() else []
+    note.write_text("".join(f + "\n" for f in sorted(set(known + files))))
     return SaveError(
         "what you changed clashes with what someone else saved, in: "
         + (", ".join(files) or "the same files")
@@ -217,7 +267,9 @@ def has_markers(path: Path, clashed: bool) -> bool:
 def finish_rebase(folder: Path, ident: list[str]) -> None:
     """The last save stopped on a clash and left the rebase open; the files
     are combined now. Take them and finish it."""
+    note = clash_note(folder)
     clashed = set(git(folder, "diff", "--name-only", "-z", "--diff-filter=U").stdout.split("\0"))
+    clashed |= set(note.read_text().splitlines()) if note.is_file() else set()
     git(folder, "add", "-A")
     staged = [f for f in git(folder, "diff", "--cached", "--name-only", "-z", "HEAD").stdout.split("\0") if f]
     left = [f for f in staged if (folder / f).is_file() and has_markers(folder / f, f in clashed)]
@@ -232,6 +284,7 @@ def finish_rebase(folder: Path, ident: list[str]) -> None:
         if rebase_open(folder):
             raise clash(folder)
         raise SaveError(done.stderr.strip() or done.stdout.strip(), done.returncode)
+    note.unlink(missing_ok=True)
 
 
 def save(folder: Path, message: str | None, attempts: int = SAVE_ATTEMPTS) -> str:

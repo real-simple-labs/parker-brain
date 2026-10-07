@@ -214,9 +214,57 @@ class CheckCopy(unittest.TestCase):
         _git(folder, "remote", "add", "origin", url)
         return folder
 
+    def cloned(self):
+        """A copy with the settings `clone` and its mount step write, plus
+        the name and email a run sets."""
+        folder = self.folder_with_origin(
+            f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/admin-laura-geller.git")
+        for key, value in [
+            ("credential.helper", ""),
+            ("credential.https://git.heyparker.ai.helper", crg.CACHE_HELPER),
+            ("credential.https://git.heyparker.ai.usehttppath", "false"),
+            ("branch.main.remote", "origin"), ("branch.main.merge", "refs/heads/main"),
+            ("submodule.parker-system.active", "true"),
+            ("submodule.parker-system.url", "https://github.com/real-simple-labs/parker-brain.git"),
+            ("user.name", "Parker cloud run"), ("user.email", "routines@heyparker.ai"),
+        ]:
+            _git(folder, "config", "--add", key, value)
+        return folder
+
     def test_takes_a_copy_clone_made(self):
-        crg.check_copy(self.folder_with_origin(
-            f"https://parker-{BRAND}@git.heyparker.ai/parker-brain/admin-laura-geller.git"))
+        crg.check_copy(self.cloned())
+
+    def test_refuses_settings_that_run_code_or_send_traffic_elsewhere(self):
+        for key, value in [
+            ("filter.steal.clean", "sh -c 'git config remote.origin.pushurl x; cat'"),
+            ("http.https://git.heyparker.ai/.proxy", "http://127.0.0.1:9"),
+            ("http.proxy", "http://127.0.0.1:9"),
+            ("http.sslverify", "false"),
+            ("include.path", "/tmp/anything"),
+            ("credential.https://git.heyparker.ai.helper", "!sh -c 'cat >/tmp/key'"),
+            ("core.sshcommand", "sh"),
+            ("merge.ours.driver", "sh"),
+            ("submodule.parker-system.update", "!sh"),
+        ]:
+            with self.subTest(key=key), self.assertRaises(crg.UsageError) as caught:
+                folder = self.cloned()
+                _git(folder, "config", "--add", key, value)
+                crg.check_copy(folder)
+            self.assertIn(key.lower(), str(caught.exception))
+
+    def test_leaves_the_machines_own_settings_alone(self):
+        # The environment's global config (a proxy, a signing key) is its own.
+        home = Path(tempfile.mkdtemp(prefix="crg-home-"))
+        (home / "gitconfig").write_text("[http]\n\tproxy = http://proxy.internal:3128\n")
+        copy = self.cloned()
+        with mock.patch.dict(os.environ, {"GIT_CONFIG_GLOBAL": str(home / "gitconfig")}):
+            crg.check_copy(copy)
+
+    def test_ignores_a_repository_chosen_by_the_environment(self):
+        other = self.folder_with_origin("https://github.com/someone/a.git")
+        copy = self.cloned()
+        with mock.patch.dict(os.environ, {"GIT_DIR": str(other / ".git")}):
+            crg.check_copy(copy)
 
     def test_refuses_any_other_folder(self):
         for url in [
@@ -362,6 +410,20 @@ class Save(unittest.TestCase):
             crg.save(self.copy, None)
         self.assertIn("notes.md", str(caught.exception))
         self.assertEqual(self.origin_log()[0], "teammate edit")
+
+    def test_a_divider_line_left_in_a_staged_file_stops_the_next_save(self):
+        # git's own hint says to `git add` a file once it is combined.
+        self.clash_on_notes()
+        (self.copy / "notes.md").write_text("mine\n=======\ntheirs\n")
+        _git(self.copy, "add", "notes.md")
+        with self.assertRaises(crg.SaveError) as caught:
+            crg.save(self.copy, None)
+        self.assertIn("notes.md", str(caught.exception))
+        self.assertEqual(self.origin_log()[0], "teammate edit")
+        (self.copy / "notes.md").write_text("mine\ntheirs\n")
+        crg.save(self.copy, None)
+        self.assertEqual(self.origin_log()[0], "routine edit")
+        self.assertFalse(crg.clash_note(self.copy).exists())
 
     def test_a_divider_line_in_a_file_that_did_not_clash_is_fine(self):
         # Markdown can underline a heading with exactly seven = signs.
