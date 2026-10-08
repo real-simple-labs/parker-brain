@@ -289,6 +289,76 @@ class Scaffold(unittest.TestCase):
         self.assertIn("wrote 1 files", result.stdout)
         self.assertEqual((brand / "running-notes/brand-rules.md").read_text(), "team notes\n")
 
+    def test_undo_build_goes_back_to_the_scaffold_not_an_empty_folder(self):
+        # A build got past its first real phase (the marker is off), then was stopped and
+        # its docs taken away. What says a build ran goes; the scaffold and the team's stay.
+        brand = self.brand("stopped brand")
+        self.assert_init_ok(self.init(brand))
+        (brand / ".scaffolded").unlink()
+        (brand / "BUILD-STATUS.md").write_text("# Build status\n")
+        (brand / "prompts-run-log").mkdir()
+        (brand / "prompts-run-log/2026-10-06-full-buildout.md").write_text("log\n")
+        config = json.loads((brand / "parker_config.json").read_text(encoding="utf-8"))
+        config.update(run_id="run-1", usage_logging={"enabled": True})
+        (brand / "parker_config.json").write_text(json.dumps(config))
+        (brand / "running-notes/brand-rules.md").write_text("intake answers\n")
+        (brand / "brand-context").mkdir()
+        (brand / "brand-context/brand.md").write_text("from Parker's sync\n")
+        (brand / ".claude/skills/hooks/SKILL.md").unlink()
+        self.assertEqual(self.init(brand).returncode, 2)  # a plain init still refuses
+
+        dry = self.init(brand, "--undo-build", "--dry-run")
+        self.assert_init_ok(dry)
+        self.assertIn("would remove BUILD-STATUS.md, prompts-run-log/, the run_id", dry.stdout)
+        self.assertTrue((brand / "BUILD-STATUS.md").exists())
+
+        result = self.init(brand, "--undo-build")
+        self.assert_init_ok(result)
+        self.assertIn("removed BUILD-STATUS.md, prompts-run-log/, the run_id", result.stdout)
+        # Parker Desktop's "not built yet" state: the marker, and no status file.
+        self.assertTrue((brand / ".scaffolded").is_file())
+        self.assertFalse((brand / "BUILD-STATUS.md").exists())
+        self.assertFalse((brand / "prompts-run-log").exists())
+        self.assertTrue((brand / ".claude/skills/hooks/SKILL.md").is_file())
+        config = json.loads((brand / "parker_config.json").read_text(encoding="utf-8"))
+        self.assertNotIn("run_id", config)
+        self.assertEqual(config["usage_logging"], {"enabled": True})
+        self.assertEqual((brand / "running-notes/brand-rules.md").read_text(), "intake answers\n")
+        self.assertEqual((brand / "brand-context/brand.md").read_text(), "from Parker's sync\n")
+
+        # A cancel that deleted the status file but left the build log is still undone.
+        (brand / ".scaffolded").unlink()
+        (brand / "prompts-run-log").mkdir()
+        (brand / "prompts-run-log/2026-10-06-full-buildout.md").write_text("log\n")
+        self.assert_init_ok(self.init(brand, "--undo-build"))
+        self.assertTrue((brand / ".scaffolded").is_file())
+        self.assertFalse((brand / "prompts-run-log").exists())
+
+        # A stop that already wiped everything the build added, the scaffold its own
+        # Phase 0 laid down included, gets the whole scaffold back.
+        for path in brand.iterdir():
+            if path.name in (".git", ".gitmodules", "parker-system", "brand-context"):
+                continue
+            if path.is_dir() and not path.is_symlink():
+                shutil.rmtree(path)
+            else:
+                path.unlink()
+        self.assert_init_ok(self.init(brand, "--undo-build"))
+        self.assertIn("wrote 0 files", self.init(brand).stdout)
+        self.assertTrue((brand / ".scaffolded").is_file())
+        self.assertIn("Not built yet", (brand / "CLAUDE.md").read_text(encoding="utf-8"))
+
+    def test_undo_build_refuses_a_finished_build(self):
+        built = self.brand("finished brand")
+        (built / "CLAUDE.md").write_text("# Parker — a built brain\n")
+        (built / "prompts-run-log").mkdir()
+        (built / "prompts-run-log/BUILD-STATUS.md").write_text("complete\n")
+        result = self.init(built, "--undo-build")
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("no stopped build", result.stderr)
+        self.assertFalse((built / ".scaffolded").exists())
+        self.assertTrue((built / "prompts-run-log/BUILD-STATUS.md").exists())
+
     def test_restore_copies_repairs_edited_method_files_only(self):
         brand = self.brand("restore brand")
         self.assert_init_ok(self.init(brand))
