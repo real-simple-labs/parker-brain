@@ -276,6 +276,14 @@ Update it at every state change: a prompt starts, finishes, fails, or gets block
 
 **Resuming an interrupted build.** Sessions die, timeouts happen, people close laptops. The prompt ledger makes recovery cheap: on any fresh session where the brand repo has a `BUILD-STATUS.md` that is not marked complete, offer to resume before anything else. To resume, call `update_parker_brain_setup_status(mode: "start")` with the `run_id` from `parker_config.json` (see Setup Status Tracking above), then reconcile the ledger against the repo — confirm each `done` prompt's output actually exists on disk (and passed review per the run log), demote anything missing back to `pending` — then continue from the first pending item, in dependency order, updating the ledger as you go. The user should never rebuild finished work, and never have to reconstruct where a dead session left off.
 
+**When the user stops the build.** Find out whether they mean a pause or a cancel, through the popup question form, unless they already said. A pause keeps everything: stop where you are, say so at the top of `BUILD-STATUS.md`, and the next session resumes per the paragraph above. A cancel (stop for good, roll it back, start over) takes the brain back to the scaffolded state, never to an empty folder. The scaffold is setup, not build, so it stays even when this build's own Phase 0 laid it down: an empty folder shows the team no brain at all, and no sign that a build can start. In this order:
+
+1. Report the run `failed` with the reason (the "Done" call in Setup Status Tracking), while `parker_config.json` still has its `run_id`.
+2. Delete the docs the build wrote: the outputs its ledger marks `done` or `running`. Keep everything else: the scaffold's files, the intake answers in the running notes, `brand-context/` (Parker's own sync writes it), and anything the team added. Leave `BUILD-STATUS.md` and `prompts-run-log/` to the script.
+3. Run `python3 parker-system/scripts/scaffold-brain.py init --undo-build --brand-name "<brand name>" --brand-id <brand_id>`. It removes `BUILD-STATUS.md`, `prompts-run-log/`, and the `run_id` (so the next build starts a new run instead of skipping phases whose docs are gone), puts the `.scaffolded` marker back, and writes every scaffold file that is missing, so one deleted by mistake comes back too.
+
+The brain then reads as set up and not built: Parker Desktop shows it that way and offers the build again, and the existence check above routes it as scaffolded.
+
 ## Phase 0 — connect, get the repo, mount the method and scaffold, intake, read in
 
 Do all of this before running a single content prompt.

@@ -11,6 +11,9 @@ Three commands:
             With --restore-copies it instead puts back the pinned release's
             version of every method copy that is missing or was edited, on any
             brain, and touches nothing else (the build verification's repair).
+            With --undo-build it takes a brain whose build was stopped back to the
+            scaffolded state: it removes BUILD-STATUS.md, prompts-run-log/ and the
+            run_id, then puts back the marker and every scaffold file that is missing.
 
   manifest  Run in a factory checkout. Writes the scaffold for one release as
             GitHub tree entries (brain-scaffold.json), so a backend can create a
@@ -45,6 +48,7 @@ import os
 from pathlib import Path
 import re
 import runpy
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -553,6 +557,8 @@ def write_file(entry: Entry, data: bytes):
 def cmd_init(args) -> int:
     if args.only and not args.restore_copies:
         raise ScaffoldError("--only works with --restore-copies")
+    if args.undo_build and args.restore_copies:
+        raise ScaffoldError("--undo-build and --restore-copies are two different jobs; run one")
     target = Path(args.target).resolve()
     os.chdir(target)
     mount = Path(MOUNT)
@@ -563,7 +569,12 @@ def cmd_init(args) -> int:
         return restore_copies(factory, tag, args)
 
     scaffolded = Path(MARKER).exists()
-    if not scaffolded:
+    if args.undo_build:
+        if Path("prompts-run-log").exists() and not Path("BUILD-STATUS.md").exists():
+            raise ScaffoldError(
+                "there is no stopped build here to undo: prompts-run-log/ is here and "
+                "BUILD-STATUS.md isn't, which is how a finished build looks.")
+    elif not scaffolded:
         started = [p for p in ("CLAUDE.md", "BUILD-STATUS.md", "prompts-run-log") if Path(p).exists()]
         if started:
             raise ScaffoldError(
@@ -581,6 +592,8 @@ def cmd_init(args) -> int:
                           args.created_at or date.today().isoformat())
 
     written, kept, notes, problems = [], [], [], []
+    if args.undo_build:
+        notes.extend(undo_build(args.dry_run))
     recorded = recorded_release()
     if recorded and recorded != tag:
         problems.append(
@@ -631,6 +644,34 @@ def cmd_init(args) -> int:
     for problem in problems:
         print(f"  needs attention: {problem}")
     return 1 if problems else 0
+
+
+def undo_build(dry_run: bool) -> list[str]:
+    """Take away what says a build ran here: the status file, the build log, and the
+    run_id that would make the next build resume this run. The build's docs are the
+    caller's to remove first; init then puts the marker and the scaffold back."""
+    removed = []
+    for name in ("BUILD-STATUS.md", "prompts-run-log"):
+        path = Path(name)
+        if path.is_dir() and not path.is_symlink():
+            removed.append(name + "/")
+            if not dry_run:
+                shutil.rmtree(path)
+        elif path.exists() or path.is_symlink():
+            removed.append(name)
+            if not dry_run:
+                path.unlink()
+    config = Path("parker_config.json")
+    try:
+        current = json.loads(config.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        current = None
+    if isinstance(current, dict) and "run_id" in current:
+        removed.append("the run_id in parker_config.json")
+        if not dry_run:
+            del current["run_id"]
+            replace_atomically(config, (json.dumps(current, indent=2) + "\n").encode("utf-8"))
+    return [f"{'would remove' if dry_run else 'removed'} {', '.join(removed)}"] if removed else []
 
 
 def restore_copies(factory: Factory, tag: str, args) -> int:
@@ -832,6 +873,9 @@ def main(argv=None) -> int:
     init.add_argument("--only", action="append", metavar="PATH",
                       help="with --restore-copies: restore just this copy (repeatable), so a "
                            "copy the team edited on purpose stays as it is")
+    init.add_argument("--undo-build", action="store_true",
+                      help="take a brain whose build was stopped back to the scaffolded state: "
+                           "remove BUILD-STATUS.md, prompts-run-log/ and the run_id, then scaffold")
     init.set_defaults(run=cmd_init)
 
     manifest = sub.add_parser("manifest", help="write the scaffold as GitHub tree entries")
