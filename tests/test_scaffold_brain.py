@@ -326,6 +326,14 @@ class Scaffold(unittest.TestCase):
         self.assertEqual((brand / "running-notes/brand-rules.md").read_text(), "intake answers\n")
         self.assertEqual((brand / "brand-context/brand.md").read_text(), "from Parker's sync\n")
 
+        # A cancel that deleted the status file but left the build log is still undone.
+        (brand / ".scaffolded").unlink()
+        (brand / "prompts-run-log").mkdir()
+        (brand / "prompts-run-log/2026-10-06-full-buildout.md").write_text("log\n")
+        self.assert_init_ok(self.init(brand, "--undo-build"))
+        self.assertTrue((brand / ".scaffolded").is_file())
+        self.assertFalse((brand / "prompts-run-log").exists())
+
         # A stop that already wiped everything the build added, the scaffold its own
         # Phase 0 laid down included, gets the whole scaffold back.
         for path in brand.iterdir():

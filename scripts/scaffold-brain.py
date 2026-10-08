@@ -570,10 +570,10 @@ def cmd_init(args) -> int:
 
     scaffolded = Path(MARKER).exists()
     if args.undo_build:
-        if Path("prompts-run-log").exists() and not Path("BUILD-STATUS.md").exists():
+        if Path("prompts-run-log/BUILD-STATUS.md").exists():
             raise ScaffoldError(
-                "there is no stopped build here to undo: prompts-run-log/ is here and "
-                "BUILD-STATUS.md isn't, which is how a finished build looks.")
+                "there is no stopped build here to undo: prompts-run-log/BUILD-STATUS.md is "
+                "the record of a finished build, archived at its closeout.")
     elif not scaffolded:
         started = [p for p in ("CLAUDE.md", "BUILD-STATUS.md", "prompts-run-log") if Path(p).exists()]
         if started:
