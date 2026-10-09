@@ -733,12 +733,14 @@ HAS_DATA = {
 # the printed page to the page's own width and height, for the --pdf export and
 # for anyone who prints from their browser. Past about 200 inches (the PDF limit)
 # it leaves the page size alone and the breaks fall between sections instead.
+# Chrome rounds the page size down a little (5,115 px came out 5,114.56), so the
+# page gets 2 px to spare; without them the footer can spill onto a second page.
 FIT_PAGE = """<script>
 (function () {
   var style = document.createElement("style");
   document.head.appendChild(style);
   function fit() {
-    var h = Math.ceil(Math.max(document.documentElement.scrollHeight, document.body.scrollHeight));
+    var h = Math.ceil(Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)) + 2;
     style.textContent = h < 19000 ? "@page{size:" + window.innerWidth + "px " + h + "px;margin:0}" : "";
   }
   fit();
