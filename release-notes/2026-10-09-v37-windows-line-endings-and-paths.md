@@ -1,4 +1,4 @@
-# v36 — Windows line endings and paths (2026-10-09)
+# v37 — Windows line endings and paths (2026-10-09)
 
 The Runtime checks job on `windows-latest` has failed on every push to `main` since at least v34, while Ubuntu and macOS passed. Four tests failed, for three reasons: CRLF line endings in the Windows checkout, backslash paths in a hook's text, and a lock-file read that Windows refuses.
 
@@ -14,4 +14,4 @@ The scaffold failure was test-only. `scaffold-brain.py` reads the factory from g
 
 ## Migration
 
-`migrations/v36.md`: no-op. The hook and `usage-log.py` are bundle copies the pin bump's re-sync refreshes, and `.gitattributes` lives in the mount. A Windows brain's `parker-system/` checkout gets LF file by file as files change on later pin bumps. Nothing needs a fresh checkout: the brain's hooks and checkers read those files as text, and the scaffold and the sync read git's copies.
+`migrations/v37.md`: no-op. The hook and `usage-log.py` are bundle copies the pin bump's re-sync refreshes, and `.gitattributes` lives in the mount. A Windows brain's `parker-system/` checkout gets LF file by file as files change on later pin bumps. Nothing needs a fresh checkout: the brain's hooks and checkers read those files as text, and the scaffold and the sync read git's copies.
