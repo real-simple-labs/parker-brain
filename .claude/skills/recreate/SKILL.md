@@ -18,7 +18,7 @@ This skill is the single source of truth for Recreate, so the Parker app and Cla
 - **Video** (Meta video ad, TikTok, Reel, UGC, any script): `parker-system/creative-strategy-context/adapting-scripts.md`
 - **Static image**: `parker-system/creative-strategy-context/static-ad-recreation.md`
 
-Read the one you need **in full** before writing anything, and follow it exactly: its steps and its output format. This skill decides which one to use and gathers the inputs; the method does the work. Don't summarize or improvise around it.
+Read the one you need **in full** before writing anything, and follow it exactly: its steps, its output format, its closing line. This skill decides which one to use and gathers the inputs; the method does the work. Don't summarize or improvise around it.
 
 ## Step 1: Get the ad
 
@@ -69,6 +69,7 @@ Follow the chosen method from start to finish. A few rules from both methods are
 
 1. The original ad's link (or "No link given"), and the one-line format call.
 2. The method's own output, in exactly its format (video: Overview, Script, Script with Storyboard, Fidelity Summary; static: The Story This Ad Is Telling, Recreation Brief, compliance flags, Brand Context Applied).
+3. The method's closing line, word for word, as the last line of the message. Video: "this is based on everything I have learned about adapting and re-writing scripts". Static: "this is based on everything I have learned about static ad recreation".
 
 Then stop. Offer variations or iterations only if the user asks.
 
