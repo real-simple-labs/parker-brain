@@ -6,7 +6,7 @@ A section with no data is left off the page, so you never need to write filler. 
 
 **Number formats.** Every number carries a `format`: `currency`, `ratio` (ROAS, shown as 2.71x), `percent` (as a fraction: 0.2843 shows as 28.43%), `decimal` (frequency, shown as 1.30), or `number`. Write raw numbers exactly as the pull returned them, never pre-formatted strings and never rounded.
 
-**Exact numbers only.** The report never rounds or shortens a number, on the page or in the words: a team checks it against Ads Manager, and a rounded figure reads as a wrong one. The page prints every value in full ($189,538.26, 63.29%, 1.40x, 1,534). Write the text the same way: "spend rose to $189,538.26," never "$189.5K"; "a 63.29% hook rate," never "63%." The one exception is a number you calculate yourself that doesn't end, like a week-over-week change or a share of spend: write it to two decimals ("up 50.41%," "82.49% of spend"). Chart axis labels stay short because they're a scale, not data; every data point shows its exact value on hover.
+**Exact numbers only.** The report never rounds or shortens a number, on the page or in the words: a team checks it against Ads Manager, and a rounded figure reads as a wrong one. The page prints every value in full ($48,215.37, 28.43%, 1.40x, 1,534). Write the text the same way: "spend rose to $48,215.37," never "$48.2K"; "a 28.43% hook rate," never "28%." The one exception is a number you calculate yourself that doesn't end, like a week-over-week change or a share of spend: write it to two decimals ("up 50.41%," "82.49% of spend"). Chart axis labels stay short because they're a scale, not data; every data point shows its exact value on hover.
 
 **Text fields** are plain text. No markdown, no HTML. Quotes inside text are fine.
 

@@ -75,7 +75,7 @@ def esc(value):
 # ---------------------------------------------------------------- formatting
 
 def compact(n):
-    """Short enough for a tile, exact enough for an exec: 1,534 / 48.2K / 189.5K / 1.2M."""
+    """Short enough for a tile, exact enough for an exec: 1,534 / 48.2K / 215.4K / 1.2M."""
     a = abs(n)
     if a >= 1_000_000:
         return f"{n / 1_000_000:.1f}M".replace(".0M", "M")
