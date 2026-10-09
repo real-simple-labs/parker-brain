@@ -95,6 +95,17 @@ def exact(d, min_dp=0):
     return f"{sign}{int(whole):,}" + (f".{frac}" if frac else "")
 
 
+class ExactFloat(float):
+    """A number from the data file that remembers exactly how it was written.
+    It does math like any float (charts, deltas), but formatting reads its
+    original text, so 1.23456789012345678 prints with every digit."""
+
+    def __new__(cls, text):
+        number = super().__new__(cls, text)
+        number.text = text
+        return number
+
+
 def to_decimal(value):
     """The value as an exact Decimal, or None if it isn't a usable number.
     Whole numbers go in as-is (no float step that could change a big one);
@@ -102,7 +113,12 @@ def to_decimal(value):
     if isinstance(value, bool) or value is None:
         return None
     try:
-        d = Decimal(value) if isinstance(value, int) else Decimal(repr(float(value)))
+        if isinstance(value, ExactFloat):
+            d = Decimal(value.text)
+        elif isinstance(value, int):
+            d = Decimal(value)
+        else:
+            d = Decimal(repr(float(value)))
     except (TypeError, ValueError, ArithmeticError):
         return None
     return d if d.is_finite() else None
@@ -1030,7 +1046,7 @@ def main(argv):
         return 2
     src, out = args
     with open(src, encoding="utf-8") as fh:
-        data = json.load(fh)
+        data = json.load(fh, parse_float=ExactFloat)
     problems = check(data)
     for p in problems:
         print(f"WARNING: {p}")
