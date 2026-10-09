@@ -95,16 +95,35 @@ def exact(d, min_dp=0):
     return f"{sign}{int(whole):,}" + (f".{frac}" if frac else "")
 
 
+def to_decimal(value):
+    """The value as an exact Decimal, or None if it isn't a usable number.
+    Whole numbers go in as-is (no float step that could change a big one);
+    floats go in by their shortest exact form; NaN and infinity are rejected."""
+    if isinstance(value, bool) or value is None:
+        return None
+    try:
+        d = Decimal(value) if isinstance(value, int) else Decimal(repr(float(value)))
+    except (TypeError, ValueError, ArithmeticError):
+        return None
+    return d if d.is_finite() else None
+
+
+def calc_percent(fraction):
+    """A share or rate Parker calculated, which can carry float noise
+    (0.30000000000000004): shown to two decimals, the rule for calculated numbers."""
+    d = to_decimal(fraction)
+    if d is None:
+        return "n/a"
+    return exact((d * 100).quantize(Decimal("0.01")), 0) + "%"
+
+
 def fmt(value, kind, currency="$", full=False):
     """Format one number by its kind, exactly as it was pulled. The report never
     rounds or shortens a number (no 48.2K): a team checks these against Ads Manager.
     `full` is kept for callers; every number is already full."""
-    if value is None:
-        return "n/a"
-    try:
-        d = Decimal(repr(float(value)))
-    except (TypeError, ValueError, ArithmeticError):
-        return str(value)
+    d = to_decimal(value)
+    if d is None:
+        return "n/a" if value is None or isinstance(value, (int, float)) else str(value)
     if kind == "currency":
         return f"{currency}{exact(d, 2)}"
     if kind == "ratio":
@@ -603,10 +622,10 @@ def render_mix(d, ctx):
         share = r.get("share", 0)
         width = 100 * share / top
         bars.append(
-            f'<div class="mix-row" title="{esc(r.get("label"))}: {fmt(share, "percent")} of spend">'
+            f'<div class="mix-row" title="{esc(r.get("label"))}: {calc_percent(share)} of spend">'
             f'<span class="mix-label">{esc(r.get("label"))}</span>'
             f'<span class="mix-track"><span class="mix-bar" style="width:{width:.1f}%"></span></span>'
-            f'<span class="mix-val">{fmt(share, "percent")}</span>'
+            f'<span class="mix-val">{calc_percent(share)}</span>'
             f'<span class="mix-meta">{esc(r.get("metric", ""))}</span></div>'
         )
     body = f'<div class="mix">{"".join(bars)}</div>'
@@ -803,7 +822,7 @@ background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.35);-webkit-backdr
 .evidence{color:var(--ink-2);font-size:14px;margin-top:4px}
 .action{font-size:14px;margin-top:6px}
 .mix{display:grid;gap:10px}
-.mix-row{display:grid;grid-template-columns:minmax(110px,180px) 1fr 64px minmax(90px,150px);align-items:center;gap:12px;font-size:14px}
+.mix-row{display:grid;grid-template-columns:minmax(110px,180px) 1fr minmax(64px,auto) minmax(90px,150px);align-items:center;gap:12px;font-size:14px}
 .mix-label{font-weight:500}
 .mix-track{height:14px;display:block;background:rgba(22,21,28,.05);border-radius:999px}
 .mix-bar{display:block;height:14px;background:var(--series);border-radius:999px;min-width:4px}
@@ -833,7 +852,7 @@ td.empty{color:var(--muted)}
 .byline{margin:26px 4px 0;font-size:12.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:4px 18px}
 .byline b{color:var(--ink);font-weight:600}
 .byline .mark{margin-left:auto;color:var(--muted)}
-@media (max-width:640px){.block{padding:20px 16px}.mix-row{grid-template-columns:1fr 44px;row-gap:4px}.mix-track{grid-column:1/-1;order:3}.mix-meta{grid-column:1/-1;order:4}
+@media (max-width:640px){.block{padding:20px 16px}.mix-row{grid-template-columns:1fr auto;row-gap:4px}.mix-track{grid-column:1/-1;order:3}.mix-meta{grid-column:1/-1;order:4}
 .stats{grid-template-columns:repeat(2,1fr)}.cover{padding-top:32px}.byline .mark{margin-left:0}}
 @media (prefers-reduced-transparency:reduce){.glass,.brandname{background:rgba(255,255,255,.94);-webkit-backdrop-filter:none;backdrop-filter:none}}
 @page{size:letter;margin:12mm 11mm}
