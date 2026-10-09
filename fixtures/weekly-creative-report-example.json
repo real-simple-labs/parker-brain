@@ -1,0 +1,568 @@
+{
+  "_fixture": "FIXTURE DATA. Fictional brand, fictional numbers. Illustrates the data file the weekly-creative-report skill writes and render_report.py reads. Not live customer output.",
+  "meta": {
+    "brand": "Juniper & Pine",
+    "week_label": "Week 40",
+    "date_range": "Sep 28 to Oct 4, 2026",
+    "prepared_by": "Lakeside Creative",
+    "prepared_for": "Juniper & Pine leadership",
+    "attribution": "Meta Ads Manager, 7-day click and 1-day view",
+    "data_through": "Oct 4, 2026",
+    "generated_on": "Oct 5, 2026",
+    "currency_symbol": "$",
+    "audience": "exec"
+  },
+  "headline": "A strong week: we spent 9% more and ROAS still climbed to 2.71x, thanks to two founder-led videos that are now carrying 38% of the account.",
+  "takeaways": [
+    "ROAS hit 2.71x, above the 2.5x goal for the third week running, while spend rose to $48.2K.",
+    "Founder-led video is the clear winner. The two \"Why I made this\" cuts did $18.4K at 3.12x combined.",
+    "The holiday gift-set statics are tiring. Hook rate on the top one fell from 31% to 22% in two weeks, so we're refreshing them before Q4 spend ramps."
+  ],
+  "kpis": [
+    {
+      "label": "Spend",
+      "value": 48210,
+      "prior": 44130,
+      "format": "currency",
+      "good_direction": "neutral",
+      "target": 50000,
+      "trend": [
+        36200,
+        38900,
+        41100,
+        40250,
+        42800,
+        43900,
+        44130,
+        48210
+      ]
+    },
+    {
+      "label": "ROAS",
+      "value": 2.71,
+      "prior": 2.58,
+      "format": "ratio",
+      "good_direction": "up",
+      "target": 2.5,
+      "lead": true,
+      "trend": [
+        2.21,
+        2.34,
+        2.29,
+        2.41,
+        2.52,
+        2.61,
+        2.58,
+        2.71
+      ],
+      "note": "Our north star. Third straight week above goal."
+    },
+    {
+      "label": "Cost per purchase",
+      "value": 31.42,
+      "prior": 33.05,
+      "format": "currency",
+      "good_direction": "down",
+      "trend": [
+        38.1,
+        36.4,
+        36.9,
+        35.2,
+        33.8,
+        32.9,
+        33.05,
+        31.42
+      ]
+    },
+    {
+      "label": "Purchases",
+      "value": 1534,
+      "prior": 1335,
+      "format": "number",
+      "good_direction": "up",
+      "trend": [
+        950,
+        1069,
+        1114,
+        1143,
+        1266,
+        1334,
+        1335,
+        1534
+      ]
+    },
+    {
+      "label": "Hook rate",
+      "value": 0.284,
+      "prior": 0.297,
+      "format": "percent",
+      "good_direction": "up",
+      "trend": [
+        0.262,
+        0.271,
+        0.279,
+        0.288,
+        0.301,
+        0.305,
+        0.297,
+        0.284
+      ],
+      "note": "Video only. Dipped as the gift statics' video cuts tired."
+    },
+    {
+      "label": "CTR",
+      "value": 0.0141,
+      "prior": 0.0133,
+      "format": "percent",
+      "good_direction": "up",
+      "trend": [
+        0.0118,
+        0.0121,
+        0.0125,
+        0.0127,
+        0.013,
+        0.0136,
+        0.0133,
+        0.0141
+      ]
+    },
+    {
+      "label": "CPM",
+      "value": 18.9,
+      "prior": 18.2,
+      "format": "currency",
+      "good_direction": "down",
+      "trend": [
+        17.4,
+        17.6,
+        17.9,
+        18.0,
+        18.1,
+        18.3,
+        18.2,
+        18.9
+      ]
+    },
+    {
+      "label": "New ads launched",
+      "value": 14,
+      "prior": 9,
+      "format": "number",
+      "good_direction": "up",
+      "trend": [
+        6,
+        11,
+        8,
+        10,
+        7,
+        12,
+        9,
+        14
+      ]
+    }
+  ],
+  "trend": {
+    "weeks": [
+      "W33",
+      "W34",
+      "W35",
+      "W36",
+      "W37",
+      "W38",
+      "W39",
+      "W40"
+    ],
+    "series": [
+      {
+        "label": "Spend by week",
+        "format": "currency",
+        "chart": "column",
+        "values": [
+          36200,
+          38900,
+          41100,
+          40250,
+          42800,
+          43900,
+          44130,
+          48210
+        ]
+      },
+      {
+        "label": "ROAS by week",
+        "format": "ratio",
+        "chart": "line",
+        "target": 2.5,
+        "values": [
+          2.21,
+          2.34,
+          2.29,
+          2.41,
+          2.52,
+          2.61,
+          2.58,
+          2.71
+        ]
+      }
+    ],
+    "read": "Spend is up 33% over eight weeks and ROAS went up with it, from 2.21x to 2.71x. That's the good kind of growth. Usually more spend pulls efficiency down, so this tells us the new creative is finding fresh buyers, not just hitting the same people harder."
+  },
+  "top_creatives": [
+    {
+      "name": "Founder story: Why I made this (60s)",
+      "format": "UGC video",
+      "status": "Scaling",
+      "spend": 11240,
+      "primary_metric": {
+        "label": "ROAS",
+        "value": 3.24,
+        "format": "ratio"
+      },
+      "stats": [
+        {
+          "label": "Hook rate",
+          "value": 0.38,
+          "format": "percent"
+        },
+        {
+          "label": "Hold rate",
+          "value": 0.16,
+          "format": "percent"
+        },
+        {
+          "label": "CTR",
+          "value": 0.0172,
+          "format": "percent"
+        }
+      ],
+      "why": "Opens on Maya's hands mixing a batch in her kitchen, then says \"my skin cracked every winter for ten years.\" Real story, real problem, product shown in use by second four. It's pulling a younger crowd than our usual statics.",
+      "basis": "Verified: week spend and metrics from search_facebook_ads_sql; description from the ad's transcript and AI analysis (adIds fetch).",
+      "media_type": "video"
+    },
+    {
+      "name": "Founder story: 15s cutdown",
+      "format": "UGC video",
+      "status": "Scaling",
+      "spend": 7160,
+      "primary_metric": {
+        "label": "ROAS",
+        "value": 2.93,
+        "format": "ratio"
+      },
+      "stats": [
+        {
+          "label": "Hook rate",
+          "value": 0.35,
+          "format": "percent"
+        },
+        {
+          "label": "Hold rate",
+          "value": 0.21,
+          "format": "percent"
+        },
+        {
+          "label": "CTR",
+          "value": 0.0158,
+          "format": "percent"
+        }
+      ],
+      "why": "Same opening as the 60s with the middle cut out. Meta is putting it mostly in Reels, where the shorter length holds people better.",
+      "basis": "Verified: week spend and metrics from search_facebook_ads_sql; description from the ad's transcript and AI analysis (adIds fetch).",
+      "media_type": "video"
+    },
+    {
+      "name": "Review wall: 4,000 five-star reviews",
+      "format": "Static",
+      "status": "Steady",
+      "spend": 5890,
+      "primary_metric": {
+        "label": "ROAS",
+        "value": 2.66,
+        "format": "ratio"
+      },
+      "stats": [
+        {
+          "label": "CTR",
+          "value": 0.0121,
+          "format": "percent"
+        },
+        {
+          "label": "Cost / purchase",
+          "value": 29.8,
+          "format": "currency"
+        },
+        {
+          "label": "Frequency",
+          "value": 1.3,
+          "format": "decimal"
+        }
+      ],
+      "why": "Our most reliable static for 11 weeks. Real review quotes stacked over the product. It brings in returning visitors who need one more nudge.",
+      "basis": "Verified: week spend and metrics from search_facebook_ads_sql; description from the ad's transcript and AI analysis (adIds fetch).",
+      "media_type": "image"
+    }
+  ],
+  "launches": {
+    "count": 14,
+    "prior_count": 9,
+    "by_format": [
+      {
+        "label": "UGC video",
+        "count": 6
+      },
+      {
+        "label": "Static",
+        "count": 5
+      },
+      {
+        "label": "Carousel",
+        "count": 3
+      }
+    ],
+    "summary": "Our biggest launch week in two months. Most of it went to two tests: a fresh round of founder-video hooks, and three new gift-set carousels ahead of Q4.",
+    "early_signals": [
+      {
+        "name": "Founder hook test: \"My dermatologist laughed at me\"",
+        "note": "Best early hook rate of the batch at 41% on $620. Too early to call on purchases."
+      },
+      {
+        "name": "Gift-set carousel: Stocking stuffers under $30",
+        "note": "Strong click rate (1.9%) but only 3 purchases so far. Watching the landing page."
+      }
+    ]
+  },
+  "watch_list": [
+    {
+      "name": "Gift set static: The cozy bundle",
+      "issue": "Tiring",
+      "evidence": "Hook rate dropped from 31% to 22% over two weeks, and frequency is up to 2.1. Still at 2.2x ROAS, so it's not losing money yet.",
+      "action": "Keep it on, but launch the two refreshed versions Monday so they can take over before it slips below goal.",
+      "media_type": "image",
+      "format": "Static"
+    },
+    {
+      "name": "Lifestyle video: Cabin morning routine",
+      "issue": "Spending without results",
+      "evidence": "Spent $2,380 this week at 1.4x ROAS, well under our 2.5x goal, and it's not improving after three weeks.",
+      "action": "Turn it off. The idea isn't wrong, but this version isn't working. We'll fold the best shot into a founder-video test instead.",
+      "media_type": "video",
+      "format": "Lifestyle video"
+    }
+  ],
+  "format_mix": {
+    "title": "Where the spend went",
+    "rows": [
+      {
+        "label": "UGC video",
+        "share": 0.46,
+        "metric": "2.98x ROAS"
+      },
+      {
+        "label": "Static",
+        "share": 0.31,
+        "metric": "2.54x ROAS"
+      },
+      {
+        "label": "Carousel",
+        "share": 0.14,
+        "metric": "2.31x ROAS"
+      },
+      {
+        "label": "Lifestyle video",
+        "share": 0.09,
+        "metric": "1.62x ROAS"
+      }
+    ],
+    "read": "Nearly half the money now goes to UGC video, and it's also our most efficient format. Lifestyle video is the drag at 9% of spend and 1.62x."
+  },
+  "insights": [
+    {
+      "title": "People want the person behind the brand",
+      "body": "Both top ads lead with Maya, the founder. Ads with her on camera averaged 3.1x ROAS this week, against 2.4x for everything else. Her story does work our product shots can't.",
+      "basis": "Verified: founder-tagged ads vs the rest, spend-weighted ROAS from the week's pull."
+    },
+    {
+      "title": "The winter skin problem is our best opening",
+      "body": "The three best hooks this week all name cracked or dry winter skin in the first line. That lines up with what customers say in reviews, where \"winter\" shows up in 1 out of every 6.",
+      "basis": "Verified: hook text of the top three by hook rate; review share from search_customer_reviews_sql. Inferred: the link between the two."
+    },
+    {
+      "title": "Gift buyers click but take longer to buy",
+      "body": "The gift carousels get lots of clicks but slow purchases so far. That's normal this early in the season. We'll judge them in two weeks, not now.",
+      "basis": "Inferred: gift carousels' click rate vs purchase count this week, read against seasonality.md's Q4 lag."
+    }
+  ],
+  "next_week": [
+    {
+      "action": "Launch 3 new founder-video hooks built on the winter skin problem",
+      "why": "It's our best-performing format and our best opening line, and the top ad will tire within a month.",
+      "owner": "Lakeside",
+      "basis": "Inferred from this week's read; see insights and watch list."
+    },
+    {
+      "action": "Swap in the two refreshed gift-set statics",
+      "why": "The current one is tiring, and Q4 gift spend starts ramping in two weeks.",
+      "owner": "Lakeside",
+      "basis": "Inferred from this week's read; see insights and watch list."
+    },
+    {
+      "action": "Turn off the cabin morning routine video",
+      "why": "$2,380 spent at 1.4x with no sign of turning around.",
+      "owner": "Lakeside",
+      "basis": "Inferred from this week's read; see insights and watch list."
+    },
+    {
+      "action": "Confirm the holiday offer details by Wednesday",
+      "why": "The gift-set briefs are ready, and we need final pricing to film.",
+      "owner": "Juniper & Pine",
+      "basis": "Inferred from this week's read; see insights and watch list."
+    }
+  ],
+  "all_ads": {
+    "title": "Every ad that spent over $500 this week",
+    "columns": [
+      {
+        "key": "name",
+        "label": "Ad",
+        "format": "text"
+      },
+      {
+        "key": "format",
+        "label": "Format",
+        "format": "text"
+      },
+      {
+        "key": "spend",
+        "label": "Spend",
+        "format": "currency"
+      },
+      {
+        "key": "roas",
+        "label": "ROAS",
+        "format": "ratio"
+      },
+      {
+        "key": "cpa",
+        "label": "Cost / purchase",
+        "format": "currency"
+      },
+      {
+        "key": "ctr",
+        "label": "CTR",
+        "format": "percent"
+      },
+      {
+        "key": "hook",
+        "label": "Hook rate",
+        "format": "percent"
+      }
+    ],
+    "rows": [
+      {
+        "name": "Founder story: Why I made this (60s)",
+        "format": "UGC video",
+        "spend": 11240,
+        "roas": 3.24,
+        "cpa": 26.1,
+        "ctr": 0.0172,
+        "hook": 0.38,
+        "media_type": "video"
+      },
+      {
+        "name": "Founder story: 15s cutdown",
+        "format": "UGC video",
+        "spend": 7160,
+        "roas": 2.93,
+        "cpa": 28.9,
+        "ctr": 0.0158,
+        "hook": 0.35,
+        "media_type": "video"
+      },
+      {
+        "name": "Review wall: 4,000 five-star reviews",
+        "format": "Static",
+        "spend": 5890,
+        "roas": 2.66,
+        "cpa": 29.8,
+        "ctr": 0.0121,
+        "hook": null,
+        "media_type": "image"
+      },
+      {
+        "name": "Gift set static: The cozy bundle",
+        "format": "Static",
+        "spend": 4420,
+        "roas": 2.2,
+        "cpa": 36.4,
+        "ctr": 0.0098,
+        "hook": null,
+        "media_type": "image"
+      },
+      {
+        "name": "Creator: Night routine with Dani",
+        "format": "UGC video",
+        "spend": 3950,
+        "roas": 2.71,
+        "cpa": 30.2,
+        "ctr": 0.0139,
+        "hook": 0.31,
+        "media_type": "video"
+      },
+      {
+        "name": "Before and after: Hands",
+        "format": "Static",
+        "spend": 3110,
+        "roas": 2.48,
+        "cpa": 32.7,
+        "ctr": 0.0117,
+        "hook": null,
+        "media_type": "image"
+      },
+      {
+        "name": "Lifestyle video: Cabin morning routine",
+        "format": "Lifestyle video",
+        "spend": 2380,
+        "roas": 1.4,
+        "cpa": 58.0,
+        "ctr": 0.0084,
+        "hook": 0.19,
+        "media_type": "video"
+      },
+      {
+        "name": "Gift carousel: Stocking stuffers under $30",
+        "format": "Carousel",
+        "spend": 2210,
+        "roas": 1.91,
+        "cpa": 44.2,
+        "ctr": 0.019,
+        "hook": null,
+        "media_type": "image"
+      },
+      {
+        "name": "Lifestyle video: Snow day",
+        "format": "Lifestyle video",
+        "spend": 1960,
+        "roas": 1.88,
+        "cpa": 41.6,
+        "ctr": 0.0101,
+        "hook": 0.23,
+        "media_type": "video"
+      },
+      {
+        "name": "Carousel: Ingredient breakdown",
+        "format": "Carousel",
+        "spend": 1640,
+        "roas": 2.62,
+        "cpa": 30.9,
+        "ctr": 0.0126,
+        "hook": null,
+        "media_type": "image"
+      }
+    ]
+  },
+  "sources": [
+    "Meta ad account via Parker, pulled Oct 5, 2026 for Sep 28 to Oct 4 and the 7 weeks before it",
+    "Juniper & Pine customer reviews via Parker, for the \"winter\" share",
+    "Last week's report (Week 39) for the prior-week numbers and plan follow-up"
+  ]
+}
