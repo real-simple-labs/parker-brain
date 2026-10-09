@@ -30,9 +30,9 @@ Work from the real ad, never from memory or a description alone. Whatever the us
 - **A swipe-file save:** `search_swipe_file`.
 - **A TikTok:** `search_tiktok_videos`.
 - **A pasted video URL with no Parker record:** `analyze_video_from_url`.
-- **A pasted image or screenshot:** read it directly.
+- **A pasted image or screenshot:** read it directly, and pull everything out of it: every word of copy, the layout, the product, the people, colors, type, and composition. If it's a screenshot, ask the user what they'd like made from it before you go further. Most often it becomes a static ad, so offer that first, but let them say.
 
-For a video, you need the transcript and a shot-by-shot view. For a static, you need a visual overview: the layout, every piece of copy, colors, type, and composition. Keep the original ad's link and put it at the top of the output. Never invent a link.
+For a video, you need the transcript and a shot-by-shot view. For a static, you need a visual overview: the layout, every piece of copy, colors, type, and composition. Keep the original ad's link and put it at the top of the output. If there's no link (a screenshot, say), write "No link given" there and keep going. Never invent a link.
 
 ## Step 2: Video or static? Decide once.
 
@@ -40,8 +40,9 @@ Say which it is in one line ("This is a video ad, so I'm using the adapting scri
 
 - Has motion, a voiceover, or a script → video.
 - A single image → static.
-- **A carousel** → treat it as static, and say so.
+- **A carousel** → use the static method, card by card, and say so. Capture every card in order, then recreate each one for the brand: same card count, same order, each card's copy mechanics and layout kept, every word made the brand's.
 - **A video that's really one still frame with text** → treat it as static, and say so.
+- **A screenshot** → whatever the user chose in Step 1 (most often static).
 - If you truly can't tell, ask the user one question and wait.
 
 Never produce both a script and a static brief for the same ad.
@@ -66,11 +67,13 @@ Follow the chosen method from start to finish. A few rules from both methods are
 
 ## Step 5: Return it
 
-1. The original ad's link, and the one-line format call.
+1. The original ad's link (or "No link given"), and the one-line format call.
 2. The method's own output, in exactly its format (video: Overview, Script, Script with Storyboard, Fidelity Summary; static: The Story This Ad Is Telling, Recreation Brief, compliance flags, Brand Context Applied).
 3. The method's closing line.
 
 Then stop. Offer variations or iterations only if the user asks.
+
+**No review gates, on purpose.** Unlike the other creative skills, recreate doesn't spawn `context-grounding-review` or `creative-voice-review`. A recreation's job is to stay as close to the original as the brand allows, and a rewrite pass would pull the lines away from it. If the user asks for a voice check after seeing the recreation, run `creative-voice-review` on it then.
 
 ## Hard rules
 
