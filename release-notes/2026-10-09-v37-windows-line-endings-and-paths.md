@@ -1,4 +1,4 @@
-# v37 — Windows line endings and paths (2026-10-09)
+# v37 — Windows line endings and paths; recreate skill fixes (2026-10-09)
 
 The Runtime checks job on `windows-latest` has failed on every push to `main` since at least v34, while Ubuntu and macOS passed. Four tests failed, for three reasons: CRLF line endings in the Windows checkout, backslash paths in a hook's text, and a lock-file read that Windows refuses.
 
@@ -12,6 +12,14 @@ The Runtime checks job on `windows-latest` has failed on every push to `main` si
 
 The scaffold failure was test-only. `scaffold-brain.py` reads the factory from git objects at `parker-system/`'s HEAD (`ls-tree`, `cat-file`), which hold LF whatever `core.autocrlf` says, so a Windows user's scaffold never saw a `---\r` line. `sync-executable-layer.py` reads the mount the same way. The hook's paths and the lock fix do reach Windows users.
 
+## Recreate skill fixes
+
+A review of the v35 `recreate` skill found three gaps.
+
+- **The hook and the skill gave opposite rules.** The `craft-context` hook tells the model on every message that any words a customer will read or hear ship with both gate receipts (Grounding Review, Voice Review). `recreate` skips those gates on purpose, so a recreation stays close to the original ad. With both rules in front of it, the model could run the gates anyway and pull the lines away from the original, or call its own recreation a skipped gate. The hook now names `recreate` as the one exception. The ship-gates rule in `update-parker-skill` says the same, so a later edit doesn't wire the gates back in.
+- **Three lookups came back without the script.** `search_competitor_facebook_ads` returns no script or storyboard unless the call sets `includeAdDetails: true`, `search_tiktok_videos` returns no script without `with_video_report: true`, and a swipe-file search returns only a compact analysis until `mode: "get_analysis"` fetches the transcript and storyboard. The skill needs the transcript and a shot-by-shot view for a video, so each lookup line now says how to get them.
+- **Two lines were true only for the static method.** "Both methods refuse to run without brand context" and "the method's closing line" describe `static-ad-recreation.md`. `adapting-scripts.md` has no closing line, so on a video the model could make one up. The output list already names each method's last section (Fidelity Summary, Brand Context Applied), so the extra step is gone, and the brand-context line now says what each method needs.
+
 ## Migration
 
-`migrations/v37.md`: no-op. The hook and `usage-log.py` are bundle copies the pin bump's re-sync refreshes, and `.gitattributes` lives in the mount. A Windows brain's `parker-system/` checkout gets LF file by file as files change on later pin bumps. Nothing needs a fresh checkout: the brain's hooks and checkers read those files as text, and the scaffold and the sync read git's copies.
+`migrations/v37.md`: no-op. The hook, the `recreate` skill, and `usage-log.py` are bundle copies the pin bump's re-sync refreshes, and `.gitattributes` lives in the mount. A Windows brain's `parker-system/` checkout gets LF file by file as files change on later pin bumps. Nothing needs a fresh checkout: the brain's hooks and checkers read those files as text, and the scaffold and the sync read git's copies.

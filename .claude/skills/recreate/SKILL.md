@@ -18,17 +18,17 @@ This skill is the single source of truth for Recreate, so the Parker app and Cla
 - **Video** (Meta video ad, TikTok, Reel, UGC, any script): `parker-system/creative-strategy-context/adapting-scripts.md`
 - **Static image**: `parker-system/creative-strategy-context/static-ad-recreation.md`
 
-Read the one you need **in full** before writing anything, and follow it exactly: its steps, its output format, its closing line. This skill decides which one to use and gathers the inputs; the method does the work. Don't summarize or improvise around it.
+Read the one you need **in full** before writing anything, and follow it exactly: its steps and its output format. This skill decides which one to use and gathers the inputs; the method does the work. Don't summarize or improvise around it.
 
 ## Step 1: Get the ad
 
 Work from the real ad, never from memory or a description alone. Whatever the user gives you:
 
-- **Parker app "Recreate" button:** the ad info arrives after the prompt. Use it, plus the Parker lookup for the full record.
+- **Parker app "Recreate" button:** the ad info arrives after the prompt. Use it, plus the lookup below that matches where the ad came from, for the full record.
 - **The brand's own ad** (a Parker ad link or ID): `search_facebook_ads_sql` with `adIds` and `include: ["scripts"]`.
-- **A competitor or followed brand's ad:** `search_competitor_facebook_ads`.
-- **A swipe-file save:** `search_swipe_file`.
-- **A TikTok:** `search_tiktok_videos`.
+- **A competitor or followed brand's ad:** `search_competitor_facebook_ads` with `adArchiveIds` (the `adId` in a Parker Ad Library or facebook.com/ads/library link) and `includeAdDetails: true`. Without that flag there's no script or storyboard.
+- **A swipe-file save:** `search_swipe_file`, then `mode: "get_analysis"` with its `ideaIds` for the transcript, storyboard, and on-screen text.
+- **A TikTok:** `search_tiktok_videos` with `with_video_report: true`. Without it there's no script.
 - **A pasted video URL with no Parker record:** `analyze_video_from_url`.
 - **A pasted image or screenshot:** read it directly, and pull everything out of it: every word of copy, the layout, the product, the people, colors, type, and composition. If it's a screenshot, ask the user what they'd like made from it before you go further. Most often it becomes a static ad, so offer that first, but let them say.
 
@@ -49,7 +49,7 @@ Never produce both a script and a static brief for the same ad.
 
 ## Step 3: Load the brand
 
-Both methods refuse to run without brand context, and they're right. Load it before writing:
+Both methods need brand context: the static method refuses to run without it, and the video method writes in the brand's tone from its customer reviews. Load it before writing:
 
 - **With a Brain:** use the Brain you're operating from: the folder this session is running in (it has `brand-lens.md` or `sub-context-docs/`). Load its `brand-lens.md`, `sub-context-docs/brand-identity-analysis.md` (voice, claims, compliance), the brand rules in its `CLAUDE.md`, and any `personas/` or voice-of-customer files. Never load another brand's Brain. Name the Brain in your one-line setup ("Using the [Brand] Brain."). If the user asks you to recreate for a different brand than the one this Brain belongs to, say so and stop; they need to run it from that brand's Brain, or you run it without a Brain using the steps below.
 - **Without a Brain:** `get_brand_persona` for the brand's context, plus a quick pull of the brand's own customer language with `search_customer_reviews_semantic` and `search_facebook_ad_comments_semantic`, shaped to the original ad's angle. Say in one line that you worked from Parker's brand profile, not a full Brain.
@@ -69,7 +69,6 @@ Follow the chosen method from start to finish. A few rules from both methods are
 
 1. The original ad's link (or "No link given"), and the one-line format call.
 2. The method's own output, in exactly its format (video: Overview, Script, Script with Storyboard, Fidelity Summary; static: The Story This Ad Is Telling, Recreation Brief, compliance flags, Brand Context Applied).
-3. The method's closing line.
 
 Then stop. Offer variations or iterations only if the user asks.
 
