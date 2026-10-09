@@ -416,6 +416,7 @@ parker/
 ├── tests/                                         ← standard-library hook and release-sync regressions; optional installed-runtime probe
 ├── .github/workflows/runtime-checks.yml             ← runs the regression suite on Linux, macOS, and Windows
 ├── .github/workflows/release-scaffold.yml           ← on every published release, attaches brain-scaffold.json (the empty brain as GitHub tree entries) for Parker's backend
+├── .gitattributes                                  ← LF line endings on every checkout, Windows included (since v36); the scaffold, the bundle sync, and their tests compare bytes against git's LF copies
 ├── .agents/skills                                  ← symlink → .claude/skills, so OpenAI Codex discovers the factory's skills too (AGENTS.md carries the Codex entry; system/codex-support.md is the contract)
 ├── .claude/output-styles/                          ← The chat-voice layer (not an agent, not a skill)
 │   └── parker.md                                   ← Parker's voice as a Claude Code output style, injected into the system prompt itself (keep-coding-instructions: true keeps the engineering discipline). Hand-mirrored from prompts/_parker-voice-block.md — voice edits land in the block first. Ships to every brand brain via the scaffold (and the propagate script for legacy copy-based brains).

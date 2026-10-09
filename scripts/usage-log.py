@@ -95,8 +95,9 @@ def locked(root):
     # This file ignores itself too, so collecting alone leaves Git clean.
     safe_path(root, ".usage/.local/.gitignore").write_text("*\n", encoding="utf-8")
     with safe_path(root, ".usage/.local/lock").open("a+b") as stream:
-        stream.seek(0)
-        if not stream.read(1):
+        # Check the size, never read the byte: Windows locks are mandatory, so
+        # reading it while another collector holds the lock is a PermissionError.
+        if not os.fstat(stream.fileno()).st_size:
             stream.write(b"0")
             stream.flush()
         deadline = time.monotonic() + 5
