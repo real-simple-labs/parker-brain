@@ -19,7 +19,7 @@
 - **North star:** [metric and its exact name in Parker if custom], [from brand-rules.md, confirmed by who, date]
 - **Weekly goals:** [spend goal, north-star goal, or "none, show the trend"]
 - **Also on the scorecard:** [the secondary metrics, in order]
-- **Results read from:** [Meta (window) / Northbeam / Triple Whale]
+- **Results read from:** [Meta (window) / Northbeam / Triple Whale]. An agency-only report always uses Meta's numbers.
 
 ## How it looks
 
@@ -34,4 +34,4 @@
 
 ## Reports sent
 
-[One line per week: the week, the file, and whether the team asked for changes. Parker uses this to know when to stop asking for feedback (after the third).]
+[One line per report, added by Parker when it saves the report: the week, the file, the date, and whether the team asked for changes. E.g. "Week 40 (2026-40), audits/2026-10/weekly-creative-report-2026-40.html, saved 2026-10-05, changes asked: drop the full table." Parker counts these lines to know when to stop asking for feedback (after the third).]

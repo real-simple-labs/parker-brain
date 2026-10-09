@@ -22,11 +22,11 @@ This is the **shareable** report. It is not the brain's internal `weekly-perform
 ## Step 0: Find the brand
 
 - **With a brain:** you're running inside the brand's folder (it has `brand-lens.md` or `sub-context-docs/`). Use it. Never load another brand's brain.
-- **Without a brain:** resolve the brand with `get_available_brands`, load `get_brand_persona`, and say in one line that you're working from Parker's brand profile, not a full brain. Everything below still runs; the setup answers save to `weekly-report-setup.md` in the working folder if you can write there, and you say so.
+- **Without a brain:** resolve the brand with `get_available_brands`, load `get_brand_persona`, and say in one line that you're working from Parker's brand profile, not a full brain. Everything below still runs, with three differences: there's nowhere to keep the setup, so ask the setup questions on every run (pre-filled from the brand profile where you can); there's no log, so skip the feedback count and just ask what to change each time; and save the report files to the working folder.
 
 ## Step 1: Setup, first run only
 
-Look for `running-notes/weekly-report-setup.md`. If it exists, load it and skip to Step 2 (unless the user said "redo setup"). If it doesn't, this is the first run.
+With a brain, look for `running-notes/weekly-report-setup.md`. If it exists, load it and skip to Step 2 (unless the user said "redo setup"). If it doesn't, this is the first run. Without a brain, every run starts here.
 
 **Read before you ask.** The brain usually already knows most of it. Pull what's there first:
 
@@ -45,10 +45,10 @@ Look for `running-notes/weekly-report-setup.md`. If it exists, load it and skip 
 
 **If they're an agency, ask one more short popup: whose ads does the report cover?**
 
-- **Only the ads we launched** (the default for an agency). The whole report, from the scorecard to the full table, is about their work.
+- **Only the ads we launched** (the default for an agency). The whole report, from the scorecard to the full table, is about their work, in Meta's numbers (see Step 3).
 - **The whole account.** Everything that spent, whoever made it.
 
-If they pick their own ads, ask in the same popup how to tell them apart, and offer what you can already see in the account first. Pull a page of ads before you ask, and if campaign or ad names share a tag (initials, an agency name), offer that tag as the first option. The other options: their ads all sit in their own ad account (offer the account names `searchMetadata.adAccounts` lists), or everything launched on or after the date they started. Free text covers anything else. Then test the rule before saving it: run one filtered pull and tell them, in one line, how many ads and how much of the week's spend it catches, so a wrong rule gets caught now and not in front of the CMO. If the rule catches every ad in the account, say so; they may be running the whole account anyway.
+If they pick their own ads, ask in the same popup how to tell them apart, and offer what you can already see in the account first. Pull a page of ads before you ask, and if campaign or ad names share a tag (initials, an agency name), offer that tag as the first option. The other options: their ads all sit in their own ad account (offer the account names `searchMetadata.adAccounts` lists), or everything launched on or after the date they started. Free text covers anything else. A name tag or a separate ad account proves whose ad it is. A start date doesn't: anything another team launched after that date gets swept in too. So if the rule is date-only, say so plainly, label the report for what it is ("Ads launched since Mar 1," never "Lakeside's ads only"), and offer to tighten it with a tag whenever they can. Then test the rule before saving it: run one filtered pull and tell them, in one line, how many ads and how much of the week's spend it catches, so a wrong rule gets caught now and not in front of the CMO. If the rule catches every ad in the account, say so; they may be running the whole account anyway.
 
 Don't ask about anything Parker can see or decide itself: the attribution source (it's in `brand-rules.md`, or check `check_northbeam_connection` and `search_triple_whale_attribution`), the look (always Parker's), the week (Monday to Sunday by default), or the sections (all on to start).
 
@@ -60,9 +60,9 @@ Default to the last full Monday through Sunday before today. If the user named a
 
 ## Step 3: Pull the data
 
-**If the report covers only the agency's ads,** apply the saved rule to every pull below: a `filters` entry with `contains` on `name` or `campaign_name`, `adAccountId` for a separate account, or a `created_time` floor for a start date. The filter scopes `summary.period_summary` too, so the totals are theirs. Make one extra unfiltered pull per week for the account's total spend, and add a scorecard tile, "Share of account spend," so the client sees how much of their money runs through the agency's work. Put the scope on the cover with `scope_label` ("Lakeside's ads only"). Never mix scoped and whole-account numbers on one tile or chart.
+**If the report covers only the agency's ads,** every number comes from Meta through `search_facebook_ads_sql`, even when the brand reads performance in Northbeam or Triple Whale, because the saved rule only scopes the Meta pulls. Say so in the footer's `attribution` ("Meta Ads Manager, 7-day click and 1-day view, our ads only"). Apply the saved rule to every pull below: a `filters` entry with `contains` on `name` or `campaign_name`, `adAccountId` for a separate account, or a `created_time` floor for a start date. The filter scopes `summary.period_summary` too, so the totals are theirs. Make one extra unfiltered pull per week for the account's total spend, and add a scorecard tile, "Share of account spend," so the client sees how much of their money runs through the agency's work. Put the scope on the cover with `scope_label` ("Lakeside's ads only", or "Ads launched since Mar 1" for a date-only rule). Never mix scoped and whole-account numbers on one tile or chart.
 
-Use the attribution source the setup names. Meta-reported numbers come from `search_facebook_ads_sql`. If the brand reads performance in Northbeam, use `search_northbeam_attribution` with `forceNorthbeam: true`; if in Triple Whale, take totals and per-ad ROAS and CPA from `search_triple_whale_attribution`. Either way, hook rate, hold rate, CTR, CPM, frequency, and the creative itself still come from the Meta tool. Never mix sources inside one number, and name the source on the cover.
+For a whole-account report, use the attribution source the setup names. Meta-reported numbers come from `search_facebook_ads_sql`. If the brand reads performance in Northbeam, use `search_northbeam_attribution` with `forceNorthbeam: true`; if in Triple Whale, take totals and per-ad ROAS and CPA from `search_triple_whale_attribution`. Either way, hook rate, hold rate, CTR, CPM, frequency, and the creative itself still come from the Meta tool. Never mix sources inside one number, and name the source on the cover.
 
 Pull, in this order:
 
@@ -73,7 +73,7 @@ Pull, in this order:
 5. **The watch list.** Compare the top spenders this week against last week: north star against goal, hook rate sliding, frequency climbing, spend without results. Pull an ad's daily series (`include: ["performance_breakdown"]`) when you need to see whether it's a trend or a blip.
 6. **Format mix.** `include: ["tags_summary"]` on the main pull, or split by `adType` if tags aren't on for this brand.
 7. **Custom north star.** If the north star is a custom metric, use `customMetricSort` and `includeCustomMetricTotals: true`.
-8. **Continuity.** Last week's report data file (`audits/*/weekly-creative-report-*.json`, the newest one) so the read carries forward: did last week's plan happen, did the ad we flagged recover. Pull customer reviews or comments only when an insight leans on them, and cite them.
+8. **Continuity.** The report for the week right before this one (`audits/*/weekly-creative-report-YYYY-WW.json`, one ISO week earlier than the week you're reporting; not simply the newest file, since someone may be rerunning an older week). If that week has no report, say there's nothing to carry forward rather than reaching for another week. It's there so the read carries forward: did last week's plan happen, did the ad we flagged recover. Pull customer reviews or comments only when an insight leans on them, and cite them.
 
 **Every ad links to the real ad.** Each ad in a pull carries a public link to its media on Parker's storage: `video_storage_url` for video ads (the .mp4) and `image_storage_url` for statics. Anyone can open them, no login, so a CMO can click any ad name or thumbnail in the report and watch or see the ad itself. Put that link in the ad's `media_url` and set `media_type` to `video` or `image`, on every ad the report names: top creatives, early signals, the watch list, and each row of the full table. A carousel or an ad with no stored media gets no link; never point a client at `parkerWebUrl`, which needs a Parker login.
 
@@ -122,7 +122,7 @@ Then look at it. Open the HTML (on a Mac, `open <report.html>`) or screenshot it
 
 ## Step 7: Save it and hand it over
 
-Save both files to `audits/[YYYY-MM]/` using the month the week ends in: `weekly-creative-report-YYYY-WW.html` and `weekly-creative-report-YYYY-WW.json` (ISO week number), plus the PDF if one was made. Add a line for it under that month in `audits/INDEX.md` if the brain has one. The brain saves on its own; no other step needed.
+Save both files to `audits/[YYYY-MM]/` using the month the week ends in: `weekly-creative-report-YYYY-WW.html` and `weekly-creative-report-YYYY-WW.json` (ISO week number), plus the PDF if one was made. Add a line for it under that month in `audits/INDEX.md` if the brain has one. Then log it: add one line to the "Reports sent" section of `running-notes/weekly-report-setup.md` with the week, the file path, and the date. If you're rerunning a week that's already logged, update its line instead of adding a second. The brain saves on its own; no other step needed.
 
 Then tell the person, in a few plain sentences: the week's verdict, where the file is, and what to do with it. Offer, in one line each, only what's useful:
 
@@ -130,7 +130,7 @@ Then tell the person, in a few plain sentences: the week's verdict, where the fi
 - **A private link** they can share, if this session can publish one.
 - **Every Monday, automatically.** If they want it on a schedule, offer to set that up with the scheduling this session has. The setup answers are saved, so a scheduled run needs no questions.
 
-**Ask what to change, for the first three reports.** One popup question: anything to add, cut, or change before next week? Save every answer to the "Standing requests" section of `running-notes/weekly-report-setup.md` with the date, and apply it from the next run on. This is how the report turns into the one this team actually wants. After the third report, stop asking and just take changes when they come.
+**Ask what to change, for the first three reports.** Count the lines under "Reports sent" (if that list looks wrong, count the `weekly-creative-report-*.json` files in `audits/` instead). If it's three or fewer, ask one popup question: anything to add, cut, or change before next week? Note on that report's log line whether they asked for changes. Save every answer to the "Standing requests" section of `running-notes/weekly-report-setup.md` with the date, and apply it from the next run on. This is how the report turns into the one this team actually wants. Past the third report, stop asking and just take changes when they come.
 
 ## Hard rules
 

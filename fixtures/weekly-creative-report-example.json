@@ -16,7 +16,7 @@
   "takeaways": [
     "ROAS hit 2.71x, above the 2.5x goal for the third week running, while spend rose to $48.2K.",
     "Founder-led video is the clear winner. The two \"Why I made this\" cuts did $18.4K at 3.12x combined.",
-    "The holiday gift-set statics are tiring. Hook rate on the top one fell from 31% to 22% in two weeks, so we're refreshing them before Q4 spend ramps."
+    "The holiday gift-set statics are tiring. Click rate on the top one fell from 1.3% to 0.98% in two weeks, so we're refreshing them before Q4 spend ramps."
   ],
   "kpis": [
     {
@@ -107,7 +107,7 @@
         0.297,
         0.284
       ],
-      "note": "Video only. Dipped as the gift statics' video cuts tired."
+      "note": "Video only. Dipped as two older creator videos tired."
     },
     {
       "label": "CTR",
@@ -335,7 +335,7 @@
     {
       "name": "Gift set static: The cozy bundle",
       "issue": "Tiring",
-      "evidence": "Hook rate dropped from 31% to 22% over two weeks, and frequency is up to 2.1. Still at 2.2x ROAS, so it's not losing money yet.",
+      "evidence": "Click rate dropped from 1.3% to 0.98% over two weeks, and frequency is up to 2.1. Still at 2.2x ROAS, so it's not losing money yet.",
       "action": "Keep it on, but launch the two refreshed versions Monday so they can take over before it slips below goal.",
       "media_type": "image",
       "format": "Static"

@@ -262,6 +262,28 @@ def link_wrap(inner, url, cls=""):
 
 # ---------------------------------------------------------------- svg charts
 
+def runs(coords):
+    """Split (index, ...) points into runs of back-to-back weeks, so a missing
+    week breaks the line instead of being drawn as if nothing happened."""
+    out = []
+    for c in coords:
+        if out and c[0] == out[-1][-1][0] + 1:
+            out[-1].append(c)
+        else:
+            out.append([c])
+    return out
+
+
+def run_path(run):
+    return " ".join(f"{'M' if i == 0 else 'L'}{c[1]:.1f},{c[2]:.1f}" for i, c in enumerate(run))
+
+
+def no_data_chart(title, w=440, h=220):
+    return (f'<svg class="chart" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(title)}: no data">'
+            f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="12" class="nodata"/>'
+            f'<text x="{w / 2}" y="{h / 2 + 4}" class="tick" text-anchor="middle">No data for these weeks</text></svg>')
+
+
 def sparkline(values, width=120, height=32):
     pts = [v for v in values if v is not None]
     if len(pts) < 2:
@@ -275,9 +297,9 @@ def sparkline(values, width=120, height=32):
             continue
         x = 4 + i * step
         y = 4 + (height - 8) * (1 - (v - lo) / span)
-        coords.append((x, y))
-    path = " ".join(f"{'M' if i == 0 else 'L'}{x:.1f},{y:.1f}" for i, (x, y) in enumerate(coords))
-    lx, ly = coords[-1]
+        coords.append((i, x, y))
+    path = " ".join(run_path(r) for r in runs(coords))
+    _, lx, ly = coords[-1]
     return (
         f'<svg class="spark" viewBox="0 0 {width} {height}" width="{width}" height="{height}" aria-hidden="true">'
         f'<path d="{path}" fill="none" stroke="{SPARK_GRAY}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
@@ -289,7 +311,9 @@ def column_chart(labels, values, kind, currency, title):
     w, h = 440, 220
     left, right, top, bottom = 52, 12, 18, 30
     pw, ph = w - left - right, h - top - bottom
-    ticks = nice_ticks(0, max([v for v in values if v is not None] or [1]))
+    if all(v is None for v in values):
+        return no_data_chart(title, w, h)
+    ticks = nice_ticks(0, max(v for v in values if v is not None))
     vmax = ticks[-1]
     band = pw / len(values)
     bar = min(24, band * 0.56)
@@ -298,7 +322,7 @@ def column_chart(labels, values, kind, currency, title):
         y = top + ph * (1 - tv / vmax)
         parts.append(f'<line x1="{left}" x2="{w - right}" y1="{y:.1f}" y2="{y:.1f}" class="grid{" base" if i == 0 else ""}"/>')
         parts.append(f'<text x="{left - 8}" y="{y + 4:.1f}" class="tick" text-anchor="end">{esc(tick_label(tv, kind, currency))}</text>')
-    last = len(values) - 1
+    last = max(i for i, v in enumerate(values) if v is not None)
     for i, (lab, v) in enumerate(zip(labels, values)):
         cx = left + band * i + band / 2
         parts.append(f'<text x="{cx:.1f}" y="{h - 10}" class="tick" text-anchor="middle">{esc(lab)}</text>')
@@ -323,6 +347,8 @@ def line_chart(labels, values, kind, currency, title, target=None):
     left, right, top, bottom = 52, 40, 18, 30
     pw, ph = w - left - right, h - top - bottom
     pts = [v for v in values if v is not None]
+    if not pts:
+        return no_data_chart(title, w, h)
     hi = max(pts + ([target] if target is not None else []))
     lo = min(pts + ([target] if target is not None else []))
     ticks = nice_ticks(lo, hi)
@@ -341,19 +367,21 @@ def line_chart(labels, values, kind, currency, title, target=None):
         ty = ypos(target)
         parts.append(f'<line x1="{left}" x2="{w - right}" y1="{ty:.1f}" y2="{ty:.1f}" class="target"/>')
         parts.append(f'<text x="{w - right + 4}" y="{ty + 4:.1f}" class="tick">Goal</text>')
-    coords = [(left + i * step, ypos(v), v, lab) for i, (lab, v) in enumerate(zip(labels, values)) if v is not None]
+    coords = [(i, left + i * step, ypos(v), v, lab) for i, (lab, v) in enumerate(zip(labels, values)) if v is not None]
     for i, lab in enumerate(labels):
         parts.append(f'<text x="{left + i * step:.1f}" y="{h - 10}" class="tick" text-anchor="middle">{esc(lab)}</text>')
-    path = " ".join(f"{'M' if i == 0 else 'L'}{x:.1f},{y:.1f}" for i, (x, y, _, _) in enumerate(coords))
-    area = path + f" L{coords[-1][0]:.1f},{top + ph:.1f} L{coords[0][0]:.1f},{top + ph:.1f} Z"
-    parts.append(f'<path d="{area}" class="area"/>')
-    parts.append(f'<path d="{path}" class="line"/>')
-    for i, (x, y, v, lab) in enumerate(coords):
+    for r in runs(coords):
+        if len(r) < 2:
+            continue
+        path = run_path(r)
+        parts.append(f'<path d="{path} L{r[-1][1]:.1f},{top + ph:.1f} L{r[0][1]:.1f},{top + ph:.1f} Z" class="area"/>')
+        parts.append(f'<path d="{path}" class="line"/>')
+    for i, (_, x, y, v, lab) in enumerate(coords):
         last = i == len(coords) - 1
         parts.append(f'<g class="hit"><circle cx="{x:.1f}" cy="{y:.1f}" r="12" fill="transparent"/>'
                      f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{5 if last else 3.5}" class="dot{" current" if last else ""}"/>'
                      f'<title>{esc(lab)}: {esc(fmt(v, kind, currency, full=True))}</title></g>')
-    lx, ly, lv, _ = coords[-1]
+    _, lx, ly, lv, _ = coords[-1]
     parts.append(f'<text x="{lx:.1f}" y="{ly - 12:.1f}" class="vlabel" text-anchor="middle">{esc(fmt(lv, kind, currency))}</text>')
     parts.append("</svg>")
     return "".join(parts)
@@ -657,6 +685,7 @@ figcaption{font-size:14px;font-weight:600;margin-bottom:8px}
 .line{fill:none;stroke:var(--series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .area{fill:var(--series);opacity:.10}
 .dot{fill:var(--series);stroke:var(--solid);stroke-width:2}
+.nodata{fill:rgba(22,21,28,.03);stroke:var(--grid)}
 .target{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:4 4;opacity:.55}
 .creatives{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .creative{background:var(--solid);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;break-inside:avoid;border:1px solid var(--glass-line)}
@@ -836,6 +865,28 @@ def write_pdf(html_path):
     return pdf_path
 
 
+def percent_values(data):
+    """Every (where, value) the page will format as a percent."""
+    out = []
+    for k in data.get("kpis") or []:
+        if k.get("format") == "percent":
+            for field in ("value", "prior", "target"):
+                out.append((f"KPI '{k.get('label')}' {field}", k.get(field)))
+            out += [(f"KPI '{k.get('label')}' trend", v) for v in k.get("trend") or []]
+    for s in (data.get("trend") or {}).get("series") or []:
+        if s.get("format") == "percent":
+            out += [(f"trend '{s.get('label')}'", v) for v in s.get("values") or []]
+    for c in data.get("top_creatives") or []:
+        for m in list(c.get("stats") or []) + [c.get("primary_metric") or {}]:
+            if m.get("format") == "percent":
+                out.append((f"'{c.get('name')}' {m.get('label')}", m.get("value")))
+    table = data.get("all_ads") or {}
+    for col in table.get("columns") or []:
+        if col.get("format") == "percent":
+            out += [(f"table '{r.get('name')}' {col.get('label')}", r.get(col.get("key"))) for r in table.get("rows") or []]
+    return out
+
+
 def check(data):
     """Catch the mistakes that would make a report look broken or mislead a reader."""
     problems = []
@@ -848,12 +899,15 @@ def check(data):
     for k in data.get("kpis") or []:
         if k.get("value") is None:
             problems.append(f"KPI '{k.get('label')}' has no value")
-        if k.get("format") == "percent" and isinstance(k.get("value"), (int, float)) and k["value"] > 1.5:
-            problems.append(f"KPI '{k.get('label')}' looks like a percent written as {k['value']}; write it as a fraction")
+    # The ad tool reports rates as percents (33.64 means 33.64%); the data file
+    # wants fractions. No rate in this report runs past 150%, so a bigger
+    # number is a percent that never got divided by 100.
+    for where, v in percent_values(data):
+        if isinstance(v, (int, float)) and v > 1.5:
+            problems.append(f"{where} is {v}, which reads as {v * 100:.0f}%; write percents as fractions (33.64% is 0.3364)")
     for s in (data.get("trend") or {}).get("series") or []:
         if len(s.get("values") or []) != len((data.get("trend") or {}).get("weeks") or []):
             problems.append(f"trend series '{s.get('label')}' doesn't match the number of weeks")
-    ads = list(data.get("top_creatives") or []) + list(data.get("watch_list") or [])
     for c in data.get("top_creatives") or []:
         if not c.get("why"):
             problems.append(f"top creative '{c.get('name')}' has no 'why' line")
@@ -861,7 +915,10 @@ def check(data):
         if not w.get("action"):
             problems.append(f"watch-list ad '{w.get('name')}' has no action")
     if not data.get("_fixture"):
-        for a in ads + list((data.get("all_ads") or {}).get("rows") or []):
+        named = (list(data.get("top_creatives") or []) + list(data.get("watch_list") or [])
+                 + list((data.get("launches") or {}).get("early_signals") or [])
+                 + list((data.get("all_ads") or {}).get("rows") or []))
+        for a in named:
             if not ad_link(a):
                 problems.append(f"ad '{a.get('name')}' has no media_url, so its name won't link to the ad")
     mix = (data.get("format_mix") or {}).get("rows") or []
