@@ -1,6 +1,6 @@
 # v38 — the weekly creative report shows exact numbers (2026-10-09)
 
-The weekly creative report skill shipped in v37, which bundled everything merged since v34 (v35 and v36 were never tagged on their own). Its first live run, on <a brand> for Week 40, showed the report rounding and shortening numbers: $48,215.37 on the page read as $48.2K, and cost per purchase lost its cents. Agencies check these reports against Ads Manager line by line, so v38 makes every number exact.
+The weekly creative report skill shipped in v37, which bundled everything merged since v34 (v35 and v36 were never tagged on their own). Its first live run, on `<a brand>` for Week 40, showed the report rounding and shortening numbers: $48,215.37 on the page read as $48.2K, and cost per purchase lost its cents. Agencies check these reports against Ads Manager line by line, so v38 makes every number exact.
 
 ## What shipped
 
