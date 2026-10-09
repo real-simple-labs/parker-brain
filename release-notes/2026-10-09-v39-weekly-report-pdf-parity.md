@@ -9,7 +9,7 @@ The weekly creative report's PDF printed on letter-size pages with white margins
 - **Every picture loads before printing.** Thumbnails no longer load lazily, so none can be missing from the PDF.
 - **Past the PDF size limit** (about 200 inches tall, far longer than a weekly report runs), the page size is left alone and breaks fall between sections, never through a card or a table row.
 
-Checked on Reach International Outfitters' live Week 40 report: one page, 824.88 by 5,285.04 points, every thumbnail in place, matching the web page section for section.
+Checked on `<a brand>`'s live Week 40 report: one page, 824.88 by 5,285.04 points, every thumbnail in place, matching the web page section for section.
 
 ## Migration
 
