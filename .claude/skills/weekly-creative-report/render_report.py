@@ -4,8 +4,9 @@
     python3 render_report.py report-data.json report.html [--embed-images] [--pdf]
 
 The data file follows report-schema.md in this folder. Charts are inline SVG and
-there is no chart library or script, so the file opens the same way in a browser,
-an email attachment, or a shared drive. The only outside request is the Parker
+there is no chart library, so the file opens the same way in a browser, an email
+attachment, or a shared drive. One tiny script sizes the printed page, so the PDF
+is a single long page that looks exactly like the web page. The only outside request is the Parker
 typefaces (Fraunces and DM Sans) from Google Fonts; offline, the page falls back
 to the system's serif and sans and still looks right.
 
@@ -24,7 +25,8 @@ with no login.
                 it the page shows the video's first frame live in the browser,
                 and a labeled placeholder in print.
 --pdf           also writes report.pdf next to the HTML when Chrome, Chromium, or
-                Edge is installed. Otherwise it says so and the HTML stands.
+                Edge is installed: one long page, edge to edge, matching the web
+                page exactly. Otherwise it says so and the HTML stands.
 
 Standard library only, so it runs anywhere python3 does.
 """
@@ -157,7 +159,7 @@ def delta_parts(kpi):
     if value is None or prior in (None, 0):
         return None
     kind = kpi.get("format", "number")
-    # A change is calculated, not pulled, so it can run on forever (50.4134...%).
+    # A change is calculated, not pulled, so it can run on forever (50.3843...%).
     # It's the one number shown to two decimals.
     if kind == "percent":
         change = (value - prior) * 100
@@ -344,7 +346,7 @@ def media_html(item, ctx):
     elif thumb:
         src = thumb
     if src:
-        return f'<img src="{esc(src)}" alt="{alt}" loading="lazy">'
+        return f'<img src="{esc(src)}" alt="{alt}">'
     if video and media:
         # No frame to embed: let the browser show the video's own first frame.
         # Print can't, so a placeholder sits underneath.
@@ -726,6 +728,25 @@ HAS_DATA = {
 
 # ---------------------------------------------------------------- page
 
+# The PDF is one long page exactly as tall as the report, so it looks just like
+# the web page: nothing cut between pages, no white margins. This script sizes
+# the printed page to the page's own width and height, for the --pdf export and
+# for anyone who prints from their browser. Past about 200 inches (the PDF limit)
+# it leaves the page size alone and the breaks fall between sections instead.
+FIT_PAGE = """<script>
+(function () {
+  var style = document.createElement("style");
+  document.head.appendChild(style);
+  function fit() {
+    var h = Math.ceil(Math.max(document.documentElement.scrollHeight, document.body.scrollHeight));
+    style.textContent = h < 19000 ? "@page{size:" + window.innerWidth + "px " + h + "px;margin:0}" : "";
+  }
+  fit();
+  window.addEventListener("load", fit);
+  window.addEventListener("beforeprint", fit);
+})();
+</script>"""
+
 CSS = """
 :root{color-scheme:light;
 --canvas:#f6f5fa;--ink:#16151c;--ink-2:#4d4b59;--muted:#8a8898;
@@ -871,15 +892,10 @@ td.empty{color:var(--muted)}
 @media (max-width:640px){.block{padding:20px 16px}.mix-row{grid-template-columns:1fr auto;row-gap:4px}.mix-track{grid-column:1/-1;order:3}.mix-meta{grid-column:1/-1;order:4}
 .stats{grid-template-columns:repeat(2,1fr)}.cover{padding-top:32px}.byline .mark{margin-left:0}}
 @media (prefers-reduced-transparency:reduce){.glass,.brandname{background:rgba(255,255,255,.94);-webkit-backdrop-filter:none;backdrop-filter:none}}
-@page{size:letter;margin:12mm 11mm}
-@media print{body{font-size:12.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.prism{position:absolute;height:100%}
-.wrap{max-width:none;padding:0}.cover{padding:8px 4px 6px}
-.glass,.brandname{background:rgba(255,255,255,.72);-webkit-backdrop-filter:none;backdrop-filter:none}
-.block{break-inside:avoid;padding:18px;margin-top:12px}
-#top_creatives,#all_ads{break-inside:auto}.creatives{grid-template-columns:repeat(3,1fr)}
-.creative,.watch,.tile,.insight,.chart-card{break-inside:avoid}tbody tr:hover{background:none}
-.media video{display:none}}
+@page{margin:0}
+@media print{html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.block,.creative,.watch,.tile,.insight,.chart-card,tr{break-inside:avoid}
+tbody tr:hover{background:none}.media video{display:none}}
 """
 
 
@@ -939,6 +955,7 @@ def render(data, embed=False):
 </main>
 <footer class="byline">{"".join(byline)}</footer>
 </div>
+{FIT_PAGE}
 </body>
 </html>
 """
@@ -965,7 +982,9 @@ def write_pdf(html_path):
         print("PDF skipped: no Chrome, Chromium, or Edge found. Open the HTML and use Print > Save as PDF.")
         return None
     pdf_path = os.path.splitext(html_path)[0] + ".pdf"
-    cmd = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--virtual-time-budget=8000",
+    # The page lays out at 1100px wide, then its own script sizes the PDF page to fit.
+    cmd = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--hide-scrollbars",
+           "--window-size=1100,1400", "--virtual-time-budget=10000",
            f"--print-to-pdf={os.path.abspath(pdf_path)}", "file://" + os.path.abspath(html_path)]
     try:
         subprocess.run(cmd, check=True, capture_output=True, timeout=120)
