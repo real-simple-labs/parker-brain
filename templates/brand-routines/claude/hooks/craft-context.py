@@ -22,7 +22,8 @@ MAX_PROFILE_BYTES = 8000
 
 # The standard layout mounts the craft layer at parker-system/ (a pinned
 # submodule of the factory); legacy flat brains keep it at the repo root.
-# Check both so the same script works in either.
+# Check both so the same script works in either. Paths in the injected text
+# use forward slashes on every OS, Windows too: the model reads them.
 _CANDIDATES = [
     Path("parker-system/creative-strategy-context/expertise-routing.md"),
     Path("creative-strategy-context/expertise-routing.md"),
@@ -63,7 +64,7 @@ def catalog() -> str:
         if m:
             return (
                 "\n\nThe craft catalog (generated from expertise-routing.md; "
-                f"paths are relative to {ROUTING.parent}/):\n"
+                f"paths are relative to {ROUTING.parent.as_posix()}/):\n"
                 + m.group(1).strip()
             )
     except OSError:
@@ -93,7 +94,7 @@ def user_profile(max_bytes: int = MAX_PROFILE_BYTES) -> str:
         "rules and preferences govern how you answer, not just what:\n" + body
     )
     if len(profile.encode("utf-8")) > min(max_bytes, MAX_PROFILE_BYTES):
-        return (f"\n\nRead {matches[0]} in full before replying. The user profile "
+        return (f"\n\nRead {Path(matches[0]).as_posix()} in full before replying. The user profile "
                 "exceeds the automatic context allowance; its standing rules still apply.")
     return profile
 
@@ -105,7 +106,7 @@ if len(context.encode("utf-8")) > MAX_CONTEXT_BYTES:
     context = (
         INSTRUCTION + user_profile()
         + "\n\nThe full craft catalog exceeds the automatic context allowance. "
-        + f"Read {ROUTING} in full before answering any creative-strategy task; "
+        + f"Read {ROUTING.as_posix()} in full before answering any creative-strategy task; "
         + "the catalog has not been injected. Do not infer its contents from memory."
     )
 

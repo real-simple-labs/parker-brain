@@ -178,6 +178,8 @@ class RuntimeHooks(unittest.TestCase):
         for row in source.splitlines():
             if row.startswith("|") and ".md" in row:
                 self.assertIn(row, context)
+        # Paths the model reads use forward slashes on Windows too.
+        self.assertIn("paths are relative to parker-system/creative-strategy-context/)", context)
         limit = self.config["hooks"]["UserPromptSubmit"][0]["hooks"][0]["additionalContextLimit"]
         self.assertLessEqual(len(context.encode("utf-8")), limit)
         profile = self.root / "users/fixture/user-profile.md"
@@ -197,7 +199,7 @@ class RuntimeHooks(unittest.TestCase):
         catalog.write_text("<!-- DOC-MAP:START -->\n" + "fixture " * 10000 + "\n<!-- DOC-MAP:END -->")
         context = json.loads(self.invoke("craft-context").stdout)["hookSpecificOutput"]["additionalContext"]
         self.assertIn("catalog has not been injected", context)
-        self.assertIn("in full before answering", context)
+        self.assertIn("Read parker-system/creative-strategy-context/expertise-routing.md in full before answering", context)
         self.assertLessEqual(len(context.encode("utf-8")), limit)
 
     def test_multibyte_context_uses_a_conservative_token_bound(self):

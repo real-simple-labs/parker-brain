@@ -1,0 +1,3 @@
+# Text files check out with LF on every OS, Windows included. The scaffold, the
+# bundle sync and their tests compare file bytes against git's LF copies.
+* text=auto eol=lf
