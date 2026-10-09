@@ -69,7 +69,12 @@ def enabled(root):
 def safe_path(root, relative):
     """Keep generated files in this worktree, including through existing symlinks."""
     path = root / relative
-    if not path.resolve().is_relative_to(root):
+    resolved = str(path.resolve())
+    # Windows keeps a \\?\ prefix when the file changes while it resolves
+    # (another collector creating it). It still names the same place.
+    if resolved.startswith("\\\\?\\") and not str(root).startswith("\\\\?\\"):
+        resolved = resolved[4:]
+    if not Path(resolved).is_relative_to(root):
         raise ValueError("usage path escapes repository")
     return path
 
@@ -95,8 +100,9 @@ def locked(root):
     # This file ignores itself too, so collecting alone leaves Git clean.
     safe_path(root, ".usage/.local/.gitignore").write_text("*\n", encoding="utf-8")
     with safe_path(root, ".usage/.local/lock").open("a+b") as stream:
-        stream.seek(0)
-        if not stream.read(1):
+        # Check the size, never read the byte: Windows locks are mandatory, so
+        # reading it while another collector holds the lock is a PermissionError.
+        if not os.fstat(stream.fileno()).st_size:
             stream.write(b"0")
             stream.flush()
         deadline = time.monotonic() + 5
