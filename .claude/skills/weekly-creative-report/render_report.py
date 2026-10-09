@@ -31,13 +31,17 @@ Standard library only, so it runs anywhere python3 does.
 
 import base64
 import html
+import ipaddress
 import json
 import math
 import os
 import shutil
+import socket
 import subprocess
 import sys
+import urllib.error
 import urllib.request
+from urllib.parse import urlsplit
 
 SECTION_ORDER = [
     "headline",
@@ -160,9 +164,63 @@ def is_video(item):
     return url.endswith((".mp4", ".mov", ".webm", ".m4v"))
 
 
+# ---------------------------------------------------------------- safe urls
+# The data file is written by Parker from its own pulls, but the page is shared
+# and the renderer runs on a team's own machine, so treat every address in it
+# as untrusted: links must be http(s), and downloads must reach the public
+# internet, never this machine or a private network.
+
+def safe_url(url):
+    """The address if it's http(s), otherwise "" so nothing links to it."""
+    if not isinstance(url, str):
+        return ""
+    url = url.strip()
+    try:
+        scheme = urlsplit(url).scheme.lower()
+    except ValueError:
+        return ""
+    return url if scheme in ("http", "https") else ""
+
+
+def safe_src(url):
+    """An image source: an inline image, or a safe http(s) address."""
+    if isinstance(url, str) and url.startswith("data:image/"):
+        return url
+    return safe_url(url)
+
+
+def public_host(url):
+    """True only when every address the host resolves to is on the public internet."""
+    try:
+        host = urlsplit(url).hostname
+        if not host:
+            return False
+        infos = socket.getaddrinfo(host, None)
+        addresses = {ipaddress.ip_address(info[4][0].split("%")[0]) for info in infos}
+    except (ValueError, OSError):
+        return False
+    return bool(addresses) and all(a.is_global for a in addresses)
+
+
+def fetchable(url):
+    return bool(safe_url(url)) and public_host(url)
+
+
+class _PublicRedirects(urllib.request.HTTPRedirectHandler):
+    """Recheck every redirect, so a public address can't bounce us somewhere private."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if not fetchable(newurl):
+            raise urllib.error.URLError("redirected to a non-public address")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_PublicRedirects)
+
+
 def ad_link(item):
     """Where an ad's name and thumbnail point: its public media first."""
-    return item.get("media_url") or item.get("link") or ""
+    return safe_url(item.get("media_url")) or safe_url(item.get("link"))
 
 
 def placeholder_thumb(label, video=False):
@@ -185,9 +243,11 @@ def placeholder_thumb(label, video=False):
 
 
 def fetch_image(url):
+    if not fetchable(url):
+        return None
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with _OPENER.open(req, timeout=15) as resp:
             ctype = resp.headers.get_content_type()
             if not ctype.startswith("image/"):
                 return None
@@ -200,11 +260,13 @@ def fetch_image(url):
 def video_frame(url):
     """Pull one frame a second in, as a JPEG data URI. None if ffmpeg isn't here."""
     ffmpeg = shutil.which("ffmpeg")
-    if not ffmpeg:
+    if not ffmpeg or not fetchable(url):
         return None
     try:
+        # The whitelist keeps ffmpeg on the web: no local files, no other protocols.
         out = subprocess.run(
-            [ffmpeg, "-v", "error", "-ss", "1", "-i", url, "-frames:v", "1",
+            [ffmpeg, "-v", "error", "-protocol_whitelist", "http,https,tls,tcp",
+             "-ss", "1", "-i", url, "-frames:v", "1",
              "-vf", "scale=540:-2", "-f", "image2", "-c:v", "mjpeg", "pipe:1"],
             capture_output=True, timeout=45, check=True,
         ).stdout
@@ -220,8 +282,8 @@ def media_html(item, ctx):
     """The ad's picture: an embedded image, a live first frame, or a placeholder."""
     video = is_video(item)
     alt = esc(item.get("name"))
-    thumb = item.get("thumbnail")
-    media = item.get("media_url")
+    thumb = safe_src(item.get("thumbnail"))
+    media = safe_url(item.get("media_url"))
     if not thumb and media and not video:
         thumb = media
     src = None
@@ -784,8 +846,8 @@ def render(data, embed=False):
     css = CSS.replace("SERIES1", SERIES_1)
     logo = ""
     if meta.get("logo"):
-        src = meta["logo"]
-        if embed and not src.startswith("data:"):
+        src = safe_src(meta["logo"])
+        if embed and src and not src.startswith("data:"):
             src = fetch_image(src) or ""
         if src:
             logo = f'<img class="logo" src="{esc(src)}" alt="{esc(meta.get("brand"))}">'
@@ -920,7 +982,7 @@ def check(data):
                  + list((data.get("all_ads") or {}).get("rows") or []))
         for a in named:
             if not ad_link(a):
-                problems.append(f"ad '{a.get('name')}' has no media_url, so its name won't link to the ad")
+                problems.append(f"ad '{a.get('name')}' has no usable media_url (missing, or not an http/https address), so its name won't link to the ad")
     mix = (data.get("format_mix") or {}).get("rows") or []
     total = sum(r.get("share", 0) for r in mix)
     if mix and not 0.97 <= total <= 1.03:
