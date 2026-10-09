@@ -69,7 +69,12 @@ def enabled(root):
 def safe_path(root, relative):
     """Keep generated files in this worktree, including through existing symlinks."""
     path = root / relative
-    if not path.resolve().is_relative_to(root):
+    resolved = str(path.resolve())
+    # Windows keeps a \\?\ prefix when the file changes while it resolves
+    # (another collector creating it). It still names the same place.
+    if resolved.startswith("\\\\?\\") and not str(root).startswith("\\\\?\\"):
+        resolved = resolved[4:]
+    if not Path(resolved).is_relative_to(root):
         raise ValueError("usage path escapes repository")
     return path
 

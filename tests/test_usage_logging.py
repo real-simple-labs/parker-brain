@@ -8,6 +8,7 @@ import sys
 import tempfile
 import tomllib
 import unittest
+from unittest import mock
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/usage-log.py"
 spec = importlib.util.spec_from_file_location("usage_log", SCRIPT)
@@ -529,6 +530,16 @@ class UsageLogging(unittest.TestCase):
         result = self.run_cli("hook", "--runtime", "claude")
         self.assertEqual(result.returncode, 0)
         self.assertFalse(list(other.iterdir()))
+
+    def test_a_windows_long_path_prefix_stays_inside_the_repo(self):
+        # Windows resolve() keeps \\?\ when a file changes mid-lookup, as
+        # when collectors running at once create .usage/.local together.
+        real = Path.resolve
+        prefixed = lambda path, *args, **kwargs: Path("\\\\?\\" + str(real(path, *args, **kwargs)))
+        with mock.patch.object(Path, "resolve", prefixed):
+            usage.safe_path(self.root, ".usage/.local/lock")
+            with self.assertRaises(ValueError):
+                usage.safe_path(self.root, "../outside")
 
 
 if __name__ == "__main__":
