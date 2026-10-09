@@ -19,14 +19,15 @@ This is the **shareable** report. It is not the brain's internal `weekly-perform
 - `setup-template.md` is the shape of the saved setup answers.
 - A full worked example lives at `parker-system/fixtures/weekly-creative-report-example.json` (fictional brand, fictional numbers). Render it if you want to see the target.
 
-## Step 0: Find the brand
+## Step 0: Find the brand's brain
 
-- **With a brain:** you're running inside the brand's folder (it has `brand-lens.md` or `sub-context-docs/`). Use it. Never load another brand's brain.
-- **Without a brain:** resolve the brand with `get_available_brands`, load `get_brand_persona`, and say in one line that you're working from Parker's brand profile, not a full brain. Everything below still runs, with three differences: there's nowhere to keep the setup, so ask the setup questions on every run (pre-filled from the brand profile where you can); there's no log, so skip the feedback count and just ask what to change each time; and save the report files to the working folder.
+This skill runs inside a brand brain. You're in one when the folder this session is running in has `brand-lens.md` or `sub-context-docs/`. Use that brain, and never load another brand's.
+
+If there's no brain here, don't build the report. Say in a sentence or two that the weekly report runs from the brand's brain, because that's where its setup, its past reports, and the brand's goals live, and offer `/set-up-brain` to build one (or to open the session in the brand's synced folder, if they already have one). Then stop.
 
 ## Step 1: Setup, first run only
 
-With a brain, look for `running-notes/weekly-report-setup.md`. If it exists, load it and skip to Step 2 (unless the user said "redo setup"). If it doesn't, this is the first run. Without a brain, every run starts here.
+Look for `running-notes/weekly-report-setup.md`. If it exists, load it and skip to Step 2 (unless the user said "redo setup"). If it doesn't, this is the first run.
 
 **Read before you ask.** The brain usually already knows most of it. Pull what's there first:
 
@@ -52,7 +53,7 @@ If they pick their own ads, ask in the same popup how to tell them apart, and of
 
 Don't ask about anything Parker can see or decide itself: the attribution source (it's in `brand-rules.md`, or check `check_northbeam_connection` and `search_triple_whale_attribution`), the look (always Parker's), the week (Monday to Sunday by default), or the sections (all on to start).
 
-With a brain, save the answers to `running-notes/weekly-report-setup.md` from `setup-template.md`, each with who answered and the date, and tell them in a line that they can change any of it any time by just saying so ("drop the full table," "add TikTok," "make it about CPA"). Without a brain, save nothing; the answers hold for this run only, and the next run asks again.
+Save the answers to `running-notes/weekly-report-setup.md` from `setup-template.md`, each with who answered and the date, and tell them in a line that they can change any of it any time by just saying so ("drop the full table," "add TikTok," "make it about CPA").
 
 ## Step 2: Set the week
 
@@ -122,9 +123,7 @@ Then look at it. Open the HTML (on a Mac, `open <report.html>`) or screenshot it
 
 ## Step 7: Save it and hand it over
 
-With a brain, save both files to `audits/[YYYY-MM]/` using the month the week ends in: `weekly-creative-report-YYYY-WW.html` and `weekly-creative-report-YYYY-WW.json` (ISO week number), plus the PDF if one was made. Add a line for it under that month in `audits/INDEX.md` if the brain has one. Then log it: add one line to the "Reports sent" section of `running-notes/weekly-report-setup.md` with the week, the file path, and the date. If you're rerunning a week that's already logged, update its line instead of adding a second. The brain saves on its own; no other step needed.
-
-Without a brain, save the HTML, JSON, and PDF to the working folder under the same names, and skip the index line and the log.
+Save both files to `audits/[YYYY-MM]/` using the month the week ends in: `weekly-creative-report-YYYY-WW.html` and `weekly-creative-report-YYYY-WW.json` (ISO week number), plus the PDF if one was made. Add a line for it under that month in `audits/INDEX.md` if the brain has one. Then log it: add one line to the "Reports sent" section of `running-notes/weekly-report-setup.md` with the week, the file path, and the date. If you're rerunning a week that's already logged, update its line instead of adding a second. The brain saves on its own; no other step needed.
 
 Then tell the person, in a few plain sentences: the week's verdict, where the file is, and what to do with it. Offer, in one line each, only what's useful:
 
@@ -132,7 +131,7 @@ Then tell the person, in a few plain sentences: the week's verdict, where the fi
 - **A private link** they can share, if this session can publish one.
 - **Every Monday, automatically.** If they want it on a schedule, offer to set that up with the scheduling this session has. The setup answers are saved, so a scheduled run needs no questions.
 
-**Ask what to change, for the first three reports.** Without a brain there's no log to count, so just ask every time. With one, count the lines under "Reports sent" (if that list looks wrong, count the `weekly-creative-report-*.json` files in `audits/` instead). If it's three or fewer, ask one popup question: anything to add, cut, or change before next week? Note on that report's log line whether they asked for changes. Save every answer to the "Standing requests" section of `running-notes/weekly-report-setup.md` with the date, and apply it from the next run on. This is how the report turns into the one this team actually wants. Past the third report, stop asking and just take changes when they come.
+**Ask what to change, for the first three reports.** Count the lines under "Reports sent" (if that list looks wrong, count the `weekly-creative-report-*.json` files in `audits/` instead). If it's three or fewer, ask one popup question: anything to add, cut, or change before next week? Note on that report's log line whether they asked for changes. Save every answer to the "Standing requests" section of `running-notes/weekly-report-setup.md` with the date, and apply it from the next run on. This is how the report turns into the one this team actually wants. Past the third report, stop asking and just take changes when they come.
 
 ## Hard rules
 

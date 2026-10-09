@@ -1,6 +1,6 @@
 # Weekly creative report setup, [Brand name]
 
-> Saved by the weekly-creative-report skill on its first run in a brand brain, at `running-notes/weekly-report-setup.md`. Every run in that brain reads it, so the report needs no questions after the first time. Each answer carries who gave it and when. Change anything by asking Parker in plain words; Parker updates this file. Without a brain, nothing gets saved and each run asks the setup questions again. Delete this note when instantiating.
+> Saved by the weekly-creative-report skill on its first run, at `running-notes/weekly-report-setup.md`. Every run reads it, so the report needs no questions after the first time. Each answer carries who gave it and when. Change anything by asking Parker in plain words; Parker updates this file. Delete this note when instantiating.
 
 ## Who reads it
 
