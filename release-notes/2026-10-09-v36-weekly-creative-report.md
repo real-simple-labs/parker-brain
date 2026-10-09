@@ -27,6 +27,10 @@ Parker stores each ad's media at a public link (`video_storage_url` or `image_st
 
 Parker V2, as the design team described it in Slack: a light canvas with soft prism washes, frosted glass panels with 24px corners and no shadows, Fraunces 300 for the title and headline, DM Sans for everything else, and dark glass play buttons over video. The exact V2 color tokens live in the app's design system file, which this repo can't see, so the tints are a close match. Chart colors come from a palette validated for colorblind readers, and the page is light only so it looks the same on every screen and in its PDF.
 
+## Exact numbers, never rounded
+
+Every number on the page is the exact value Parker pulled: $189,538.26, not $189.5K; 63.29%, not 63%; dollars always with cents. The report's own words follow the same rule, so the headline and takeaways quote exact figures too. The only numbers shown to two decimals are ones Parker calculates that don't end (a week-over-week change, a share of spend), and chart gridline labels stay short because they're a scale, not data. Agencies check these reports against Ads Manager line by line, and a rounded number reads as a wrong one. Long ad names in the full table wrap so the wider numbers fit.
+
 ## Gotchas it handles
 
 - The ad tool reports rates as percents (`hook_rate: 33.64` means 33.64%). The data file wants fractions, so the skill says to divide by 100, and the renderer warns on any percent that looks unconverted, wherever it sits: tiles, trends, creative stats, or the full table.

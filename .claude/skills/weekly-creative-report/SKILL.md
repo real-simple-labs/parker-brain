@@ -107,6 +107,7 @@ Write the report's data as JSON, following `report-schema.md` section by section
 - **Describe the ad so they can picture it.** "Opens on the founder's hands mixing a batch" beats "strong UGC hook."
 - **Be honest about certainty without labels.** The shareable report doesn't print stated or inferred tags. Say it in plain words: "our read is," "likely because," "too early to call." The data file keeps a `basis` line on every insight and plan item, so the brain's copy still carries where each claim came from.
 - **No made-up numbers, ever.** Every figure traces to a pull from Step 3.
+- **Exact numbers, never rounded.** Quote every figure the way the pull returned it, in the headline and takeaways too: "$189,538.26," not "$189.5K"; "63.29%," not "63%." Only a number you calculate that doesn't end (a week-over-week change, a share of spend) goes to two decimals. The rule is in `report-schema.md`.
 - **Match the depth to the reader from setup.** Leadership: three takeaways, three creatives, two or three insights, three or four next steps. Marketing team or internal: more creatives, more launches named, the full table.
 
 ## Step 6: Render it and look at it
