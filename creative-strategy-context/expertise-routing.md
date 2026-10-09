@@ -160,7 +160,7 @@ Scriptwriting — any task that produces spoken words for an ad:
 - `visuals.md` — the why-layer beneath the visual-vocabulary method: how the visual carries the message with sound off and copy skimmed, and the eight principles that decide whether the ad is even seen
 - `creative-consumption-analysis.md` — the persona's native-content read, so casting and on-screen situations blend into her feed
 - `creator-briefs.md` — when the script hands off to a creator, the terminology and story-structure the brief needs
-- `scriptwriting.md`, `adapting-scripts.md`
+- `scriptwriting.md`, `adapting-scripts.md` (the `recreate` skill runs this one for a video it recreates)
 
 Headline and static generation:
 - `spoken-script-voice.md` — the AI-tells list applies to headlines too
@@ -169,7 +169,7 @@ Headline and static generation:
 - `lifestyle-headline-generator.md` or `problem-solution-headline-writer.md` by brand positioning
 - `static-ad-design.md` — the design psychology of statics: the milliseconds-long eye scan, the visual-hierarchy call, message-image congruency, the money-shot, and where social proof goes. Statics have hooks too
 - `visuals.md` — the eight principles that decide whether a static is even seen, the why-layer under the design rules
-- `ai-static-ad-generation.md`, `static-ad-recreation.md` where statics are produced
+- `ai-static-ad-generation.md`, `static-ad-recreation.md` where statics are produced (the `recreate` skill runs `static-ad-recreation.md` for a static it recreates)
 - `ai-animation-prompting.md` — when the asset is AI-animated, how animation prompting differs from static-image and Veo-style video prompting
 - `legal-ai-ugc.md` — when the generated asset shows a synthetic human, the disclosure rules (the answer is labeling AI creative, not abandoning it)
 
