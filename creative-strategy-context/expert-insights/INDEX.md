@@ -27,6 +27,10 @@ Jimmy provides the source in v1. The default capture path for video is upload th
 
 ## Active Signals
 
+### 2026-10-09 — Meta Creative Shop, "Creative on Meta: Creative Playbook" (PDF, first-party platform guidance)
+
+- **Creative on Meta playbook** (undated; latest cited study ends 2026-01-03; receipt `inbox/2026-10-09-meta-creative-shop-creative-playbook.md`) - **applied on a working branch, branch review as the gate.** New knowledge doc `meta-creative-playbook.md`: format-mix minimums and Meta's stated lifts, Reels essentials, static rules, the motivators concepting method, creator briefing for inputs, remixing, and the Advantage+ creative feature inventory, with a tension section against `andromeda-v2.md`. Routed in `expertise-routing.md`; cross-linked from `andromeda-v2.md`. All figures stated by Meta; PDF not stored.
+
 ### 2026-08-07 — YouTube teaching intake (seven videos, Alex Cooper's channel, first-party)
 
 Processed factory-side on Alex's direct authorization (apply on the working branch, branch review as the gate, contradictions flagged). First-party sources: Alex's own public teaching content, so the solo videos are house doctrine and the interview guests are the third-party voices. Transcripts pulled via tooling and **not stored** (factory raw-transcript rule; the videos are the receipts). Selective intake per Alex's instruction — redundant and off-scope material deliberately skipped, logged in the intake change summary.

@@ -47,6 +47,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 | `legal-ai-ugc.md` | The legal disclosure rules for AI-generated people in ads — the core principle (disclose synthetic humans, not AI products or backgrounds) and New York's S.8420-A, the first US law requiring it: what it covers, who's liable, the penalties, what 'conspicuous' means, and why the answer is labeling AI creative, not abandoning it. A practitioner summary, not legal advice. |
 | `lifestyle-headline-generator.md` | How to write effective headlines for lifestyle brands. |
 | `lifestyle-video-ad-formats.md` | The library of video ad formats for lifestyle-positioned brands. |
+| `meta-creative-playbook.md` | Meta's own first-party creative guidance for 2026 (Creative Shop's 'Creative on Meta' playbook): the ad-set format mix and the lift numbers Meta attaches to it, the Reels creative essentials, the static-as-billboard rules, the motivators method for concepting with white-space maps and a motivator-to-concept worksheet, creator-squad diversity and input-based creator briefs, remixing and format adaptation for asset volume, and the Advantage+ creative generative-AI features. Includes where Meta's advice sits against practitioner doctrine on creative diversity. |
 | `new-product-launches.md` | How to build launch creative for an established brand's new product or SKU — what counts as genuinely new (and what is only a restock or a promotional wrapper), the classifier (Step Zero), the three launch scenarios (depth / bridge-and-expand / audience-expansion), why brand authority transfers along some axes and not others, the diagnostic, awareness-stage and proof strategy, and per-format output specs. Covers new SKUs, colorways, formats, bundles, spinoffs, and new-audience entries. |
 | `new-sku-launch.md` | Launching a new SKU into an existing catalog (colorway, flavor, format, bundle, spinoff) — the Scenario A/B case of the launch method, which lives in full in new-product-launches.md. |
 | `non-problem-solution-creative.md` | Creative strategy for non-problem-solution brands — products bought for transformation, emotion, and belonging rather than to fix a pain. Why agitation misfires here, what to sell instead (the feeling, the experience, disruptor status), and the reaction- and story-led formats that carry it. |
@@ -73,6 +74,7 @@ Performance reports and audits (weekly, monthly, 90-day), performance-targets-an
 - `ad-metrics-glossary.md` — plain-language definitions of the Meta metrics the read leans on; pull it when a number's meaning or calculation is in question
 - `killer-performance-ads.md` — what a genuinely great ad looks like, the bar every read grades against
 - `andromeda-v2.md` — how Meta's delivery system behaves, so delivery patterns are read as auction mechanics rather than mysteries
+- `meta-creative-playbook.md` — Meta's own stated format-mix minimums (three formats per ad set, the 9:16-with-audio share) to check ad sets against, carried as Meta's numbers rather than promised lifts
 
 Hook audits, any read of openers, and any feedback or critique on a video ad or a hook:
 - `hook-psychology.md` — the canonical why-layer; the lead doc for generating hooks and for giving feedback/critique on a hook or video ad. Reason from its mechanisms (notice / qualify / intrigue / reassure / move / transport) and diagnose a weak hook by which job it fails — before reaching for format labels
@@ -88,12 +90,14 @@ Selecting which ads to iterate on (account-level "what should we iterate on," be
 
 Iteration reads (biweekly iterations report, iteration recommendations anywhere):
 - `iterations.md` — the iteration doctrine
+- `meta-creative-playbook.md` — Meta's remixing and format-adaptation moves for asset volume, read through `andromeda-v2.md`'s differentiation hierarchy where the two pull apart
 - `ad-account-analysis.md`
 - `ai-writing-tells.md` — when the iteration produces new copy (hooks, headlines, script lines), that copy passes the lint-then-judge review like any other creative deliverable
 
 90-day creative-strategy audit and diversity audit:
 - `killer-performance-ads.md`, `ad-account-analysis.md`, `hooks.md`, `ad-formats/`, `iterations.md`
 - `persona-research-and-creative-strategy-process.md` — the served-vs-buyer read lives here
+- `meta-creative-playbook.md` — the platform's format-mix minimums and its creative white-space map, a quick way to show where the account is crowded or empty
 
 Visual-vocabulary generation — building the brand's `sub-context-docs/visual-vocabulary.md`:
 - `visual-vocabulary-method.md` — the canonical method: in-play/adjacent/out-of-play classification, the script-congruence and format-dependence rules
@@ -140,6 +144,7 @@ Idea bank, idea evaluation, sprint plan, brief creation, concepting:
 - `emotional-delivery-and-timing.md` — for brief creation especially: the TEEP phase and the from→to emotional shift are required brief inputs, and the funnel-as-emotional-arc lens shapes how variations diverge
 - `creator-briefs.md` — for brief creation: the freedom-vs-direction call (freestyle vs director briefs), the role of references, the shared creator terminology, and giving the creator a story structure to build on
 - `creative-consumption-analysis.md` — the per-persona read of the native content a persona already watches, reverse-engineered into a casting and production brief
+- `meta-creative-playbook.md` — Meta's motivator-to-concept chain (motivator or barrier, benefit, message theme, hook, concept), creator-squad diversity, and briefing creators for inputs (alternate hooks, background footage) as well as finished deliverables
 
 Idea evaluation specifically also loads, because it grades the captured pile against the strategy rather than capturing it:
 - `persona-research-and-creative-strategy-process.md` — so each idea's persona and served-vs-buyer read is graded, not assumed

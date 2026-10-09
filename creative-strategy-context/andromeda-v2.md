@@ -46,6 +46,8 @@ This is your complete guide to understanding and thriving under Meta's Creative 
 
 **The core shift:** Meta moved from rewarding MORE ads to rewarding DIFFERENT ads. Volume still matters, but only if each ad is distinctly different enough to reach new audiences.
 
+**Meta's own version:** `meta-creative-playbook.md` digests Meta Creative Shop's 2026 playbook, the platform's first-party guidance on format mix, motivators, remixing, and Advantage+ creative. It agrees with this doc on the shift and pulls against it on hook-swap and message-only variants; that doc's tension section says where and how to reconcile.
+
 ---
 
 ## The Foundational Shift: Why Meta Changed The Algorithm
