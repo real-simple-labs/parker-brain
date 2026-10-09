@@ -12,10 +12,10 @@
     "currency_symbol": "$",
     "audience": "exec"
   },
-  "headline": "A strong week: we spent 9% more and ROAS still climbed to 2.71x, thanks to two founder-led videos that are now carrying 38% of the account.",
+  "headline": "A strong week: we spent 9.25% more and ROAS still climbed to 2.71x, thanks to two founder-led videos that are now carrying 38.17% of the account.",
   "takeaways": [
-    "ROAS hit 2.71x, above the 2.5x goal for the third week running, while spend rose to $48.2K.",
-    "Founder-led video is the clear winner. The two \"Why I made this\" cuts did $18.4K at 3.12x combined.",
+    "ROAS hit 2.71x, above the 2.50x goal for the third week running, while spend rose to $48,210.",
+    "Founder-led video is the clear winner. The two \"Why I made this\" cuts did $18,400 at 3.12x combined.",
     "The holiday gift-set statics are tiring. Click rate on the top one fell from 1.3% to 0.98% in two weeks, so we're refreshing them before Q4 spend ramps."
   ],
   "kpis": [
@@ -205,7 +205,7 @@
         ]
       }
     ],
-    "read": "Spend is up 33% over eight weeks and ROAS went up with it, from 2.21x to 2.71x. That's the good kind of growth. Usually more spend pulls efficiency down, so this tells us the new creative is finding fresh buyers, not just hitting the same people harder."
+    "read": "Spend is up 33.18% over eight weeks, from $36,200 to $48,210, and ROAS went up with it, from 2.21x to 2.71x. That's the good kind of growth. Usually more spend pulls efficiency down, so this tells us the new creative is finding fresh buyers, not just hitting the same people harder."
   },
   "top_creatives": [
     {
@@ -335,7 +335,7 @@
     {
       "name": "Gift set static: The cozy bundle",
       "issue": "Tiring",
-      "evidence": "Click rate dropped from 1.3% to 0.98% over two weeks, and frequency is up to 2.1. Still at 2.2x ROAS, so it's not losing money yet.",
+      "evidence": "Click rate dropped from 1.3% to 0.98% over two weeks, and frequency is up to 2.1. Still at 2.20x ROAS, so it's not losing money yet.",
       "action": "Keep it on, but launch the two refreshed versions Monday so they can take over before it slips below goal.",
       "media_type": "image",
       "format": "Static"
@@ -343,7 +343,7 @@
     {
       "name": "Lifestyle video: Cabin morning routine",
       "issue": "Spending without results",
-      "evidence": "Spent $2,380 this week at 1.4x ROAS, well under our 2.5x goal, and it's not improving after three weeks.",
+      "evidence": "Spent $2,380 this week at 1.40x ROAS, well under our 2.50x goal, and it's not improving after three weeks.",
       "action": "Turn it off. The idea isn't wrong, but this version isn't working. We'll fold the best shot into a founder-video test instead.",
       "media_type": "video",
       "format": "Lifestyle video"
@@ -378,7 +378,7 @@
   "insights": [
     {
       "title": "People want the person behind the brand",
-      "body": "Both top ads lead with Maya, the founder. Ads with her on camera averaged 3.1x ROAS this week, against 2.4x for everything else. Her story does work our product shots can't.",
+      "body": "Both top ads lead with Maya, the founder. Ads with her on camera averaged 3.10x ROAS this week, against 2.40x for everything else. Her story does work our product shots can't.",
       "basis": "Verified: founder-tagged ads vs the rest, spend-weighted ROAS from the week's pull."
     },
     {
@@ -407,7 +407,7 @@
     },
     {
       "action": "Turn off the cabin morning routine video",
-      "why": "$2,380 spent at 1.4x with no sign of turning around.",
+      "why": "$2,380 spent at 1.40x with no sign of turning around.",
       "owner": "Lakeside",
       "basis": "Inferred from this week's read; see insights and watch list."
     },

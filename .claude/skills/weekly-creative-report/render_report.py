@@ -30,6 +30,7 @@ Standard library only, so it runs anywhere python3 does.
 """
 
 import base64
+from decimal import Decimal
 import html
 import ipaddress
 import json
@@ -74,36 +75,80 @@ def esc(value):
 # ---------------------------------------------------------------- formatting
 
 def compact(n):
-    """Short enough for a tile, exact enough for an exec: 1,534 / 48.2K / 1.2M."""
+    """Short enough for a tile, exact enough for an exec: 1,534 / 48.2K / 189.5K / 1.2M."""
     a = abs(n)
     if a >= 1_000_000:
         return f"{n / 1_000_000:.1f}M".replace(".0M", "M")
-    if a >= 100_000:
-        return f"{n / 1_000:.0f}K"
     if a >= 10_000:
         return f"{n / 1_000:.1f}K".replace(".0K", "K")
     return f"{n:,.0f}"
 
 
-def fmt(value, kind, currency="$", full=False):
-    """Format one number by its kind. full=True keeps every digit (tables)."""
-    if value is None:
-        return "n/a"
+def exact(d, min_dp=0):
+    """A Decimal written out in full: thousands commas, every digit it has, at least min_dp decimals."""
+    d = d.normalize()
+    text = format(d, "f")
+    sign = "-" if text.startswith("-") else ""
+    text = text.lstrip("-")
+    whole, _, frac = text.partition(".")
+    frac = frac.ljust(min_dp, "0")
+    return f"{sign}{int(whole):,}" + (f".{frac}" if frac else "")
+
+
+class ExactFloat(float):
+    """A number from the data file that remembers exactly how it was written.
+    It does math like any float (charts, deltas), but formatting reads its
+    original text, so 1.23456789012345678 prints with every digit."""
+
+    def __new__(cls, text):
+        number = super().__new__(cls, text)
+        number.text = text
+        return number
+
+
+def to_decimal(value):
+    """The value as an exact Decimal, or None if it isn't a usable number.
+    Whole numbers go in as-is (no float step that could change a big one);
+    floats go in by their shortest exact form; NaN and infinity are rejected."""
+    if isinstance(value, bool) or value is None:
+        return None
     try:
-        v = float(value)
-    except (TypeError, ValueError):
-        return str(value)
+        if isinstance(value, ExactFloat):
+            d = Decimal(value.text)
+        elif isinstance(value, int):
+            d = Decimal(value)
+        else:
+            d = Decimal(repr(float(value)))
+    except (TypeError, ValueError, ArithmeticError):
+        return None
+    return d if d.is_finite() else None
+
+
+def calc_percent(fraction):
+    """A share or rate Parker calculated, which can carry float noise
+    (0.30000000000000004): shown to two decimals, the rule for calculated numbers."""
+    d = to_decimal(fraction)
+    if d is None:
+        return "n/a"
+    return exact((d * 100).quantize(Decimal("0.01")), 0) + "%"
+
+
+def fmt(value, kind, currency="$", full=False):
+    """Format one number by its kind, exactly as it was pulled. The report never
+    rounds or shortens a number (no 48.2K): a team checks these against Ads Manager.
+    `full` is kept for callers; every number is already full."""
+    d = to_decimal(value)
+    if d is None:
+        return "n/a" if value is None or isinstance(value, (int, float)) else str(value)
     if kind == "currency":
-        if full or abs(v) < 1000:
-            return f"{currency}{v:,.2f}" if abs(v) < 100 else f"{currency}{v:,.0f}"
-        return f"{currency}{compact(v)}"
+        return f"{currency}{exact(d, 2)}"
     if kind == "ratio":
-        return f"{v:.2f}x"
+        return f"{exact(d, 2)}x"
     if kind == "percent":
-        return f"{v * 100:.1f}%"
+        return f"{exact(d * 100)}%"
     if kind == "decimal":
-        return f"{v:.2f}"
-    return f"{v:,.0f}" if full else compact(v)
+        return exact(d, 2)
+    return exact(d)
 
 
 def delta_parts(kpi):
@@ -112,13 +157,15 @@ def delta_parts(kpi):
     if value is None or prior in (None, 0):
         return None
     kind = kpi.get("format", "number")
+    # A change is calculated, not pulled, so it can run on forever (50.4134...%).
+    # It's the one number shown to two decimals.
     if kind == "percent":
         change = (value - prior) * 100
-        text = f"{change:+.1f} pts"
+        text = f"{change:+.2f} pts"
     else:
         change = (value - prior) / abs(prior) * 100
-        text = f"{change:+.1f}%"
-    if abs(change) < 0.05:
+        text = f"{change:+.2f}%"
+    if abs(change) < 0.005:
         return ("Flat vs last week", "neutral", "&#9654;")
     direction = kpi.get("good_direction", "up")
     up = change > 0
@@ -591,10 +638,10 @@ def render_mix(d, ctx):
         share = r.get("share", 0)
         width = 100 * share / top
         bars.append(
-            f'<div class="mix-row" title="{esc(r.get("label"))}: {share * 100:.1f}% of spend">'
+            f'<div class="mix-row" title="{esc(r.get("label"))}: {calc_percent(share)} of spend">'
             f'<span class="mix-label">{esc(r.get("label"))}</span>'
             f'<span class="mix-track"><span class="mix-bar" style="width:{width:.1f}%"></span></span>'
-            f'<span class="mix-val">{share * 100:.0f}%</span>'
+            f'<span class="mix-val">{calc_percent(share)}</span>'
             f'<span class="mix-meta">{esc(r.get("metric", ""))}</span></div>'
         )
     body = f'<div class="mix">{"".join(bars)}</div>'
@@ -727,7 +774,7 @@ p{margin:0}
 .tile{background:var(--solid);border-radius:16px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:4px;border:1px solid var(--glass-line)}
 .tile.lead{border:1.5px solid var(--ink-pill)}
 .tile .label{font-size:13px;color:var(--ink-2);font-weight:500}
-.tile .value{font-size:30px;font-weight:600;line-height:1.15;letter-spacing:-.015em}
+.tile .value{font-size:26px;overflow-wrap:anywhere;font-weight:600;line-height:1.15;letter-spacing:-.015em}
 .delta{font-size:13px;font-weight:600}
 .delta.good{color:var(--good)}.delta.bad{color:var(--bad)}.delta.neutral{color:var(--muted)}
 .tile-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:8px;gap:8px}
@@ -791,7 +838,7 @@ background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.35);-webkit-backdr
 .evidence{color:var(--ink-2);font-size:14px;margin-top:4px}
 .action{font-size:14px;margin-top:6px}
 .mix{display:grid;gap:10px}
-.mix-row{display:grid;grid-template-columns:minmax(110px,180px) 1fr 44px minmax(90px,150px);align-items:center;gap:12px;font-size:14px}
+.mix-row{display:grid;grid-template-columns:minmax(110px,180px) 1fr minmax(64px,auto) minmax(90px,150px);align-items:center;gap:12px;font-size:14px}
 .mix-label{font-weight:500}
 .mix-track{height:14px;display:block;background:rgba(22,21,28,.05);border-radius:999px}
 .mix-bar{display:block;height:14px;background:var(--series);border-radius:999px;min-width:4px}
@@ -809,7 +856,9 @@ background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.35);-webkit-backdr
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--solid);border-radius:16px;border:1px solid var(--glass-line)}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th{text-align:left;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--axis);padding:10px 12px;white-space:nowrap}
-td{border-bottom:1px solid var(--grid);padding:9px 12px;vertical-align:top}
+td{border-bottom:1px solid var(--grid);padding:9px 10px;vertical-align:top}
+td:first-child{overflow-wrap:anywhere;min-width:160px;max-width:300px}
+th{padding:10px}
 tbody tr:last-child td{border-bottom:0}
 td a{text-decoration:none}td a:hover{text-decoration:underline}
 .ext{color:var(--muted);font-size:11px}
@@ -819,7 +868,7 @@ td.empty{color:var(--muted)}
 .byline{margin:26px 4px 0;font-size:12.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:4px 18px}
 .byline b{color:var(--ink);font-weight:600}
 .byline .mark{margin-left:auto;color:var(--muted)}
-@media (max-width:640px){.block{padding:20px 16px}.mix-row{grid-template-columns:1fr 44px;row-gap:4px}.mix-track{grid-column:1/-1;order:3}.mix-meta{grid-column:1/-1;order:4}
+@media (max-width:640px){.block{padding:20px 16px}.mix-row{grid-template-columns:1fr auto;row-gap:4px}.mix-track{grid-column:1/-1;order:3}.mix-meta{grid-column:1/-1;order:4}
 .stats{grid-template-columns:repeat(2,1fr)}.cover{padding-top:32px}.byline .mark{margin-left:0}}
 @media (prefers-reduced-transparency:reduce){.glass,.brandname{background:rgba(255,255,255,.94);-webkit-backdrop-filter:none;backdrop-filter:none}}
 @page{size:letter;margin:12mm 11mm}
@@ -997,7 +1046,7 @@ def main(argv):
         return 2
     src, out = args
     with open(src, encoding="utf-8") as fh:
-        data = json.load(fh)
+        data = json.load(fh, parse_float=ExactFloat)
     problems = check(data)
     for p in problems:
         print(f"WARNING: {p}")
