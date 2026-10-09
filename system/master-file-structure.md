@@ -83,6 +83,7 @@ parker/
 │       │   ├── refresh-schedule.md                 ← aggregated freshness view (see loading sequence above)
 │       │   ├── success-definition.md
 │       │   ├── brand-rules.md
+│       │   ├── weekly-report-setup.md          ← written by the weekly-creative-report skill on its first run
 │       │   └── recent-validations.md
 │       │
 │       ├── strategy/                               ← PHASE 2 — who to target + what to lead with, for approval
@@ -350,6 +351,7 @@ parker/
 │   │   ├── hooks/
 │   │   ├── headlines/
 │   │   ├── recreate/
+│   │   ├── weekly-creative-report/             ← shareable weekly report: SKILL.md, render_report.py, report-schema.md, setup-template.md
 │   │   ├── brief/
 │   │   └── analyze-ads/
 │   ├── performance/

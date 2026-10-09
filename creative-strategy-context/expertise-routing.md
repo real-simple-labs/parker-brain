@@ -69,7 +69,7 @@ Many of these docs end with a required sign-off line ("This is everything I know
 
 ## Own ad-account reads
 
-Performance reports and audits (weekly, monthly, 90-day), performance-targets-and-metrics, whitespace:
+Performance reports and audits (weekly, monthly, 90-day, and the shareable report the `weekly-creative-report` skill builds for a brand's leadership), performance-targets-and-metrics, whitespace:
 - `ad-account-analysis.md` — the canonical own-account reading method
 - `ad-metrics-glossary.md` — plain-language definitions of the Meta metrics the read leans on; pull it when a number's meaning or calculation is in question
 - `killer-performance-ads.md` — what a genuinely great ad looks like, the bar every read grades against
