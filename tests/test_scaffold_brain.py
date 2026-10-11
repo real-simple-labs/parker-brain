@@ -146,7 +146,7 @@ class Scaffold(unittest.TestCase):
             self.assertNotIn("> Status", rendered[path], path)
             self.assertNotIn("> Template for", rendered[path], path)
         sync = rendered["running-notes/standard-sync.md"]
-        self.assertIn("- **Posture:** `follow`\n", sync)
+        self.assertIn("- **Posture:** `follow`\n- **Auto-update:** on\n", sync)
         self.assertIn("- **Pinned release:** v99\n", sync)
         self.assertIn("- **Migrations applied through:** v99\n", sync)
         self.assertIn(f"- **Factory remote:** {scaffold.FACTORY_REMOTE}\n", sync)

@@ -130,7 +130,7 @@ parker/
 │       │   ├── hooks/mount-guard.py                 ← Codex patch/direct-shell guard; native filesystem permissions provide the isolation layer
 │       │   ├── hooks/git-guard.py                   ← PreToolUse guard on Bash: on `parker-brain` org repos blocks the git commands that move history/network/working tree (push, pull, fetch, commit, rebase, merge, reset, restore, checkout, switch, clean, stash, set-url, submodule deinit, submodule update --remote, rm except --cached), clones and submodule adds of a managed parker-brain/ URL (the public factory still clones), and gh aimed at the brand repo — Parker Desktop owns the sync, per save-brain; mount ops and read-only git pass
 │       │   ├── README.md
-│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
+│       │   └── skills/{dream,self-improve,research-loops,update-brain,harvest-ideas,evaluate-ideas,refresh-context,save-brain,disconnect-factory,setup-routines,get-started}/SKILL.md  ← the routine bundle + the on-demand get-started walkthrough (self-contained at runtime, with one exception: update-brain runs the mount's scripts/update-brain.py to decide what installs on its own and to record each step, and scripts/sync-executable-layer.py on a pin bump to re-sync the copied executable layer deterministically)
 │       │
 │       ├── .codex/                                 ← The OpenAI Codex twin of .claude/'s guardrails; COPIED from templates/brand-routines/codex/ by the scaffold (system/codex-support.md is the contract)
 │       │   ├── config.toml                          ← wires shared root-resolving hooks + mount-guard, and the parker-brain filesystem profile
@@ -411,6 +411,7 @@ parker/
 ├── .codex/config.toml                            ← factory opt-in usage hooks; no brand workflow guards
 ├── .usage/                                       ← created only when enabled; committed exports and ignored .local checkpoints
 ├── scripts/usage-log.py                           ← shared metadata-only token collector and report CLI
+├── scripts/update-brain.py                        ← run by a brand brain's /update-brain through the mount: `plan` says which release the brain may install with nobody asked (every migration on the way a no-op or marked `**Auto-apply:** yes`), `record-migration` / `record-pin` keep the update ledger honest, `auto-update on|off` (v40)
 ├── scripts/scaffold-brain.py                      ← builds an empty brand brain with no AI: `init` in a brand folder, `manifest` for a release, `push` to test the backend path (system/brain-scaffold.md)
 ├── system/brain-scaffold.md                       ← what a new brain starts with (the bundle map + SEEDS), the .scaffolded marker, the release manifest, and the backend's three calls
 ├── templates/brand-scaffold/                      ← brand-owned seed files the scaffold writes once: the brain's starter README.md, the six living-layer folder READMEs, and (since v32) a README for each folder the build and the team fill

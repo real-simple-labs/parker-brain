@@ -20,7 +20,7 @@ Six routines ship with this brain (jobs travel in the repo and are live; the bui
 - **`self-improve.md`** — weekly, Fri 16:00. Runs `/self-improve`: curates traces, disposes dreaming and research proposals.
 - **`ideas-weekly.md`** — weekly, Mon 07:00. Runs `/harvest-ideas` then `/evaluate-ideas`.
 - **`refresh-context.md`** — weekly, Mon 06:00. Runs `/refresh-context` over docs past their `refresh_by`.
-- **`update-brain.md`** — weekly, Mon 05:30. Runs `/update-brain`: compares the brain against the current factory standard and its own canonical build, and writes the offer list — never applies without the user.
+- **`update-brain.md`** — weekly, Mon 05:30. Runs `/update-brain`: compares the brain against the current factory standard and its own canonical build, installs the newest release that's safe to take unattended (the team's edits stay theirs), and writes what's left as offers.
 
 ## The routine log
 
