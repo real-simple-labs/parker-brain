@@ -22,7 +22,7 @@ The discipline: reason-why-saved is mandatory and is written by a human, not gen
 
 ## Storage and access
 
-The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. Capture, curate, and retrieval all run through Parker MCP via `ask_parker_agent`, passing the active `brand_id` and a tag-formatted query. Skills that need references search Parker; they do not search the filesystem. In the tiered retrieval order — internal favorites, Parker favorites, global AI-tagged DB — this database is the top tier. When a query returns a strong match here, search stops and the entry is used.
+The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. No tool available to users captures, curates, or retrieves from it today, so it is out of reach, and nothing stands in for it: a skill that needs references searches the corpora the Parker MCP does reach, names the corpus it searched, and never reports a result as an entry of this database (see `parker-system/system/parker-tools.md`). Skills that need references search Parker; they do not search the filesystem. Once a tool reaches these databases, the tiered retrieval order applies — internal favorites, Parker favorites, global AI-tagged DB — with this database as the top tier, where a strong match stops the search. Until then, no tier order applies.
 
 ## Schema
 
@@ -67,6 +67,8 @@ Output the curate-pass report: candidates flagged for human review with the flag
 The team makes the final keep-archive-update calls. Parker does not archive an internal favorites entry without human review.
 
 ## Usage hooks
+
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
 
 The internal favorites DB loads into Parker skills as a high-priority, human-vetted reference surface. The retrieval order across the three databases is: internal favorites first for human-vetted matches, Parker favorites second for Parker's codified patterns, global DB third for the long-tail search.
 

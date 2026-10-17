@@ -20,7 +20,7 @@ The database is brand-agnostic at capture and brand-aware at retrieval. The capt
 
 ## Storage and access
 
-The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. Capture, curate, and retrieval all run through Parker MCP via `ask_parker_agent`, passing the active `brand_id` and a tag-formatted query. Skills that need references — scriptwriting's find-reference-ads, iterations' frankenstein-stitch, mashup, hook-iteration, messaging-angle-iteration, ai-ad-generation — query Parker; they do not search the filesystem. The schema below is the contract Parker enforces on entries. The capture and curate prompts are what Parker runs against incoming ads and the existing pool.
+The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. No tool available to users captures, curates, or retrieves from it today, so it is out of reach, and nothing stands in for it: a skill that needs references searches the corpora the Parker MCP does reach, names the corpus it searched, and never reports a result as an entry of this database (see `parker-system/system/parker-tools.md`). Skills that need references — scriptwriting's find-reference-ads, iterations' frankenstein-stitch, mashup, hook-iteration, messaging-angle-iteration, ai-ad-generation — query Parker; they do not search the filesystem. The schema below is the contract Parker enforces on entries. The capture and curate prompts are what Parker runs against incoming ads and the existing pool.
 
 ## Schema
 
@@ -79,6 +79,8 @@ You are running the quarterly curate pass on the global AI-tagged ads database. 
 Output the curate-pass report: entries archived with reasons, clusters surfaced with the related-entries populated, boards surfaced with their entries and lane.
 
 ## Usage hooks
+
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
 
 The database loads into several Parker skills at retrieval time. The lane-relevance filter runs per brand at retrieval.
 

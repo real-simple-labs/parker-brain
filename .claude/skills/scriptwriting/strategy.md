@@ -23,7 +23,7 @@ This is the routing decision. Default to reference-driven adaptation.
 Adaptation is the default because AI cannot write good net-new scripts cold. The path:
 
 1. **build-brand-voice-profile** — build or load the brand's voice fingerprint first, from the brand's own winning scripts read out loud.
-2. **find-reference-ads** — pull a handful of reference ads in source order: the brand's own account scripts first, then captured vault competitor/inspo scripts, then the niche organic library, then the global AI-tagged DB. Filter by the tags that match the request — format, angle, awareness stage, persona, hook type, brand type.
+2. **find-reference-ads** — pull a handful of reference ads in source order: the brand's own account scripts first, then captured vault competitor/inspo scripts, then the niche organic library, then the public ad library (`search_competitor_facebook_ads`) and the team's swipe file (`search_swipe_file`); the global AI-tagged DB has no tool available to users. Filter by the tags that match the request — format, angle, awareness stage, persona, hook type, brand type.
 3. **adapt-existing-script** — adapt the chosen reference for the brand. Preserve the structural skeleton; rewrite every word in the brand's voice fingerprint.
 
 Apply this default unless one of the net-new triggers fires.

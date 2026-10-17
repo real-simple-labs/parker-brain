@@ -1,10 +1,10 @@
 # Process — Find Reference Ads
 
-Pull a handful of relevant reference ads from Parker's ad databases, evaluate them, and pick the single best one to adapt. The chosen reference then feeds into adapt-existing-script.
+Pull a handful of relevant reference ads from the sources Parker can reach, evaluate them, and pick the single best one to adapt. The chosen reference then feeds into adapt-existing-script.
 
 This is the default first step of any scriptwriting request.
 
-The ad databases live in Parker, not on the filesystem. Three tiers are queryable: the **internal favorites DB** (team-curated, highest trust), **Parker's favorites DB** (Parker's own codified patterns, high confidence), and the **global AI-tagged ads DB** (continuous capture across all brands Parker has read, broadest pool). Every ad is tagged across multiple AI tag dimensions — format, hook type, angle, persona, behavioral signal, awareness stage, brand type, emotional driver. Access is through the Parker MCP `ask_parker_agent` tool with the active brand_id and a tag-formatted query. Search in tier order: internal favorites first, then Parker favorites, then the global tagged DB if more breadth is needed.
+The method describes three ad databases in Parker, not on the filesystem: the **internal favorites DB** (team-curated, highest trust), **Parker's favorites DB** (Parker's own codified patterns, high confidence), and the **global AI-tagged ads DB** (continuous capture across all brands Parker has read, broadest pool). Every ad is tagged across multiple AI tag dimensions — format, hook type, angle, persona, behavioral signal, awareness stage, brand type, emotional driver. No tool available to users reaches them today, so all three are out of reach. Search the sources the skill names instead, in its source order: the brand's own account scripts (`search_facebook_ads_semantic`), the competitor and inspo scripts already captured in the brand's brain, the niche's top organic library (`search_tiktok_videos`), then the public ad library (`search_competitor_facebook_ads`) and the team's swipe file (`search_swipe_file`). Name the source each candidate came from; never call it a favorites or global-DB pick (see `parker-system/system/parker-tools.md`).
 
 ## Required inputs
 
@@ -27,7 +27,7 @@ The ad databases live in Parker, not on the filesystem. Three tiers are queryabl
    - Persona or behavioral signal.
    - Emotional driver.
 
-2. **Query Parker.** Run the tag-formatted query through Parker MCP `ask_parker_agent` against each tier in order — internal favorites, Parker favorites, global AI-tagged DB — and stop at the first tier that returns enough strong matches. Typically the strongest references match on 3-5 tag dimensions, not all of them.
+2. **Query Parker.** Run the tag-formatted query through the searches above and stop when their results together give enough strong matches. Typically the strongest references match on 3-5 tag dimensions, not all of them.
 
 3. **Surface 3-5 candidates.** Of the matches, present the top few that:
    - Match the brand's audience and identity, not just the tags.

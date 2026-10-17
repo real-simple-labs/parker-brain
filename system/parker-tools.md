@@ -2,7 +2,7 @@
 
 > The canonical inventory of what **Parker** can reach to research and validate. Every prompt or skill that says "how to validate," "where to look," or names a data pull grounds in this list — never invent a tool, and never assume Parker has a tool just because the build environment does. When the toolset changes, update here in the same pass; the `system-of-records` audit checks references against it.
 
-Parker's tools are the **Parker MCP** set. That is the runtime toolset — the brand's own data, plus a fetch-a-known-page reach into the web. Parker reasons over what these return, plus the model's own domain knowledge. Tool names below are the **current** Parker MCP names; they are the literal strings prompts and skills should reference.
+Parker's tools are the **Parker MCP** set. That is the runtime toolset — the brand's own data. The web tools are chat-only (see "Chat-only tools" below). Parker reasons over what these return, plus the model's own domain knowledge. Tool names below are the **current** Parker MCP names; they are the literal strings prompts and skills should reference.
 
 ## If Parker MCP is not connected — read this first
 
@@ -19,7 +19,7 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 | To research / validate… | Tool | Notes |
 |---|---|---|
 | The brand's strategy context doc | `get_brand_persona` | the brand context document — Parker's single source of truth for brand strategy and messaging. Pull once at the start of a brand session |
-| Which brand / the live date | `get_available_brands`, `get_current_time` | resolve and lock the `brand_id` first; the clock is for recency reads and freshness stamps |
+| Which brand | `get_available_brands` | resolve and lock the `brand_id` first. Today's date, for recency reads and freshness stamps, is under "Chat-only tools" below |
 | Customer reviews | `search_customer_reviews_sql`, `search_customer_reviews_semantic` | SQL for counts and filters, semantic for theme-finding |
 | The brand's ad account and performance | `search_facebook_ads_sql`, `search_facebook_ads_semantic` | own-brand paid only — the running creative, spend, ROAS, hooks, formats, AI tags, metric sets |
 | Brand-specific custom / formula metrics | `list_custom_metrics` | the brand's custom conversions, events, and equation metrics; sort/total them through `search_facebook_ads_sql` |
@@ -31,13 +31,20 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 | Organic social — own + tracked | `search_and_manage_organic_social` | the brand's (and tracked brands') organic posts, stats, competitive reports, and tracking roster; also subscribes/unsubscribes organic tracking |
 | TikTok and video | `search_tiktok_videos`, `analyze_video_from_url` | niche-creator corpus, and full-video reads of a URL or an uploaded file |
 | Reddit — what customers say to each other | `search_reddit_posts_and_comments` | the brand's indexed posts **and** comments as flat peers, from the curated subreddits it scrapes on a schedule. **Gated on Reddit onboarding being completed for the brand** — check before promising it, and send the user to the dashboard URL the tool returns if it isn't. Three modes: `sql_search` for counts, dates and keyword browse, `semantic_search` for meaning, `both` (default) to merge. Semantic takes **4–10 short keyword phrases, not a sentence** — each is embedded separately, so varied phrasing is what buys recall; retry with different phrasings or a lower threshold before raising `top_k` |
-| A specific web page Parker already has the URL for | `get_webpage` | **fetch only** — it reads a known URL, it does not search |
 | Prior conversations | `search_chat_history` | what was discussed before, across web and Slack. Brand-scoped and multi-teammate: `listThreads` lists the brand's past threads with dates and previews (paginate with the offset), `getMessages` reads one thread, and web threads carry an `authorName` so you can tell which teammate said what. Two uses: reading the prior audit for trajectory, and at cold start pulling the team's whole past Parker history as a first-class source for the team-knowledge Phase-1 docs (the `team-conversations` block) |
-| Memory write-back | `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) |
 
 **Not a research tool:** `manage_insights_subscriptions` is the user-facing recurring-reports product — the catalog, subscriptions, custom insight definitions, and their schedules — not a way to answer a loop.
 
-**Chat-only tools:** a few prompts also name tools that Parker's chat agent (web, Slack, scheduled runs) has and the MCP does not expose, so an MCP session or a build never has them: `parker_file_system` (Parker's own notes and working files, kept between conversations), `get_context_docs` (Parker's stored context documents), and `search_web` (open-web search, only for teams that have it turned on; see the web-search gap below). `ask_parker_agent` is on Parker's other MCP endpoint, the one that asks the Parker agent a question, not in the tool set above.
+**Chat-only tools.** Parker's chat agent (web, Slack, scheduled runs) has a few more tools that the MCP does not expose, so a Claude Code session (a build, a routine, everyday work in the brain) never has them. Prompts still name them, because the chat reads the same docs. In Claude Code, use the stand-in below, and name a Claude Code tool as Claude Code's, never as Parker's. Where a doc says "in Claude Code", read it as a Codex session too, with two limits. Parker Desktop runs Codex with no network (`system/codex-support.md`), so there it has no web search or page fetch: treat those slices as constrained. And if the session gives no date, ask for it rather than guess.
+
+| Chat tool | What it does | In Claude Code |
+|---|---|---|
+| `get_current_time` | today's date, for recency reads and freshness stamps | the session's own date |
+| `get_webpage` | reads a page at a known URL; it does not search | Claude Code's `WebFetch` |
+| `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) | the brain's own files: the output doc and `running-notes/` |
+| `get_context_docs` | Parker's stored context documents | the brain's own context docs |
+
+**The ad databases have no tool.** The internal favorites, Parker favorites and global AI-tagged ads databases that the specs in `prompts/global-databases/` describe have no tool available to users, in chat or on the MCP, so they are out of reach and nothing stands in for them. A skill that needs reference ads searches the corpora the MCP does reach (`search_facebook_ads_semantic` for the brand's own ads, `search_competitor_facebook_ads` for the public ad library, `search_swipe_file` for what the team saved), names the corpus each result came from, and never reports one as a hit in those databases.
 
 ## Beyond Parker MCP — the team's own connected tools
 
@@ -59,17 +66,17 @@ The discipline mirrors the refresh and self-improvement loops: pull widely from 
 
 ## The web-search gap — flag this for eng
 
-Parker MCP has **no general web-search tool.** `get_webpage` fetches a URL Parker already has; it cannot search the open web to *find* threads, articles, or competitor pages — only to read a specific page when the link is already in hand.
+Parker MCP has **no web tools at all.** In Parker's chat, `get_webpage` fetches a URL Parker already has; it cannot search the open web to *find* threads, articles, or competitor pages — only to read a specific page when the link is already in hand.
 
 **Reddit is the exception, and it is no longer a gap.** This section used to say Parker had no native reach into Reddit or any forum. That was true when it was written and stopped being true when Reddit shipped: `search_reddit_posts_and_comments` queries the brand's own indexed posts and comments, scraped from curated subreddits on a schedule. It is not open-web search — you get the subreddits the brand has onboarded, not all of Reddit — and it is gated on that brand completing Reddit onboarding. But a community read that would once have been `data-limited` is now answerable for any brand that has it turned on, so **check whether the brand has it before declaring the constraint.** Forums other than Reddit are still unreachable.
 
-Parker's chat agent (web, Slack, scheduled runs) has an open-web search tool, `search_web`, but **only for teams that have it turned on**, and the MCP does not expose it, so an MCP session or a build never has it. Until it is on everywhere:
+Parker has **no web search tool for prompts to name.** In a Claude Code session, Claude Code's own `WebSearch` can search the open web; a prompt that uses it names it as Claude Code's. Where no web search is available:
 
-- Ground validation in **owned data** (the MCP surfaces above, Reddit included where it is on), **known-URL fetches** (`get_webpage`), and **historical archives**.
+- Ground validation in **owned data** (the MCP surfaces above, Reddit included where it is on), **known-URL fetches** (`get_webpage` in chat, `WebFetch` in Claude Code), and **historical archives**.
 - A loop that can only be answered by *searching* the open web is, for now, **constrained** — name it as such rather than writing a plan around a search Parker may not be able to run. Check Reddit first, though: a good share of the questions that used to land here are community questions, and those are now answerable.
 
-This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability that not every team, and no MCP session, has.
+This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability that Parker's own tools don't have.
 
 ## Not Parker's tools — the build harness
 
-When Parker's prompts and skills are **run as foreground agents during the build** — the way a brand brain gets regenerated — the runner is a Claude Code environment with its own toolset: `Read`, `Grep`, `Glob`, `Bash`, `Edit`, `Write`, `Agent`, `Skill`, `ToolSearch`, `WebSearch`, `WebFetch`, and a deferred set. **These are the build environment's tools, not Parker's.** In particular the build harness *can* search the web (`WebSearch`); Parker, per the gap above, may not. Never let a prompt assume Parker has a tool that actually belongs to the harness that ran it.
+When Parker's prompts and skills are **run as foreground agents during the build** — the way a brand brain gets regenerated — the runner is a Claude Code environment with its own toolset: `Read`, `Grep`, `Glob`, `Bash`, `Edit`, `Write`, `Agent`, `Skill`, `ToolSearch`, `WebSearch`, `WebFetch`, and a deferred set. **These are the build environment's tools, not Parker's.** In particular the build harness *can* search the web (`WebSearch`); Parker, per the gap above, may not. Never let a prompt assume Parker has a tool that actually belongs to the harness that ran it. The exceptions are the stand-ins under "Chat-only tools" and Claude Code's own `WebSearch` in the web-search section: there a prompt may send Claude Code to its own tool, and it names that tool as Claude Code's.

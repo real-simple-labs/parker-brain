@@ -40,7 +40,7 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
 3. **Load hook context before writing the first three seconds.** If the script contains a hook, load the hooks skill strategy, the shared hook doctrine, and the brand's latest hook audit or hook history. The opener is not a decorative line at the top of a script; it is the creative gate. Do not write the hook from memory or justify it after the fact.
 
-4. **Find reference ads.** Pull a handful of relevant reference ads via Parker MCP, in source order: the brand's own account scripts first, then the competitor and inspo scripts already captured in the brand's vault, then the niche's top organic library, then the global AI-tagged DB. Filter by the AI tags that match the user's request — format, angle, awareness stage, persona, hook type, brand type. Pick the single strongest candidate. The find-reference-ads process handles this.
+4. **Find reference ads.** Pull a handful of relevant reference ads via Parker MCP, in source order: the brand's own account scripts first, then the competitor and inspo scripts already captured in the brand's vault, then the niche's top organic library, then the public ad library (`search_competitor_facebook_ads`) and the team's swipe file (`search_swipe_file`); the global AI-tagged DB has no tool available to users. Filter by the AI tags that match the user's request — format, angle, awareness stage, persona, hook type, brand type. Pick the single strongest candidate. The find-reference-ads process handles this.
 
 5. **Adapt the reference.** Use adapt-existing-script against the chosen reference. Preserve the structural skeleton — beat count, pacing, emotional arc, proof type. Rewrite every word in the brand's voice fingerprint. Adaptation is 1:1 against the one reference, not blended across multiple.
 
@@ -54,7 +54,7 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
    **And load the strategy first, above all of it.** The brand's committed strategy — `strategy/`, the working thesis, the strategic roadmap, the who/what/say/show calls — is the high-level frame every tactical choice sits inside; read it before deciding what to write. Then the idea bank (`idea-bank/`, including its evaluated ideas) as the baseline of what's worth executing: a script request that matches an idea-bank entry executes from that entry, carrying its source examples and reasoning, instead of re-inventing the concept cold. A request that cuts against the committed strategy is surfaced to the user with the conflict named, not silently executed. If the brain has no `strategy/` or idea bank yet, say so in one line and proceed from brand context.
 
-3. **For reference-driven adaptation:** find-reference-ads → adapt-existing-script. find-reference-ads pulls in source order — brand's own account, then captured vault competitor/inspo, then niche organic, then global DB.
+3. **For reference-driven adaptation:** find-reference-ads → adapt-existing-script. find-reference-ads pulls in source order — brand's own account, then captured vault competitor/inspo, then niche organic, then the public ad library and the swipe file.
 
 4. **For net-new:** pick the right framework process — problem/solution, story-arc, VSL, awareness-staged, style-based, sophistication-matched, emotional-depth.
 

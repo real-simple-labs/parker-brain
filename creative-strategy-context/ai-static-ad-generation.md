@@ -56,7 +56,7 @@ Follow these steps every time you generate image ad prompts. The steps are seque
 Before selecting a single template, you need to understand the brand. Pull from:
 
 - Brand context and personas via get_brand_persona
-- Context docs via get_context_docs
+- Context docs via get_context_docs (in Claude Code, the brain's own context docs)
 - Customer reviews via search_customer_reviews_sql and search_customer_reviews_semantic
 - Winning ad data via search_facebook_ads_sql and search_facebook_ads_semantic
 

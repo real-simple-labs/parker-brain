@@ -22,7 +22,7 @@ The discipline: a favorites entry must exemplify a pattern Parker has used or pr
 
 ## Storage and access
 
-The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. Capture, curate, and retrieval all run through Parker MCP via `ask_parker_agent`, passing the active `brand_id` and a tag-formatted query. Skills that need references search Parker; they do not search the filesystem. In the tiered retrieval order — internal favorites, Parker favorites, global AI-tagged DB — this database is the middle tier.
+The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. No tool available to users captures, curates, or retrieves from it today, so it is out of reach, and nothing stands in for it: a skill that needs references searches the corpora the Parker MCP does reach, names the corpus it searched, and never reports a result as an entry of this database (see `parker-system/system/parker-tools.md`). Skills that need references search Parker; they do not search the filesystem. Once a tool reaches these databases, the tiered retrieval order applies — internal favorites, Parker favorites, global AI-tagged DB — with this database as the middle tier. Until then, no tier order applies.
 
 ## Schema
 
@@ -64,6 +64,8 @@ You are running the quarterly curate pass on the Parker favorites database. Thre
 Output the curate-pass report: entries demoted with reasons, patterns tightened, boards surfaced with their entries.
 
 ## Usage hooks
+
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
 
 The favorites DB loads into the same Parker skills as the global DB, with the override priority described above.
 

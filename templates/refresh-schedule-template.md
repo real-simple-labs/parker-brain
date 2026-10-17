@@ -10,7 +10,7 @@ This is the one place that tracks when every standing doc was last run and when 
 
 ## How Parker uses this
 
-- When you load this brain or consult a standing doc, read this schedule and compare each `due` date to today from `get_current_time`. A doc whose due date has passed is overdue; one inside roughly two weeks of its due date is due soon.
+- When you load this brain or consult a standing doc, read this schedule and compare each `due` date to today from `get_current_time` (in Claude Code, the session's own date). A doc whose due date has passed is overdue; one inside roughly two weeks of its due date is due soon.
 - Surface what is overdue or due soon plainly, and offer to re-run the generating prompt by name — "your ad-account read is from March and it is now July, want me to refresh it." Do not silently keep using a doc past its due date, and do not re-run without surfacing the recommendation first.
 - A refresh is a re-run of the generating prompt. It takes the prior version as context, carries forward what is still true, and re-stamps `generated_on` and `refresh_by`. After a re-run, update that doc's line in this schedule to the new dates.
 - The triggers in `parker-system/system/refresh-cadence.md` outrank the calendar. A rebrand, a new SKU, a pricing move, a new competitor, an attribution change, or a validated finding that changes the read makes a doc due early regardless of the date here. When a trigger has fired, flag the doc as due now and note the trigger.
