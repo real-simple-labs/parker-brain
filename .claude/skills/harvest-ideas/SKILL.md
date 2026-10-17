@@ -42,7 +42,7 @@ Fan the hunt out across lenses with genuinely different dispositions — run the
 3. **The historian** — the old-ads corpus at `parker-system/creative-strategy-context/old-ads/`, by the brand's industry and by mechanic; live web archives as the fallback when the corpus is thin. Justify these finds on craft and durability, not metrics.
 4. **The far-transfer wildcard** — this week's two or three unrelated categories, hunted for *mechanisms* (a format, a visual device, a story shape), never messages. A mechanism only ships as an entry with its spark attached — a mechanism with no brand collision is a dead log.
 
-Hunt agentically — use every tool: Parker MCP (`search_tiktok_videos`, `search_competitor_facebook_ads`, `search_customer_reviews_semantic`, `search_facebook_ad_comments_semantic`, `get_webpage`, own-brand ad reads, `search_and_manage_organic_social`) and Claude Code (`WebSearch`, `WebFetch`). Cast wide, then keep the best.
+Hunt agentically — use every tool: Parker MCP (`search_tiktok_videos`, `search_competitor_facebook_ads`, `search_customer_reviews_semantic`, `search_facebook_ad_comments_semantic`, own-brand ad reads, `search_and_manage_organic_social`) and Claude Code (`WebSearch`, `WebFetch`). Cast wide, then keep the best.
 
 ### 4. Merge and write
 

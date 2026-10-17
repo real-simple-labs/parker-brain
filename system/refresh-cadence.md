@@ -8,7 +8,7 @@ This is the same mechanism the open-loops pipeline already uses for validations 
 
 Every context doc a prompt generates stamps two fields in its frontmatter:
 
-- `generated_on:` — the date the doc was produced, from `get_current_time`.
+- `generated_on:` — the date the doc was produced, from `get_current_time` (in Claude Code, the session's own date).
 - `refresh_by:` — `generated_on` plus this doc type's cadence below.
 
 Parker reads `refresh_by` whenever it loads a brand doc. If today is past it, Parker says so plainly and offers to re-run the prompt — "your performance read is from March and it's now July, want me to refresh it?" It does not silently keep using a doc past its date, and it does not re-run without surfacing the recommendation first.
@@ -19,7 +19,7 @@ A refresh is a re-run of the generating prompt. The prompt's own discipline stil
 
 Per-doc `refresh_by` stamps are the source of truth, but reading them means opening every doc. So each brand brain carries one aggregated schedule at `running-notes/refresh-schedule.md`, generated from the template at `templates/refresh-schedule-template.md`. It lists every standing doc with its last-run date and its due date, grouped by cadence tier. The onboarding runner builds it at the end of the cold start by reading each doc's frontmatter, and every prompt re-run updates that doc's line.
 
-This is the file Parker actually watches. On load, Parker reads the schedule, compares each due date to today from `get_current_time`, and surfaces what is overdue or due soon — rather than discovering staleness one doc at a time. The schedule is a view over the per-doc stamps, not a second source of truth; when the two disagree, the doc's own frontmatter wins and the schedule line is corrected.
+This is the file Parker actually watches. On load, Parker reads the schedule, compares each due date to today from `get_current_time` (in Claude Code, the session's own date), and surfaces what is overdue or due soon — rather than discovering staleness one doc at a time. The schedule is a view over the per-doc stamps, not a second source of truth; when the two disagree, the doc's own frontmatter wins and the schedule line is corrected.
 
 On-load checking covers the weeks someone uses the brain. For the weeks nobody opens it, a **refresh-sweep schedule** runs the same check unattended: it reads this schedule on a clock, finds what is overdue, and re-runs the generating prompt. Schedules are the repo-native cron layer that keeps the brain alive when no one is typing — the refresh sweep is one of them. See `system/schedules.md`.
 

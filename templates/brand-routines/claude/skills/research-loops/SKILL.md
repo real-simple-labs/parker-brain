@@ -31,7 +31,7 @@ This is the step that most needs a schedule, because it is the one nobody rememb
 
 ### 4. Re-validate — nothing stays true forever
 
-Check `re-validations/scheduled/` for any confirmed insight whose re-check date has passed (read today from `get_current_time`). Re-run those validations, file the outcomes in `re-validations/results/[YYYY-MM]/`, and treat a finding that moved as a fresh finding for steps 5 and 6.
+Check `re-validations/scheduled/` for any confirmed insight whose re-check date has passed (read today from `get_current_time`, or in Claude Code from the session's own date). Re-run those validations, file the outcomes in `re-validations/results/[YYYY-MM]/`, and treat a finding that moved as a fresh finding for steps 5 and 6.
 
 ### 5. Report — the research digest
 
