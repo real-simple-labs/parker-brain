@@ -35,7 +35,7 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 
 **Not a research tool:** `manage_insights_subscriptions` is the user-facing recurring-reports product — the catalog, subscriptions, custom insight definitions, and their schedules — not a way to answer a loop.
 
-**Chat-only tools.** Parker's chat agent (web, Slack, scheduled runs) has a few more tools that the MCP does not expose, so a Claude Code session (a build, a routine, everyday work in the brain) never has them. Prompts still name them, because the chat reads the same docs. In Claude Code, use the stand-in below, and name a Claude Code tool as Claude Code's, never as Parker's. A Codex session works the same way: where a doc says "in Claude Code", it means Codex too, with Codex's own date and web tools.
+**Chat-only tools.** Parker's chat agent (web, Slack, scheduled runs) has a few more tools that the MCP does not expose, so a Claude Code session (a build, a routine, everyday work in the brain) never has them. Prompts still name them, because the chat reads the same docs. In Claude Code, use the stand-in below, and name a Claude Code tool as Claude Code's, never as Parker's. Where a doc says "in Claude Code", read it as a Codex session too, with two limits. Parker Desktop runs Codex with no network (`system/codex-support.md`), so there it has no web search or page fetch: treat those slices as constrained. And if the session gives no date, ask for it rather than guess.
 
 | Chat tool | What it does | In Claude Code |
 |---|---|---|
