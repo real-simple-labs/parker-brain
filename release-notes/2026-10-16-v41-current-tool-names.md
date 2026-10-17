@@ -15,7 +15,7 @@ Every old name now reads as the tool's current name:
 | `getContextDocs` | `get_context_docs` | `creative-strategy-context/ai-static-ad-generation.md` |
 | `facebookAdsAnalysisReportsSqlSearchTool` | `search_facebook_ads_sql` | `creative-strategy-context/ai-static-ad-generation.md` |
 
-`system/parker-tools.md` said it was unconfirmed whether Parker's chat can search the open web. It now says what is true: the chat agent has `search_web` for teams that have it turned on, and the MCP doesn't expose it.
+`system/parker-tools.md` said it was unconfirmed whether Parker's chat can search the open web. It now says what is true: the chat agent has `search_web` for teams that have it turned on, and the MCP doesn't expose it. A new "Chat-only tools" note under its tool table names the other chat-only tools these prompts use (`parker_file_system`, `get_context_docs`) and says where `ask_parker_agent` lives, so every name the prompts use is in the inventory.
 
 Left as they are: `organic-social` where it names the team or a source type (the organic-social team, the `sources_pulled` labels); `listThreads` and `getMessages`, which are the current mode values of `search_chat_history`; release notes and reasoning traces, which record what was true at the time.
 
