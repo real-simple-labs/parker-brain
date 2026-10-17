@@ -2,7 +2,7 @@
 
 1:1 structural deconstruction of a single reference script, then brand substitution. The structural skeleton stays — segment count, order, emotional arc, pacing, audio pattern. The brand-specific content changes — product, claims, customer language, voice.
 
-This is the default scripting path. The reference comes from find-reference-ads (which picked the single strongest candidate from Parker's ad databases — internal favorites, Parker favorites, or the global AI-tagged DB, queried via `ask_parker_agent`; in Claude Code, from the fallback corpus find-reference-ads names) or from a reference script the user provided directly. The adaptation grounds the output in the brand baseline so the script reads as belonging to this brand.
+This is the default scripting path. The reference comes from find-reference-ads (which picked the single strongest candidate from the corpus it names: the brand's own ads, the public ad library, or the team's swipe file) or from a reference script the user provided directly. The adaptation grounds the output in the brand baseline so the script reads as belonging to this brand.
 
 ## Required inputs
 

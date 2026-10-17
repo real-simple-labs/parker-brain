@@ -92,7 +92,7 @@ Where a surface is concealed or the review pool is thin, name that plainly. Conc
 
 ## Tools Parker calls for this run
 
-Parker mines the competitor's own reviews through search_customer_reviews_semantic and search_customer_reviews_sql, infers audience from ad copy through search_competitor_facebook_ads for that inference only, reads the press surface through search_web and get_webpage (in Claude Code, Claude Code's own `WebSearch` and `WebFetch`), and reads organic engagement through search_and_manage_organic_social. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker mines the competitor's own reviews through search_customer_reviews_semantic and search_customer_reviews_sql, infers audience from ad copy through search_competitor_facebook_ads for that inference only, reads the press surface through a web search and get_webpage (in Claude Code, Claude Code's own `WebSearch` and `WebFetch`), and reads organic engagement through search_and_manage_organic_social. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## Execution steps
 

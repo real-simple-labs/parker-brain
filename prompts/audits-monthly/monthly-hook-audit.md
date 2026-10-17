@@ -262,7 +262,7 @@ This is the proven set of psychological frameworks for opening an ad. Use it as 
 
 ## Tools Parker calls for this run
 
-Parker pulls the brand's own active paid videos this month with search_facebook_ads_sql, pulls competitor videos ranked by impression count with search_competitor_facebook_ads, pulls the brand's organic, affinity, inspo, and niche video with search_tiktok_videos, and finds recent breakout niche video with search_web (in Claude Code, Claude Code's own `WebSearch`). For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker pulls the brand's own active paid videos this month with search_facebook_ads_sql, pulls competitor videos ranked by impression count with search_competitor_facebook_ads, pulls the brand's organic, affinity, inspo, and niche video with search_tiktok_videos, and finds recent breakout niche video with a web search (Claude Code's own `WebSearch`). For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## Output
 

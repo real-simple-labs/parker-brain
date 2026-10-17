@@ -41,12 +41,10 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 |---|---|---|
 | `get_current_time` | today's date, for recency reads and freshness stamps | the session's own date |
 | `get_webpage` | reads a page at a known URL; it does not search | Claude Code's `WebFetch` |
-| `search_web` | open-web search, only for teams that have it turned on (see the web-search gap below) | Claude Code's `WebSearch` |
-| `parker_file_system` | Parker's own notes and working files, kept between conversations | the brain's own files: the output doc and `running-notes/` |
-| `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) | the same: write it into the brain's files |
+| `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) | the brain's own files: the output doc and `running-notes/` |
 | `get_context_docs` | Parker's stored context documents | the brain's own context docs |
 
-`ask_parker_agent` is on Parker's other MCP endpoint, the one that asks the Parker agent a question, so a brain's MCP doesn't carry it either. The ad databases it reads (internal favorites, Parker favorites, the global AI-tagged ads DB) are out of reach in Claude Code, and nothing stands in for them. A skill may fall back to the corpora the MCP does reach (`search_facebook_ads_semantic` for the brand's own ads, `search_competitor_facebook_ads` for the public ad library, `search_swipe_file` for what the team saved), but it names the corpus each result came from and never reports one as a hit in those databases.
+**The ad databases have no tool.** The internal favorites, Parker favorites and global AI-tagged ads databases that the specs in `prompts/global-databases/` describe have no tool available to users, in chat or on the MCP, so they are out of reach and nothing stands in for them. A skill that needs reference ads searches the corpora the MCP does reach (`search_facebook_ads_semantic` for the brand's own ads, `search_competitor_facebook_ads` for the public ad library, `search_swipe_file` for what the team saved), names the corpus each result came from, and never reports one as a hit in those databases.
 
 ## Beyond Parker MCP — the team's own connected tools
 
@@ -72,13 +70,13 @@ Parker MCP has **no web tools at all.** In Parker's chat, `get_webpage` fetches 
 
 **Reddit is the exception, and it is no longer a gap.** This section used to say Parker had no native reach into Reddit or any forum. That was true when it was written and stopped being true when Reddit shipped: `search_reddit_posts_and_comments` queries the brand's own indexed posts and comments, scraped from curated subreddits on a schedule. It is not open-web search — you get the subreddits the brand has onboarded, not all of Reddit — and it is gated on that brand completing Reddit onboarding. But a community read that would once have been `data-limited` is now answerable for any brand that has it turned on, so **check whether the brand has it before declaring the constraint.** Forums other than Reddit are still unreachable.
 
-Parker's chat agent (web, Slack, scheduled runs) has an open-web search tool, `search_web`, but **only for teams that have it turned on**, and the MCP does not expose it, so an MCP session or a build never has it. Until it is on everywhere:
+Parker has **no web search tool for prompts to name.** In a Claude Code session, Claude Code's own `WebSearch` can search the open web; a prompt that uses it names it as Claude Code's. Where no web search is available:
 
 - Ground validation in **owned data** (the MCP surfaces above, Reddit included where it is on), **known-URL fetches** (`get_webpage` in chat, `WebFetch` in Claude Code), and **historical archives**.
 - A loop that can only be answered by *searching* the open web is, for now, **constrained** — name it as such rather than writing a plan around a search Parker may not be able to run. Check Reddit first, though: a good share of the questions that used to land here are community questions, and those are now answerable.
 
-This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability that not every team, and no MCP session, has.
+This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability that Parker's own tools don't have.
 
 ## Not Parker's tools — the build harness
 
-When Parker's prompts and skills are **run as foreground agents during the build** — the way a brand brain gets regenerated — the runner is a Claude Code environment with its own toolset: `Read`, `Grep`, `Glob`, `Bash`, `Edit`, `Write`, `Agent`, `Skill`, `ToolSearch`, `WebSearch`, `WebFetch`, and a deferred set. **These are the build environment's tools, not Parker's.** In particular the build harness *can* search the web (`WebSearch`); Parker, per the gap above, may not. Never let a prompt assume Parker has a tool that actually belongs to the harness that ran it. The one exception is the stand-in table under "Chat-only tools": there a prompt may send Claude Code to its own tool, and it names that tool as Claude Code's.
+When Parker's prompts and skills are **run as foreground agents during the build** — the way a brand brain gets regenerated — the runner is a Claude Code environment with its own toolset: `Read`, `Grep`, `Glob`, `Bash`, `Edit`, `Write`, `Agent`, `Skill`, `ToolSearch`, `WebSearch`, `WebFetch`, and a deferred set. **These are the build environment's tools, not Parker's.** In particular the build harness *can* search the web (`WebSearch`); Parker, per the gap above, may not. Never let a prompt assume Parker has a tool that actually belongs to the harness that ran it. The exceptions are the stand-ins under "Chat-only tools" and Claude Code's own `WebSearch` in the web-search section: there a prompt may send Claude Code to its own tool, and it names that tool as Claude Code's.

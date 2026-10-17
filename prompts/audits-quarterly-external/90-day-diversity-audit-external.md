@@ -87,7 +87,7 @@ Where the library is concealed or the claimed-audience statement is absent, name
 
 ## Tools Parker calls for this run
 
-Parker pulls the account's library for the creator and visual read through search_competitor_facebook_ads and reads the account's organic profile through search_and_manage_organic_social. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker pulls the account's library for the creator and visual read through search_competitor_facebook_ads and reads the account's organic profile through search_and_manage_organic_social. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## Execution steps
 

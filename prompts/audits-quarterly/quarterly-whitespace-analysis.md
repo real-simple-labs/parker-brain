@@ -95,7 +95,7 @@ Where any source is unavailable, name the blank and mark the affected read data-
 
 ## Tools Parker calls for this run
 
-Parker surfaces who actually buys through search_customer_reviews_sql and search_customer_reviews_semantic, then surfaces who the account pays to reach through search_facebook_ads_sql across the lifetime of every ad. For context and memory, Parker loads brand context with get_brand_persona, reads the prior quarter's audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker surfaces who actually buys through search_customer_reviews_sql and search_customer_reviews_semantic, then surfaces who the account pays to reach through search_facebook_ads_sql across the lifetime of every ad. For context and memory, Parker loads brand context with get_brand_persona, reads the prior quarter's audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## Output spec
 

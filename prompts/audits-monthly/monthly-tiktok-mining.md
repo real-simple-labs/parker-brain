@@ -110,7 +110,7 @@ Where any source is unavailable, name the blank and mark the affected entry data
 
 ## Tools Parker calls for this run
 
-Parker pulls both the brand's TikTok database and the global database with their reports through search_tiktok_videos, anchors each selection in brand evidence with search_facebook_ads_sql and search_customer_reviews_sql, and runs deep video reads with analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker pulls both the brand's TikTok database and the global database with their reports through search_tiktok_videos, anchors each selection in brand evidence with search_facebook_ads_sql and search_customer_reviews_sql, and runs deep video reads with analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## Output spec
 
