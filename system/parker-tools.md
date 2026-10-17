@@ -2,7 +2,7 @@
 
 > The canonical inventory of what **Parker** can reach to research and validate. Every prompt or skill that says "how to validate," "where to look," or names a data pull grounds in this list — never invent a tool, and never assume Parker has a tool just because the build environment does. When the toolset changes, update here in the same pass; the `system-of-records` audit checks references against it.
 
-Parker's tools are the **Parker MCP** set. That is the runtime toolset — the brand's own data, plus a fetch-a-known-page reach into the web. Parker reasons over what these return, plus the model's own domain knowledge. Tool names below are the **current** Parker MCP names; they are the literal strings prompts and skills should reference.
+Parker's tools are the **Parker MCP** set. That is the runtime toolset — the brand's own data. The web tools are chat-only (see "Chat-only tools" below). Parker reasons over what these return, plus the model's own domain knowledge. Tool names below are the **current** Parker MCP names; they are the literal strings prompts and skills should reference.
 
 ## If Parker MCP is not connected — read this first
 
@@ -35,7 +35,7 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 
 **Not a research tool:** `manage_insights_subscriptions` is the user-facing recurring-reports product — the catalog, subscriptions, custom insight definitions, and their schedules — not a way to answer a loop.
 
-**Chat-only tools.** Parker's chat agent (web, Slack, scheduled runs) has a few more tools that the MCP does not expose, so a Claude Code session (a build, a routine, everyday work in the brain) never has them. Prompts still name them, because the chat reads the same docs. In Claude Code, use the stand-in below, and name a Claude Code tool as Claude Code's, never as Parker's:
+**Chat-only tools.** Parker's chat agent (web, Slack, scheduled runs) has a few more tools that the MCP does not expose, so a Claude Code session (a build, a routine, everyday work in the brain) never has them. Prompts still name them, because the chat reads the same docs. In Claude Code, use the stand-in below, and name a Claude Code tool as Claude Code's, never as Parker's. A Codex session works the same way: where a doc says "in Claude Code", it means Codex too, with Codex's own date and web tools.
 
 | Chat tool | What it does | In Claude Code |
 |---|---|---|
@@ -46,7 +46,7 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 | `update_custom_working_memory` | the one live write into Parker memory (org / brand / user scopes) | the same: write it into the brain's files |
 | `get_context_docs` | Parker's stored context documents | the brain's own context docs |
 
-`ask_parker_agent` is on Parker's other MCP endpoint, the one that asks the Parker agent a question, so a brain's MCP doesn't carry it either. In Claude Code, search the same kinds of ads with the closest tools above: `search_facebook_ads_semantic` for the brand's own ads, `search_competitor_facebook_ads` for external ads, and `search_swipe_file` for what the team saved.
+`ask_parker_agent` is on Parker's other MCP endpoint, the one that asks the Parker agent a question, so a brain's MCP doesn't carry it either. The ad databases it reads (internal favorites, Parker favorites, the global AI-tagged ads DB) are out of reach in Claude Code, and nothing stands in for them. A skill may fall back to the corpora the MCP does reach (`search_facebook_ads_semantic` for the brand's own ads, `search_competitor_facebook_ads` for the public ad library, `search_swipe_file` for what the team saved), but it names the corpus each result came from and never reports one as a hit in those databases.
 
 ## Beyond Parker MCP — the team's own connected tools
 

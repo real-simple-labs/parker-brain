@@ -22,7 +22,7 @@ The discipline: a favorites entry must exemplify a pattern Parker has used or pr
 
 ## Storage and access
 
-The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. Capture, curate, and retrieval all run through `ask_parker_agent` (Parker's ask-Parker MCP endpoint), passing the active `brand_id` and a tag-formatted query. A brain's MCP doesn't carry that tool; in Claude Code, retrieval uses the closest stand-ins under "Chat-only tools" in `parker-system/system/parker-tools.md`. Skills that need references search Parker; they do not search the filesystem. In the tiered retrieval order — internal favorites, Parker favorites, global AI-tagged DB — this database is the middle tier.
+The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. Capture, curate, and retrieval all run through `ask_parker_agent` (Parker's ask-Parker MCP endpoint), passing the active `brand_id` and a tag-formatted query. A brain's MCP doesn't carry that tool, so this database is out of reach in Claude Code, and nothing stands in for it: a skill that falls back to other searches names the corpus it searched and never reports a result as an entry of this database (see "Chat-only tools" in `parker-system/system/parker-tools.md`). Skills that need references search Parker; they do not search the filesystem. In the tiered retrieval order — internal favorites, Parker favorites, global AI-tagged DB — this database is the middle tier.
 
 ## Schema
 
