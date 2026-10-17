@@ -97,7 +97,7 @@ Where any source is unavailable, name the blank and mark the affected section da
 
 ## Tools Parker calls for this run
 
-Parker mines review themes, sentiment, counts, and trends through search_customer_reviews_semantic and search_customer_reviews_sql, and pulls post-purchase survey language through semantic_search_post_purchase_survey and lookup_post_purchase_survey where the brand has connected them. For context and memory, Parker loads brand context with get_brand_persona, reads the prior quarter's audit through search_chat_history, and persists the result with parkerFileSystem and update_custom_working_memory.
+Parker mines review themes, sentiment, counts, and trends through search_customer_reviews_semantic and search_customer_reviews_sql, and pulls post-purchase survey language through semantic_search_post_purchase_survey and lookup_post_purchase_survey where the brand has connected them. For context and memory, Parker loads brand context with get_brand_persona, reads the prior quarter's audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory.
 
 ## Output spec
 

@@ -100,7 +100,7 @@ Where any source is unavailable, name the blank and mark the affected entry data
 
 ## Tools Parker calls for this run
 
-Parker pulls the trailing two weeks plus the full lifetime of every ad selected for iteration with search_facebook_ads_sql, then reads the media of the ads it picks to extend with search_tiktok_videos and analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with parkerFileSystem and update_custom_working_memory.
+Parker pulls the trailing two weeks plus the full lifetime of every ad selected for iteration with search_facebook_ads_sql, then reads the media of the ads it picks to extend with search_tiktok_videos and analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory.
 
 ## Output spec
 

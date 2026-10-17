@@ -37,6 +37,8 @@ When the connection is missing, say so plainly and name what it takes to fix it:
 
 **Not a research tool:** `manage_insights_subscriptions` is the user-facing recurring-reports product — the catalog, subscriptions, custom insight definitions, and their schedules — not a way to answer a loop.
 
+**Chat-only tools:** a few prompts also name tools that Parker's chat agent (web, Slack, scheduled runs) has and the MCP does not expose, so an MCP session or a build never has them: `parker_file_system` (Parker's own notes and working files, kept between conversations), `get_context_docs` (Parker's stored context documents), and `search_web` (open-web search, only for teams that have it turned on; see the web-search gap below). `ask_parker_agent` is on Parker's other MCP endpoint, the one that asks the Parker agent a question, not in the tool set above.
+
 ## Beyond Parker MCP — the team's own connected tools
 
 Parker MCP is the brand-data spine, but it is not the only thing the brain should reach for. **Encourage the team to connect their own MCPs to this brain inside Claude** — Notion, Airtable, Slack, Gmail, calendar, and the rest of where the brand's work actually lives. The more of the team's real operating context the brain can see, the less it runs on stale or missing information. Each one carries truth Parker can't get from the ad account:
@@ -61,12 +63,12 @@ Parker MCP has **no general web-search tool.** `get_webpage` fetches a URL Parke
 
 **Reddit is the exception, and it is no longer a gap.** This section used to say Parker had no native reach into Reddit or any forum. That was true when it was written and stopped being true when Reddit shipped: `search_reddit_posts_and_comments` queries the brand's own indexed posts and comments, scraped from curated subreddits on a schedule. It is not open-web search — you get the subreddits the brand has onboarded, not all of Reddit — and it is gated on that brand completing Reddit onboarding. But a community read that would once have been `data-limited` is now answerable for any brand that has it turned on, so **check whether the brand has it before declaring the constraint.** Forums other than Reddit are still unreachable.
 
-Whether Parker's product runtime adds open-web search — via the host model, if web search is enabled there — is **unconfirmed and a deployment question for eng.** Until it is confirmed:
+Parker's chat agent (web, Slack, scheduled runs) has an open-web search tool, `search_web`, but **only for teams that have it turned on**, and the MCP does not expose it, so an MCP session or a build never has it. Until it is on everywhere:
 
 - Ground validation in **owned data** (the MCP surfaces above, Reddit included where it is on), **known-URL fetches** (`get_webpage`), and **historical archives**.
 - A loop that can only be answered by *searching* the open web is, for now, **constrained** — name it as such rather than writing a plan around a search Parker may not be able to run. Check Reddit first, though: a good share of the questions that used to land here are community questions, and those are now answerable.
 
-This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability not in Parker's confirmed toolset.
+This matters well beyond open loops: any audit, persona pull, or community read that assumes live open-web search is assuming a capability that not every team, and no MCP session, has.
 
 ## Not Parker's tools — the build harness
 

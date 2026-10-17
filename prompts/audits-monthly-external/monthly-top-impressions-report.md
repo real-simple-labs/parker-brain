@@ -100,7 +100,7 @@ Where the library is concealed or the sort is unavailable, name that plainly. Do
 
 ## Tools Parker calls for this run
 
-Parker pulls the external account's impression-ranked slate through search_competitor_facebook_ads and pulls transcripts of the top video slate through analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parkerFileSystem and update_custom_working_memory.
+Parker pulls the external account's impression-ranked slate through search_competitor_facebook_ads and pulls transcripts of the top video slate through analyze_video_from_url. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory.
 
 ## Execution steps
 
