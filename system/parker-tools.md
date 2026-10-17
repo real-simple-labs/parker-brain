@@ -61,7 +61,7 @@ Parker MCP has **no general web-search tool.** `get_webpage` fetches a URL Parke
 
 **Reddit is the exception, and it is no longer a gap.** This section used to say Parker had no native reach into Reddit or any forum. That was true when it was written and stopped being true when Reddit shipped: `search_reddit_posts_and_comments` queries the brand's own indexed posts and comments, scraped from curated subreddits on a schedule. It is not open-web search — you get the subreddits the brand has onboarded, not all of Reddit — and it is gated on that brand completing Reddit onboarding. But a community read that would once have been `data-limited` is now answerable for any brand that has it turned on, so **check whether the brand has it before declaring the constraint.** Forums other than Reddit are still unreachable.
 
-Whether Parker's product runtime adds open-web search — via the host model, if web search is enabled there — is **unconfirmed and a deployment question for eng.** Until it is confirmed:
+Parker's chat agent (web, Slack, scheduled runs) has an open-web search tool, `search_web`, but **only for teams that have it turned on**, and the MCP does not expose it, so an MCP session or a build never has it. Until it is on everywhere:
 
 - Ground validation in **owned data** (the MCP surfaces above, Reddit included where it is on), **known-URL fetches** (`get_webpage`), and **historical archives**.
 - A loop that can only be answered by *searching* the open web is, for now, **constrained** — name it as such rather than writing a plan around a search Parker may not be able to run. Check Reddit first, though: a good share of the questions that used to land here are community questions, and those are now answerable.
