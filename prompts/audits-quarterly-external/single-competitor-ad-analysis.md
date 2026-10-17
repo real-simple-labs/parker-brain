@@ -97,7 +97,7 @@ Where any source is unavailable, name the blank and mark the affected read data-
 
 ## Tools Parker calls for this run
 
-Parker pulls the one competitor's impression-ranked active library through search_competitor_facebook_ads. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parkerFileSystem and update_custom_working_memory.
+Parker pulls the one competitor's impression-ranked active library through search_competitor_facebook_ads. For context and memory, Parker loads brand context with get_brand_persona, reads the prior version of this audit through search_chat_history, and persists the result with parker_file_system and update_custom_working_memory.
 
 ## Output spec
 

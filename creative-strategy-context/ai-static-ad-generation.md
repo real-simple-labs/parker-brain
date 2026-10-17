@@ -56,9 +56,9 @@ Follow these steps every time you generate image ad prompts. The steps are seque
 Before selecting a single template, you need to understand the brand. Pull from:
 
 - Brand context and personas via get_brand_persona
-- Context docs via getContextDocs
+- Context docs via get_context_docs
 - Customer reviews via search_customer_reviews_sql and search_customer_reviews_semantic
-- Winning ad data via facebookAdsAnalysisReportsSqlSearchTool and search_facebook_ads_semantic
+- Winning ad data via search_facebook_ads_sql and search_facebook_ads_semantic
 
 You need to know: What does this brand sell? Who buys it? What language do customers use? What angles have scaled in their ad account? What objections come up? What competitors get mentioned? What emotional drivers appear in reviews?
 
