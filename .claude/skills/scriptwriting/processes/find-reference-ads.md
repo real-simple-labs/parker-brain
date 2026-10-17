@@ -1,10 +1,10 @@
 # Process — Find Reference Ads
 
-Pull a handful of relevant reference ads from Parker's ad databases, evaluate them, and pick the single best one to adapt. The chosen reference then feeds into adapt-existing-script.
+Pull a handful of relevant reference ads from the sources Parker can reach, evaluate them, and pick the single best one to adapt. The chosen reference then feeds into adapt-existing-script.
 
 This is the default first step of any scriptwriting request.
 
-The method describes three ad databases in Parker, not on the filesystem: the **internal favorites DB** (team-curated, highest trust), **Parker's favorites DB** (Parker's own codified patterns, high confidence), and the **global AI-tagged ads DB** (continuous capture across all brands Parker has read, broadest pool). Every ad is tagged across multiple AI tag dimensions — format, hook type, angle, persona, behavioral signal, awareness stage, brand type, emotional driver. No tool available to users reaches them today, so all three are out of reach. Search the corpora the Parker MCP does reach instead, `search_facebook_ads_semantic` (the brand's own ads), `search_competitor_facebook_ads` (the public ad library) and `search_swipe_file` (what the team saved), with no tier order, and name the corpus each candidate came from; never call it a favorites or global-DB pick (see `parker-system/system/parker-tools.md`).
+The method describes three ad databases in Parker, not on the filesystem: the **internal favorites DB** (team-curated, highest trust), **Parker's favorites DB** (Parker's own codified patterns, high confidence), and the **global AI-tagged ads DB** (continuous capture across all brands Parker has read, broadest pool). Every ad is tagged across multiple AI tag dimensions — format, hook type, angle, persona, behavioral signal, awareness stage, brand type, emotional driver. No tool available to users reaches them today, so all three are out of reach. Search the sources the skill names instead, in its source order: the brand's own account scripts (`search_facebook_ads_semantic`), the competitor and inspo scripts already captured in the brand's brain, the niche's top organic library (`search_tiktok_videos`), then the public ad library (`search_competitor_facebook_ads`) and the team's swipe file (`search_swipe_file`). Name the source each candidate came from; never call it a favorites or global-DB pick (see `parker-system/system/parker-tools.md`).
 
 ## Required inputs
 

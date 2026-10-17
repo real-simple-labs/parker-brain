@@ -68,6 +68,8 @@ The team makes the final keep-archive-update calls. Parker does not archive an i
 
 ## Usage hooks
 
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
+
 The internal favorites DB loads into Parker skills as a high-priority, human-vetted reference surface. The retrieval order across the three databases is: internal favorites first for human-vetted matches, Parker favorites second for Parker's codified patterns, global DB third for the long-tail search.
 
 - **`/Users/jimmyslagle/Parker-skills/skills/scriptwriting/processes/find-reference-ads.md`** — searches the internal favorites DB first; a human-vetted match wins against anything else. The reason_why_saved field is what the strategist reads to decide whether the reference applies to the current brand work.

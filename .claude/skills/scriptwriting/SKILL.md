@@ -54,7 +54,7 @@ Adaptation is the default because AI cannot write good net-new scripts cold. Lef
 
    **And load the strategy first, above all of it.** The brand's committed strategy — `strategy/`, the working thesis, the strategic roadmap, the who/what/say/show calls — is the high-level frame every tactical choice sits inside; read it before deciding what to write. Then the idea bank (`idea-bank/`, including its evaluated ideas) as the baseline of what's worth executing: a script request that matches an idea-bank entry executes from that entry, carrying its source examples and reasoning, instead of re-inventing the concept cold. A request that cuts against the committed strategy is surfaced to the user with the conflict named, not silently executed. If the brain has no `strategy/` or idea bank yet, say so in one line and proceed from brand context.
 
-3. **For reference-driven adaptation:** find-reference-ads → adapt-existing-script. find-reference-ads pulls in source order — brand's own account, then captured vault competitor/inspo, then niche organic, then global DB.
+3. **For reference-driven adaptation:** find-reference-ads → adapt-existing-script. find-reference-ads pulls in source order — brand's own account, then captured vault competitor/inspo, then niche organic, then the public ad library and the swipe file.
 
 4. **For net-new:** pick the right framework process — problem/solution, story-arc, VSL, awareness-staged, style-based, sophistication-matched, emotional-depth.
 

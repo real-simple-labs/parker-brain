@@ -65,6 +65,8 @@ Output the curate-pass report: entries demoted with reasons, patterns tightened,
 
 ## Usage hooks
 
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
+
 The favorites DB loads into the same Parker skills as the global DB, with the override priority described above.
 
 - **`/Users/jimmyslagle/Parker-skills/skills/scriptwriting/processes/find-reference-ads.md`** — searches the favorites DB first; if a strong-override match exists, it wins. Otherwise falls through to the global DB.

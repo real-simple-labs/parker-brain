@@ -256,7 +256,7 @@ This is the proven set of psychological frameworks for opening an ad. Use it as 
 
 **Step six — capture inspo-brand hooks.** Paid and organic. Same fields.
 
-**Step seven — capture recent niche organic hooks.** Search the brand's industry and niche for recent breakout organic. Hook only.
+**Step seven — capture recent niche organic hooks.** Search the brand's industry and niche for recent breakout organic, with `search_tiktok_videos` and, where one is available, a web search (see the tools paragraph below). Hook only.
 
 **Step eight — write the open loops.** The few questions the audit made Parker genuinely curious about and could not resolve.
 

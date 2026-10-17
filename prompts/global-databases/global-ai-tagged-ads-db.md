@@ -80,6 +80,8 @@ Output the curate-pass report: entries archived with reasons, clusters surfaced 
 
 ## Usage hooks
 
+**These hooks are the design, not today's behavior.** They apply only once a tool reaches these databases. Today no tool available to users does, so none of the skills below search this database or let a hit here win: they search the corpora named in `parker-system/system/parker-tools.md` and name the corpus each result came from.
+
 The database loads into several Parker skills at retrieval time. The lane-relevance filter runs per brand at retrieval.
 
 - **`/Users/jimmyslagle/Parker-skills/skills/scriptwriting/processes/find-reference-ads.md`** — the scriptwriting skill's reference-pulling process queries the database by persona signal, funnel stage, and emotional driver, then filters by brand-category lane relevance for the current brand. The reason-why-saved field is what the strategist reads to decide whether an entry is borrowable.
