@@ -9,7 +9,7 @@ Every process's output step cites the voice audit. The human-voice doctrine and 
 The standard flow. Build the brand's voice profile first, find the strongest reference, adapt 1:1.
 
 - **build-brand-voice-profile** — Run first. Build or load the brand's spoken-voice profile per `parker-system/creative-strategy-context/spoken-script-voice.md` — pacing, diction, signature moves, direct-address habit, CTA shape, and the banned-by-absence list, from the brand's own winning scripts read out loud. The profile is the brand baseline and the voice audit every other process's output is checked against.
-- **find-reference-ads** — Pull a handful of reference ads via Parker MCP in source order: the brand's own account scripts first, then captured vault competitor/inspo scripts, then the niche organic library, then the global AI-tagged DB. Filter by the AI tags that match the request. Picks the single strongest candidate.
+- **find-reference-ads** — Pull a handful of reference ads via Parker MCP in source order: the brand's own account scripts first, then captured vault competitor/inspo scripts, then the niche organic library, then the public ad library (`search_competitor_facebook_ads`) and the team's swipe file (`search_swipe_file`); the global AI-tagged DB has no tool available to users. Filter by the AI tags that match the request. Picks the single strongest candidate.
 - **adapt-existing-script** — Adapt the chosen reference 1:1. Preserves the structural skeleton; rewrites every word in the brand's voice fingerprint.
 
 ## The idea paths

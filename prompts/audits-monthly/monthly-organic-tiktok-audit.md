@@ -136,7 +136,7 @@ Where a context doc is missing, name the blank and proceed. Where a tool is unav
 
 ## Tools Parker calls for this run
 
-Parker pulls the niche feed and targeted niche searches and runs the cross-check against the brand's own ad library with search_tiktok_videos, reads the brand's own TikTok where needed with search_and_manage_organic_social, and searches niche keywords, hashtags, and creator handles with a web search (Claude Code's own `WebSearch`). For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
+Parker pulls the niche feed and targeted niche searches and runs the cross-check against the brand's own ad library with search_tiktok_videos, reads the brand's own TikTok where needed with search_and_manage_organic_social, and, in Claude Code, searches niche keywords, hashtags, and creator handles with Claude Code's own `WebSearch`; where no web search is available, that search is constrained, so say so rather than fill it. For context and memory, Parker loads brand context with get_brand_persona, reads the prior period's audit through search_chat_history, and persists the result with update_custom_working_memory (in Claude Code, by writing the output into the brain's files).
 
 ## The reasoning pattern specific to this audit
 

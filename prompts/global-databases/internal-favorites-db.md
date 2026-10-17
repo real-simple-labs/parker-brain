@@ -22,7 +22,7 @@ The discipline: reason-why-saved is mandatory and is written by a human, not gen
 
 ## Storage and access
 
-The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. No tool available to users captures, curates, or retrieves from it today, so it is out of reach, and nothing stands in for it: a skill that needs references searches the corpora the Parker MCP does reach, names the corpus it searched, and never reports a result as an entry of this database (see `parker-system/system/parker-tools.md`). Skills that need references search Parker; they do not search the filesystem. In the tiered retrieval order — internal favorites, Parker favorites, global AI-tagged DB — this database is the top tier. When a query returns a strong match here, search stops and the entry is used.
+The database lives inside Parker. It is not a file on the local filesystem and skills must not look for it at any path on disk. No tool available to users captures, curates, or retrieves from it today, so it is out of reach, and nothing stands in for it: a skill that needs references searches the corpora the Parker MCP does reach, names the corpus it searched, and never reports a result as an entry of this database (see `parker-system/system/parker-tools.md`). Skills that need references search Parker; they do not search the filesystem. Once a tool reaches these databases, the tiered retrieval order applies — internal favorites, Parker favorites, global AI-tagged DB — with this database as the top tier, where a strong match stops the search. Until then, no tier order applies.
 
 ## Schema
 
