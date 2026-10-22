@@ -5,7 +5,7 @@ Deep read on one specific ad. Profitability lens, engagement lens, and a verdict
 ## Required inputs
 
 - The ad name and ID, the format, and the launch date.
-- 30-day metrics: spend, purchases, CPA, NC CPA (if tracked), ROAS, CTR, CvR, CPM, frequency, hook rate, hold rate, video average play time.
+- 30-day metrics: spend, the brand's primary KPI count and cost per (purchases and CPA when that is the KPI), NC CPA (if tracked), ROAS, CTR, CvR, CPM, frequency, hook rate, hold rate, video average play time.
 - Lifetime metrics if the ad has been running long enough to have meaningful history.
 - Account benchmark for each metric — same period, account-wide — so the diagnosis is comparative, not absolute.
 - The brand's KPI definition.
@@ -15,7 +15,7 @@ Deep read on one specific ad. Profitability lens, engagement lens, and a verdict
 
 1. **Frame the ad.** State its launch date, current spend level, lifetime spend, and whether it has been iterated on before. Context matters — a six-month-old ad with $200K lifetime spend is a different story than a two-week-old ad with $20K.
 
-2. **Profitability read.** Is the ad hitting CPA, NC CPA, ROAS targets? Compare 30-day to lifetime to detect drift. State "this ad is profitable" or "this ad is borderline" or "this ad is losing money."
+2. **Profitability read.** Is the ad hitting the brand's primary KPI target, and NC CPA and ROAS targets where they apply? Compare 30-day to lifetime to detect drift. State "this ad is profitable" or "this ad is borderline" or "this ad is losing money."
 
 3. **Engagement read.** Walk through CTR, CvR, hook rate, hold rate, frequency. Compare each to account benchmark and to scaling thresholds (30% hook rate, 12% hold rate, 1% CTR, 1.2 frequency). Identify where the ad is over- or under-performing the benchmark.
 

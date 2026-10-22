@@ -5,6 +5,7 @@ Read what the placement distribution implies about the audience being reached, w
 ## Required inputs
 
 - Placement-level breakdown of spend, CPA, ROAS, frequency, CPM for the account or for a specific ad/campaign.
+- CPA here is the cost per the brand's primary KPI, found per `ad-account-analysis.md` section 2; it is purchase CPA only when purchases are the KPI.
 - The brand's intended audience and where they live (older skew → Facebook, younger → Instagram Reels/Stories).
 - The brand's funnel goals — top-of-funnel reach, mid-funnel consideration, bottom-funnel conversion.
 
