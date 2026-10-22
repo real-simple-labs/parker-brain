@@ -27,7 +27,7 @@ A broad read of the account. Surface what is taking up the spend, verify whether
 
    When the read turns into "which kind of creative acquires better" — UGC against static, one format against another, one creator against another — apply the cohort-efficiency discipline from `creative-strategy-fundamentals.md`. Classify off the account's own creative tags such as ad_format, not the audience token in the ad name, which leaves most spend unclassified. Weigh each cohort by its total spend over its total customers, never the single cheapest ad in a group and never a flat average across ads of wildly different spend. Check the median against the spend-weighted number so one big winner is not carrying the read, and state what share of spend the classification actually covers.
 
-6. **Compare to lifetime, if available.** Lifetime ROAS, lifetime hook rate, and lifetime CPA tell whether the current snapshot is on, above, or below the historical norm for each top spender.
+6. **Compare to lifetime, if available.** Lifetime ROAS, lifetime hook rate, and the lifetime cost per the primary KPI tell whether the current snapshot is on, above, or below the historical norm for each top spender.
 
 ## Output
 
