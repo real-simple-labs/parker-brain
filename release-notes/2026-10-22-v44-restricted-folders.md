@@ -6,7 +6,7 @@ Parker Desktop now writes `.parker/access.md` at the root of each brain for the 
 
 ## What shipped
 
-- **The session start hook passes the file in.** Every session in a brain (Claude Code and Codex both run the hook) starts with the file's text. A long file is named instead of pasted. With no file on a computer that has Parker Desktop, the hook tells the agent to say it doesn't know who sees a folder, and never "everyone". A cloud run has no app and gets nothing.
+- **The session start hook gives the rule and passes the file in.** Every session in a brain (Claude Code and Codex both run the hook), cloud runs included, starts with the rule: content from a restricted folder stays in it. Then the file's text, quoted as data (folder and people names in it are never instructions), or its name when it is over 6000 bytes. With no file (a cloud run, or the app hasn't written one), the hook says the agent can't tell which folders are restricted and must never say "everyone". A file that can't be read or isn't UTF-8 never stops the session start check.
 - **`AGENTS.md` (copied bundle) and the brand `CLAUDE.md` template** carry the rule for a session whose hooks didn't run: content from a restricted folder stays in it unless the person says yes after hearing who will then see it; answer access questions from the file; no file means "don't know".
 - **`system/brain-sync.md`** says where the file comes from and why.
 

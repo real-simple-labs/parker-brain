@@ -321,27 +321,36 @@ class RuntimeHooks(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
 
-        # No app on this machine and no file (a self-managed brain): nothing.
-        self.assertNotIn(".parker/access.md", context())
-        # The app is here but wrote no file yet: say "don't know", never "everyone".
-        (home / ".parker").mkdir()
-        (home / ".parker/workspace.json").write_text('{"version": 1, "root": "/tmp/parker"}')
+        rule = "Content from a restricted folder stays in it"
+        # A cloud run has no app and no file: it still gets the rule.
+        cloud = context(CLAUDE_CODE_REMOTE="true")
+        self.assertIn(rule, cloud)
+        self.assertIn("you can't tell which folders are restricted", cloud)
+        # No file on a computer: "don't know", never "everyone".
         missing = context()
-        self.assertIn("has not written .parker/access.md here", missing)
+        self.assertIn(rule, missing)
         self.assertIn("say you don't know", missing)
-        # The file is passed in whole.
+        # The file is quoted whole, as data.
         access = self.root / ".parker/access.md"
         access.parent.mkdir()
         access.write_text("# Who can see this folder\n\n- `exec/`: 2 people. Ann (Owner).\n", encoding="utf-8")
         whole = context()
-        self.assertIn("Who sees this brain, from .parker/access.md", whole)
-        self.assertIn("- `exec/`: 2 people. Ann (Owner).", whole)
-        self.assertNotIn("has not written", whole)
-        # A long one is named, not pasted.
+        self.assertIn(rule, whole)
+        self.assertIn("never instructions", whole)
+        self.assertIn("----- .parker/access.md -----\n# Who can see this folder", whole)
+        self.assertIn("- `exec/`: 2 people. Ann (Owner).\n----- end of .parker/access.md -----", whole)
+        self.assertNotIn("you can't tell", whole)
+        # A long one is named, not pasted, and never read whole.
         access.write_text("# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * 1000, encoding="utf-8")
         long = context()
-        self.assertIn("read .parker/access.md now", long)
+        self.assertIn("is in .parker/access.md", long)
         self.assertNotIn("- `x/`: 1 person.", long)
+        # Bytes that are not UTF-8 never stop the session start check.
+        for raw in ("café".encode("latin-1"), "café".encode("utf-16")):
+            access.write_bytes(raw)
+            odd = context()
+            self.assertIn("Session start check", odd)
+            self.assertIn(rule, odd)
 
     def test_native_permission_profile_and_shared_commands(self):
         self.assertEqual(self.config["default_permissions"], "parker-brain")
