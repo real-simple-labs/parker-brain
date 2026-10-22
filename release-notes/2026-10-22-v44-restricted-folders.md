@@ -10,8 +10,8 @@ Parker Desktop now writes `.parker/access.md` at the root of each brain for the 
 - **`AGENTS.md` (copied bundle) and the brand `CLAUDE.md` template** carry the rule for a session whose hooks didn't run: content from a restricted folder stays in it unless the person says yes after hearing who will then see it; answer access questions from the file; no file means "don't know".
 - **`system/brain-sync.md`** says where the file comes from and why.
 
-Standing brains get the hook and `AGENTS.md` through the re-sync. The `CLAUDE.md` line reaches new brains only; standing brains already get the same rule from the hook.
+Standing brains get the hook and `AGENTS.md` through the re-sync. A team-edited `AGENTS.md` stays the team's, as before; the hook still gives those sessions the rule.
 
 ## Migration
 
-`migrations/v44.md` is a no-op.
+`migrations/v44.md` (**Auto-apply:** yes): adds the same paragraph to the brain's own `CLAUDE.md`, for a session whose hooks don't run. Skipped where it is there already or the team rewrote the section around it.
