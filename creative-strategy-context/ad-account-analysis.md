@@ -127,13 +127,13 @@ In practice, this means that our highest spender (or spenders — at any given t
 KPIs (key performance indicators) are different for each client. Use the brand's own primary KPI, not a default. Look for it in this order and use the first one you find:
 
 1. The metric the user asks for in this conversation.
-2. A standing rule that names the brand's default or primary metric: the user's `user-profile.md`, the brand's running notes, or `sub-context-docs/performance-targets-and-metrics.md`.
-3. The brand's custom metrics in the ad account (`list_custom_metrics`): the custom conversion or cost-per formula the brand tracks as its goal (cost per lead, cost per approved application, cost per first order). Many accounts also list app or pixel events that are not a goal. When more than one metric could be the goal and nothing above names the primary one, don't pick by list order: ask the user which one, then save the answer as a standing rule.
+2. A standing rule that names the brand's primary metric: the north-star metric and its goal in `running-notes/brand-rules.md`, the business objective in `running-notes/success-definition.md`, a rule in `users/[user-id]/user-profile.md`, or `sub-context-docs/performance-targets-and-metrics.md`.
+3. The brand's custom metrics in the ad account (`list_custom_metrics`): the custom conversion or cost-per formula the brand tracks as its goal (cost per lead, cost per approved application, cost per first order). Many accounts also list app or pixel events that are not a goal. When more than one metric could be the goal and nothing above names the primary one, don't pick by list order: ask the user which one, then record the answer as the north star in `running-notes/brand-rules.md`, so the next analysis doesn't ask again.
 4. The primary KPI in the brand context.
 
 Only when none of these exists, fall back to the common case: in B2C / D2C / ecommerce that is CPA (Cost per Action — in which action is purchase). Most of the businesses have a certain threshold when it comes to their optimal CPA.
 
-Because these businesses expect their business to grow with us, most of them are also optimizing for NC CPA — which is CPA for NEW CUSTOMERS. Most of the ad accounts which optimize for this already have this metric in the ad account, and you can see it.
+When the fallback applies, many of these businesses also optimize for NC CPA — which is CPA for NEW CUSTOMERS, because they expect their business to grow with us. Most of the ad accounts which optimize for this already have this metric in the ad account, and you can see it.
 
 Say in one line which KPI you measured against. Never swap the brand's own KPI for purchase CPA because purchase CPA is easier to pull. When the brand's own event and purchases tell different stories, lead with the brand's event and name the gap.
 
@@ -146,6 +146,8 @@ So, after you've determined which creatives are top spenders, now I'm going to t
 I will show you two tables. One will represent the profitability of an ad, and you will use these metrics to analyze if the ad is bringing in money and new customers.
 
 ### Profitability metrics table
+
+The table assumes purchases are the goal. When the brand's primary KPI is another event (from the order above), read that event's count and cost per in place of purchases and cost per purchase.
 
 - Amount spent
 - Number of purchases
