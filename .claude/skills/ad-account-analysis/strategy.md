@@ -4,7 +4,7 @@ This document is how Parker routes an analysis request to the right process. Dif
 
 ## What to load before deciding
 
-- The brand's primary KPI definition. For most DTC/ecommerce, this is CPA (cost per purchase) or NC CPA (new customer CPA). Without the KPI threshold, "is this hitting the target" is unanswerable.
+- The brand's primary KPI definition, found in the order `parker-system/creative-strategy-context/ad-account-analysis.md` section 2 gives (the user's ask, `running-notes/brand-rules.md` and the other standing rules, `list_custom_metrics`, the brand context). Only when the brand has none is it CPA (cost per purchase) or NC CPA (new customer CPA), as for most DTC/ecommerce. Without the KPI threshold, "is this hitting the target" is unanswerable.
 - The brand's current attribution setting. If it has changed recently, comparisons across the change point are unreliable.
 - Any operational context that frames the question — new launch, promotional moment, recent attribution change, recent budget shift, audience expansion or contraction.
 
@@ -64,7 +64,7 @@ Both lenses are always present. The processes vary in how much weight each lens 
 The metrics that say whether spend is producing returns:
 
 - **Amount spent.** Sustainable spend, daily and week over week, is the foundation of "this ad is a real winner." Big spend on a healthy CPA matters far more than small spend on a flashy CPA.
-- **Number of purchases.** Conversions actually flowing.
+- **Number of purchases.** Conversions actually flowing. When the brand's primary KPI is another event, read that event's count and cost per in place of purchases and CPA.
 - **Cost per purchase (CPA).** Hitting the brand's KPI threshold or close enough to be tolerated at scale.
 - **Number of new customer purchases (NC).** Custom conversion in most accounts. The growth signal.
 - **Cost per new customer purchase (NC CPA).** The new-customer growth health.

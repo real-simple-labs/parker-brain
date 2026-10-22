@@ -5,6 +5,7 @@ Trajectory read on an ad — is it scaling, plateauing, or fatiguing? Fatigue re
 ## Required inputs
 
 - The ad and its 30-day metrics: CPA, ROAS, CTR, CvR, hook rate, hold rate, frequency, CPM.
+- CPA here is the cost per the brand's primary KPI, found per `ad-account-analysis.md` section 2; it is purchase CPA only when purchases are the KPI.
 - Lifetime metrics for the same ad — minimum 4 weeks of history is needed for a real trajectory read.
 - Week-over-week breakdown of the key metrics if available.
 - The brand's KPI definition.

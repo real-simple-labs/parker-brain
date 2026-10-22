@@ -5,6 +5,7 @@ Read what age, gender, or combined demographic breakdowns reveal about who Meta 
 ## Required inputs
 
 - Age, gender, or age-and-gender combined breakdown of spend, CPA, ROAS, frequency, CTR, CvR.
+- CPA here is the cost per the brand's primary KPI, found per `ad-account-analysis.md` section 2; it is purchase CPA only when purchases are the KPI.
 - The brand's intended ICP — primary and secondary personas — and the age and gender mix the brand expects to reach.
 - The brand's primary KPI.
 

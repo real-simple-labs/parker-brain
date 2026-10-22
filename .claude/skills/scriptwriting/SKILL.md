@@ -116,7 +116,11 @@ The voice gate's returned verdict, verbatim from the `creative-voice-review` age
 
 ## Output contract precedence
 
-The output structure above governs every path in this skill. `parker-system/creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
+**The user's format comes first, for the deliverable they gave it for.** When the user gives a format or template for a brief or a script (in the conversation, or saved as a standing rule), deliver that deliverable in their format: their sections, their order, their labels, with this skill's work inside it. Don't add sections they left out, and don't swap their structure for the one above. The What it's built from, Grounding Review and Voice Review blocks still follow after their format, as they are, so the customer-language attribution and the illustrative label never drop out. Compliance rules still win over the user's wording. A brief template doesn't reshape other deliverables: a 1:1 reference adaptation still ships the four parts from `adapting-scripts.md` unless the user gave a format for that adaptation itself.
+
+If they say to use the format from now on, save it where that deliverable already looks: a brief template goes word for word into `briefs/_brief-template.md`, which every brief follows. Any other standing format goes through `self-improvement-intake`, which decides whether it is a brand rule or a personal one.
+
+When the user hasn't given a format for this deliverable, the output structure above governs every path in this skill. `parker-system/creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
 
 ## Two gates before any script gets written
 
