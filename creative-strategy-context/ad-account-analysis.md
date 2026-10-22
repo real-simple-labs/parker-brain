@@ -128,7 +128,7 @@ KPIs (key performance indicators) are different for each client. Use the brand's
 
 1. The metric the user asks for in this conversation.
 2. A standing rule that names the brand's default or primary metric: the user's `user-profile.md`, the brand's running notes, or `sub-context-docs/performance-targets-and-metrics.md`.
-3. The brand's custom metrics in the ad account (`list_custom_metrics`): a custom conversion, or a formula with a cost per, that the brand tracks as its goal (cost per lead, cost per approved application, cost per first order).
+3. The brand's custom metrics in the ad account (`list_custom_metrics`): the custom conversion or cost-per formula the brand tracks as its goal (cost per lead, cost per approved application, cost per first order). Many accounts also list app or pixel events that are not a goal. When more than one metric could be the goal and nothing above names the primary one, don't pick by list order: ask the user which one, then save the answer as a standing rule.
 4. The primary KPI in the brand context.
 
 Only when none of these exists, fall back to the common case: in B2C / D2C / ecommerce that is CPA (Cost per Action — in which action is purchase). Most of the businesses have a certain threshold when it comes to their optimal CPA.
