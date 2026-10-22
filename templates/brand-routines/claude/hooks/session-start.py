@@ -102,6 +102,48 @@ def build_started() -> bool:
     Phase 0 creates BUILD-STATUS.md, so nothing was built yet."""
     return Path("BUILD-STATUS.md").exists()
 
+ACCESS_FILE = Path(".parker/access.md")
+# The file goes into the session whole when it is this short (it usually is:
+# a few restricted folders and a team list); a longer one is named instead.
+ACCESS_INLINE_MAX = 6000
+
+NO_ACCESS_FILE_LINE = (
+    " Who sees this brain: Parker Desktop has not written .parker/access.md here "
+    "yet, so you can't tell whether a folder is restricted to some people. When "
+    "someone asks who can see a folder, say you don't know and point them at "
+    "\"Who can see this folder\" in Parker Desktop; never say everyone can."
+)
+
+
+def access_text() -> str:
+    """Who sees this brain, from the file Parker Desktop writes for the person
+    signed in on this computer (never synced). Restricted folders are invisible
+    from inside the brain: for everyone not picked, the folder isn't in their
+    copy, and nothing in the files says a folder is limited. Without this a
+    session answers "who has access" with "everyone", and can copy a restricted
+    folder's content into a file the whole team reads. A cloud run has no app
+    and no file, so it gets nothing here."""
+    try:
+        text = ACCESS_FILE.read_text(encoding="utf-8").strip()
+    except OSError:
+        text = ""
+    if not text:
+        on_desktop = (Path.home() / ".parker" / "workspace.json").exists()
+        return NO_ACCESS_FILE_LINE if on_desktop else ""
+    if len(text) <= ACCESS_INLINE_MAX:
+        return (
+            " Who sees this brain, from .parker/access.md (Parker Desktop keeps it "
+            "up to date for the person signed in here; it is never synced). Follow "
+            "its rules when you move content between folders:\n\n" + text
+        )
+    return (
+        " Who sees this brain: read .parker/access.md now, before you copy, move, "
+        "quote or sum up content from one folder in another. Parker Desktop keeps "
+        "it up to date for the person signed in here; it lists the folders only "
+        "some people see, who sees each one, and who sees the rest."
+    )
+
+
 state = mount_state()
 
 # A submodule checkout carries a .git *file* inside the mount. Plain tracked
@@ -168,6 +210,8 @@ if build_started():
     context += BUILD_UNDERWAY_LINE
 elif Path(".scaffolded").exists():
     context += SCAFFOLD_LINE
+
+context += access_text()
 
 print(json.dumps({
     "hookSpecificOutput": {

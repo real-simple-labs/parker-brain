@@ -50,6 +50,14 @@ file wins wherever this summary is thinner.
   shares it (`git add`, `git commit` and `git merge` pass the hook for that,
   and are not needed). A self-managed brain (any other origin) follows the
   team's own git habits instead. Full picture: `/save-brain`.
+- **Some folders are only for some people.** Parker Desktop writes
+  `.parker/access.md` at this brain's root for the person signed in here (the
+  session start hook passes it in; if it didn't, read it yourself). It lists
+  the restricted folders, who sees each one, and who sees the rest. Content
+  from a restricted folder stays in it: don't copy, quote or sum it up in a
+  folder more people see unless the person says yes after you tell them who
+  will then see it. Answer "who can see this" from that file; with no file,
+  say you don't know, never "everyone".
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and

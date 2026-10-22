@@ -310,6 +310,39 @@ class RuntimeHooks(unittest.TestCase):
         (home / ".parker/workspace.json").write_text('{"version": 1, "root": "/tmp/parker"}')
         self.assertNotIn("this is a cloud run", context(CLAUDE_CODE_REMOTE="true"))
 
+    def test_session_start_passes_in_who_sees_the_brain(self):
+        # v44: Parker Desktop writes .parker/access.md for the person signed in.
+        home = self.root / "access-home"
+        home.mkdir()
+
+        def context(**env):
+            env = {"HOME": str(home), "USERPROFILE": str(home), **env}
+            result = self.invoke("session-start", {}, env=env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
+
+        # No app on this machine and no file (a self-managed brain): nothing.
+        self.assertNotIn(".parker/access.md", context())
+        # The app is here but wrote no file yet: say "don't know", never "everyone".
+        (home / ".parker").mkdir()
+        (home / ".parker/workspace.json").write_text('{"version": 1, "root": "/tmp/parker"}')
+        missing = context()
+        self.assertIn("has not written .parker/access.md here", missing)
+        self.assertIn("say you don't know", missing)
+        # The file is passed in whole.
+        access = self.root / ".parker/access.md"
+        access.parent.mkdir()
+        access.write_text("# Who can see this folder\n\n- `exec/`: 2 people. Ann (Owner).\n", encoding="utf-8")
+        whole = context()
+        self.assertIn("Who sees this brain, from .parker/access.md", whole)
+        self.assertIn("- `exec/`: 2 people. Ann (Owner).", whole)
+        self.assertNotIn("has not written", whole)
+        # A long one is named, not pasted.
+        access.write_text("# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * 1000, encoding="utf-8")
+        long = context()
+        self.assertIn("read .parker/access.md now", long)
+        self.assertNotIn("- `x/`: 1 person.", long)
+
     def test_native_permission_profile_and_shared_commands(self):
         self.assertEqual(self.config["default_permissions"], "parker-brain")
         profile = self.config["permissions"]["parker-brain"]
