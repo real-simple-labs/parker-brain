@@ -116,7 +116,9 @@ The voice gate's returned verdict, verbatim from the `creative-voice-review` age
 
 ## Output contract precedence
 
-The output structure above governs every path in this skill. `parker-system/creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
+**The user's format comes first.** When the user gives a format or template for the script or brief (in the conversation, or as a standing rule in their `users/[user-id]/user-profile.md`), deliver in their format: their sections, their order, their labels, with this skill's work inside it. Don't add sections they left out, and don't swap their structure for the one above. The Grounding Review and Voice Review blocks still follow, as they are. Compliance rules still win over the user's wording. If they say to use the format from now on, add it to their user profile.
+
+When the user hasn't given a format, the output structure above governs every path in this skill. `parker-system/creative-strategy-context/adapting-scripts.md` carries its own four-part output format; that format governs only the reference-adaptation path where a source script is being traced 1:1. On the idea paths and net-new frameworks, load adapting-scripts.md for its craft, but deliver in this skill's output structure.
 
 ## Two gates before any script gets written
 

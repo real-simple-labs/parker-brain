@@ -124,11 +124,18 @@ Spend deserves this trust only in proportion to how well the account's optimizat
 
 In practice, this means that our highest spender (or spenders — at any given time you can be instructed to pull up top 5 spenders in the account) is hitting our primary KPIs.
 
-KPIs (key performance indicators) are different for each client. In B2C / D2C / ecommerce space, this is in 99% of the cases CPA (Cost per Action — in which action is purchase). Most of the businesses have a certain threshold when it comes to their optimal CPA.
+KPIs (key performance indicators) are different for each client. Use the brand's own primary KPI, not a default. Look for it in this order and use the first one you find:
+
+1. The metric the user asks for in this conversation.
+2. A standing rule that names the brand's default or primary metric: the user's `user-profile.md`, the brand's running notes, or `sub-context-docs/performance-targets-and-metrics.md`.
+3. The brand's custom metrics in the ad account (`list_custom_metrics`): a custom conversion, or a formula with a cost per, that the brand tracks as its goal (cost per lead, cost per approved application, cost per first order).
+4. The primary KPI in the brand context.
+
+Only when none of these exists, fall back to the common case: in B2C / D2C / ecommerce that is CPA (Cost per Action — in which action is purchase). Most of the businesses have a certain threshold when it comes to their optimal CPA.
 
 Because these businesses expect their business to grow with us, most of them are also optimizing for NC CPA — which is CPA for NEW CUSTOMERS. Most of the ad accounts which optimize for this already have this metric in the ad account, and you can see it.
 
-Even if you can't see this in the ad account as a custom metric, you'll be provided with primary KPIs you can use for ad account analysis or top spenders.
+Say in one line which KPI you measured against. Never swap the brand's own KPI for purchase CPA because purchase CPA is easier to pull. When the brand's own event and purchases tell different stories, lead with the brand's event and name the gap.
 
 Next up, you'll determine if the top spending ad or top spenders are hitting those KPIs. So if our target KPI is NC CPA of $45, you want to see if this creative is hitting that goal. Another example here would be that creative may be the top spender. It can have a CPA of $50, $40, $35, or even $55. If this creative is taking up a lot of the spend, we can still count it into a winning ad. It's different for each of the businesses how much variance we can have here. For example, if we are talking about a skincare brand and the CPA is slightly higher than what we want to see, it can be tolerated on high spend levels. So you shouldn't disregard an ad just because the CPA is slightly higher as in the example I provided.
 

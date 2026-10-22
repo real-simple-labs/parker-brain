@@ -44,7 +44,7 @@ Different attribution settings count conversions differently. Click-through cred
 
 2. **Pull the data needed for the chosen process.** Each process has its own required-input list. Pull only what is needed.
 
-3. **Apply both lenses — profitability and user behavior.** Every analysis must consider both whether the ad is making money (profitability metrics) and how the ad is being received in the ecosystem (engagement metrics). Single-lens analysis misses the picture.
+3. **Apply both lenses — profitability and user behavior.** Every analysis must consider both whether the ad is making money (profitability metrics) and how the ad is being received in the ecosystem (engagement metrics). Single-lens analysis misses the picture. Profitability is measured on the brand's primary KPI, found in the order `ad-account-analysis.md` section 2 gives (the user's ask, a standing rule, the brand's custom metrics, the brand context), not on purchase CPA by default.
 
 4. **Diagnose, do not just report.** The output is not a metrics dump. The output is the read — what is true about the account or ad, what is the explanation, what should the team do next.
 
