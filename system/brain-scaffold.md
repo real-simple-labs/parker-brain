@@ -20,6 +20,7 @@ The script also generates `parker_config.json` (brand id and name, repo URL, the
 Left out on purpose:
 
 - **`BUILD-STATUS.md` and `prompts-run-log/`.** They mean a build is running or ran. The build creates them.
+- **`build-data/`.** The build's one-time data pull (v45). The build creates it with its own `.gitignore` (`*`), so it never syncs and needs no line in the scaffold's `.gitignore`, and closeout deletes it.
 - **`running-notes/refresh-schedule.md`.** It aggregates real docs' `generated_on` and `refresh_by` dates, and there are none yet; `/refresh-context` builds it when it's missing.
 - **Any doc in the data folders.** Since v32 each of them starts with a `README.md` that says what the folder will hold and which `parker-system/` prompts write it, so a team looking at a new brain sees its shape. A README is never one of the folder's docs: the brand `CLAUDE.md`'s map says so, each README says so in its first line, and the `INDEX.md` steps (`/refresh-context`, the build's closeout) leave it out. Before v32 these folders were left out entirely, for fear that a README sitting among the docs would be noise in a synthesis prompt's input; that rule now covers it.
 - **Binary files.** The manifest carries text only (GitHub's tree API takes inline text content). The script fails the release if a bundle file isn't UTF-8.

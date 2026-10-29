@@ -109,8 +109,16 @@ visible when making that comparison.
 
 ## Build attribution
 
-When logging is enabled, append one literal line to each worker's task, outside
-the quoted prompt instructions. Use the existing setup `run_id`:
+Since v45 the build runs as one agent with no worker tasks
+(`prompts/onboarding-runner.md`, "One agent, one prompt at a time"). When
+logging is enabled, label that build session as a whole with the setup
+`run_id` and the stage `coordinator`, using the `label` command below; there
+are no per-prompt markers to add. Generation, checks, and fixes all stay in
+that one session and cannot be told apart by stage.
+
+The markers below apply only to work handed to a worker, as builds on older
+releases did. In that case, append one literal line to each worker's task,
+outside the quoted prompt instructions. Use the existing setup `run_id`:
 
 ```text
 PARKER_USAGE {"build_run_id":"BUILD_RUN_ID","stage":"generation","prompt_path":"parker-system/prompts/example.md","output_path":"sub-context-docs/example.md","attempt":1}
