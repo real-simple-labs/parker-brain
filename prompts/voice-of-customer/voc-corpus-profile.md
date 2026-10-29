@@ -56,7 +56,7 @@ Read every available customer-language source passed into the run. The normal so
 
 If a source is expected but unavailable, name it in data limitations. Do not silently omit it.
 
-During a brain build (a `BUILD-STATUS.md` at the brain's root that isn't marked complete), the raw records are already pulled once into `build-data/`, listed in `build-data/INDEX.md` (the method is "Pull the data once" in `parker-system/prompts/onboarding-runner.md`). Read them there, take the totals and the denominators from the counts each pull recorded, and pull from Parker only a source the folder doesn't hold yet, then save that pull there and add it to the index for the extraction passes that follow. Outside a build, pull the sources live.
+When this prompt runs as a step of a brain build (the onboarding runner is running it, and the brain's root holds a `BUILD-STATUS.md` that isn't marked complete), the raw records are already pulled once into `build-data/`, listed in `build-data/INDEX.md` (the method is "Pull the data once" in `parker-system/prompts/onboarding-runner.md`). Read them there, take the totals and the denominators from the counts each pull recorded, and pull from Parker only a source the folder doesn't hold yet, then save that pull there and add it to the index for the extraction passes that follow. In a refresh or an on-demand run, pull the sources live, even while a build sits unfinished.
 
 ## How to build it
 
