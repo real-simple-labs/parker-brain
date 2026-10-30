@@ -351,6 +351,7 @@ parker/
 │   │   ├── hooks/
 │   │   ├── headlines/
 │   │   ├── recreate/
+│   │   ├── customer-anchor-check/              ← one concept against the brand's customer language: SKILL.md, references/
 │   │   ├── weekly-creative-report/             ← shareable weekly report: SKILL.md, render_report.py, report-schema.md, setup-template.md
 │   │   ├── brief/
 │   │   └── analyze-ads/

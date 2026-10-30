@@ -47,9 +47,10 @@ INSTRUCTION = (
     "And creative deliverables have no casual path: any words a customer will read or hear "
     "— a script, a headline, a hook, ad copy, even a quick one — route through their skill "
     "in .claude/skills/ and ship with both gate receipts (Grounding Review, Voice Review). "
-    "The one exception is the recreate skill: it skips the gates on purpose, so a "
-    "recreation stays close to the original ad, and runs a voice check only when the "
-    "user asks. "
+    "Two skills skip the gates on purpose. The recreate skill: a recreation stays close "
+    "to the original ad, and it runs a voice check only when the user asks. The "
+    "customer-anchor-check skill: it hands back notes on a concept, not finished copy, "
+    "and its swaps keep the customer's own words. "
     "An inline answer carrying customer-facing copy without those receipts skipped the "
     "gates; route it through the skill instead."
 )
