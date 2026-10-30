@@ -171,10 +171,40 @@ def label(value):
     return result
 
 
+def message_texts(content):
+    """The text of a user message, and of the tool results it carries (Claude
+    Code puts them in user rows). A one-agent build prints its marker with a
+    shell command, so the marker arrives as a tool result."""
+    if isinstance(content, str):
+        return [content]
+    texts = []
+    for part in content or []:
+        if not isinstance(part, dict):
+            continue
+        if isinstance(part.get("text"), str):
+            texts.append(part["text"])
+        elif part.get("type") == "tool_result":
+            texts.extend(message_texts(part.get("content")))
+    return texts
+
+
+def tool_output_text(output):
+    """A Codex tool output: plain text, or JSON text with an `output` field."""
+    if isinstance(output, str):
+        try:
+            decoded = json.loads(output)
+        except ValueError:
+            return output
+        if isinstance(decoded, dict) and isinstance(decoded.get("output"), str):
+            return decoded["output"]
+        return output
+    if isinstance(output, dict) and isinstance(output.get("output"), str):
+        return output["output"]
+    return None
+
+
 def message_label(content):
-    texts = [content] if isinstance(content, str) else [
-        part.get("text", "") for part in content or [] if isinstance(part, dict)]
-    for text in texts:
+    for text in message_texts(content):
         if not isinstance(text, str):
             continue
         for line in text.splitlines():
@@ -296,6 +326,10 @@ def parse_codex(path, prior_requests=()):
             own_turn = bool(created and row.get("timestamp") and row["timestamp"] >= created)
         elif row.get("type") == "response_item" and p.get("role") == "user":
             attribution = message_label(p.get("content")) or attribution
+        elif row.get("type") == "response_item" and p.get("type") in (
+                "function_call_output", "custom_tool_call_output"):
+            text = tool_output_text(p.get("output"))
+            attribution = (message_label(text) if text else None) or attribution
         if row.get("type") != "event_msg" or p.get("type") != "token_count":
             continue
         info = p.get("info")

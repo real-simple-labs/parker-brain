@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import tomllib
 import unittest
 
@@ -218,6 +219,91 @@ class RuntimeHooks(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(log.read_text(encoding="utf-8"))["tool"], "mcp__fixture__read")
 
+    def start_build(self, ignored=True):
+        (self.root / "BUILD-STATUS.md").write_text("# Build status\n")
+        (self.root / "build-data").mkdir()
+        if ignored:
+            (self.root / "build-data/.gitignore").write_text("*\n")
+
+    def pull(self, tool, response, runtime=None, tool_input=None):
+        command = [sys.executable, str(self.root / ".claude/hooks/run-hook.py"), "pull-log"]
+        if runtime:
+            command += ["--runtime", runtime]
+        payload = {"tool_name": tool, "session_id": "fixture",
+                   "tool_input": tool_input or {"query": "SELECT 1"}, "tool_response": response}
+        result = subprocess.run(command, cwd=self.root, env=local_env(), input=json.dumps(payload),
+                                text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return result.stdout
+
+    def test_build_pull_is_saved_and_a_large_one_reaches_claude_as_a_note(self):
+        self.start_build()
+        rows = [{"ad_id": f"ad{i}", "spend": i, "text": "x" * 200} for i in range(400)]
+        response = [{"type": "text", "text": json.dumps({"rows": rows, "total": 400})}]
+        out = self.pull("mcp__parker__search_facebook_ads_sql", response, "claude")
+        saved = sorted((self.root / "build-data/pulls").iterdir())
+        self.assertEqual([p.name for p in saved], ["0001-search_facebook_ads_sql.jsonl"])
+        lines = saved[0].read_text(encoding="utf-8").splitlines()
+        self.assertEqual(json.loads(lines[0])["_pull"]["records"], 400)
+        self.assertEqual(json.loads(lines[0])["_meta"], {"total": 400})
+        self.assertEqual(json.loads(lines[400])["ad_id"], "ad399")
+        replaced = json.loads(out)["hookSpecificOutput"]["updatedMCPToolOutput"]
+        self.assertEqual(len(replaced), 1)
+        note = replaced[0]["text"]
+        self.assertIn("build-data/pulls/0001-search_facebook_ads_sql.jsonl", note)
+        self.assertIn("400 records", note)
+        self.assertIn("Fields: ad_id, spend, text.", note)
+        self.assertLess(len(note), 4000)
+        listing = (self.root / "build-data/pulls.md").read_text(encoding="utf-8")
+        self.assertIn("`search_facebook_ads_sql`", listing)
+        self.assertIn("SELECT 1", listing)
+
+    def test_build_pull_keeps_small_results_and_codex_results_whole(self):
+        self.start_build()
+        small = [{"type": "text", "text": json.dumps({"rows": [{"id": 1}]})}]
+        self.assertEqual(self.pull("mcp__parker__search_customer_reviews_sql", small, "claude"), "")
+        large = json.dumps([{"id": i, "text": "y" * 300} for i in range(300)])
+        self.assertEqual(self.pull("mcp__62890cba__search_customer_reviews_sql", large), "")
+        names = sorted(p.name for p in (self.root / "build-data/pulls").iterdir())
+        self.assertEqual(names, ["0001-search_customer_reviews_sql.jsonl", "0002-search_customer_reviews_sql.jsonl"])
+        nested = json.dumps({"data": {"rows": [{"id": i} for i in range(3)], "total": 3}})
+        self.pull("mcp__parker__search_tiktok_videos", nested)
+        header, *rows = (self.root / "build-data/pulls/0003-search_tiktok_videos.jsonl").read_text().splitlines()
+        self.assertEqual((json.loads(header)["_pull"]["records_from"], len(rows)), ("data.rows", 3))
+        self.pull("mcp__parker__get_brand_persona", json.dumps({"persona": {"name": "x", "traits": ["a", "b"]}}))
+        self.assertGreater(len((self.root / "build-data/pulls/0004-get_brand_persona.json").read_text().splitlines()), 3)
+
+    def test_build_pull_saves_nothing_it_must_not(self):
+        large = [{"type": "text", "text": "z" * 50000}]
+        self.assertEqual(self.pull("mcp__parker__search_facebook_ads_sql", large, "claude"), "")
+        self.start_build(ignored=False)
+        self.assertEqual(self.pull("mcp__parker__search_facebook_ads_sql", large, "claude"), "")
+        self.assertFalse((self.root / "build-data/pulls").exists())
+        (self.root / "build-data/.gitignore").write_text("*\n")
+        for tool in ("mcp__parker__register_parker_brain_git_credential", "mcp__parker__setup_parker_brain",
+                     "mcp__parker__update_parker_brain_setup_status", "mcp__other__search_web"):
+            self.assertEqual(self.pull(tool, large, "claude"), "")
+        failed = {"isError": True, "content": [{"type": "text", "text": "z" * 50000}]}
+        self.assertEqual(self.pull("mcp__parker__search_facebook_ads_sql", failed, "claude"), "")
+        self.assertFalse((self.root / "build-data/pulls").exists())
+
+    def test_session_start_after_a_compaction_mid_build_says_what_to_reopen(self):
+        def context(payload):
+            result = self.invoke("session-start", payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
+        self.assertNotIn("just compacted", context({"source": "compact"}))
+        self.start_build()
+        self.assertNotIn("just compacted", context({"source": "startup"}))
+        self.assertIn("just compacted", context({"source": "compact"}))
+        self.assertNotIn("build-data/", context({"source": "startup"}))
+        old = time.time() - 40 * 86400
+        for path in [self.root / "build-data", *(self.root / "build-data").rglob("*")]:
+            os.utime(path, (old, old))
+        self.assertIn("has not run for 40 days", context({}))
+        (self.root / "BUILD-STATUS.md").unlink()
+        self.assertIn("left over from a build", context({}))
+
     def test_git_guard_retains_both_envelopes(self):
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         subprocess.run(["git", "-C", str(self.root), "remote", "add", "origin", "https://github.com/parker-brain/fixture"], check=True)
@@ -361,6 +447,10 @@ class RuntimeHooks(unittest.TestCase):
         for event, groups in claude["hooks"].items():
             actual = groups[0]["hooks"][0]["command"]
             expected = self.config["hooks"][event][0]["hooks"][0]["command"]
+            # Only Claude Code takes the pull log's replaced result, so only its
+            # command says so; Codex keeps its approved command unchanged.
+            if event == "PostToolUse":
+                expected += " --runtime claude"
             self.assertEqual(actual, expected.removesuffix(" --codex").replace("--runtime codex", "--runtime claude"))
         for groups in self.config["hooks"].values():
             for group in groups:
