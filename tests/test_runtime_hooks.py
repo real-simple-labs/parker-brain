@@ -245,7 +245,7 @@ class RuntimeHooks(unittest.TestCase):
         self.assertEqual([p.name for p in saved], ["0001-search_facebook_ads_sql.jsonl"])
         lines = saved[0].read_text(encoding="utf-8").splitlines()
         self.assertEqual(json.loads(lines[0])["_pull"]["records"], 400)
-        self.assertEqual(json.loads(lines[0])["_meta"], {"total": 400})
+        self.assertEqual(json.loads(lines[0])["_meta"], {"rows": "<400 records, one per line below>", "total": 400})
         self.assertEqual(json.loads(lines[400])["ad_id"], "ad399")
         replaced = json.loads(out)["hookSpecificOutput"]["updatedMCPToolOutput"]
         self.assertEqual(len(replaced), 1)
@@ -270,8 +270,17 @@ class RuntimeHooks(unittest.TestCase):
         self.pull("mcp__parker__search_tiktok_videos", nested)
         header, *rows = (self.root / "build-data/pulls/0003-search_tiktok_videos.jsonl").read_text().splitlines()
         self.assertEqual((json.loads(header)["_pull"]["records_from"], len(rows)), ("data.rows", 3))
+        self.assertEqual(json.loads(header)["_meta"], {"data": {"rows": "<3 records, one per line below>", "total": 3}})
+        thread = {"data": {"thread": {"id": "t1", "authorName": "Sam"}, "messages": [{"text": "m" * 900} for _ in range(40)],
+                           "pagination": {"hasMore": True, "nextOffset": 40}, "notes": "n" * 3000}}
+        out = self.pull("mcp__parker__search_chat_history", [{"type": "text", "text": json.dumps(thread)}], "claude")
+        header = json.loads((self.root / "build-data/pulls/0004-search_chat_history.jsonl").read_text().splitlines()[0])
+        self.assertEqual(header["_meta"]["data"]["thread"]["authorName"], "Sam")
+        self.assertEqual(header["_meta"]["data"]["pagination"], {"hasMore": True, "nextOffset": 40})
+        self.assertEqual(len(header["_meta"]["data"]["notes"]), 3000)
+        self.assertIn("nextOffset", json.loads(out)["hookSpecificOutput"]["updatedMCPToolOutput"][0]["text"])
         self.pull("mcp__parker__get_brand_persona", json.dumps({"persona": {"name": "x", "traits": ["a", "b"]}}))
-        self.assertGreater(len((self.root / "build-data/pulls/0004-get_brand_persona.json").read_text().splitlines()), 3)
+        self.assertGreater(len((self.root / "build-data/pulls/0005-get_brand_persona.json").read_text().splitlines()), 3)
 
     def test_build_pull_saves_nothing_it_must_not(self):
         large = [{"type": "text", "text": "z" * 50000}]

@@ -126,6 +126,11 @@ when its output is checked, `retry` with attempt 2 for a fix pass, and
 `build_verification` for the build verification. Replace every `<...>` above:
 a line that still holds one is not a label.
 
+The empty marker `PARKER_USAGE {}` ends the current label: the work after it
+is unattributed again. The build prints it when it pauses, stops at a usage
+limit, is cancelled, or finishes its closeout, so later work in the same
+session isn't counted as the build.
+
 Allowed stages: `coordinator`, `generation`, `fidelity_review`, `retry`, and
 `build_verification`. A fidelity review keeps its writer's prompt/output paths
 and attempt number. A rewritten output is `retry` with attempt 2; its review is

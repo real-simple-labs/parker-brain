@@ -391,6 +391,24 @@ class UsageLogging(unittest.TestCase):
         record, = self.exported()
         self.assertEqual([r["attribution"] for r in record["requests"]], [None, tag])
 
+    def test_an_empty_marker_ends_the_build_label(self):
+        tag = {"build_run_id": "build1", "stage": "build_verification"}
+        def printed(text):
+            return {"type": "user", "message": {"content": [{"type": "tool_result", "tool_use_id": "t",
+                    "content": text}]}}
+        later = {"type": "user", "message": {"content": "an ordinary request"}}
+        write_rows(self.source, [printed("PARKER_USAGE " + json.dumps(tag)), claude("one"),
+                                 printed("PARKER_USAGE {}"), claude("two"), later, claude("three")])
+        self.hook()
+        record, = self.exported()
+        self.assertEqual([r["attribution"] for r in record["requests"]], [tag, None, None])
+        clear = {"type": "response_item", "payload": {"type": "function_call_output", "output": "PARKER_USAGE {}\n"}}
+        label = {"type": "response_item", "payload": {"type": "function_call_output", "output": "PARKER_USAGE " + json.dumps(tag)}}
+        write_rows(self.source, [label, codex(), clear, codex(counts(250, 180, 25))])
+        self.hook("codex")
+        attributions = [r["attribution"] for s in self.exported() for r in s["requests"] if s.get("runtime") == "codex"]
+        self.assertEqual(attributions[-2:], [tag, None])
+
     def test_a_marker_quoted_in_a_document_with_placeholders_labels_nothing(self):
         quoted = {"type": "user", "message": {"content": [{"type": "tool_result", "tool_use_id": "t1", "content":
                   'PARKER_USAGE {"build_run_id":"<run_id>","stage":"generation","prompt_path":"parker-system/prompts/<folder>/<prompt>.md"}'}]}}

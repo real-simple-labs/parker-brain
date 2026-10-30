@@ -165,6 +165,21 @@ def record_list(value):
     return max(found, key=lambda kv: len(kv[1])) if found else (None, None)
 
 
+def rest_of(parsed, key, count: int):
+    """Everything in the result but its records, whole: the records' place holds
+    a short marker, so no field (an author, a page offset, a total) is lost."""
+    if not key or not isinstance(parsed, dict):
+        return {}
+    rest = dict(parsed)
+    top, _, inner = key.partition(".")
+    marker = f"<{count} records, one per line below>"
+    if inner:
+        rest[top] = {**rest[top], inner: marker}
+    else:
+        rest[top] = marker
+    return rest
+
+
 def one_line(value, limit: int) -> str:
     text = json.dumps(value, ensure_ascii=False, separators=(",", ":"))
     return text if len(text) <= limit else text[:limit] + "…"
@@ -193,9 +208,7 @@ def save_pull(tool: str, tool_input, text: str):
     meta = {}
     stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
     if records is not None:
-        top = key.split(".")[0] if key else None
-        meta = {k: v for k, v in parsed.items() if k != top
-                and len(json.dumps(v, ensure_ascii=False)) <= 2000} if isinstance(parsed, dict) else {}
+        meta = rest_of(parsed, key, len(records))
         header = {"_pull": {"tool": tool, "input": tool_input, "saved": stamp,
                             "records": len(records), "records_from": key}, "_meta": meta}
         path, f = next_file(tool, ".jsonl")
@@ -232,7 +245,8 @@ def note_for(path, size, records, parsed, meta, text) -> str:
         fields = sorted({k for r in records[:50] for k in r})
         lines = [where, "", "One record per line after the header line. Fields: " + ", ".join(fields) + "."]
         if meta:
-            lines.append("Other parts of the result: " + one_line(meta, 1500))
+            lines.append("The rest of the result (whole in the file's header line"
+                         + (", cut here" if len(one_line(meta, 10**9)) > 1500 else "") + "): " + one_line(meta, 1500))
         lines.append(f"The first {min(PREVIEW_RECORDS, len(records))} records:")
         lines += [one_line(r, PREVIEW_RECORD_CHARS) for r in records[:PREVIEW_RECORDS]]
         return "\n".join(lines)
