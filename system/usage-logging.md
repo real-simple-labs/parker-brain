@@ -109,12 +109,27 @@ visible when making that comparison.
 
 ## Build attribution
 
-When logging is enabled, append one literal line to each worker's task, outside
-the quoted prompt instructions. Use the existing setup `run_id`:
+Since v45 the build runs as one agent with no worker tasks
+(`prompts/onboarding-runner.md`, "One agent, one prompt at a time"). When
+logging is enabled, it marks each step with one line that a shell command
+prints, with the existing setup `run_id`:
 
-```text
-PARKER_USAGE {"build_run_id":"BUILD_RUN_ID","stage":"generation","prompt_path":"parker-system/prompts/example.md","output_path":"sub-context-docs/example.md","attempt":1}
+```bash
+echo 'PARKER_USAGE {"build_run_id":"<run_id>","stage":"generation","prompt_path":"parker-system/prompts/<folder>/<prompt>.md","output_path":"<folder>/<doc>.md","attempt":1}'
 ```
+
+The collector reads the line from the tool result (Claude Code) or the command
+output (Codex), and every request after it carries that label until the next
+marker. So one session keeps its split by prompt: `coordinator` when the build
+starts and between prompts, `generation` when a prompt starts, `fidelity_review`
+when its output is checked, `retry` with attempt 2 for a fix pass, and
+`build_verification` for the build verification. Replace every `<...>` above:
+a line that still holds one is not a label.
+
+The empty marker `PARKER_USAGE {}` ends the current label: the work after it
+is unattributed again. The build prints it when it pauses, stops at a usage
+limit, is cancelled, or finishes its closeout, so later work in the same
+session isn't counted as the build.
 
 Allowed stages: `coordinator`, `generation`, `fidelity_review`, `retry`, and
 `build_verification`. A fidelity review keeps its writer's prompt/output paths
@@ -123,8 +138,10 @@ and attempt number. A rewritten output is `retry` with attempt 2; its review is
 store brand names, freeform notes, or absolute paths in them. Untagged everyday
 work is still counted, with stage `unattributed`. No marker is needed when off.
 
-A parent session does not acquire a build label merely by delegating labelled
-work. For a dedicated build coordinator, explicitly label its collected session:
+Builds on older releases handed prompts to workers. There, the same line went
+into each worker's task, outside the quoted prompt instructions, and a parent
+session did not acquire a build label merely by delegating labelled work. The
+`label` command below labels a collected actor's whole history at once:
 
 ```bash
 python3 scripts/usage-log.py label --runtime codex --session SESSION_ID --metadata '{"build_run_id":"BUILD_RUN_ID","stage":"coordinator"}'
@@ -132,12 +149,11 @@ python3 scripts/usage-log.py export
 ```
 
 Use `--runtime claude` for Claude Code and `--agent AGENT_ID` to repair a missing
-worker label. Session/actor IDs are in exported records. This override labels
-that actor's whole history, so never use it to attribute a mixed-purpose parent
-session to one build. Leave that parent unattributed and report it separately.
-If hooks have not collected the actor, the label command fails rather than
-inventing a run. In a runtime without workers, inline review costs remain in the
-parent session; they cannot be separated by this marker convention.
+worker label. Session/actor IDs are in exported records. This override replaces
+every marker in that actor's history, so never use it on a one-agent build or
+to attribute a mixed-purpose parent session to one build. Leave that parent
+unattributed and report it separately. If hooks have not collected the actor,
+the label command fails rather than inventing a run.
 
 ## Verification
 

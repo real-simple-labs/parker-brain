@@ -56,6 +56,8 @@ Read every available customer-language source passed into the run. The normal so
 
 If a source is expected but unavailable, name it in data limitations. Do not silently omit it.
 
+When this prompt runs as a step of a brain build (the onboarding runner is running it, and the brain's root holds a `BUILD-STATUS.md`), the raw records are already pulled once into `build-data/`, listed in `build-data/pulls.md` and `build-data/INDEX.md` (the method is "Pull the data once" in `parker-system/prompts/onboarding-runner.md`). Read them there, part by part (one record per line), take the totals and the denominators from the counts each pull recorded, and pull from Parker only a source the folder doesn't hold yet, or a slice more than 7 days old that can have changed (its window ends today, it is a total to date, or it is a web page); the brain's hook saves that pull there for the extraction passes that follow, and you add its counts to `INDEX.md`. Never type the records into a file. In a refresh or an on-demand run, pull the sources live, even while a build sits unfinished.
+
 ## How to build it
 
 **Profile the raw sources.** Record the total number of raw records received, the sources represented, the fields present, the date range, the rating or score fields, the product or SKU fields, and the text fields. Name blank text rows, duplicate-looking rows, malformed dates, encoding issues, missing ratings, missing products, and inconsistent schemas.
