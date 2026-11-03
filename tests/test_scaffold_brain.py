@@ -269,7 +269,7 @@ class Scaffold(unittest.TestCase):
 
     def test_init_keeps_a_gitignore_that_already_ignores_the_folder(self):
         brand = self.brand("ignored brand")
-        mine = "parker-context\n/node_modules\n.next\n*.js.map/\n"
+        mine = "parker-context\n/node_modules\n.next \n*.js.map/\n .nuxt/\n"
         (brand / ".gitignore").write_text(mine)
         self.assert_init_ok(self.init(brand))
         text = (brand / ".gitignore").read_text(encoding="utf-8")
@@ -278,10 +278,12 @@ class Scaffold(unittest.TestCase):
         self.assertTrue(text.startswith(mine + "\n# Installed packages"), text)
         self.assertNotIn("parker-context/", lines)
         self.assertNotIn("brand-context", text)
-        # `.next` covers `.next/`; `/node_modules` covers only the top folder, and a
-        # folder-only `*.js.map/` misses the files, so their rules come in
+        # `.next` covers `.next/` (git drops the trailing space); `/node_modules` covers
+        # only the top folder, a folder-only `*.js.map/` misses the files, and
+        # ` .nuxt/` names a folder with a leading space, so their rules come in
         self.assertNotIn(".next/", lines)
         self.assertIn("node_modules/", lines)
+        self.assertIn(".nuxt/", lines)
         self.assertIn("*.js.map", lines)
         self.assertTrue(text.endswith("*.css.map\n"), text)
 

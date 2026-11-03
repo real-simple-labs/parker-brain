@@ -465,7 +465,8 @@ def merge_gitignore(path: Path, rendered: str, dry_run: bool) -> tuple[str, bool
     except (OSError, ValueError) as error:
         return (f"isn't readable ({error}); add the lines of "
                 "parker-system/templates/brand-scaffold/gitignore to it by hand"), True
-    have = {line.strip() for line in current.splitlines()}
+    # git drops trailing spaces but keeps leading ones: " node_modules/" is another name
+    have = {line.rstrip() for line in current.splitlines()}
 
     def covered(rule: str) -> bool:
         # The same line, or a folder rule without its "/" (`node_modules` covers
