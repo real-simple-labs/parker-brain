@@ -116,6 +116,9 @@ class Scaffold(unittest.TestCase):
         # Parker Desktop writes parker-context/ from the database; git must never pick it up.
         self.assertEqual(tree[".gitignore"]["mode"], "100644")
         self.assertIn("parker-context/", tree[".gitignore"]["content"].splitlines())
+        # installed packages and build output never go into the brain (v46)
+        for rule in ("node_modules/", ".next/", "__pycache__/", ".venv/", "*.js.map", "*.css.map"):
+            self.assertIn(rule, tree[".gitignore"]["content"].splitlines())
         self.assertEqual(tree["CLAUDE.md"]["mode"], "100644")
         self.assertNotIn("BUILD-STATUS.md", tree)
         self.assertNotIn("running-notes/refresh-schedule.md", tree)
@@ -253,6 +256,12 @@ class Scaffold(unittest.TestCase):
         lines = (brand / ".gitignore").read_text(encoding="utf-8").splitlines()
         self.assertEqual(lines[:2], ["node_modules/", ".env"])
         self.assertEqual(lines.count("parker-context/"), 1)
+        self.assertEqual(lines.count("node_modules/"), 1)
+        self.assertIn("*.css.map", lines)
+        # each rule lands under its own comment from the seed
+        build = next(i for i, line in enumerate(lines) if line.startswith("# Installed packages"))
+        self.assertLess(lines.index("parker-context/"), build)
+        self.assertLess(build, lines.index(".next/"))
         again = self.init(brand)
         self.assert_init_ok(again)
         self.assertIn(".gitignore: kept", again.stdout)
@@ -262,7 +271,12 @@ class Scaffold(unittest.TestCase):
         brand = self.brand("ignored brand")
         (brand / ".gitignore").write_text("/parker-context\n")
         self.assert_init_ok(self.init(brand))
-        self.assertEqual((brand / ".gitignore").read_text(encoding="utf-8"), "/parker-context\n")
+        text = (brand / ".gitignore").read_text(encoding="utf-8")
+        # only the build rules are missing, so only they come in, with their own comment
+        self.assertTrue(text.startswith("/parker-context\n\n# Installed packages"), text)
+        self.assertNotIn("parker-context/", text.splitlines())
+        self.assertNotIn("brand-context", text)
+        self.assertTrue(text.endswith("*.css.map\n"), text)
 
     def test_init_refuses_a_built_brain_and_a_missing_mount(self):
         built = self.brand("built brand")

@@ -454,25 +454,32 @@ def replace_atomically(path: Path, data: bytes, executable: bool = False, sync_d
 
 
 def merge_gitignore(path: Path, rendered: str, dry_run: bool) -> tuple[str, bool]:
-    """Add the seed's ignore rules an existing .gitignore lacks, under the seed's
-    comment; keep every line it has. A folder the brain already had keeps its
-    .gitignore, but it still needs parker-context/ ignored: this run stamps the
-    ledger through the mount's release, so the migration that adds the rule
-    never runs there. Returns (what happened, whether it needs attention)."""
+    """Add the seed's ignore rules an existing .gitignore lacks, each group under
+    its own comment from the seed; keep every line it has. A folder the brain
+    already had keeps its .gitignore, but it still needs the seed's rules: this
+    run stamps the ledger through the mount's release, so the migrations that
+    add them (v25, v46) never run there. Returns (what happened, whether it
+    needs attention)."""
     try:
         current = path.read_text(encoding="utf-8")
     except (OSError, ValueError) as error:
-        return (f"isn't readable ({error}); add the parker-context/ line to it by hand"), True
+        return (f"isn't readable ({error}); add the lines of "
+                "parker-system/templates/brand-scaffold/gitignore to it by hand"), True
     have = {line.strip().strip("/") for line in current.splitlines()}
-    comment = [line for line in rendered.splitlines() if line.startswith("#")]
-    missing = [line for line in rendered.splitlines()
-               if line.strip() and not line.startswith("#") and line.strip().strip("/") not in have]
+    groups, missing = [], []
+    for group in re.split(r"\n\s*\n", rendered.strip()):
+        lines = group.splitlines()
+        lacks = [line for line in lines
+                 if line.strip() and not line.startswith("#") and line.strip().strip("/") not in have]
+        if lacks:
+            groups.append("\n".join([line for line in lines if line.startswith("#")] + lacks))
+            missing += lacks
     if not missing:
         return "kept", False
     if dry_run:
         return "would add " + ", ".join(missing), False
     head = current if not current or current.endswith("\n") else current + "\n"
-    block = "\n".join(comment + missing) + "\n"
+    block = "\n\n".join(groups) + "\n"
     try:
         replace_atomically(path, (head + ("\n" if head else "") + block).encode("utf-8"))
     except OSError as error:

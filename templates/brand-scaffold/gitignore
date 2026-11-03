@@ -2,3 +2,22 @@
 # brand context lives in brand-context/, which git tracks and Parker keeps
 # in sync with its own database.
 parker-context/
+
+# Installed packages, build output and caches from code projects. The
+# project's install or build command makes them again, so they aren't
+# saved here. Raw data, run output and logs are still saved.
+node_modules/
+.next/
+.nuxt/
+.vercel/
+.parcel-cache/
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+*.js.map
+*.mjs.map
+*.cjs.map
+*.jsx.map
+*.ts.map
+*.css.map
