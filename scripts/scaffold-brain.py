@@ -465,12 +465,19 @@ def merge_gitignore(path: Path, rendered: str, dry_run: bool) -> tuple[str, bool
     except (OSError, ValueError) as error:
         return (f"isn't readable ({error}); add the lines of "
                 "parker-system/templates/brand-scaffold/gitignore to it by hand"), True
-    have = {line.strip().strip("/") for line in current.splitlines()}
+    have = {line.strip() for line in current.splitlines()}
+
+    def covered(rule: str) -> bool:
+        # The same line, or a folder rule without its "/" (`node_modules` covers
+        # `node_modules/`). Not a leading "/": `/node_modules` covers only the
+        # top folder, and a nested project's packages would still be saved.
+        return rule in have or (rule.endswith("/") and rule[:-1] in have)
+
     groups, missing = [], []
     for group in re.split(r"\n\s*\n", rendered.strip()):
         lines = group.splitlines()
         lacks = [line for line in lines
-                 if line.strip() and not line.startswith("#") and line.strip().strip("/") not in have]
+                 if line.strip() and not line.startswith("#") and not covered(line.strip())]
         if lacks:
             groups.append("\n".join([line for line in lines if line.startswith("#")] + lacks))
             missing += lacks

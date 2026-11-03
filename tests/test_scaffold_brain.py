@@ -269,13 +269,20 @@ class Scaffold(unittest.TestCase):
 
     def test_init_keeps_a_gitignore_that_already_ignores_the_folder(self):
         brand = self.brand("ignored brand")
-        (brand / ".gitignore").write_text("/parker-context\n")
+        mine = "parker-context\n/node_modules\n.next\n*.js.map/\n"
+        (brand / ".gitignore").write_text(mine)
         self.assert_init_ok(self.init(brand))
         text = (brand / ".gitignore").read_text(encoding="utf-8")
-        # only the build rules are missing, so only they come in, with their own comment
-        self.assertTrue(text.startswith("/parker-context\n\n# Installed packages"), text)
-        self.assertNotIn("parker-context/", text.splitlines())
+        lines = text.splitlines()
+        # parker-context is covered, so only the build group comes in, with its own comment
+        self.assertTrue(text.startswith(mine + "\n# Installed packages"), text)
+        self.assertNotIn("parker-context/", lines)
         self.assertNotIn("brand-context", text)
+        # `.next` covers `.next/`; `/node_modules` covers only the top folder, and a
+        # folder-only `*.js.map/` misses the files, so their rules come in
+        self.assertNotIn(".next/", lines)
+        self.assertIn("node_modules/", lines)
+        self.assertIn("*.js.map", lines)
         self.assertTrue(text.endswith("*.css.map\n"), text)
 
     def test_init_refuses_a_built_brain_and_a_missing_mount(self):
