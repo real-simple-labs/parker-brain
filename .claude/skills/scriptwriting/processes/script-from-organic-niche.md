@@ -6,7 +6,7 @@ The organic view count is the validation. The adaptation is structural fidelity,
 
 ## Required inputs
 
-- A breakout organic video from the brand's niche with view and engagement signal. Source: the mined organic library via the `search_and_manage_organic_social` MCP surface and `parker-system/creative-strategy-context/organic-social-analysis.md`.
+- A breakout organic video from the brand's niche with view and engagement signal. Source: the mined organic library via the `search_organic_social` MCP surface and `parker-system/creative-strategy-context/organic-social-analysis.md`.
 - Brand baseline — the brand's existing scripts.
 - Brand profile, ICP, voice of customer, compliance constraints.
 - The video's transcript, segment map, and on-screen text.
