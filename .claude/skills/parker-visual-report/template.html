@@ -1,0 +1,210 @@
+<!-- parker-visual-report template. This is the UI contract: keep classes, structure,
+     and tokens exactly as-is. LIGHT MODE ONLY by design — do not add dark-mode blocks; fill the {{MARKED}} slots and repeat the marked blocks.
+     Media: replace the placeholder ad-media divs with base64 data-URI <img> tags at
+     build time (see SKILL.md step 3). Never use remote src URLs — the artifact CSP
+     blocks them silently. -->
+<style>
+:root{
+  --p:#1a1a1a; --s:#555555; --t:#888888; --bg1:#ffffff; --bg2:#f5f5f5; --bg3:#fafafa; --b:#d4d4d4;
+  --accent:#c99a12; --border-t:rgba(0,0,0,.08); --border-s:rgba(0,0,0,.15);
+  --radius-md:8px; --radius-lg:12px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg1);color:var(--p);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1024px;margin:0 auto;padding:1.5rem 20px 0}
+.brandbar{display:flex;align-items:center;gap:8px;margin-bottom:1.1rem}
+.brand-logo{width:20px;height:20px;border-radius:4px;object-fit:cover;display:block}
+.brand-name{font-size:12.5px;font-weight:500;color:var(--p)}
+.brand-org{font-size:12.5px;color:var(--t)}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t);margin-bottom:.35rem}
+.h1{font-size:22px;font-weight:500;color:var(--p);margin-bottom:.25rem}
+.sub{font-size:14px;color:var(--s);line-height:1.65;margin-bottom:1.25rem}
+.divider{border:none;border-top:.5px solid var(--border-t);margin:1.75rem 0}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.75rem}
+.kpi{background:var(--bg2);border-radius:var(--radius-md);padding:.75rem 1rem}
+.kpi-l{font-size:11px;color:var(--t);margin-bottom:2px}
+.kpi-v{font-size:18px;font-weight:500;color:var(--p)}
+.kpi-s{font-size:11px;color:var(--s);margin-top:1px}
+.theme-eyebrow{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t);margin-bottom:.2rem}
+.theme-title{font-size:15px;font-weight:500;color:var(--p);margin-bottom:.2rem}
+.theme-desc{font-size:13px;color:var(--s);line-height:1.6;margin-bottom:.75rem}
+.scroll-outer{margin:0 -20px;padding:0 20px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--border-s) transparent}
+.scroll-outer::-webkit-scrollbar{height:4px}
+.scroll-outer::-webkit-scrollbar-track{background:transparent}
+.scroll-outer::-webkit-scrollbar-thumb{background:var(--border-s);border-radius:2px}
+.scroll-row{display:flex;gap:12px;width:max-content;padding-right:20px}
+.ad-card{flex-shrink:0;width:160px;background:var(--bg1);border:.5px solid var(--border-t);border-radius:var(--radius-lg);overflow:hidden;text-decoration:none;display:block;transition:border-color .15s}
+.ad-card:hover{border-color:var(--border-s)}
+.ad-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ad-media{width:160px;height:160px;display:flex;align-items:center;justify-content:center;background:var(--bg2);position:relative}
+.ad-media.tall{height:213px}
+.ad-media svg{opacity:.32}
+.ad-media .fmt-tag{position:absolute;bottom:8px;left:8px;font-size:9.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--s)}
+.ad-info{padding:8px 10px}
+.rank-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.rank-num{font-size:11px;font-weight:500;color:var(--t)}
+.type-pill{font-size:10px;font-weight:500;padding:1px 5px;border-radius:3px}
+.pill-v{background:#E6F1FB;color:#0C447C}
+.pill-s{background:#EAF3DE;color:#27500A}
+
+.hook-line{font-size:11px;font-weight:500;color:var(--p);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.stats{display:flex;flex-direction:column;gap:2px;margin-top:4px;padding-top:4px;border-top:.5px solid var(--border-t)}
+.stat{display:flex;justify-content:space-between;align-items:center}
+.sl{font-size:10px;color:var(--t)}
+.sv{font-size:10px;font-weight:500;color:var(--p)}
+.sv-g{font-size:10px;font-weight:500;color:#27500A}
+.sv-m{font-size:10px;font-weight:500;color:#92580F}
+.sv-w{font-size:10px;font-weight:500;color:#791F1F}
+
+.see-more{display:flex;align-items:center;gap:3px;margin-top:6px;padding-top:6px;border-top:.5px solid var(--border-t);font-size:10px;font-weight:500;color:var(--t)}
+.see-more svg{width:9px;height:9px;flex-shrink:0}
+.ad-card:hover .see-more{color:var(--p)}
+.insight{background:var(--bg1);border:.5px solid var(--border-t);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-top:1rem}
+.insight-t{font-size:13px;font-weight:500;color:var(--p);margin-bottom:4px}
+.insight-b{font-size:13px;color:var(--s);line-height:1.65}
+.watermark{margin-top:24px;padding:12px 0 24px;text-align:center;font-size:11px;color:var(--t);opacity:.7}
+.tagsec{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:.35rem}
+.tagcat-h{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t);margin-bottom:9px}
+.tagrow{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.tag-l{font-size:11px;color:var(--p);width:92px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag-track{flex:1;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.tag-fill{height:100%;background:var(--accent);border-radius:3px;display:block}
+.tag-v{font-size:10px;width:36px;text-align:right;color:var(--s);flex-shrink:0}
+.tag-cpa{width:46px;text-align:right;flex-shrink:0}
+.tag-note{font-size:11px;color:var(--t);margin-top:.5rem;line-height:1.5}
+@media(max-width:600px){
+  .wrap{padding:1.25rem 16px 0}
+  .scroll-outer{margin:0 -16px;padding:0 16px 10px}
+  .scroll-row{padding-right:16px}
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+  .tagsec{grid-template-columns:1fr}
+  .h1{font-size:18px}
+  .sub{font-size:13px}
+  .theme-desc{font-size:12px}
+  .ad-card{width:148px}
+  .ad-media{width:148px;height:148px}
+  .ad-media.tall{height:198px}
+}
+</style>
+
+<div class="wrap">
+
+<h2 class="sr-only">{{ONE_SENTENCE_SCREEN_READER_SUMMARY}}</h2>
+
+<!-- BRAND BAR — fetch the brand's real favicon at build time (read the site HTML's
+     <link rel="icon"> href; Shopify brands serve it from their CDN) and embed as a data URI.
+     Org name from get_available_brands. If no logo is fetchable, omit the img, keep the names. -->
+<div class="brandbar"><img class="brand-logo" src="data:image/png;base64,{{LOGO_B64}}" alt="{{BRAND}} logo" /><span class="brand-name">{{BRAND}}</span><span class="brand-org">&middot;&nbsp; {{ORG_NAME}}</span></div>
+
+<div class="eyebrow">Performance report &mdash; {{DATE_RANGE}}</div>
+<div class="h1">{{REPORT_TITLE}}</div>
+<div class="sub">{{SCOPE_LINE}}</div>
+
+<div class="kpi-row">
+  <!-- exactly 4 kpi cards -->
+  <div class="kpi"><div class="kpi-l">{{KPI_LABEL}}</div><div class="kpi-v">{{KPI_VALUE}}</div><div class="kpi-s">{{KPI_SUBLINE}}</div></div>
+</div>
+
+<hr class="divider">
+
+<!-- TAG LAYER (required) — per-tag economics from per-ad AI tags joined to spend/NC.
+     Bar width = share scaled to the category max. NC-CPA span uses sv-g / sv-m / sv-w.
+     Collapse tags that resolve to a single ad into one labeled row. Include an
+     "Untagged" row + coverage note when untagged spend is material. -->
+<div class="theme-eyebrow" style="margin-bottom:.5rem">Where the money went &mdash; and what it earned</div>
+<div class="theme-desc" style="margin-bottom:1rem">Spend share of the top {{N}} by AI tag, with each tag's new-customer CPA. Share is Meta's allocation; NC-CPA is what that allocation actually bought.</div>
+<div class="tagsec">
+  <div>
+    <div class="tagcat-h">By emotion</div>
+    <div class="tagrow"><span class="tag-l">{{TAG}}</span><span class="tag-track"><span class="tag-fill" style="width:{{PCT_OF_MAX}}%"></span></span><span class="tag-v">{{SHARE}}%</span><span class="tag-cpa"><span class="sv-g">{{NC_CPA}}</span></span></div>
+    <!-- top 5-6 rows -->
+  </div>
+  <div>
+    <div class="tagcat-h">By format</div>
+    <!-- rows -->
+  </div>
+  <div>
+    <div class="tagcat-h">By awareness</div>
+    <!-- rows, incl. Untagged when material -->
+  </div>
+</div>
+<div class="tag-note">{{COVERAGE_NOTE — single-ad tag collapses, untagged spend share and what it is}}</div>
+<hr class="divider">
+
+<!-- REPEAT per theme (2-5 themes) -->
+<div class="theme-eyebrow">Theme {{N}} &mdash; {{THEME_NAME}}</div>
+<div class="theme-title">{{THEME_TITLE_WITH_COUNT_AND_SPEND}}</div>
+<div class="theme-desc">{{THEME_INSIGHT_1_2_SENTENCES}}</div>
+
+<div class="scroll-outer">
+<div class="scroll-row">
+
+<!-- REPEAT per ad, spend order. Whole card links to the ad's parkerWebUrl. -->
+<a class="ad-card" href="{{PARKER_WEB_URL}}" target="_blank" rel="noopener">
+  <!-- VIDEO card media (tall, 4:5-ish). At build time replace the inner svg+tag with:
+       <img src="data:image/jpeg;base64,{{POSTER_B64}}" alt="{{ALT}}" loading="lazy"
+            style="width:100%;height:100%;object-fit:cover;display:block" />
+       Keep this SVG placeholder only if the asset could not be fetched. -->
+  <div class="ad-media tall"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 9l4-2v10l-4-2"/></svg><span class="fmt-tag">Video</span></div>
+  <div class="ad-info">
+    <div class="rank-row"><span class="rank-num">#{{RANK}} &mdash; {{FORMAT}}</span><span class="type-pill pill-v">{{STATUS}}</span></div>
+    <div class="hook-line">"{{HOOK_VERBATIM}}"</div>
+    <div class="stats">
+      <div class="stat"><span class="sl">Spend</span><span class="sv">{{SPEND}}</span></div>
+      <!-- WoW from the prior-window join: "+271%", "&minus;76%" (sv-w when steeply negative),
+           or "new (Jul 14)" / "new to top 20" -->
+      <div class="stat"><span class="sl">WoW</span><span class="sv">{{WOW}}</span></div>
+      <!-- ROAS (e-comm) or CPA (lead-gen), color sv-g / sv-m / sv-w vs the account's own averages -->
+      <div class="stat"><span class="sl">ROAS</span><span class="sv-m">{{ROAS}}</span></div>
+      <!-- NC-CPA when the brand tracks a new-customer purchase event; "&mdash;" when absent -->
+      <div class="stat"><span class="sl">NC-CPA</span><span class="sv-g">{{NC_CPA}}</span></div>
+      <!-- Hook rate, videos only -->
+      <div class="stat"><span class="sl">Hook</span><span class="sv-g">{{HOOK_RATE}}</span></div>
+    </div>
+    <div class="see-more">See more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+  </div>
+</a>
+
+<!-- STATIC card media (square) placeholder, same replacement rule: -->
+<!--
+  <div class="ad-media"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="fmt-tag">Static</span></div>
+-->
+
+</div>
+</div>
+
+<hr class="divider">
+<!-- END theme repeat -->
+
+<!-- VERDICT STRIP (required) — the operational deliverable. 3 columns: Iterate / Watch / Review.
+     Titles keep these exact colors (green / amber / red, matching sv-g / sv-m / sv-w light-mode values).
+     Each entry: bolded ad # + short name, one-line reason built from WoW trend + NC-CPA. -->
+<div class="theme-eyebrow" style="margin-bottom:.5rem">This week's verdicts &mdash; per the ad-account method</div>
+<div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">
+  <div class="kpi">
+    <div class="kpi-l" style="color:#27500A;font-weight:500">Iterate now</div>
+    <div class="kpi-s" style="line-height:1.6;margin-top:6px"><b>#{{N}} {{AD_NAME}}</b> &mdash; {{REASON: slow-burner / stable efficiency at scale / best NC-CPA}}</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l" style="color:#92580F;font-weight:500">Watch &mdash; don't iterate yet</div>
+    <div class="kpi-s" style="line-height:1.6;margin-top:6px"><b>#{{N}} {{AD_NAME}}</b> &mdash; {{REASON: spend spiking but NC-CPA above bar / still in learning}}</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l" style="color:#791F1F;font-weight:500">Review</div>
+    <div class="kpi-s" style="line-height:1.6;margin-top:6px"><b>#{{N}} {{AD_NAME}}</b> &mdash; {{REASON: near-zero purchases on real spend / fatigued, let it wind down}}</div>
+  </div>
+</div>
+<hr class="divider">
+
+<div class="theme-eyebrow" style="margin-bottom:.5rem">Key takeaways</div>
+
+<!-- 3-4 insight boxes; each carries a number-backed finding not visible from the cards alone -->
+<div class="insight">
+  <div class="insight-t">{{TAKEAWAY_TITLE}}</div>
+  <div class="insight-b">{{TAKEAWAY_BODY_WITH_NUMBERS}}</div>
+</div>
+
+</div>
+<div class="watermark">Compiled from production Meta data &middot; last-click attribution &middot; {{DATE_RANGE}}</div>
