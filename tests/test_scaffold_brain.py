@@ -116,6 +116,9 @@ class Scaffold(unittest.TestCase):
         # Parker Desktop writes parker-context/ from the database; git must never pick it up.
         self.assertEqual(tree[".gitignore"]["mode"], "100644")
         self.assertIn("parker-context/", tree[".gitignore"]["content"].splitlines())
+        # installed packages and build output never go into the brain (v46)
+        for rule in ("node_modules/", ".next/", "__pycache__/", ".venv/", "*.js.map", "*.css.map"):
+            self.assertIn(rule, tree[".gitignore"]["content"].splitlines())
         self.assertEqual(tree["CLAUDE.md"]["mode"], "100644")
         self.assertNotIn("BUILD-STATUS.md", tree)
         self.assertNotIn("running-notes/refresh-schedule.md", tree)
@@ -253,6 +256,12 @@ class Scaffold(unittest.TestCase):
         lines = (brand / ".gitignore").read_text(encoding="utf-8").splitlines()
         self.assertEqual(lines[:2], ["node_modules/", ".env"])
         self.assertEqual(lines.count("parker-context/"), 1)
+        self.assertEqual(lines.count("node_modules/"), 1)
+        self.assertIn("*.css.map", lines)
+        # each rule lands under its own comment from the seed
+        build = next(i for i, line in enumerate(lines) if line.startswith("# Installed packages"))
+        self.assertLess(lines.index("parker-context/"), build)
+        self.assertLess(build, lines.index(".next/"))
         again = self.init(brand)
         self.assert_init_ok(again)
         self.assertIn(".gitignore: kept", again.stdout)
@@ -260,9 +269,23 @@ class Scaffold(unittest.TestCase):
 
     def test_init_keeps_a_gitignore_that_already_ignores_the_folder(self):
         brand = self.brand("ignored brand")
-        (brand / ".gitignore").write_text("/parker-context\n")
+        mine = "parker-context\n/node_modules\n.next \n*.js.map/\n .nuxt/\n"
+        (brand / ".gitignore").write_text(mine)
         self.assert_init_ok(self.init(brand))
-        self.assertEqual((brand / ".gitignore").read_text(encoding="utf-8"), "/parker-context\n")
+        text = (brand / ".gitignore").read_text(encoding="utf-8")
+        lines = text.splitlines()
+        # parker-context is covered, so only the build group comes in, with its own comment
+        self.assertTrue(text.startswith(mine + "\n# Installed packages"), text)
+        self.assertNotIn("parker-context/", lines)
+        self.assertNotIn("brand-context", text)
+        # `.next` covers `.next/` (git drops the trailing space); `/node_modules` covers
+        # only the top folder, a folder-only `*.js.map/` misses the files, and
+        # ` .nuxt/` names a folder with a leading space, so their rules come in
+        self.assertNotIn(".next/", lines)
+        self.assertIn("node_modules/", lines)
+        self.assertIn(".nuxt/", lines)
+        self.assertIn("*.js.map", lines)
+        self.assertTrue(text.endswith("*.css.map\n"), text)
 
     def test_init_refuses_a_built_brain_and_a_missing_mount(self):
         built = self.brand("built brand")
