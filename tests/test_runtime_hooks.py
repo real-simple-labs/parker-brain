@@ -258,6 +258,20 @@ class RuntimeHooks(unittest.TestCase):
         self.assertIn("`search_facebook_ads_sql`", listing)
         self.assertIn("SELECT 1", listing)
 
+    def test_build_pull_saves_the_split_read_tools_and_the_old_organic_name(self):
+        self.start_build()
+        response = [{"type": "text", "text": json.dumps({"posts": [{"id": 1}], "total": 1})}]
+        for tool in ("search_organic_social", "search_brand_websites",
+                     "search_and_manage_organic_social"):
+            self.pull(f"mcp__parker__{tool}", response, "claude")
+        saved = sorted(p.name for p in (self.root / "build-data/pulls").iterdir())
+        self.assertEqual(saved, ["0001-search_organic_social.jsonl",
+                                 "0002-search_brand_websites.jsonl",
+                                 "0003-search_and_manage_organic_social.jsonl"])
+        # The write siblings are never saved.
+        self.pull("mcp__parker__manage_organic_social", response, "claude")
+        self.assertEqual(len(list((self.root / "build-data/pulls").iterdir())), 3)
+
     def test_build_pull_keeps_small_results_and_codex_results_whole(self):
         self.start_build()
         small = [{"type": "text", "text": json.dumps({"rows": [{"id": 1}]})}]

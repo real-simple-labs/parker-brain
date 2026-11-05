@@ -99,11 +99,13 @@ PULLS = BUILD_DATA / "pulls"
 PULL_LIST = BUILD_DATA / "pulls.md"
 
 # Parker's read tools. Only their results are saved: a build reads them again.
-# Setup, credential, status, and write tools never are.
+# Setup, credential, status, and write tools never are. The pre-split mixed name
+# (search_and_manage_organic_social) stays for brains on an older Parker MCP.
 SAVED_TOOLS = {
     "analyze_video_from_url", "brand_discovery", "check_northbeam_connection",
     "check_triple_whale_connection", "get_brand_persona", "list_custom_metrics",
-    "lookup_post_purchase_survey", "search_and_manage_organic_social",
+    "lookup_post_purchase_survey", "search_organic_social",
+    "search_and_manage_organic_social", "search_brand_websites",
     "search_chat_history", "search_competitor_facebook_ads",
     "search_customer_reviews_semantic", "search_customer_reviews_sql",
     "search_facebook_ad_comments_semantic", "search_facebook_ad_comments_sql",
