@@ -1,4 +1,4 @@
-# v45 — the build runs as one agent and reads the data once (2026-10-29)
+# v47 — the build runs as one agent and reads the data once (2026-11-05)
 
 A brain build ran each of its prompts in its own helper agent, and checked each output with another one. Every helper started empty, so it read the method again and pulled the brand's data again: one build made about a thousand Parker calls and read the same ads, reviews, comments, and competitor libraries many times over. The person pays for all of it out of their own Claude or Codex plan, and on a lighter plan the plan ran out long before the brain was built.
 
@@ -18,4 +18,4 @@ The first setup still builds every document and every audit. What changed is how
 
 ## Migration
 
-`migrations/v45.md`: nothing to do. The re-sync refreshes the hook files and the Claude `settings.json` where the team didn't edit them; an edited `settings.json` keeps the old pull-log command, so its pulls are saved but reach the model whole. A new build moves the pin to the newest release before it starts, so it gets this runner. A build already underway keeps the runner of its pin: automatic updates wait while a `BUILD-STATUS.md` sits at the root.
+`migrations/v47.md`: nothing to do. The re-sync refreshes the hook files and the Claude `settings.json` where the team didn't edit them; an edited `settings.json` keeps the old pull-log command, so its pulls are saved but reach the model whole. A new build moves the pin to the newest release before it starts, so it gets this runner. A build already underway keeps the runner of its pin: automatic updates wait while a `BUILD-STATUS.md` sits at the root.

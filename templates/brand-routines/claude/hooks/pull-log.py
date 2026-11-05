@@ -19,7 +19,7 @@ yet" comes off right here, in code, instead of waiting for the model to
 remember at the end of a multi-hour build. A report the tool answered with an
 error leaves the marker alone.
 
-During a brain build (v45) the same call saves every Parker read into the
+During a brain build (v47) the same call saves every Parker read into the
 build's data folder, so the model never types a result into a file: output
 tokens cost several times what input tokens cost, and a typed copy of a big
 pull costs more than pulling it again. The folder must already exist with its

@@ -109,7 +109,7 @@ visible when making that comparison.
 
 ## Build attribution
 
-Since v45 the build runs as one agent with no worker tasks
+Since v47 the build runs as one agent with no worker tasks
 (`prompts/onboarding-runner.md`, "One agent, one prompt at a time"). When
 logging is enabled, it marks each step with one line that a shell command
 prints, with the existing setup `run_id`:

@@ -65,13 +65,27 @@ SKILLS_LINK_TARGET = "../.claude/skills"
 MANIFEST_FORMAT = 1
 
 # The only placeholders a scaffold carries. The backend substitutes them in every
-# file of the manifest; bundle files are checked to contain none of them.
+# file of the manifest; bundle files are checked to contain none of them, except
+# the verbatim-placeholder bundles below.
 TOKENS = {
     "{{BRAND_NAME}}": "the brand's display name",
     "{{BRAND_ID}}": "the Parker brand id",
     "{{GITHUB_REPO_URL}}": "the brand repo's URL, e.g. https://github.com/parker-brain/acme",
     "{{CREATED_AT}}": "the scaffold date, YYYY-MM-DD",
 }
+# A few bundle files use a `{{...}}` of their own — a slot the skill fills when it
+# runs, not a scaffold token. Those ship byte-for-byte verbatim: the scaffold neither
+# rejects the placeholder (plan's guard) nor substitutes it (render), so the literal
+# token survives into the brain for the skill to fill at runtime. Keyed by path prefix.
+VERBATIM_PLACEHOLDER_BUNDLES = (
+    ".claude/skills/collaborative-brief-artifact/",
+)
+
+
+def ships_placeholder_verbatim(path: str) -> bool:
+    return path.startswith(VERBATIM_PLACEHOLDER_BUNDLES)
+
+
 # Files whose placeholder values must be JSON-string-escaped before substitution.
 JSON_PATHS = ("parker_config.json",)
 
@@ -329,7 +343,7 @@ def plan(factory: Factory, tag: str) -> list[Entry]:
             raise ScaffoldError(f"{src} has git mode {mode}; the bundle only carries regular files")
         text = factory.text(src)
         found = [token for token in TOKENS if token in text]
-        if found:
+        if found and not ships_placeholder_verbatim(dest):
             raise ScaffoldError(f"{src} contains {found[0]}; bundle files are copied verbatim and "
                                 "must not carry scaffold placeholders")
         add(Entry(dest, "file", text, executable=wants_exec(dest), origin="bundle"))
@@ -358,6 +372,8 @@ TOKEN_PATTERN = re.compile(r"\{\{(?:BRAND_NAME|BRAND_ID|GITHUB_REPO_URL|CREATED_
 
 def render(text: str, values: dict[str, str], path: str) -> str:
     """One pass over the text, so a value can never smuggle in another placeholder."""
+    if ships_placeholder_verbatim(path):
+        return text  # the skill owns its {{...}} slot; ship it verbatim
     if path in JSON_PATHS:
         values = {token: json.dumps(value, ensure_ascii=False)[1:-1] for token, value in values.items()}
     return TOKEN_PATTERN.sub(lambda match: values[match.group(0)], text)
@@ -454,25 +470,40 @@ def replace_atomically(path: Path, data: bytes, executable: bool = False, sync_d
 
 
 def merge_gitignore(path: Path, rendered: str, dry_run: bool) -> tuple[str, bool]:
-    """Add the seed's ignore rules an existing .gitignore lacks, under the seed's
-    comment; keep every line it has. A folder the brain already had keeps its
-    .gitignore, but it still needs parker-context/ ignored: this run stamps the
-    ledger through the mount's release, so the migration that adds the rule
-    never runs there. Returns (what happened, whether it needs attention)."""
+    """Add the seed's ignore rules an existing .gitignore lacks, each group under
+    its own comment from the seed; keep every line it has. A folder the brain
+    already had keeps its .gitignore, but it still needs the seed's rules: this
+    run stamps the ledger through the mount's release, so the migrations that
+    add them (v25, v46) never run there. Returns (what happened, whether it
+    needs attention)."""
     try:
         current = path.read_text(encoding="utf-8")
     except (OSError, ValueError) as error:
-        return (f"isn't readable ({error}); add the parker-context/ line to it by hand"), True
-    have = {line.strip().strip("/") for line in current.splitlines()}
-    comment = [line for line in rendered.splitlines() if line.startswith("#")]
-    missing = [line for line in rendered.splitlines()
-               if line.strip() and not line.startswith("#") and line.strip().strip("/") not in have]
+        return (f"isn't readable ({error}); add the lines of "
+                "parker-system/templates/brand-scaffold/gitignore to it by hand"), True
+    # git drops trailing spaces but keeps leading ones: " node_modules/" is another name
+    have = {line.rstrip() for line in current.splitlines()}
+
+    def covered(rule: str) -> bool:
+        # The same line, or a folder rule without its "/" (`node_modules` covers
+        # `node_modules/`). Not a leading "/": `/node_modules` covers only the
+        # top folder, and a nested project's packages would still be saved.
+        return rule in have or (rule.endswith("/") and rule[:-1] in have)
+
+    groups, missing = [], []
+    for group in re.split(r"\n\s*\n", rendered.strip()):
+        lines = group.splitlines()
+        lacks = [line for line in lines
+                 if line.strip() and not line.startswith("#") and not covered(line.strip())]
+        if lacks:
+            groups.append("\n".join([line for line in lines if line.startswith("#")] + lacks))
+            missing += lacks
     if not missing:
         return "kept", False
     if dry_run:
         return "would add " + ", ".join(missing), False
     head = current if not current or current.endswith("\n") else current + "\n"
-    block = "\n".join(comment + missing) + "\n"
+    block = "\n\n".join(groups) + "\n"
     try:
         replace_atomically(path, (head + ("\n" if head else "") + block).encode("utf-8"))
     except OSError as error:
