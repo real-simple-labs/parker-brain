@@ -130,8 +130,22 @@ class Scaffold(unittest.TestCase):
         tree = {item["path"]: item for item in self.manifest["tree"]}
         for src, dest in self.bundle.items():
             self.assertEqual(tree[dest]["content"].encode("utf-8"), (FACTORY / src).read_bytes(), dest)
+            if scaffold.ships_placeholder_verbatim(dest):
+                continue  # a skill that owns its {{...}} slot ships the token verbatim
             for token in scaffold.TOKENS:
                 self.assertNotIn(token, tree[dest]["content"], dest)
+
+    def test_a_skill_can_ship_its_own_placeholder_verbatim(self):
+        tree = {item["path"]: item for item in self.manifest["tree"]}
+        dest = ".claude/skills/collaborative-brief-artifact/template.html"
+        self.assertIn(dest, tree)
+        self.assertTrue(scaffold.ships_placeholder_verbatim(dest))
+        # the skill's own {{BRAND_NAME}} slot survives into the manifest content...
+        self.assertIn("{{BRAND_NAME}}", tree[dest]["content"])
+        # ...and render leaves it untouched, so the brain gets the literal slot to fill.
+        self.assertEqual(scaffold.render(tree[dest]["content"], values(), dest), tree[dest]["content"])
+        # a normal bundle file gets no such exemption.
+        self.assertFalse(scaffold.ships_placeholder_verbatim(".claude/skills/dream/SKILL.md"))
 
     def test_seeds_are_clean(self):
         tree = {item["path"]: item["content"] for item in self.manifest["tree"] if "content" in item}
