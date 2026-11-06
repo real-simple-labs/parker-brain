@@ -19,6 +19,9 @@ says the other thing: the run pulls, commits and pushes itself.
 import json
 import os
 import subprocess
+import sys
+import threading
+import time
 from pathlib import Path
 
 MOUNT = Path("parker-system")
@@ -93,6 +96,88 @@ BUILD_UNDERWAY_LINE = (
     "them, and offer /set-up-brain to resume the rest rather than start over. If it "
     "is marked complete, only the build's closeout is left; /set-up-brain finishes it."
 )
+
+
+COMPACT_BUILD_LINE = (
+    " The conversation was just compacted, and a build is under way here. If you "
+    "are running it: open BUILD-STATUS.md to see where it stands, open the next "
+    "prompt's file again and read it in full, and open the method docs again when "
+    "that prompt needs them: what you read before the compaction is gone. The "
+    "build's data is still on disk: build-data/pulls.md lists every Parker pull "
+    "the build saved and build-data/INDEX.md the rest, so read from there by "
+    "slices instead of pulling again."
+)
+
+BUILD_DATA = Path("build-data")
+# Raw ad data and customer text should not sit on a computer for long after
+# the build that pulled it stopped.
+STALE_DAYS = 30
+
+
+def build_data_age_days() -> "int | None":
+    """Days since anything in build-data/ last changed; None without the folder."""
+    if not BUILD_DATA.is_dir() or BUILD_DATA.is_symlink():
+        return None
+    newest = BUILD_DATA.stat().st_mtime
+    try:
+        for path in BUILD_DATA.rglob("*"):
+            newest = max(newest, path.lstat().st_mtime)
+    except OSError:
+        pass
+    return int((time.time() - newest) // 86400)
+
+
+def build_data_line(underway: bool) -> str:
+    age = build_data_age_days()
+    if age is None:
+        return ""
+    if not underway:
+        return (
+            " A build-data/ folder is left over from a build that finished or was "
+            "cancelled. It holds raw ad data and customer text, only on this "
+            "computer, and nothing reads it any more: offer the person to delete it."
+        )
+    if age > STALE_DAYS:
+        return (
+            f" The build here has not run for {age} days, and build-data/ still holds "
+            "its raw ad data and customer text on this computer. When you offer to "
+            "resume the build, also offer to delete that folder instead: a resume "
+            "pulls again what it needs."
+        )
+    return ""
+
+
+def session_source() -> str:
+    """Why the session started: startup, resume, clear, or compact. The runtime
+    sends it as JSON on stdin; a caller that sends nothing and keeps stdin open
+    must never hold the session start, so the read gets one second."""
+    if sys.stdin is None or sys.stdin.isatty():
+        return ""
+    chunks, done = [], []
+
+    def read_all():
+        # Raw reads on the descriptor: a reader still blocked at exit then
+        # holds no lock of Python's stdin object, so the exit stays clean.
+        try:
+            while True:
+                chunk = os.read(0, 65536)
+                if not chunk:
+                    break
+                chunks.append(chunk)
+        except OSError:
+            pass
+        done.append(True)
+
+    reader = threading.Thread(target=read_all, daemon=True)
+    reader.start()
+    reader.join(1.0)
+    if not done:
+        return ""
+    try:
+        payload = json.loads(b"".join(chunks).decode("utf-8", errors="replace") or "{}")
+    except ValueError:
+        return ""
+    return str(payload.get("source", "")) if isinstance(payload, dict) else ""
 
 
 def build_started() -> bool:
@@ -230,10 +315,14 @@ else:
         "factory's own README inside the mount once initialized." + sync_line()
     )
 
-if build_started():
+underway = build_started()
+if underway:
     context += BUILD_UNDERWAY_LINE
+    if session_source() == "compact":
+        context += COMPACT_BUILD_LINE
 elif Path(".scaffolded").exists():
     context += SCAFFOLD_LINE
+context += build_data_line(underway)
 
 context += access_text()
 
