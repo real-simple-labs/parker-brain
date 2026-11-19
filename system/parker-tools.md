@@ -4,6 +4,8 @@
 
 Parker's tools are the **Parker MCP** set. That is the runtime toolset — the brand's own data. The web tools are chat-only (see "Chat-only tools" below). Parker reasons over what these return, plus the model's own domain knowledge. Tool names below are the **current** Parker MCP names; they are the literal strings prompts and skills should reference. When a mixed tool was split into read and write siblings, this table lists both. Legacy mixed ids and older aliases live in `system/parker-tool-names.md` — keep them if they still appear in chat history; do not use them in new prompt text.
 
+**A tool listed here might not show up on your connection — that's fine.** Some of these tools roll out to accounts in stages, and a few run in web chat and Slack but not over MCP at all. So if a tool named here isn't on your Parker MCP connection, it just isn't turned on for your account yet. That's not a setup problem. Skip the ones you don't have and carry on.
+
 ## If Parker MCP is not connected — read this first
 
 Every data tool below depends on the brand's data actually being reachable. If the Parker MCP is **not connected** for this brand — no `get_available_brands` result, every pull returns empty or errors — Parker has no live reach into the ad account, organic socials, reviews, surveys, or the competitor library. Do not paper over that with general marketing knowledge or invented numbers.
