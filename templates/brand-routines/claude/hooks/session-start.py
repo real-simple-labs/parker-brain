@@ -228,7 +228,12 @@ def read_access_file() -> "tuple[str, bool]":
             raw = f.read(ACCESS_INLINE_MAX + 1)
     except OSError:
         return "", False
-    return raw[:ACCESS_INLINE_MAX].decode("utf-8", errors="replace").strip(), len(raw) > ACCESS_INLINE_MAX
+    text = raw[:ACCESS_INLINE_MAX].decode("utf-8", errors="replace").strip()
+    # The cap is on what the hook prints: json.dumps escapes every character
+    # outside ASCII, so a file of accented names prints much longer (v48).
+    if len(raw) > ACCESS_INLINE_MAX or out_bytes(text) > ACCESS_INLINE_MAX:
+        return "", True
+    return text, False
 
 
 def access_text() -> str:
@@ -343,6 +348,12 @@ def out_bytes(text: str) -> int:
     return len(json.dumps(text)) - 2
 
 
+SHORT_RULE = (
+    " Save a Parker memory only when the person asks you to remember it or "
+    "says yes when you offer, as CLAUDE.md says under \"Parker memories are "
+    "files too\"."
+)
+
 MEMORY_FRAMING = (
     " Parker memories: short facts and rules the team and this person saved in "
     "Parker; Parker's chat uses them on every message. Use them the same way, "
@@ -367,7 +378,7 @@ def memories_text(used: int) -> str:
         and not layout[key].is_symlink()]
     found = [(who, folder, memory_files(folder)) for who, folder in folders]
     if not any(files for _, _, files in found):
-        return rule
+        return rule if used + out_bytes(rule) + 100 <= HOOK_OUTPUT_MAX else SHORT_RULE
     fences = ("\n----- memories (quoted from the files) -----\n"
               "\n----- end of memories -----\n")
     room = (HOOK_OUTPUT_MAX - used - out_bytes(MEMORY_FRAMING + rule + fences)

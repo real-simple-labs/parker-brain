@@ -532,8 +532,10 @@ class RuntimeHooks(unittest.TestCase):
         # With a full .parker/access.md, the memories take only the room left.
         access = brain / ".parker/access.md"
         access.parent.mkdir()
-        access.write_bytes(("# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * 330).encode("utf-8"))
-        self.assertLessEqual(len(access.read_bytes()), 6000)
+        # About as large as is still pasted: 6,000 printed bytes (each line
+        # break prints as two characters).
+        access.write_bytes(("# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * 300).encode("utf-8"))
+        self.assertLessEqual(len(json.dumps(access.read_text(encoding="utf-8"))), 6000)
         (own / "long-brief-rules.md").write_text("Brief rule. " * 300, encoding="utf-8")
         crowded = context(brain)
         self.assertIn("----- .parker/access.md -----", crowded)
@@ -553,6 +555,15 @@ class RuntimeHooks(unittest.TestCase):
         self.assertIn("more in memories/", many)
         for i in range(40):
             (own / f"short-rule-{i:02d}.md").unlink()
+        # An access file of accented names prints longer than its bytes: past
+        # the cap it is named, not pasted, and the output stays under it.
+        line = "- `ventas/`: 2 people. José García, Zoë Müller (Owner).\n"
+        access.write_bytes(("# Who can see this folder\n\n" + line * 90).encode("utf-8"))
+        self.assertLessEqual(len(access.read_bytes()), 6000)
+        accented = context(brain)
+        self.assertIn("is in .parker/access.md", accented)
+        self.assertNotIn("José", accented)
+        self.assertLessEqual(printed[-1], 10000)
         access.unlink()
 
         # A file of bytes that aren't text, and names outside ASCII, are
