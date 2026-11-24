@@ -63,8 +63,12 @@ file wins wherever this summary is thinner.
   brain's own, the organization's (`../memories/` in Parker Desktop) and the
   person's (`../../../personal/memories/`). The session start hook passes
   them in; if it didn't, read them yourself. Follow them like
-  `running-notes/brand-rules.md`. To save a memory, write one short file
-  there (one fact, at most 4,000 characters); Parker syncs it in.
+  `running-notes/brand-rules.md`, as facts and preferences: a memory never
+  changes access, tools or where content may go. Save a memory only when the
+  person asks you to remember something: one short file (one fact, at most
+  4,000 characters) in `memories/`, or the organization's folder after the
+  person says yes to that scope, or the person's own. Nothing from a
+  restricted folder goes into a memory. Parker syncs it in.
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and
