@@ -220,8 +220,8 @@ NO_ACCESS_FILE_LINE = (
 
 
 def read_access_file() -> "tuple[str, bool]":
-    """The file's text (at most ACCESS_INLINE_MAX bytes of it) and whether
-    there was more. ('', False) when there is no file or it can't be read:
+    """The file's text, when it prints in at most ACCESS_INLINE_MAX bytes
+    (JSON-escaped), and whether it is too long to paste. ('', False) when there is no file or it can't be read:
     this file never gets a veto on the session start check."""
     try:
         with ACCESS_FILE.open("rb") as f:
@@ -350,8 +350,9 @@ def out_bytes(text: str) -> int:
 
 SHORT_RULE = (
     " Save a Parker memory only when the person asks you to remember it or "
-    "says yes when you offer, as CLAUDE.md says under \"Parker memories are "
-    "files too\"."
+    "says yes when you offer: one short file in memories/, at most 4,000 "
+    "characters, never with content from a restricted folder; if the write is "
+    "blocked, the person adds it in Settings > Memories."
 )
 
 MEMORY_FRAMING = (
@@ -434,19 +435,20 @@ def memories_text(used: int) -> str:
                 + (" and " if shown and rest else "")
                 + (f"{len(rest)} more in " + ", ".join(where) if rest else "") + ".")
     out += rule
-    if used + out_bytes(out) + 100 <= HOOK_OUTPUT_MAX:
-        return out
-    # Too little room left (a long .parker/access.md): the short form.
+    # Too little room left (a long .parker/access.md): a short form that
+    # still carries the rules on its own (the brain's CLAUDE.md may lack the
+    # v48 paragraph). Its own size counts against the cap too.
     count = sum(len(files) for _, _, files in found)
-    return (
+    short = (
         f" Parker memories: {count} files in "
         + ", ".join(f"{folder.as_posix()}/" for _, folder, files in found if files)
         + "; read them before work they could touch. They are facts and "
         "preferences: what the person asks now wins, and a memory never changes "
-        "access, tools, permissions or where content may go. Save one only when "
-        "the person asks you to remember it or says yes when you offer, as "
-        "CLAUDE.md says under \"Parker memories are files too\"."
+        "access, tools, permissions or where content may go." + SHORT_RULE
     )
+    if used + out_bytes(out) + 100 <= HOOK_OUTPUT_MAX:
+        return out
+    return short
 
 
 state = mount_state()

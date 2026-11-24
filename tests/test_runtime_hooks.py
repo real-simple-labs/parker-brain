@@ -466,10 +466,10 @@ class RuntimeHooks(unittest.TestCase):
         # hook passes the brain's, the organization's and the person's in.
         printed = []
 
-        def context(brain):
+        def context(brain, payload=b"{}"):
             result = subprocess.run(
                 [sys.executable, str(brain / ".claude/hooks/run-hook.py"), "session-start"],
-                cwd=brain, env=local_env(), input=b"{}", capture_output=True, timeout=10)
+                cwd=brain, env=local_env(), input=payload, capture_output=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stderr)
             printed.append(len(result.stdout))
             return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
@@ -532,8 +532,8 @@ class RuntimeHooks(unittest.TestCase):
         # With a full .parker/access.md, the memories take only the room left.
         access = brain / ".parker/access.md"
         access.parent.mkdir()
-        # About as large as is still pasted: 6,000 printed bytes (each line
-        # break prints as two characters).
+        # A large access file that is still pasted (about 5,700 of the 6,000
+        # printed bytes allowed; each line break prints as two characters).
         access.write_bytes(("# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * 300).encode("utf-8"))
         self.assertLessEqual(len(json.dumps(access.read_text(encoding="utf-8"))), 6000)
         (own / "long-brief-rules.md").write_text("Brief rule. " * 300, encoding="utf-8")
@@ -564,6 +564,24 @@ class RuntimeHooks(unittest.TestCase):
         self.assertIn("is in .parker/access.md", accented)
         self.assertNotIn("José", accented)
         self.assertLessEqual(printed[-1], 10000)
+        # The worst case: an access file at the printed limit, a build under
+        # way, a compaction, and 40 memories: the short form, under the cap.
+        for lines in range(330, 0, -1):
+            text = "# Who can see this folder\n\n" + "- `x/`: 1 person.\n" * lines
+            if len(json.dumps(text.strip())) - 2 <= 6000:
+                break
+        access.write_bytes(text.encode("utf-8"))
+        (brain / "BUILD-STATUS.md").write_text("# Build status\n", encoding="utf-8")
+        for i in range(40):
+            (own / f"short-rule-{i:02d}.md").write_text(f"Short rule number {i}.\n", encoding="utf-8")
+        worst = context(brain, b'{"source": "compact"}')
+        self.assertIn("The conversation was just compacted", worst)
+        self.assertIn("----- .parker/access.md -----", worst)
+        self.assertIn("at most 4,000 characters", worst)
+        self.assertLessEqual(printed[-1], 10000)
+        for i in range(40):
+            (own / f"short-rule-{i:02d}.md").unlink()
+        (brain / "BUILD-STATUS.md").unlink()
         access.unlink()
 
         # A file of bytes that aren't text, and names outside ASCII, are
