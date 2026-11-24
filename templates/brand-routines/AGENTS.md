@@ -58,6 +58,13 @@ file wins wherever this summary is thinner.
   folder more people see unless the person says yes after you tell them who
   will then see it. Answer "who can see this" from that file; with no file,
   say you don't know, never "everyone".
+- **Parker memories are files too.** The short facts and rules saved in
+  Parker (Settings → Memories, or chat) are `.md` files in `memories/`: this
+  brain's own, the organization's (`../memories/` in Parker Desktop) and the
+  person's (`../../../personal/memories/`). The session start hook passes
+  them in; if it didn't, read them yourself. Follow them like
+  `running-notes/brand-rules.md`. To save a memory, write one short file
+  there (one fact, at most 4,000 characters); Parker syncs it in.
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and

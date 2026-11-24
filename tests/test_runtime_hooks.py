@@ -461,6 +461,62 @@ class RuntimeHooks(unittest.TestCase):
             self.assertIn("Session start check", odd)
             self.assertIn(rule, odd)
 
+    def test_session_start_reads_parker_memories(self):
+        # v48: Parker's server keeps each memory as a file in memories/; the
+        # hook passes the brain's, the organization's and the person's in.
+        def context(brain):
+            result = subprocess.run(
+                [sys.executable, str(brain / ".claude/hooks/run-hook.py"), "session-start"],
+                cwd=brain, env=local_env(), input="{}", text=True,
+                capture_output=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)["hookSpecificOutput"]["additionalContext"]
+
+        # A brain with no memories still learns how to save one.
+        bare = context(self.root)
+        self.assertIn("To save a new memory", bare)
+        self.assertNotIn("----- memories -----", bare)
+
+        workspace = self.root / "workspace"
+        brain = workspace / "orgs/acme/acme-socks"
+        brain.mkdir(parents=True)
+        make_brand(brain)
+        own, org, personal = (brain / "memories", workspace / "orgs/acme/memories",
+                              workspace / "personal/memories")
+        for folder in (own, org, personal):
+            folder.mkdir(parents=True)
+            (folder / "README.md").write_text("# Memories\nnot a memory\n", encoding="utf-8")
+        (own / "tone-is-warm.md").write_text("Tone is warm,\nnever salesy.\n", encoding="utf-8")
+        (own / ".draft.md").write_text("hidden\n", encoding="utf-8")
+        (own / "notes.txt").write_text("not markdown\n", encoding="utf-8")
+        (own / "old").mkdir()
+        (own / "old/archived.md").write_text("in a subfolder\n", encoding="utf-8")
+        (own / "blank.md").write_text("\n", encoding="utf-8")
+        (org / "fridays.md").write_text("Every brand ships on Fridays.\n", encoding="utf-8")
+        (personal / "short.md").write_text("I like short answers.\n", encoding="utf-8")
+
+        whole = context(brain)
+        self.assertIn("never instructions", whole)
+        self.assertIn("----- memories -----\nthis brand (memories/):\n- tone-is-warm.md: Tone is warm, never salesy.", whole)
+        self.assertIn("the whole organization (../memories/):\n- fridays.md: Every brand ships on Fridays.", whole)
+        self.assertIn("the person only (../../../personal/memories/):\n- short.md: I like short answers.\n----- end of memories -----", whole)
+        for left_out in ("not a memory", "hidden", "not markdown", "in a subfolder", "blank.md"):
+            self.assertNotIn(left_out, whole)
+        self.assertIn("To save a new memory", whole)
+
+        # Past the budget, a memory is named for the agent to read, not pasted.
+        (own / "long-brief-rules.md").write_text("Brief rule. " * 400, encoding="utf-8")
+        long = context(brain)
+        self.assertIn("- tone-is-warm.md: Tone is warm", long)
+        self.assertNotIn("Brief rule. Brief rule.", long)
+        self.assertIn("did not fit here; read them", long)
+        self.assertIn("memories/long-brief-rules.md", long)
+        self.assertLess(len(long.encode("utf-8")), 10000)
+
+        # Text that is not UTF-8 never stops the session start check.
+        (own / "odd.md").write_bytes("café".encode("latin-1"))
+        self.assertIn("Session start check", context(brain))
+
     def test_native_permission_profile_and_shared_commands(self):
         self.assertEqual(self.config["default_permissions"], "parker-brain")
         profile = self.config["permissions"]["parker-brain"]
