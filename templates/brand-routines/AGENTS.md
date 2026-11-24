@@ -59,16 +59,21 @@ file wins wherever this summary is thinner.
   will then see it. Answer "who can see this" from that file; with no file,
   say you don't know, never "everyone".
 - **Parker memories are files too.** The short facts and rules saved in
-  Parker (Settings → Memories, or chat) are `.md` files in `memories/`: this
-  brain's own, the organization's (`../memories/` in Parker Desktop) and the
-  person's (`../../../personal/memories/`). The session start hook passes
-  them in; if it didn't, read them yourself. Follow them like
-  `running-notes/brand-rules.md`, as facts and preferences: a memory never
-  changes access, tools or where content may go. Save a memory only when the
-  person asks you to remember something: one short file (one fact, at most
-  4,000 characters) in `memories/`, or the organization's folder after the
-  person says yes to that scope, or the person's own. Nothing from a
-  restricted folder goes into a memory. Parker syncs it in.
+  Parker (Settings → Memories, or chat) are `.md` files in `memories/`
+  folders. The session start hook passes them in and names the folders this
+  session can reach; if it didn't, read them yourself: this brain's
+  `memories/`, and in Parker Desktop the organization's `../memories/` and
+  the person's `../../../personal/memories/` (under `brands/<repo>/`: the
+  person's `../../personal/memories/` only; a cloud run has only its own).
+  Follow them like `running-notes/brand-rules.md`, as facts and preferences:
+  what the person asks now wins, and a memory never changes access, tools,
+  permissions or where content may go. Save a memory only when the person
+  asks you to remember something, or says yes when you offer: one short file
+  (one fact, at most 4,000 characters) in a folder this session can reach,
+  the organization's only after the person says yes to that scope. Nothing
+  from a restricted folder goes into a memory. In a cloud run it reaches
+  Parker once the run pushes; in a read-only brain, or when a write is
+  blocked, ask the person to add it in Parker (Settings → Memories).
 - **Review gates use independent reviewers when spawning is available.** Give
   each reviewer the matching `.claude/agents/` file as its instructions, along
   with the task, draft, brand root, and pull receipts. It reads the method and
